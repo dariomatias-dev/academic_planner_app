@@ -65,41 +65,33 @@ class NavBarWidget extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
-                    Expanded(
-                      child: NavItemWidget(
-                        icon: Icons.grid_view_rounded,
-                        label: "Início",
-                        index: 0,
-                        isSelected: selectedIndex == 0,
-                        onTap: onTap,
-                      ),
+                    NavItemWidget(
+                      icon: Icons.grid_view_rounded,
+                      label: "Início",
+                      index: 0,
+                      isSelected: selectedIndex == 0,
+                      onTap: onTap,
                     ),
-                    Expanded(
-                      child: NavItemWidget(
-                        icon: Icons.calendar_today_rounded,
-                        label: "Grade",
-                        index: 1,
-                        isSelected: selectedIndex == 1,
-                        onTap: onTap,
-                      ),
+                    NavItemWidget(
+                      icon: Icons.calendar_today_rounded,
+                      label: "Grade",
+                      index: 1,
+                      isSelected: selectedIndex == 1,
+                      onTap: onTap,
                     ),
-                    Expanded(
-                      child: NavItemWidget(
-                        icon: Icons.task_alt_rounded,
-                        label: "Tarefas",
-                        index: 2,
-                        isSelected: selectedIndex == 2,
-                        onTap: onTap,
-                      ),
+                    NavItemWidget(
+                      icon: Icons.task_alt_rounded,
+                      label: "Tarefas",
+                      index: 2,
+                      isSelected: selectedIndex == 2,
+                      onTap: onTap,
                     ),
-                    Expanded(
-                      child: NavItemWidget(
-                        icon: Icons.settings_rounded,
-                        label: "Ajustes",
-                        index: 3,
-                        isSelected: selectedIndex == 3,
-                        onTap: onTap,
-                      ),
+                    NavItemWidget(
+                      icon: Icons.settings_rounded,
+                      label: "Ajustes",
+                      index: 3,
+                      isSelected: selectedIndex == 3,
+                      onTap: onTap,
                     ),
                   ],
                 ),
