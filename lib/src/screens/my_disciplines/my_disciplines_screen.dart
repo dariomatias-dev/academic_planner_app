@@ -5,7 +5,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
-import 'package:academic_planner/src/screens/my_disciplines/widgets/discipline_card_widget.dart';
+
+import 'package:academic_planner/src/shared/widgets/discipline_card_widget.dart';
 
 const studentEnrolledIds = {51, 52, 53, 54, 55};
 
@@ -69,6 +70,7 @@ class MyDisciplinesScreen extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
                 return DisciplineCardWidget(
+                  index: index,
                   discipline: enrolledDisciplines[index],
                 );
               }, childCount: enrolledDisciplines.length),
