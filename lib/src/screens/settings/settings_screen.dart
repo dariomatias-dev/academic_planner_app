@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -67,9 +69,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildSettingsTile(
                     icon: Icons.notifications_none_rounded,
                     title: "Notificações",
-                    trailing: Switch(
+                    trailing: SwitchWidget(
                       value: _notificationsEnabled,
-                      activeThumbColor: AppColors.primary,
                       onChanged: (value) =>
                           setState(() => _notificationsEnabled = value),
                     ),
@@ -77,9 +78,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildSettingsTile(
                     icon: Icons.dark_mode_outlined,
                     title: "Modo Escuro",
-                    trailing: Switch(
+                    trailing: SwitchWidget(
                       value: _darkMode,
-                      activeThumbColor: AppColors.primary,
                       onChanged: (value) => setState(() => _darkMode = value),
                     ),
                   ),
