@@ -3,6 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
+
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -57,12 +60,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   _buildSettingsTile(
                     icon: Icons.list_alt_rounded,
                     title: "Disciplinas do Curso",
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DisciplinesScreen();
+                          },
+                        ),
+                      );
+                    },
                   ),
                   _buildSettingsTile(
                     icon: Icons.grid_on_rounded,
                     title: "Grade Curricular Geral",
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ScheduleScreen();
+                          },
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 24.0),
                   _buildSectionTitle("Preferências"),
