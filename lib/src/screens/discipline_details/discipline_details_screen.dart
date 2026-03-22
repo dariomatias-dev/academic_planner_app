@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_course_plan_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -83,6 +84,7 @@ class DisciplineDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   DisciplineDetailsCoursePlanButtonWidget(
                     url: discipline.coursePlan,
+                    disciplineName: discipline.name,
                   ),
                   const SizedBox(height: 40.0),
                 ],
@@ -459,68 +461,6 @@ class DisciplineDetailsRequirementExpandableTileWidgetState
           ),
         ),
       ],
-    );
-  }
-}
-
-class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
-  const DisciplineDetailsCoursePlanButtonWidget({super.key, required this.url});
-
-  final String url;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 64.0,
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: <Color>[AppColors.primary, AppColors.accent],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-        borderRadius: BorderRadius.circular(24.0),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: AppColors.primary.withAlpha(60),
-            blurRadius: 16.0,
-            offset: const Offset(0.0, 8.0),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: AppColors.white.withAlpha(45),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.picture_as_pdf_rounded,
-                  color: AppColors.white,
-                  size: 20.0,
-                ),
-              ),
-              const SizedBox(width: 16.0),
-              Text(
-                "Visualizar Plano de Ensino",
-                style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 15.0,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
