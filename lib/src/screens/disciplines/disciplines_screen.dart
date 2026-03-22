@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/constants/disciplines.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
 import 'package:academic_planner/src/screens/disciplines/widgets/discipline_card_widget.dart';
 
@@ -32,8 +32,8 @@ class DisciplinesScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24.0, 0, 24.0, 120.0),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate((context, index) {
-                return DisciplineCardWidget(discipline: disciplines[index]);
-              }, childCount: disciplines.length),
+                return DisciplineCardWidget(discipline: adsDisciplines[index]);
+              }, childCount: adsDisciplines.length),
             ),
           ),
         ],

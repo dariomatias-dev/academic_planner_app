@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/constants/disciplines.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 
@@ -14,7 +14,9 @@ class ActivityCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final disc = disciplines.firstWhere((d) => d.id == activity.disciplineId);
+    final disc = adsDisciplines.firstWhere(
+      (d) => d.id == activity.disciplineId,
+    );
     final isHighPriority = activity.priority == "Alta";
 
     return Container(
