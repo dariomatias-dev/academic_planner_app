@@ -1,7 +1,8 @@
-import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+
+import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
 
 class NavBarWidget extends StatelessWidget {
   const NavBarWidget({
@@ -15,7 +16,8 @@ class NavBarWidget extends StatelessWidget {
 
   double getAlignmentX(int index) {
     if (index == 0) return -1.0;
-    if (index == 1) return 0.0;
+    if (index == 1) return -0.33;
+    if (index == 2) return 0.33;
 
     return 1.0;
   }
@@ -28,7 +30,7 @@ class NavBarWidget extends StatelessWidget {
       right: 24.0,
       child: Container(
         height: 76.0,
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(28.0),
@@ -43,16 +45,18 @@ class NavBarWidget extends StatelessWidget {
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final itemWidth = (constraints.maxWidth - 16.0) / 3.0;
+            final itemWidth = (constraints.maxWidth) / 4.0;
+
             return Stack(
               children: <Widget>[
-                AnimatedAlign(
+                AnimatedPositioned(
                   duration: const Duration(milliseconds: 350),
                   curve: Curves.easeInOutBack,
-                  alignment: Alignment(getAlignmentX(selectedIndex), 0.0),
+                  left: (itemWidth * selectedIndex) + 4.0,
+                  top: (76.0 - 56.0) / 2,
                   child: Container(
-                    width: itemWidth,
-                    height: 52.0,
+                    width: itemWidth - 8.0,
+                    height: 56.0,
                     decoration: BoxDecoration(
                       color: AppColors.primary.withAlpha(31),
                       borderRadius: BorderRadius.circular(20.0),
@@ -61,26 +65,41 @@ class NavBarWidget extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
-                    NavItemWidget(
-                      icon: Icons.grid_view_rounded,
-                      label: "Início",
-                      index: 0,
-                      isSelected: selectedIndex == 0,
-                      onTap: onTap,
+                    Expanded(
+                      child: NavItemWidget(
+                        icon: Icons.grid_view_rounded,
+                        label: "Início",
+                        index: 0,
+                        isSelected: selectedIndex == 0,
+                        onTap: onTap,
+                      ),
                     ),
-                    NavItemWidget(
-                      icon: Icons.book_rounded,
-                      label: "Grade",
-                      index: 1,
-                      isSelected: selectedIndex == 1,
-                      onTap: onTap,
+                    Expanded(
+                      child: NavItemWidget(
+                        icon: Icons.calendar_today_rounded,
+                        label: "Grade",
+                        index: 1,
+                        isSelected: selectedIndex == 1,
+                        onTap: onTap,
+                      ),
                     ),
-                    NavItemWidget(
-                      icon: Icons.task_alt_rounded,
-                      label: "Tarefas",
-                      index: 2,
-                      isSelected: selectedIndex == 2,
-                      onTap: onTap,
+                    Expanded(
+                      child: NavItemWidget(
+                        icon: Icons.task_alt_rounded,
+                        label: "Tarefas",
+                        index: 2,
+                        isSelected: selectedIndex == 2,
+                        onTap: onTap,
+                      ),
+                    ),
+                    Expanded(
+                      child: NavItemWidget(
+                        icon: Icons.settings_rounded,
+                        label: "Ajustes",
+                        index: 3,
+                        isSelected: selectedIndex == 3,
+                        onTap: onTap,
+                      ),
                     ),
                   ],
                 ),

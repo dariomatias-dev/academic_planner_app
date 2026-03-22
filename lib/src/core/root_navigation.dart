@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/screens/activities/activities_screen.dart';
-import 'package:academic_planner/src/screens/my_disciplines/my_disciplines_screen.dart';
 import 'package:academic_planner/src/screens/home/home_screen.dart';
+import 'package:academic_planner/src/screens/my_disciplines/my_disciplines_screen.dart';
+import 'package:academic_planner/src/screens/settings/settings_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 
@@ -20,6 +21,7 @@ class RootNavigationState extends State<RootNavigation> {
     const HomeScreen(),
     const MyDisciplinesScreen(),
     const ActivitiesScreenWidget(),
+    const SettingsScreen(),
   ];
 
   @override

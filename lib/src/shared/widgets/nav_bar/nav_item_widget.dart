@@ -35,7 +35,7 @@ class NavItemWidget extends StatelessWidget {
                 color: isSelected
                     ? AppColors.primary
                     : AppColors.textSub.withAlpha(153),
-                size: 24.0,
+                size: 23.0,
               ),
             ),
             const SizedBox(height: 4.0),
