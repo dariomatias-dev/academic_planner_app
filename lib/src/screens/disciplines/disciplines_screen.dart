@@ -100,9 +100,8 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                     final discipline = periodDisciplines[index - 1];
 
                     return DisciplineCardWidget(
-                      acronym: discipline.acronym,
-                      name: discipline.name,
                       index: index,
+                      discipline: discipline,
                     );
                   },
                 );
