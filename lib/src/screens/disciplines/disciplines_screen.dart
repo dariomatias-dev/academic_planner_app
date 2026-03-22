@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
-import 'package:academic_planner/src/screens/disciplines/widgets/discipline_card_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_header_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
+
+import 'package:academic_planner/src/shared/widgets/discipline_card_widget.dart';
 
 class DisciplinesScreen extends StatefulWidget {
   const DisciplinesScreen({super.key});
