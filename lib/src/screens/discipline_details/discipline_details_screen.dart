@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/discipline_card_widget.dart';
 
 class DisciplineDetailsScreen extends StatelessWidget {
   const DisciplineDetailsScreen({super.key, required this.discipline});
@@ -11,6 +14,14 @@ class DisciplineDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final prerequisitesList = adsDisciplines
+        .where((d) => discipline.prerequisites.contains(d.id))
+        .toList();
+
+    final prerequisiteForList = adsDisciplines
+        .where((d) => discipline.prerequisiteFor.contains(d.id))
+        .toList();
+
     return Scaffold(
       backgroundColor: AppColors.bg,
       body: SingleChildScrollView(
@@ -18,7 +29,7 @@ class DisciplineDetailsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            DetailHeaderWidget(
+            DisciplineDetailsHeaderWidget(
               acronym: discipline.acronym,
               name: discipline.name,
               period: discipline.period,
@@ -28,13 +39,13 @@ class DisciplineDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  QuickStatsGridWidget(
+                  DisciplineDetailsStatsGridWidget(
                     workload: discipline.workload,
                     weeklyHours: discipline.weeklyHours,
                     professorId: discipline.responsibleProfessorId,
                   ),
                   const SizedBox(height: 32.0),
-                  const SectionTitleWidget(
+                  const DisciplineDetailsSectionTitleWidget(
                     title: "Sobre a Disciplina",
                     icon: Icons.description_outlined,
                   ),
@@ -48,29 +59,31 @@ class DisciplineDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32.0),
-                  const SectionTitleWidget(
+                  const DisciplineDetailsSectionTitleWidget(
                     title: "Requisitos e Dependências",
                     icon: Icons.account_tree_outlined,
                   ),
                   const SizedBox(height: 16.0),
-                  RequirementTileWidget(
+                  DisciplineDetailsRequirementExpandableTileWidget(
                     label: "Pré-requisitos",
-                    count: discipline.prerequisites.length,
+                    linkedDisciplines: prerequisitesList,
                     color: AppColors.primary,
                   ),
                   const SizedBox(height: 12.0),
-                  RequirementTileWidget(
+                  DisciplineDetailsRequirementExpandableTileWidget(
                     label: "Libera acesso para",
-                    count: discipline.prerequisiteFor.length,
+                    linkedDisciplines: prerequisiteForList,
                     color: AppColors.accent,
                   ),
                   const SizedBox(height: 32.0),
-                  const SectionTitleWidget(
+                  const DisciplineDetailsSectionTitleWidget(
                     title: "Recursos",
                     icon: Icons.attachment_rounded,
                   ),
                   const SizedBox(height: 16.0),
-                  CoursePlanButtonWidget(url: discipline.coursePlan),
+                  DisciplineDetailsCoursePlanButtonWidget(
+                    url: discipline.coursePlan,
+                  ),
                   const SizedBox(height: 40.0),
                 ],
               ),
@@ -82,8 +95,8 @@ class DisciplineDetailsScreen extends StatelessWidget {
   }
 }
 
-class DetailHeaderWidget extends StatelessWidget {
-  const DetailHeaderWidget({
+class DisciplineDetailsHeaderWidget extends StatelessWidget {
+  const DisciplineDetailsHeaderWidget({
     super.key,
     required this.acronym,
     required this.name,
@@ -170,8 +183,8 @@ class DetailHeaderWidget extends StatelessWidget {
   }
 }
 
-class QuickStatsGridWidget extends StatelessWidget {
-  const QuickStatsGridWidget({
+class DisciplineDetailsStatsGridWidget extends StatelessWidget {
+  const DisciplineDetailsStatsGridWidget({
     super.key,
     required this.workload,
     required this.weeklyHours,
@@ -188,7 +201,7 @@ class QuickStatsGridWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Expanded(
-          child: StatCardWidget(
+          child: DisciplineDetailsStatCardWidget(
             label: "Carga Horária",
             value: "${workload}h",
             icon: Icons.timer_outlined,
@@ -196,7 +209,7 @@ class QuickStatsGridWidget extends StatelessWidget {
         ),
         const SizedBox(width: 12.0),
         Expanded(
-          child: StatCardWidget(
+          child: DisciplineDetailsStatCardWidget(
             label: "Semanais",
             value: "${weeklyHours}h",
             icon: Icons.calendar_view_week_rounded,
@@ -204,7 +217,7 @@ class QuickStatsGridWidget extends StatelessWidget {
         ),
         const SizedBox(width: 12.0),
         Expanded(
-          child: StatCardWidget(
+          child: DisciplineDetailsStatCardWidget(
             label: "Docente",
             value: "Prof. ID $professorId",
             icon: Icons.person_outline_rounded,
@@ -215,8 +228,8 @@ class QuickStatsGridWidget extends StatelessWidget {
   }
 }
 
-class StatCardWidget extends StatelessWidget {
-  const StatCardWidget({
+class DisciplineDetailsStatCardWidget extends StatelessWidget {
+  const DisciplineDetailsStatCardWidget({
     super.key,
     required this.label,
     required this.value,
@@ -274,8 +287,8 @@ class StatCardWidget extends StatelessWidget {
   }
 }
 
-class SectionTitleWidget extends StatelessWidget {
-  const SectionTitleWidget({
+class DisciplineDetailsSectionTitleWidget extends StatelessWidget {
+  const DisciplineDetailsSectionTitleWidget({
     super.key,
     required this.title,
     required this.icon,
@@ -303,64 +316,155 @@ class SectionTitleWidget extends StatelessWidget {
   }
 }
 
-class RequirementTileWidget extends StatelessWidget {
-  const RequirementTileWidget({
+class DisciplineDetailsRequirementExpandableTileWidget extends StatefulWidget {
+  const DisciplineDetailsRequirementExpandableTileWidget({
     super.key,
     required this.label,
-    required this.count,
+    required this.linkedDisciplines,
     required this.color,
   });
 
   final String label;
-  final int count;
+  final List<DisciplineModel> linkedDisciplines;
   final Color color;
 
   @override
+  State<DisciplineDetailsRequirementExpandableTileWidget> createState() =>
+      DisciplineDetailsRequirementExpandableTileWidgetState();
+}
+
+class DisciplineDetailsRequirementExpandableTileWidgetState
+    extends State<DisciplineDetailsRequirementExpandableTileWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController expandController;
+  late Animation<double> animation;
+  bool isExpanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    expandController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    animation = CurvedAnimation(
+      parent: expandController,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    expandController.dispose();
+    super.dispose();
+  }
+
+  void toggleExpansion() {
+    setState(() {
+      isExpanded = !isExpanded;
+      if (isExpanded) {
+        expandController.forward();
+      } else {
+        expandController.reverse();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: AppColors.borderLight),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            label,
-            style: GoogleFonts.plusJakartaSans(
-              fontWeight: FontWeight.w700,
-              fontSize: 14.0,
-              color: AppColors.textMain,
-            ),
+    final hasDisciplines = widget.linkedDisciplines.isNotEmpty;
+
+    return Column(
+      children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(20.0),
+            border: Border.all(color: AppColors.borderLight),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10.0,
-              vertical: 4.0,
-            ),
-            decoration: BoxDecoration(
-              color: color.withAlpha(20),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Text(
-              "$count Disciplinas",
-              style: GoogleFonts.plusJakartaSans(
-                fontWeight: FontWeight.w800,
-                fontSize: 11.0,
-                color: color,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: hasDisciplines ? toggleExpansion : null,
+              borderRadius: BorderRadius.circular(20.0),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      widget.label,
+                      style: GoogleFonts.plusJakartaSans(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14.0,
+                        color: AppColors.textMain,
+                      ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 4.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.color.withAlpha(20),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: Text(
+                            "${widget.linkedDisciplines.length} Disciplinas",
+                            style: GoogleFonts.plusJakartaSans(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 11.0,
+                              color: widget.color,
+                            ),
+                          ),
+                        ),
+                        if (hasDisciplines) ...<Widget>[
+                          const SizedBox(width: 8.0),
+                          RotationTransition(
+                            turns: Tween<double>(
+                              begin: 0.0,
+                              end: 0.25,
+                            ).animate(animation),
+                            child: Icon(
+                              Icons.chevron_right_rounded,
+                              size: 20.0,
+                              color: widget.color,
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+        SizeTransition(
+          sizeFactor: animation,
+          axisAlignment: 1.0,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: Column(
+              children: List.generate(
+                widget.linkedDisciplines.length,
+                (index) => DisciplineCardWidget(
+                  discipline: widget.linkedDisciplines[index],
+                  index: index + 1,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-class CoursePlanButtonWidget extends StatelessWidget {
-  const CoursePlanButtonWidget({super.key, required this.url});
+class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
+  const DisciplineDetailsCoursePlanButtonWidget({super.key, required this.url});
 
   final String url;
 
