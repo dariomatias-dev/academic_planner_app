@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/screens/activities/activities_screen.dart';
+import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/screens/home/home_screen.dart';
+
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 
 class RootNavigation extends StatefulWidget {
@@ -13,9 +17,9 @@ class RootNavigationState extends State<RootNavigation> {
   int selectedIndex = 0;
 
   final screens = <Widget>[
-    const Scaffold(body: Center(child: Text('Início'))),
-    const Scaffold(body: Center(child: Text('Grade'))),
-    const Scaffold(body: Center(child: Text('Tarefas'))),
+    const HomeScreen(),
+    const DisciplinesScreen(),
+    const ActivitiesScreenWidget(),
   ];
 
   @override

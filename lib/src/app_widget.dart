@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/root_navigation.dart';
 
 class AppWidget extends StatelessWidget {
@@ -10,6 +12,10 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Academic Planner',
+      theme: ThemeData(
+        scaffoldBackgroundColor: AppColors.bg,
+        textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+      ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{'/': (context) => const RootNavigation()},
     );
