@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/constants/schedules.dart';
-import 'package:academic_planner/src/shared/models/schedule_entry.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/constants/schedules.dart';
+
+import 'package:academic_planner/src/shared/models/schedule_entry.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -22,219 +24,235 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   ];
   int _selectedPeriod = 1;
 
+  final _transformationController = TransformationController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 60.0, 16.0, 24.0),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              border: Border(
-                bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+      body: SafeArea(
+        top: false,
+        child: Column(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.fromLTRB(16.0, 60.0, 16.0, 24.0),
+              decoration: const BoxDecoration(
+                color: AppColors.white,
+                border: Border(
+                  bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+                ),
               ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      style: IconButton.styleFrom(
-                        backgroundColor: AppColors.bg,
-                        fixedSize: const Size(48.0, 48.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0),
-                          side: BorderSide(color: AppColors.borderMedium),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: IconButton.styleFrom(
+                          backgroundColor: AppColors.bg,
+                          fixedSize: const Size(48.0, 48.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0),
+                            side: const BorderSide(
+                              color: AppColors.borderMedium,
+                            ),
+                          ),
+                        ),
+                        icon: const Icon(
+                          Icons.chevron_left_rounded,
+                          color: AppColors.textMain,
+                          size: 28.0,
                         ),
                       ),
-                      icon: const Icon(
-                        Icons.chevron_left_rounded,
-                        color: AppColors.textMain,
-                        size: 28.0,
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "CRONOGRAMA",
-                            style: GoogleFonts.plusJakartaSans(
-                              color: AppColors.primary,
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.5,
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "CRONOGRAMA",
+                              style: GoogleFonts.plusJakartaSans(
+                                color: AppColors.primary,
+                                fontSize: 10.0,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 1.5,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Grade de Aulas",
-                            style: GoogleFonts.plusJakartaSans(
-                              color: AppColors.textMain,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w800,
+                            Text(
+                              "Grade de Aulas",
+                              style: GoogleFonts.plusJakartaSans(
+                                color: AppColors.textMain,
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24.0),
-                SizedBox(
-                  height: 40.0,
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 6,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(width: 8.0);
-                    },
-                    itemBuilder: (context, index) {
-                      final period = index + 1;
-                      final isSelected = _selectedPeriod == period;
+                    ],
+                  ),
+                  const SizedBox(height: 24.0),
+                  SizedBox(
+                    height: 40.0,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 6,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(width: 8.0);
+                      },
+                      itemBuilder: (context, index) {
+                        final period = index + 1;
+                        final isSelected = _selectedPeriod == period;
 
-                      return GestureDetector(
-                        onTap: () => setState(() => _selectedPeriod = period),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? AppColors.primary
-                                : AppColors.white,
-                            borderRadius: BorderRadius.circular(12.0),
-                            border: Border.all(
+                        return GestureDetector(
+                          onTap: () => setState(() => _selectedPeriod = period),
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
+                            decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.borderMedium,
-                              width: 1.5,
+                                  : AppColors.white,
+                              borderRadius: BorderRadius.circular(12.0),
+                              border: Border.all(
+                                color: isSelected
+                                    ? AppColors.primary
+                                    : AppColors.borderMedium,
+                                width: 1.5,
+                              ),
+                              boxShadow: isSelected
+                                  ? <BoxShadow>[
+                                      BoxShadow(
+                                        color: AppColors.primary.withAlpha(40),
+                                        blurRadius: 8.0,
+                                        offset: const Offset(0.0, 4.0),
+                                      ),
+                                    ]
+                                  : null,
                             ),
-                            boxShadow: isSelected
-                                ? <BoxShadow>[
-                                    BoxShadow(
-                                      color: AppColors.primary.withAlpha(40),
-                                      blurRadius: 8.0,
-                                      offset: const Offset(0.0, 4.0),
-                                    ),
-                                  ]
-                                : null,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            "$periodº Período",
-                            style: GoogleFonts.plusJakartaSans(
-                              color: isSelected
-                                  ? AppColors.white
-                                  : AppColors.textSub,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w800,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "$periodº Período",
+                              style: GoogleFonts.plusJakartaSans(
+                                color: isSelected
+                                    ? AppColors.white
+                                    : AppColors.textSub,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w800,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 24.0),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(
-                      color: AppColors.borderMedium,
-                      width: 1.5,
+                        );
+                      },
                     ),
                   ),
-                  child: Table(
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    columnWidths: const <int, TableColumnWidth>{
-                      0: FixedColumnWidth(80.0),
-                      1: FixedColumnWidth(210.0),
-                      2: FixedColumnWidth(210.0),
-                      3: FixedColumnWidth(210.0),
-                      4: FixedColumnWidth(210.0),
-                      5: FixedColumnWidth(210.0),
-                    },
-                    children: <TableRow>[
-                      TableRow(
-                        decoration: const BoxDecoration(color: AppColors.white),
-                        children: <Widget>[
-                          _buildHeaderCell("HORA"),
-                          ..._days.map((day) => _buildHeaderCell(day)),
-                        ],
+                ],
+              ),
+            ),
+            Expanded(
+              child: InteractiveViewer(
+                transformationController: _transformationController,
+                constrained: false,
+                minScale: 0.1,
+                maxScale: 1.5,
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(20.0),
+                      border: Border.all(
+                        color: AppColors.borderMedium,
+                        width: 1.5,
                       ),
-                      ...timeSlots.map((slot) {
-                        if (slot.type != SlotType.classTime) {
+                    ),
+                    child: Table(
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      columnWidths: const <int, TableColumnWidth>{
+                        0: FixedColumnWidth(80.0),
+                        1: FixedColumnWidth(210.0),
+                        2: FixedColumnWidth(210.0),
+                        3: FixedColumnWidth(210.0),
+                        4: FixedColumnWidth(210.0),
+                        5: FixedColumnWidth(210.0),
+                      },
+                      children: <TableRow>[
+                        TableRow(
+                          decoration: const BoxDecoration(
+                            color: AppColors.white,
+                          ),
+                          children: <Widget>[
+                            _buildHeaderCell("HORA"),
+                            ..._days.map((day) => _buildHeaderCell(day)),
+                          ],
+                        ),
+                        ...timeSlots.map((slot) {
+                          if (slot.type != SlotType.classTime) {
+                            return TableRow(
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withAlpha(10),
+                                border: const Border(
+                                  bottom: BorderSide(
+                                    color: AppColors.borderMedium,
+                                  ),
+                                ),
+                              ),
+                              children: <Widget>[
+                                _buildTimeCell(slot.label, isBreak: true),
+                                ...List<Widget>.generate(5, (index) {
+                                  if (index == 2) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 14.0,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          slot.label.toUpperCase(),
+                                          style: GoogleFonts.plusJakartaSans(
+                                            color: AppColors.primary,
+                                            fontSize: 10.0,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 2.0,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                }),
+                              ],
+                            );
+                          }
+
                           return TableRow(
-                            decoration: BoxDecoration(
-                              color: AppColors.primary.withAlpha(10),
+                            decoration: const BoxDecoration(
                               border: Border(
                                 bottom: BorderSide(
-                                  color: AppColors.borderMedium,
+                                  color: AppColors.borderLight,
                                 ),
                               ),
                             ),
                             children: <Widget>[
-                              _buildTimeCell(slot.label, isBreak: true),
+                              _buildTimeCell(slot.label),
                               ...List<Widget>.generate(5, (index) {
-                                if (index == 2) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 14.0,
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        slot.label.toUpperCase(),
-                                        style: GoogleFonts.plusJakartaSans(
-                                          color: AppColors.primary,
-                                          fontSize: 10.0,
-                                          fontWeight: FontWeight.w900,
-                                          letterSpacing: 2.0,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return const SizedBox.shrink();
+                                final dayId = index + 1;
+                                return _buildDataCell(slot, dayId);
                               }),
                             ],
                           );
-                        }
-
-                        return TableRow(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(color: AppColors.borderLight),
-                            ),
-                          ),
-                          children: <Widget>[
-                            _buildTimeCell(slot.label),
-                            ...List<Widget>.generate(5, (index) {
-                              final dayId = index + 1;
-                              return _buildDataCell(slot, dayId);
-                            }),
-                          ],
-                        );
-                      }),
-                    ],
+                        }),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -242,10 +260,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget _buildHeaderCell(String text) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           right: BorderSide(color: AppColors.borderMedium),
-          left: BorderSide(color: AppColors.borderMedium),
           bottom: BorderSide(color: AppColors.borderMedium),
         ),
       ),
@@ -293,7 +310,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     return Container(
       height: 120.0,
       padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(left: BorderSide(color: AppColors.borderLight)),
       ),
       child: entries.isEmpty
