@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/screens/activities/activities_screen.dart';
-import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/screens/my_disciplines/my_disciplines_screen.dart';
 import 'package:academic_planner/src/screens/home/home_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
@@ -18,7 +18,7 @@ class RootNavigationState extends State<RootNavigation> {
 
   final screens = <Widget>[
     const HomeScreen(),
-    const DisciplinesScreen(),
+    const MyDisciplinesScreen(),
     const ActivitiesScreenWidget(),
   ];
 
