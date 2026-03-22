@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
+import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/screens/my_disciplines/widgets/discipline_card_widget.dart';
 
 const studentEnrolledIds = {51, 52, 53, 54, 55};
@@ -36,7 +37,16 @@ class MyDisciplinesScreen extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DisciplinesScreen();
+                          },
+                        ),
+                      );
+                    },
                     icon: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
