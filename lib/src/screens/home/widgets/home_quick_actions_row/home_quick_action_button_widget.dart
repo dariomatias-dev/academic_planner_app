@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+
+import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 
 class HomeQuickActionButtonWidget extends StatelessWidget {
   const HomeQuickActionButtonWidget({
@@ -9,42 +10,31 @@ class HomeQuickActionButtonWidget extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.color,
+    required this.onPressed,
   });
 
   final IconData icon;
   final String label;
   final Color color;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(24.0),
-          border: Border.all(color: AppColors.borderMedium),
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: color.withAlpha(26),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: color, size: 20.0),
-            ),
-            const SizedBox(width: 12.0),
-            Text(
-              label,
-              style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
-                fontWeight: FontWeight.w700,
-                fontSize: 13.0,
-              ),
-            ),
-          ],
+      child: ButtonWidget(
+        label: label,
+        onPressed: onPressed,
+        icon: icon,
+        isFullWidth: true,
+        height: 64.0,
+        fontSize: 13.0,
+        mainAxisAlignment: MainAxisAlignment.start,
+        style: ButtonStyles(
+          backgroundColor: AppColors.white,
+          textColor: AppColors.textMain,
+          borderColor: AppColors.borderMedium,
+          iconColor: color,
+          iconBackgroundColor: color.withAlpha(26),
         ),
       ),
     );

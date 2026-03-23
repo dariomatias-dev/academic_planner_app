@@ -12,12 +12,14 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         HomeQuickActionButtonWidget(
+          onPressed: () {},
           icon: Icons.add_rounded,
           label: "Nova Tarefa",
           color: AppColors.primary,
         ),
         SizedBox(width: 16.0),
         HomeQuickActionButtonWidget(
+          onPressed: () {},
           icon: Icons.calendar_today_rounded,
           label: "Agenda",
           color: AppColors.textMain,
