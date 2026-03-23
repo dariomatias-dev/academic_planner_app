@@ -6,6 +6,9 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/constants/schedules.dart';
 
 import 'package:academic_planner/src/shared/models/schedule_entry.dart';
+import 'package:academic_planner/src/shared/widgets/back_icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/utils/image_export.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -15,6 +18,10 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  final _globalKey = GlobalKey();
+
+  final _transformationController = TransformationController();
+
   final _days = <String>[
     "Segunda-feira",
     "Terça-feira",
@@ -22,9 +29,16 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     "Quinta-feira",
     "Sexta-feira",
   ];
+
   int _selectedPeriod = 1;
 
-  final _transformationController = TransformationController();
+  Future<void> _exportSchedule() async {
+    await ImageExport.captureAndSave(
+      context: context,
+      containerKey: _globalKey,
+      fileName: "grade_periodo_$_selectedPeriod",
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,24 +60,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: IconButton.styleFrom(
-                          backgroundColor: AppColors.bg,
-                          fixedSize: const Size(48.0, 48.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                            side: const BorderSide(
-                              color: AppColors.borderMedium,
-                            ),
-                          ),
-                        ),
-                        icon: const Icon(
-                          Icons.chevron_left_rounded,
-                          color: AppColors.textMain,
-                          size: 28.0,
-                        ),
-                      ),
+                      const BackIconButtonWidget(),
                       const SizedBox(width: 16.0),
                       Expanded(
                         child: Column(
@@ -89,6 +86,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                           ],
                         ),
                       ),
+                      IconButtonWidget(
+                        icon: Icons.download_rounded,
+                        onPressed: _exportSchedule,
+                        style: IconButtonStyles.primary,
+                      ),
                     ],
                   ),
                   const SizedBox(height: 24.0),
@@ -97,15 +99,18 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: 6,
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(width: 8.0);
-                      },
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 8.0),
                       itemBuilder: (context, index) {
                         final period = index + 1;
                         final isSelected = _selectedPeriod == period;
 
                         return GestureDetector(
-                          onTap: () => setState(() => _selectedPeriod = period),
+                          onTap: () {
+                            setState(() {
+                              _selectedPeriod = period;
+                            });
+                          },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 200),
                             padding: const EdgeInsets.symmetric(
@@ -157,95 +162,97 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 constrained: false,
                 minScale: 0.1,
                 maxScale: 1.5,
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(
-                        color: AppColors.borderMedium,
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Table(
-                      defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
-                      columnWidths: const <int, TableColumnWidth>{
-                        0: FixedColumnWidth(80.0),
-                        1: FixedColumnWidth(210.0),
-                        2: FixedColumnWidth(210.0),
-                        3: FixedColumnWidth(210.0),
-                        4: FixedColumnWidth(210.0),
-                        5: FixedColumnWidth(210.0),
-                      },
-                      children: <TableRow>[
-                        TableRow(
-                          decoration: const BoxDecoration(
-                            color: AppColors.white,
-                          ),
-                          children: <Widget>[
-                            _buildHeaderCell("HORA"),
-                            ..._days.map((day) => _buildHeaderCell(day)),
-                          ],
+                child: RepaintBoundary(
+                  key: _globalKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(20.0),
+                        border: Border.all(
+                          color: AppColors.borderMedium,
+                          width: 1.5,
                         ),
-                        ...timeSlots.map((slot) {
-                          if (slot.type != SlotType.classTime) {
+                      ),
+                      child: Table(
+                        defaultVerticalAlignment:
+                            TableCellVerticalAlignment.middle,
+                        columnWidths: const <int, TableColumnWidth>{
+                          0: FixedColumnWidth(80.0),
+                          1: FixedColumnWidth(210.0),
+                          2: FixedColumnWidth(210.0),
+                          3: FixedColumnWidth(210.0),
+                          4: FixedColumnWidth(210.0),
+                          5: FixedColumnWidth(210.0),
+                        },
+                        children: <TableRow>[
+                          TableRow(
+                            decoration: const BoxDecoration(
+                              color: AppColors.white,
+                            ),
+                            children: <Widget>[
+                              _buildHeaderCell("HORA"),
+                              ..._days.map(_buildHeaderCell),
+                            ],
+                          ),
+                          ...timeSlots.map((slot) {
+                            if (slot.type != SlotType.classTime) {
+                              return TableRow(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary.withAlpha(10),
+                                  border: const Border(
+                                    bottom: BorderSide(
+                                      color: AppColors.borderMedium,
+                                    ),
+                                  ),
+                                ),
+                                children: <Widget>[
+                                  _buildTimeCell(slot.label, isBreak: true),
+                                  ...List<Widget>.generate(5, (index) {
+                                    if (index == 2) {
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 14.0,
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            slot.label.toUpperCase(),
+                                            style: GoogleFonts.plusJakartaSans(
+                                              color: AppColors.primary,
+                                              fontSize: 10.0,
+                                              fontWeight: FontWeight.w900,
+                                              letterSpacing: 2.0,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  }),
+                                ],
+                              );
+                            }
+
                             return TableRow(
-                              decoration: BoxDecoration(
-                                color: AppColors.primary.withAlpha(10),
-                                border: const Border(
+                              decoration: const BoxDecoration(
+                                border: Border(
                                   bottom: BorderSide(
-                                    color: AppColors.borderMedium,
+                                    color: AppColors.borderLight,
                                   ),
                                 ),
                               ),
                               children: <Widget>[
-                                _buildTimeCell(slot.label, isBreak: true),
+                                _buildTimeCell(slot.label),
                                 ...List<Widget>.generate(5, (index) {
-                                  if (index == 2) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 14.0,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          slot.label.toUpperCase(),
-                                          style: GoogleFonts.plusJakartaSans(
-                                            color: AppColors.primary,
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.w900,
-                                            letterSpacing: 2.0,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                  return const SizedBox.shrink();
+                                  return _buildDataCell(slot, index + 1);
                                 }),
                               ],
                             );
-                          }
-
-                          return TableRow(
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(
-                                  color: AppColors.borderLight,
-                                ),
-                              ),
-                            ),
-                            children: <Widget>[
-                              _buildTimeCell(slot.label),
-                              ...List<Widget>.generate(5, (index) {
-                                final dayId = index + 1;
-                                return _buildDataCell(slot, dayId);
-                              }),
-                            ],
-                          );
-                        }),
-                      ],
+                          }),
+                        ],
+                      ),
                     ),
                   ),
                 ),
