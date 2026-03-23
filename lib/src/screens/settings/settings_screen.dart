@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -23,23 +24,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        shape: const Border(
-          bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
-        ),
-        toolbarHeight: 80.0,
-        title: Text(
-          "Ajustes do App",
-          style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textMain,
-            fontSize: 20.0,
-            fontWeight: FontWeight.w800,
-          ),
-        ),
-      ),
+      appBar: const AppBarWidget(title: "Ajustes do App"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
