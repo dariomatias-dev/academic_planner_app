@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row/home_quick_action_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/action_button_widget.dart';
 
 class HomeQuickActionsRowWidget extends StatelessWidget {
   const HomeQuickActionsRowWidget({super.key});
@@ -11,14 +11,14 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        HomeQuickActionButtonWidget(
+        ActionButtonWidget(
           onPressed: () {},
           icon: Icons.add_rounded,
           label: "Nova Tarefa",
           color: AppColors.primary,
         ),
         SizedBox(width: 16.0),
-        HomeQuickActionButtonWidget(
+        ActionButtonWidget(
           onPressed: () {},
           icon: Icons.calendar_today_rounded,
           label: "Agenda",

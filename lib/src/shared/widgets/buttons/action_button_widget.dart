@@ -4,8 +4,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 
-class HomeQuickActionButtonWidget extends StatelessWidget {
-  const HomeQuickActionButtonWidget({
+class ActionButtonWidget extends StatelessWidget {
+  const ActionButtonWidget({
     super.key,
     required this.icon,
     required this.label,

@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 
 import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_widget.dart';
-import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row/home_quick_actions_row_widget.dart';
+import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_card_widget.dart';
 
