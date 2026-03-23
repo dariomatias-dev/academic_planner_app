@@ -15,29 +15,49 @@ class RootNavigation extends StatefulWidget {
 }
 
 class RootNavigationState extends State<RootNavigation> {
+  late final _pageController = PageController(initialPage: selectedIndex);
+
   int selectedIndex = 0;
 
-  final screens = <Widget>[
+  final _screens = <Widget>[
     const HomeScreen(),
     const MyDisciplinesScreen(),
     const ActivitiesScreenWidget(),
     const SettingsScreen(),
   ];
 
+  void _onPageChanged(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  void _onNavBarTap(int index) {
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          IndexedStack(index: selectedIndex, children: screens),
-          NavBarWidget(
-            selectedIndex: selectedIndex,
-            onTap: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
+          PageView(
+            controller: _pageController,
+            onPageChanged: _onPageChanged,
+            children: _screens,
           ),
+          NavBarWidget(selectedIndex: selectedIndex, onTap: _onNavBarTap),
         ],
       ),
     );
