@@ -23,7 +23,11 @@ class MyDisciplinesScreen extends StatelessWidget {
       appBar: AppBarWidget(
         title: "Minha Grade",
         actions: <Widget>[
-          IconButtonWidget(icon: Icons.account_tree_rounded, onPressed: () {}),
+          IconButtonWidget(
+            icon: Icons.account_tree_rounded,
+            onPressed: () {},
+            style: IconButtonStyles.primary,
+          ),
           const SizedBox(width: 16),
         ],
       ),
