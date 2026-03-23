@@ -23,112 +23,96 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: Column(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 60.0, 16.0, 24.0),
-            decoration: const BoxDecoration(
-              color: AppColors.white,
-              border: Border(
-                bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+      appBar: AppBar(
+        backgroundColor: AppColors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        shape: const Border(
+          bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+        ),
+        toolbarHeight: 80.0,
+        title: Text(
+          "Ajustes do App",
+          style: GoogleFonts.plusJakartaSans(
+            color: AppColors.textMain,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _buildProfileCard(),
+            const SizedBox(height: 32.0),
+            _buildSectionTitle("Informações do Curso"),
+            _buildSettingsTile(
+              icon: Icons.list_alt_rounded,
+              title: "Disciplinas do Curso",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DisciplinesScreen(),
+                  ),
+                );
+              },
+            ),
+            _buildSettingsTile(
+              icon: Icons.grid_on_rounded,
+              title: "Grade Curricular Geral",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ScheduleScreen(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 24.0),
+            _buildSectionTitle("Preferências"),
+            _buildSettingsTile(
+              icon: Icons.notifications_none_rounded,
+              title: "Notificações",
+              trailing: SwitchWidget(
+                value: _notificationsEnabled,
+                onChanged: (value) =>
+                    setState(() => _notificationsEnabled = value),
               ),
             ),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    "Ajustes do App",
-                    style: GoogleFonts.plusJakartaSans(
-                      color: AppColors.textMain,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  _buildProfileCard(),
-                  const SizedBox(height: 32.0),
-                  _buildSectionTitle("Informações do Curso"),
-                  _buildSettingsTile(
-                    icon: Icons.list_alt_rounded,
-                    title: "Disciplinas do Curso",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DisciplinesScreen();
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  _buildSettingsTile(
-                    icon: Icons.grid_on_rounded,
-                    title: "Grade Curricular Geral",
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return ScheduleScreen();
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 24.0),
-                  _buildSectionTitle("Preferências"),
-                  _buildSettingsTile(
-                    icon: Icons.notifications_none_rounded,
-                    title: "Notificações",
-                    trailing: SwitchWidget(
-                      value: _notificationsEnabled,
-                      onChanged: (value) =>
-                          setState(() => _notificationsEnabled = value),
-                    ),
-                  ),
-                  _buildSettingsTile(
-                    icon: Icons.dark_mode_outlined,
-                    title: "Modo Escuro",
-                    trailing: SwitchWidget(
-                      value: _darkMode,
-                      onChanged: (value) => setState(() => _darkMode = value),
-                    ),
-                  ),
-                  const SizedBox(height: 24.0),
-                  _buildSectionTitle("Conta"),
-                  _buildSettingsTile(
-                    icon: Icons.person_outline_rounded,
-                    title: "Dados Pessoais",
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 24.0),
-                  _buildSectionTitle("Suporte"),
-                  _buildSettingsTile(
-                    icon: Icons.help_outline_rounded,
-                    title: "Central de Ajuda",
-                    onTap: () {},
-                  ),
-                  _buildSettingsTile(
-                    icon: Icons.info_outline_rounded,
-                    title: "Sobre o App",
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: 100.0),
-                ],
+            _buildSettingsTile(
+              icon: Icons.dark_mode_outlined,
+              title: "Modo Escuro",
+              trailing: SwitchWidget(
+                value: _darkMode,
+                onChanged: (value) => setState(() => _darkMode = value),
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 24.0),
+            _buildSectionTitle("Conta"),
+            _buildSettingsTile(
+              icon: Icons.person_outline_rounded,
+              title: "Dados Pessoais",
+              onTap: () {},
+            ),
+            const SizedBox(height: 24.0),
+            _buildSectionTitle("Suporte"),
+            _buildSettingsTile(
+              icon: Icons.help_outline_rounded,
+              title: "Central de Ajuda",
+              onTap: () {},
+            ),
+            _buildSettingsTile(
+              icon: Icons.info_outline_rounded,
+              title: "Sobre o App",
+              onTap: () {},
+            ),
+            const SizedBox(height: 40.0),
+          ],
+        ),
       ),
     );
   }
