@@ -7,7 +7,7 @@ import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_hea
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
-import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
 
 class DisciplinesScreen extends StatefulWidget {
   const DisciplinesScreen({super.key});
@@ -100,7 +100,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
 
                     final discipline = periodDisciplines[index - 1];
 
-                    return DisciplineCardWidget(
+                    return DisciplineCardItemWidget(
                       index: index,
                       discipline: discipline,
                     );
