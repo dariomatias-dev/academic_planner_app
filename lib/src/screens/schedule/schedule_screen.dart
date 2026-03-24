@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/back_icon_button_widget.dart';
@@ -32,12 +33,13 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredEntries = schedules.where((entry) {
+    final filteredEntries = schedules.filter((entry) {
       final discipline = adsDisciplines.firstWhere(
         (d) => d.id == entry.disciplineId,
       );
+
       return discipline.period == _selectedPeriod;
-    }).toList();
+    });
 
     return Scaffold(
       backgroundColor: AppColors.bg,

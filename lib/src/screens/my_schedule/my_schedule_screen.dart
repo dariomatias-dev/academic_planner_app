@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/back_icon_button_widget.dart';
@@ -32,13 +33,13 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final enrolledDisciplines = adsDisciplines
-        .where((d) => studentEnrolledIds.contains(d.id))
-        .toList();
+    final enrolledDisciplines = adsDisciplines.filter(
+      (d) => studentEnrolledIds.contains(d.id),
+    );
 
-    final enrolledEntries = schedules
-        .where((entry) => studentEnrolledIds.contains(entry.disciplineId))
-        .toList();
+    final enrolledEntries = schedules.filter(
+      (entry) => studentEnrolledIds.contains(entry.disciplineId),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.bg,

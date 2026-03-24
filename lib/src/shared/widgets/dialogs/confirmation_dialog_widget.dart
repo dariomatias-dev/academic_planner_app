@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
@@ -58,10 +60,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
       icon: icon,
       iconColor: confirmStyle.backgroundColor,
       actions: vertical
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: children.reversed.toList(),
-            )
+          ? Column(mainAxisSize: MainAxisSize.min, children: children.reverse())
           : Row(mainAxisSize: MainAxisSize.min, children: children),
     );
   }

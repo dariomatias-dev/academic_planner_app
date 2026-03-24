@@ -1,9 +1,11 @@
-import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_course_plan_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
+import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_course_plan_button_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
@@ -14,10 +16,12 @@ class DisciplineDetailsScreen extends StatefulWidget {
   final DisciplineModel discipline;
 
   @override
-  State<DisciplineDetailsScreen> createState() => _DisciplineDetailsScreenState();
+  State<DisciplineDetailsScreen> createState() =>
+      _DisciplineDetailsScreenState();
 }
 
-class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen> with SingleTickerProviderStateMixin {
+class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool _showFab = true;
 
@@ -42,13 +46,13 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen> with 
 
   @override
   Widget build(BuildContext context) {
-    final prerequisitesList = adsDisciplines
-        .where((d) => widget.discipline.prerequisites.contains(d.id))
-        .toList();
+    final prerequisitesList = adsDisciplines.filter(
+      (d) => widget.discipline.prerequisites.contains(d.id),
+    );
 
-    final prerequisiteForList = adsDisciplines
-        .where((d) => widget.discipline.prerequisiteFor.contains(d.id))
-        .toList();
+    final prerequisiteForList = adsDisciplines.filter(
+      (d) => widget.discipline.prerequisiteFor.contains(d.id),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.bg,
@@ -56,8 +60,14 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen> with 
           ? FloatingActionButton(
               onPressed: () {},
               backgroundColor: AppColors.primary,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-              child: const Icon(Icons.add_rounded, color: AppColors.white, size: 32.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: const Icon(
+                Icons.add_rounded,
+                color: AppColors.white,
+                size: 32.0,
+              ),
             )
           : null,
       body: SafeArea(
@@ -156,7 +166,10 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen> with 
     );
   }
 
-  Widget _buildAboutTab(List<DisciplineModel> pre, List<DisciplineModel> forList) {
+  Widget _buildAboutTab(
+    List<DisciplineModel> pre,
+    List<DisciplineModel> forList,
+  ) {
     return Container(
       color: AppColors.white,
       child: SingleChildScrollView(
@@ -230,11 +243,12 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppColors.white,
-      child: _tabBar,
-    );
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(color: AppColors.white, child: _tabBar);
   }
 
   @override
@@ -260,9 +274,7 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 40.0),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-      ),
+      decoration: const BoxDecoration(color: AppColors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

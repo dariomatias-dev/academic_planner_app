@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
 
@@ -16,9 +17,9 @@ class MyDisciplinesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final enrolledDisciplines = adsDisciplines
-        .where((d) => studentEnrolledIds.contains(d.id))
-        .toList();
+    final enrolledDisciplines = adsDisciplines.filter(
+      (d) => studentEnrolledIds.contains(d.id),
+    );
 
     return Scaffold(
       backgroundColor: AppColors.bg,

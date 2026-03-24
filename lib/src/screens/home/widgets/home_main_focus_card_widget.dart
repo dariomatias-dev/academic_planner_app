@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 class _FocusItem {
   final String title;
@@ -239,7 +240,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
               setState(() => _currentIndex = index);
             },
           ),
-          items: items.map((item) {
+          items: items.builder((item, index) {
             final bool hasAction = item.onTap != null;
 
             return Container(
@@ -359,7 +360,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                 ),
               ),
             );
-          }).toList(),
+          }),
         ),
         const SizedBox(height: 20.0),
         Row(

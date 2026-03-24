@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
@@ -21,29 +22,14 @@ class DisciplineSelectionScreen extends StatefulWidget {
 
 class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     with TickerProviderStateMixin {
-  late final TabController _mainTabController;
-  late final TabController _periodTabController;
+  late final _mainTabController = TabController(length: 2, vsync: this);
+  late final _periodTabController = TabController(
+    length: _periods.length,
+    vsync: this,
+  );
 
-  final Set<int> _selectedIds = <int>{51, 52, 53, 54, 55};
-  final List<int> _periods =
-      adsDisciplines.map((d) => d.period).toSet().toList()..sort();
-
-  @override
-  void initState() {
-    super.initState();
-    _mainTabController = TabController(length: 2, vsync: this);
-    _periodTabController = TabController(length: _periods.length, vsync: this);
-
-    _mainTabController.addListener(() => setState(() {}));
-    _periodTabController.addListener(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _mainTabController.dispose();
-    _periodTabController.dispose();
-    super.dispose();
-  }
+  final _selectedIds = <int>{51, 52, 53, 54, 55};
+  final _periods = adsDisciplines.map((d) => d.period).toSet().toList()..sort();
 
   void _toggleDiscipline(int id) {
     setState(() {
@@ -56,10 +42,27 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _mainTabController.addListener(() => setState(() {}));
+    _periodTabController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _mainTabController.dispose();
+    _periodTabController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final selectedDisciplines = adsDisciplines
-        .where((d) => _selectedIds.contains(d.id))
-        .toList();
+    final selectedDisciplines = adsDisciplines.filter(
+      (d) => _selectedIds.contains(d.id),
+    );
+
     final isAddTab = _mainTabController.index == 1;
     final headerHeight = isAddTab ? 172.0 : 92.0;
 
@@ -217,7 +220,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
         splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-        tabs: _periods.map((period) {
+        tabs: _periods.builder((period, index) {
           final isSelected =
               _periodTabController.index == _periods.indexOf(period);
           return Tab(
@@ -226,7 +229,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
               isSelected: isSelected,
             ),
           );
-        }).toList(),
+        }),
       ),
     );
   }
@@ -278,10 +281,11 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
   Widget _buildAddTabContent() {
     return TabBarView(
       controller: _periodTabController,
-      children: _periods.map((period) {
-        final periodDisciplines = adsDisciplines
-            .where((d) => d.period == period)
-            .toList();
+      children: _periods.builder((period, index) {
+        final periodDisciplines = adsDisciplines.filter(
+          (d) => d.period == period,
+        );
+
         return ListView.builder(
           padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 40.0),
           itemCount: periodDisciplines.length,
@@ -298,7 +302,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
             );
           },
         );
-      }).toList(),
+      }),
     );
   }
 

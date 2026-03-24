@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_header_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
@@ -60,7 +61,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
               splashFactory: NoSplash.splashFactory,
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              tabs: periods.map((period) {
+              tabs: periods.builder((period, index) {
                 final isSelected =
                     tabController.index == periods.indexOf(period);
 
@@ -70,17 +71,17 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                     isSelected: isSelected,
                   ),
                 );
-              }).toList(),
+              }),
             ),
           ),
           Expanded(
             child: TabBarView(
               controller: tabController,
               physics: const BouncingScrollPhysics(),
-              children: periods.map((period) {
-                final periodDisciplines = adsDisciplines
-                    .where((d) => d.period == period)
-                    .toList();
+              children: periods.builder((period, index) {
+                final periodDisciplines = adsDisciplines.filter(
+                  (d) => d.period == period,
+                );
 
                 final totalWorkload = periodDisciplines.fold(
                   0,
@@ -106,7 +107,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                     );
                   },
                 );
-              }).toList(),
+              }),
             ),
           ),
         ],
