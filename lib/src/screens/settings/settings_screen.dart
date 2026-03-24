@@ -95,10 +95,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
               title: "Sobre o App",
               onTap: () {},
             ),
-            const SizedBox(height: 40.0),
           ],
         ),
       ),
+      bottomNavigationBar: const SizedBox(height: 110.0),
     );
   }
 
