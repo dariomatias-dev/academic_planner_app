@@ -6,7 +6,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/widgets/discipline_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
   const DisciplineDetailsScreen({super.key, required this.discipline});
