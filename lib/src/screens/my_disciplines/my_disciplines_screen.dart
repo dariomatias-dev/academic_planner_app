@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
+import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
+
 import 'package:academic_planner/src/shared/widgets/discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
@@ -25,7 +27,16 @@ class MyDisciplinesScreen extends StatelessWidget {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return MyScheduleScreen();
+                  },
+                ),
+              );
+            },
             style: IconButtonStyles.primary,
           ),
           const SizedBox(width: 16),
