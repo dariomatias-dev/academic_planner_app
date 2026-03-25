@@ -21,7 +21,6 @@ enum TaskPriority {
   high("Alta");
 
   final String label;
-
   const TaskPriority(this.label);
 }
 
@@ -68,16 +67,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
     showDialog(
       context: context,
-      builder: (context) {
-        return CreateCategoryDialogWidget(
-          onCategoryAdded: (categoryName) {
-            setState(() {
-              _categories.add(categoryName);
-              _selectedCategory = categoryName;
-            });
-          },
-        );
-      },
+      builder: (context) => CreateCategoryDialogWidget(
+        onCategoryAdded: (categoryName) {
+          setState(() {
+            _categories.add(categoryName);
+            _selectedCategory = categoryName;
+          });
+        },
+      ),
     );
   }
 
@@ -86,16 +83,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
     showDialog(
       context: context,
-      builder: (context) {
-        return CreateTagDialogWidget(
-          onTagAdded: (tagName) {
-            setState(() {
-              _availableTags.add(tagName);
-              _selectedTags.add(tagName);
-            });
-          },
-        );
-      },
+      builder: (context) => CreateTagDialogWidget(
+        onTagAdded: (tagName) {
+          setState(() {
+            _availableTags.add(tagName);
+            _selectedTags.add(tagName);
+          });
+        },
+      ),
     );
   }
 
@@ -143,51 +138,123 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         backgroundColor: AppColors.bg,
         body: SafeArea(
           child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return <Widget>[SliverToBoxAdapter(child: _buildHeader())];
-            },
+            headerSliverBuilder: (context, inner) => [
+              SliverToBoxAdapter(
+                child: CreateTaskHeaderWidget(
+                  onBack: () => Navigator.pop(context),
+                  onSave: () {},
+                ),
+              ),
+            ],
             body: SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 120.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  _buildSectionTitle("Conteúdo"),
-                  _buildTextField(
+                  const CreateTaskSectionTitleWidget(title: "Conteúdo"),
+                  CreateTaskInputFieldWidget(
                     controller: _titleController,
                     label: "Título da Tarefa",
                     hint: "O que deve ser feito?",
                   ),
-                  _buildTextField(
+                  CreateTaskInputFieldWidget(
                     controller: _descriptionController,
                     label: "Descrição",
                     hint: "Mais detalhes...",
                     maxLines: 3,
                   ),
                   const SizedBox(height: 32.0),
-                  _buildSectionTitle("Classificação"),
-                  _buildDisciplinePicker(),
+                  const CreateTaskSectionTitleWidget(title: "Classificação"),
+                  CreateTaskDisciplinePickerWidget(
+                    selectedDiscipline: _selectedDiscipline,
+                    onTap: () {
+                      _unfocus();
+                      ModalBottomSheetWidget.show(
+                        context: context,
+                        title: "Minhas Matérias",
+                        child: CreateTaskDisciplineListWidget(
+                          selectedId: _selectedDiscipline?.id,
+                          onSelected: (discipline) {
+                            return setState(() {
+                              _selectedDiscipline = discipline;
+                            });
+                          },
+                        ),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 20.0),
-                  _buildCategorySelector(),
+                  CreateTaskCategorySelectorWidget(
+                    categories: _categories,
+                    selectedCategory: _selectedCategory,
+                    onSelect: (category) {
+                      return setState(() {
+                        _selectedCategory = category;
+                      });
+                    },
+                    onCreate: _showCreateCategoryDialog,
+                  ),
                   const SizedBox(height: 20.0),
-                  _buildTagSelector(),
+                  CreateTaskTagSelectorWidget(
+                    availableTags: _availableTags,
+                    selectedTags: _selectedTags,
+                    onToggle: (tag, value) {
+                      setState(() {
+                        value
+                            ? _selectedTags.add(tag)
+                            : _selectedTags.remove(tag);
+                      });
+                    },
+                    onCreate: _showCreateTagDialog,
+                  ),
                   const SizedBox(height: 32.0),
-                  _buildSectionTitle("Prioridade"),
-                  _buildPriorityPicker(),
+                  const CreateTaskSectionTitleWidget(title: "Prioridade"),
+                  CreateTaskPriorityPickerWidget(
+                    selectedPriority: _selectedPriority,
+                    onChanged: (priority) {
+                      setState(() {
+                        _selectedPriority = priority;
+                      });
+                    },
+                  ),
                   const SizedBox(height: 32.0),
-                  _buildSectionTitle("Prazos e Lembretes"),
-                  _buildDatePicker(),
+                  const CreateTaskSectionTitleWidget(
+                    title: "Prazos e Lembretes",
+                  ),
+                  CreateTaskDatePickerWidget(
+                    dueDate: _dueDate,
+                    onTap: _selectDate,
+                  ),
                   const SizedBox(height: 16.0),
-                  _buildRemindersList(),
+                  CreateTaskRemindersListWidget(
+                    reminders: _reminders,
+                    onAdd: _addReminder,
+                    onRemove: (time) {
+                      setState(() {
+                        _reminders.remove(time);
+                      });
+                    },
+                  ),
                   const SizedBox(height: 32.0),
-                  _buildSectionTitle("Anotações e Links"),
-                  _buildTextField(
+                  const CreateTaskSectionTitleWidget(
+                    title: "Anotações e Links",
+                  ),
+                  CreateTaskInputFieldWidget(
                     controller: _notesController,
                     label: "Notas",
                     hint: "Rascunhos ou lembretes rápidos...",
                     maxLines: 5,
                   ),
-                  _buildLinkInput(),
-                  const SizedBox(height: 40.0),
+                  CreateTaskLinksInputWidget(
+                    controller: _linkController,
+                    links: _links,
+                    onAdd: _addLink,
+                    onRemove: (link) {
+                      setState(() {
+                        _links.remove(link);
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
@@ -196,8 +263,20 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ),
     );
   }
+}
 
-  Widget _buildHeader() {
+class CreateTaskHeaderWidget extends StatelessWidget {
+  final VoidCallback onBack;
+  final VoidCallback onSave;
+
+  const CreateTaskHeaderWidget({
+    super.key,
+    required this.onBack,
+    required this.onSave,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 32.0),
       color: AppColors.white,
@@ -208,7 +287,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: onBack,
                 style: IconButton.styleFrom(
                   backgroundColor: AppColors.bg,
                   fixedSize: const Size(48.0, 48.0),
@@ -223,8 +302,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 ),
               ),
               IconButtonWidget(
+                onPressed: onSave,
                 icon: Icons.check_rounded,
-                onPressed: () {},
                 style: IconButtonStyles.primary,
               ),
             ],
@@ -251,8 +330,15 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ),
     );
   }
+}
 
-  Widget _buildSectionTitle(String title) {
+class CreateTaskSectionTitleWidget extends StatelessWidget {
+  final String title;
+
+  const CreateTaskSectionTitleWidget({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0, top: 24.0),
       child: Text(
@@ -266,13 +352,24 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ),
     );
   }
+}
 
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    int maxLines = 1,
-  }) {
+class CreateTaskInputFieldWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final int maxLines;
+
+  const CreateTaskInputFieldWidget({
+    super.key,
+    required this.controller,
+    required this.label,
+    required this.hint,
+    this.maxLines = 1,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Column(
@@ -313,12 +410,20 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ),
     );
   }
+}
 
-  Widget _buildDisciplinePicker() {
-    final enrolled = adsDisciplines.filter(
-      (d) => studentEnrolledIds.contains(d.id),
-    );
+class CreateTaskDisciplinePickerWidget extends StatelessWidget {
+  final DisciplineModel? selectedDiscipline;
+  final VoidCallback onTap;
 
+  const CreateTaskDisciplinePickerWidget({
+    super.key,
+    this.selectedDiscipline,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -332,15 +437,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         ),
         const SizedBox(height: 8.0),
         GestureDetector(
-          onTap: () {
-            _unfocus();
-
-            ModalBottomSheetWidget.show(
-              context: context,
-              title: "Minhas Matérias",
-              child: _buildDisciplineList(enrolled),
-            );
-          },
+          onTap: onTap,
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
@@ -357,9 +454,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 const SizedBox(width: 12.0),
                 Expanded(
                   child: Text(
-                    _selectedDiscipline?.name ?? "Selecione uma matéria",
+                    selectedDiscipline?.name ?? "Selecione uma matéria",
                     style: GoogleFonts.plusJakartaSans(
-                      color: _selectedDiscipline == null
+                      color: selectedDiscipline == null
                           ? AppColors.textSub
                           : AppColors.textMain,
                       fontWeight: FontWeight.w600,
@@ -375,20 +472,32 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ],
     );
   }
+}
 
-  Widget _buildDisciplineList(List<DisciplineModel> disciplines) {
+class CreateTaskDisciplineListWidget extends StatelessWidget {
+  final int? selectedId;
+  final Function(DisciplineModel value) onSelected;
+
+  const CreateTaskDisciplineListWidget({
+    super.key,
+    this.selectedId,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final enrolled = adsDisciplines.filter((discipline) {
+      return studentEnrolledIds.contains(discipline.id);
+    });
+
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: disciplines.length,
+      itemCount: enrolled.length,
       itemBuilder: (context, index) {
-        final discipline = disciplines[index];
-        final isSelected = _selectedDiscipline?.id == discipline.id;
+        final discipline = enrolled[index];
+        final isSelected = selectedId == discipline.id;
 
         return ListTile(
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 4.0,
-            horizontal: 12.0,
-          ),
           title: Text(
             discipline.name,
             style: GoogleFonts.plusJakartaSans(
@@ -404,14 +513,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           trailing: isSelected
               ? const Icon(Icons.check_circle_rounded, color: AppColors.primary)
               : null,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          tileColor: isSelected ? AppColors.primary.withAlpha(10) : null,
           onTap: () {
-            setState(() {
-              _selectedDiscipline = discipline;
-            });
+            onSelected(discipline);
 
             Navigator.pop(context);
           },
@@ -419,8 +522,24 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       },
     );
   }
+}
 
-  Widget _buildCategorySelector() {
+class CreateTaskCategorySelectorWidget extends StatelessWidget {
+  final List<String> categories;
+  final String selectedCategory;
+  final Function(String value) onSelect;
+  final VoidCallback onCreate;
+
+  const CreateTaskCategorySelectorWidget({
+    super.key,
+    required this.categories,
+    required this.selectedCategory,
+    required this.onSelect,
+    required this.onCreate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -436,7 +555,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ),
             GestureDetector(
-              onTap: _showCreateCategoryDialog,
+              onTap: onCreate,
               child: Text(
                 "+ Nova Categoria",
                 style: GoogleFonts.plusJakartaSans(
@@ -452,13 +571,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: _categories.map((cat) {
-              final isSelected = _selectedCategory == cat;
+            children: categories.builder((category, index) {
+              final isSelected = selectedCategory == category;
 
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: GestureDetector(
-                  onTap: () => setState(() => _selectedCategory = cat),
+                  onTap: () => onSelect(category),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20.0,
@@ -474,7 +593,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                       ),
                     ),
                     child: Text(
-                      cat,
+                      category,
                       style: GoogleFonts.plusJakartaSans(
                         color: isSelected ? AppColors.white : AppColors.textSub,
                         fontWeight: FontWeight.w700,
@@ -484,14 +603,30 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildTagSelector() {
+class CreateTaskTagSelectorWidget extends StatelessWidget {
+  final List<String> availableTags;
+  final Set<String> selectedTags;
+  final Function(String tag, bool value) onToggle;
+  final VoidCallback onCreate;
+
+  const CreateTaskTagSelectorWidget({
+    super.key,
+    required this.availableTags,
+    required this.selectedTags,
+    required this.onToggle,
+    required this.onCreate,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -507,7 +642,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ),
             GestureDetector(
-              onTap: _showCreateTagDialog,
+              onTap: onCreate,
               child: Text(
                 "+ Nova Tag",
                 style: GoogleFonts.plusJakartaSans(
@@ -523,20 +658,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         Wrap(
           spacing: 8.0,
           runSpacing: 8.0,
-          children: _availableTags.map((tag) {
-            final isSelected = _selectedTags.contains(tag);
+          children: availableTags.builder((tag, index) {
+            final isSelected = selectedTags.contains(tag);
+
             return FilterChip(
               label: Text(tag),
               selected: isSelected,
-              onSelected: (val) {
-                setState(() {
-                  if (val) {
-                    _selectedTags.add(tag);
-                  } else {
-                    _selectedTags.remove(tag);
-                  }
-                });
-              },
+              onSelected: (value) => onToggle(tag, value),
               backgroundColor: AppColors.white,
               selectedColor: AppColors.primary,
               checkmarkColor: AppColors.white,
@@ -550,20 +678,32 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 side: BorderSide.none,
               ),
             );
-          }).toList(),
+          }),
         ),
       ],
     );
   }
+}
 
-  Widget _buildPriorityPicker() {
+class CreateTaskPriorityPickerWidget extends StatelessWidget {
+  final TaskPriority selectedPriority;
+  final Function(TaskPriority value) onChanged;
+
+  const CreateTaskPriorityPickerWidget({
+    super.key,
+    required this.selectedPriority,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
-      children: TaskPriority.values.map((priority) {
-        final isSelected = _selectedPriority == priority;
+      children: TaskPriority.values.builder((priority, index) {
+        final isSelected = selectedPriority == priority;
 
         return Expanded(
           child: GestureDetector(
-            onTap: () => setState(() => _selectedPriority = priority),
+            onTap: () => onChanged(priority),
             child: Container(
               margin: const EdgeInsets.only(right: 8.0),
               padding: const EdgeInsets.symmetric(vertical: 14.0),
@@ -594,13 +734,25 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             ),
           ),
         );
-      }).toList(),
+      }),
     );
   }
+}
 
-  Widget _buildDatePicker() {
+class CreateTaskDatePickerWidget extends StatelessWidget {
+  final DateTime? dueDate;
+  final VoidCallback onTap;
+
+  const CreateTaskDatePickerWidget({
+    super.key,
+    this.dueDate,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _selectDate,
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
@@ -635,9 +787,9 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   ),
                 ),
                 Text(
-                  _dueDate == null
+                  dueDate == null
                       ? "Definir prazo"
-                      : DateFormat('dd / MM / yyyy').format(_dueDate!),
+                      : DateFormat('dd / MM / yyyy').format(dueDate!),
                   style: GoogleFonts.plusJakartaSans(
                     color: AppColors.textMain,
                     fontSize: 16.0,
@@ -657,8 +809,22 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       ),
     );
   }
+}
 
-  Widget _buildRemindersList() {
+class CreateTaskRemindersListWidget extends StatelessWidget {
+  final List<TimeOfDay> reminders;
+  final VoidCallback onAdd;
+  final Function(TimeOfDay) onRemove;
+
+  const CreateTaskRemindersListWidget({
+    super.key,
+    required this.reminders,
+    required this.onAdd,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -674,7 +840,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ),
             GestureDetector(
-              onTap: _addReminder,
+              onTap: onAdd,
               child: Text(
                 "+ Novo Horário",
                 style: GoogleFonts.plusJakartaSans(
@@ -687,7 +853,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           ],
         ),
         const SizedBox(height: 12.0),
-        if (_reminders.isEmpty)
+        if (reminders.isEmpty)
           Text(
             "Nenhum lembrete definido.",
             style: GoogleFonts.plusJakartaSans(
@@ -699,7 +865,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           Wrap(
             spacing: 12.0,
             runSpacing: 12.0,
-            children: _reminders.map((time) {
+            children: reminders.builder((time, index) {
               return Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 16.0,
@@ -709,50 +875,59 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(14.0),
                   border: Border.all(color: AppColors.borderLight),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: AppColors.black.withAlpha(5),
-                      blurRadius: 10.0,
-                      offset: const Offset(0.0, 4.0),
-                    ),
-                  ],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const Icon(
                       Icons.access_time_rounded,
-                      size: 16.0,
                       color: AppColors.primary,
+                      size: 16.0,
                     ),
                     const SizedBox(width: 8.0),
                     Text(
                       time.format(context),
                       style: GoogleFonts.plusJakartaSans(
+                        color: AppColors.textMain,
                         fontSize: 13.0,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textMain,
                       ),
                     ),
                     const SizedBox(width: 8.0),
                     GestureDetector(
-                      onTap: () => setState(() => _reminders.remove(time)),
+                      onTap: () => onRemove(time),
                       child: Icon(
                         Icons.close_rounded,
-                        size: 16.0,
                         color: AppColors.textSub.withAlpha(150),
+                        size: 16.0,
                       ),
                     ),
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ),
       ],
     );
   }
+}
 
-  Widget _buildLinkInput() {
+class CreateTaskLinksInputWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final List<String> links;
+  final VoidCallback onAdd;
+  final Function(String) onRemove;
+
+  const CreateTaskLinksInputWidget({
+    super.key,
+    required this.controller,
+    required this.links,
+    required this.onAdd,
+    required this.onRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -769,7 +944,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           children: <Widget>[
             Expanded(
               child: TextField(
-                controller: _linkController,
+                controller: controller,
                 decoration: InputDecoration(
                   hintText: "URL do material...",
                   filled: true,
@@ -784,7 +959,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             ),
             const SizedBox(width: 8.0),
             IconButton(
-              onPressed: _addLink,
+              onPressed: onAdd,
               icon: const Icon(Icons.add_link_rounded, color: AppColors.white),
               style: IconButton.styleFrom(
                 backgroundColor: AppColors.primary,
@@ -796,54 +971,52 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
             ),
           ],
         ),
-        if (_links.isNotEmpty)
+        if (links.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Column(
-              children: _links
-                  .map(
-                    (link) => Container(
-                      margin: const EdgeInsets.only(bottom: 12.0),
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(color: AppColors.borderLight),
+              children: links.builder((link, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12.0),
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(color: AppColors.borderLight),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      const Icon(
+                        Icons.link_rounded,
+                        color: AppColors.primary,
+                        size: 18.0,
                       ),
-                      child: Row(
-                        children: <Widget>[
-                          const Icon(
-                            Icons.link_rounded,
-                            size: 18.0,
-                            color: AppColors.primary,
+                      const SizedBox(width: 12.0),
+                      Expanded(
+                        child: Text(
+                          link,
+                          style: GoogleFonts.plusJakartaSans(
+                            color: AppColors.textMain,
+                            fontSize: 13.0,
+                            fontWeight: FontWeight.w600,
                           ),
-                          const SizedBox(width: 12.0),
-                          Expanded(
-                            child: Text(
-                              link,
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 13.0,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textMain,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          const SizedBox(width: 8.0),
-                          GestureDetector(
-                            onTap: () => setState(() => _links.remove(link)),
-                            child: const Icon(
-                              Icons.delete_outline_rounded,
-                              size: 20.0,
-                              color: AppColors.textSub,
-                            ),
-                          ),
-                        ],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                      const SizedBox(width: 8.0),
+                      GestureDetector(
+                        onTap: () => onRemove(link),
+                        child: const Icon(
+                          Icons.delete_outline_rounded,
+                          color: AppColors.textSub,
+                          size: 20.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
             ),
           ),
       ],
