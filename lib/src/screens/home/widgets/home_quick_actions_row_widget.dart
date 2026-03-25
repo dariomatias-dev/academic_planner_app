@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/screens/create_task/create_task_screen.dart';
+
 import 'package:academic_planner/src/shared/widgets/buttons/action_button_widget.dart';
 
 class HomeQuickActionsRowWidget extends StatelessWidget {
@@ -12,7 +14,16 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
     return Row(
       children: <Widget>[
         ActionButtonWidget(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return CreateTaskScreen();
+                },
+              ),
+            );
+          },
           icon: Icons.add_rounded,
           label: "Nova Tarefa",
           color: AppColors.primary,
