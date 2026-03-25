@@ -6,6 +6,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
+import 'package:academic_planner/src/screens/create_task/widgets/create_category_dialog_widget.dart';
+
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
@@ -20,6 +22,7 @@ enum TaskPriority {
   high("Alta");
 
   final String label;
+
   const TaskPriority(this.label);
 }
 
@@ -64,60 +67,18 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   void _showCreateCategoryDialog() {
     _unfocus();
 
-    final controller = TextEditingController();
-
     showDialog(
       context: context,
-      builder: (context) => DialogWidget(
-        title: "Nova Categoria",
-        message: "Defina um novo grupo para suas atividades.",
-        icon: Icons.grid_view_rounded,
-        actions: Column(
-          children: <Widget>[
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: "Nome da categoria",
-                filled: true,
-                fillColor: AppColors.bg,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40.0),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ButtonWidget(
-                    onPressed: () => Navigator.pop(context),
-                    style: ButtonStyles.neutral,
-                    label: 'Cancelar',
-                    isFullWidth: true,
-                  ),
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: ButtonWidget(
-                    onPressed: () {
-                      if (controller.text.isNotEmpty) {
-                        setState(() {
-                          _categories.add(controller.text);
-                          _selectedCategory = controller.text;
-                        });
-                        Navigator.pop(context);
-                      }
-                    },
-                    label: "Adicionar",
-                    isFullWidth: true,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      builder: (context) {
+        return CreateCategoryDialogWidget(
+          onCategoryAdded: (categoryName) {
+            setState(() {
+              _categories.add(categoryName);
+              _selectedCategory = categoryName;
+            });
+          },
+        );
+      },
     );
   }
 
