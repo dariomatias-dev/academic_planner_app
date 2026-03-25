@@ -7,10 +7,9 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/create_task/widgets/create_category_dialog_widget.dart';
+import 'package:academic_planner/src/screens/create_task/widgets/create_tag_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
@@ -85,61 +84,18 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   void _showCreateTagDialog() {
     _unfocus();
 
-    final controller = TextEditingController();
-
     showDialog(
       context: context,
-      builder: (context) => DialogWidget(
-        title: "Nova Tag",
-        message: "Crie uma etiqueta personalizada.",
-        icon: Icons.style_rounded,
-        actions: Column(
-          children: <Widget>[
-            TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                hintText: "Nome da tag",
-                filled: true,
-                fillColor: AppColors.bg,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            const SizedBox(height: 40.0),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  child: ButtonWidget(
-                    onPressed: () => Navigator.pop(context),
-                    style: ButtonStyles.neutral,
-                    label: 'Cancelar',
-                    isFullWidth: true,
-                  ),
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: ButtonWidget(
-                    onPressed: () {
-                      if (controller.text.isNotEmpty) {
-                        setState(() {
-                          _availableTags.add(controller.text);
-                          _selectedTags.add(controller.text);
-                        });
-
-                        Navigator.pop(context);
-                      }
-                    },
-                    label: "Salvar",
-                    isFullWidth: true,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      builder: (context) {
+        return CreateTagDialogWidget(
+          onTagAdded: (tagName) {
+            setState(() {
+              _availableTags.add(tagName);
+              _selectedTags.add(tagName);
+            });
+          },
+        );
+      },
     );
   }
 
