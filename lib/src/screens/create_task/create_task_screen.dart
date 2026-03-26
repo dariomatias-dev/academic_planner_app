@@ -328,6 +328,21 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
                 color: AppColors.textSub.withAlpha(100),
                 fontWeight: FontWeight.w500,
               ),
+              suffixIcon: ListenableBuilder(
+                listenable: controller,
+                builder: (context, child) {
+                  return controller.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: controller.clear,
+                          icon: const Icon(
+                            Icons.clear_rounded,
+                            size: 20.0,
+                            color: AppColors.textSub,
+                          ),
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
               filled: true,
               fillColor: AppColors.white,
               border: OutlineInputBorder(
@@ -750,6 +765,21 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
                 controller: controller,
                 decoration: InputDecoration(
                   hintText: "URL do material...",
+                  suffixIcon: ListenableBuilder(
+                    listenable: controller,
+                    builder: (context, child) {
+                      return controller.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () => controller.clear(),
+                              icon: const Icon(
+                                Icons.clear_rounded,
+                                size: 20.0,
+                                color: AppColors.textSub,
+                              ),
+                            )
+                          : const SizedBox.shrink();
+                    },
+                  ),
                   filled: true,
                   fillColor: AppColors.white,
                   border: OutlineInputBorder(
