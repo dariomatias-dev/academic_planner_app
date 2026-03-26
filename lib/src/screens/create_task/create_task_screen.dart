@@ -8,21 +8,15 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/create_task/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/create_task/widgets/create_tag_dialog_widget.dart';
+import 'package:academic_planner/src/screens/create_task/widgets/create_task_category_selector/create_task_category_selector_item_widget.dart';
+import 'package:academic_planner/src/screens/create_task/widgets/create_task_header_widget.dart';
+import 'package:academic_planner/src/screens/create_task/widgets/create_task_reminders/create_task_reminder_widget.dart';
+import 'package:academic_planner/src/screens/create_task/widgets/create_task_section_title_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
-
-enum TaskPriority {
-  low("Baixa"),
-  medium("Média"),
-  high("Alta");
-
-  final String label;
-  const TaskPriority(this.label);
-}
 
 class CreateTaskScreen extends StatefulWidget {
   const CreateTaskScreen({super.key});
@@ -39,7 +33,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   final _reminders = <TimeOfDay>[];
 
   DisciplineModel? _selectedDiscipline;
-  TaskPriority _selectedPriority = TaskPriority.medium;
   DateTime? _dueDate;
 
   String _selectedCategory = "Estudo";
@@ -208,16 +201,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     onCreate: _showCreateTagDialog,
                   ),
                   const SizedBox(height: 32.0),
-                  const CreateTaskSectionTitleWidget(title: "Prioridade"),
-                  CreateTaskPriorityPickerWidget(
-                    selectedPriority: _selectedPriority,
-                    onChanged: (priority) {
-                      setState(() {
-                        _selectedPriority = priority;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 32.0),
                   const CreateTaskSectionTitleWidget(
                     title: "Prazos e Lembretes",
                   ),
@@ -226,7 +209,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     onTap: _selectDate,
                   ),
                   const SizedBox(height: 16.0),
-                  CreateTaskRemindersListWidget(
+                  CreateTaskRemindersWidget(
                     reminders: _reminders,
                     onAdd: _addReminder,
                     onRemove: (time) {
@@ -259,95 +242,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class CreateTaskHeaderWidget extends StatelessWidget {
-  final VoidCallback onBack;
-  final VoidCallback onSave;
-
-  const CreateTaskHeaderWidget({
-    super.key,
-    required this.onBack,
-    required this.onSave,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 32.0),
-      color: AppColors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                onPressed: onBack,
-                style: IconButton.styleFrom(
-                  backgroundColor: AppColors.bg,
-                  fixedSize: const Size(48.0, 48.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-                icon: const Icon(
-                  Icons.chevron_left_rounded,
-                  color: AppColors.textMain,
-                  size: 28.0,
-                ),
-              ),
-              IconButtonWidget(
-                onPressed: onSave,
-                icon: Icons.check_rounded,
-                style: IconButtonStyles.primary,
-              ),
-            ],
-          ),
-          const SizedBox(height: 32.0),
-          Text(
-            "Criar Tarefa",
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
-              fontSize: 28.0,
-              fontWeight: FontWeight.w900,
-              letterSpacing: -0.5,
-            ),
-          ),
-          Text(
-            "Adicione uma nova atividade à sua grade",
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textSub,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CreateTaskSectionTitleWidget extends StatelessWidget {
-  final String title;
-
-  const CreateTaskSectionTitleWidget({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0, top: 24.0),
-      child: Text(
-        title.toUpperCase(),
-        style: GoogleFonts.plusJakartaSans(
-          color: AppColors.primary,
-          fontSize: 11.0,
-          fontWeight: FontWeight.w900,
-          letterSpacing: 1.2,
         ),
       ),
     );
@@ -574,34 +468,10 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
             children: categories.builder((category, index) {
               final isSelected = selectedCategory == category;
 
-              return Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: GestureDetector(
-                  onTap: () => onSelect(category),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0,
-                      vertical: 10.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: isSelected ? AppColors.primary : AppColors.white,
-                      borderRadius: BorderRadius.circular(14.0),
-                      border: Border.all(
-                        color: isSelected
-                            ? AppColors.primary
-                            : AppColors.borderLight,
-                      ),
-                    ),
-                    child: Text(
-                      category,
-                      style: GoogleFonts.plusJakartaSans(
-                        color: isSelected ? AppColors.white : AppColors.textSub,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12.0,
-                      ),
-                    ),
-                  ),
-                ),
+              return CreateTaskCategorySelectorItemWidget(
+                onTap: () => onSelect(category),
+                label: category,
+                isSelected: isSelected,
               );
             }),
           ),
@@ -685,60 +555,6 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskPriorityPickerWidget extends StatelessWidget {
-  final TaskPriority selectedPriority;
-  final Function(TaskPriority value) onChanged;
-
-  const CreateTaskPriorityPickerWidget({
-    super.key,
-    required this.selectedPriority,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: TaskPriority.values.builder((priority, index) {
-        final isSelected = selectedPriority == priority;
-
-        return Expanded(
-          child: GestureDetector(
-            onTap: () => onChanged(priority),
-            child: Container(
-              margin: const EdgeInsets.only(right: 8.0),
-              padding: const EdgeInsets.symmetric(vertical: 14.0),
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.primary : AppColors.white,
-                borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(color: AppColors.borderLight),
-                boxShadow: isSelected
-                    ? <BoxShadow>[
-                        BoxShadow(
-                          color: AppColors.primary.withAlpha(40),
-                          blurRadius: 8.0,
-                          offset: const Offset(0.0, 4.0),
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Center(
-                child: Text(
-                  priority.label,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: isSelected ? AppColors.white : AppColors.textMain,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12.0,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        );
-      }),
-    );
-  }
-}
-
 class CreateTaskDatePickerWidget extends StatelessWidget {
   final DateTime? dueDate;
   final VoidCallback onTap;
@@ -811,12 +627,12 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskRemindersListWidget extends StatelessWidget {
+class CreateTaskRemindersWidget extends StatelessWidget {
   final List<TimeOfDay> reminders;
   final VoidCallback onAdd;
   final Function(TimeOfDay) onRemove;
 
-  const CreateTaskRemindersListWidget({
+  const CreateTaskRemindersWidget({
     super.key,
     required this.reminders,
     required this.onAdd,
@@ -866,44 +682,9 @@ class CreateTaskRemindersListWidget extends StatelessWidget {
             spacing: 12.0,
             runSpacing: 12.0,
             children: reminders.builder((time, index) {
-              return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 10.0,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.white,
-                  borderRadius: BorderRadius.circular(14.0),
-                  border: Border.all(color: AppColors.borderLight),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Icon(
-                      Icons.access_time_rounded,
-                      color: AppColors.primary,
-                      size: 16.0,
-                    ),
-                    const SizedBox(width: 8.0),
-                    Text(
-                      time.format(context),
-                      style: GoogleFonts.plusJakartaSans(
-                        color: AppColors.textMain,
-                        fontSize: 13.0,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    const SizedBox(width: 8.0),
-                    GestureDetector(
-                      onTap: () => onRemove(time),
-                      child: Icon(
-                        Icons.close_rounded,
-                        color: AppColors.textSub.withAlpha(150),
-                        size: 16.0,
-                      ),
-                    ),
-                  ],
-                ),
+              return CreateTaskReminderWidget(
+                time: time,
+                onRemove: () => onRemove(time),
               );
             }),
           ),
