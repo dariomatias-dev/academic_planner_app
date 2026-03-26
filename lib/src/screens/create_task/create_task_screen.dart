@@ -290,6 +290,64 @@ class CreateTaskLabelWidget extends StatelessWidget {
   }
 }
 
+class CreateTaskInputWidget extends StatelessWidget {
+  final TextEditingController controller;
+  final String hint;
+  final int maxLines;
+  final Widget? suffix;
+
+  const CreateTaskInputWidget({
+    super.key,
+    required this.controller,
+    required this.hint,
+    this.maxLines = 1,
+    this.suffix,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      maxLines: maxLines,
+      style: GoogleFonts.plusJakartaSans(
+        color: AppColors.textMain,
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: InputDecoration(
+        hintText: hint,
+        hintStyle: GoogleFonts.plusJakartaSans(
+          color: AppColors.textSub.withAlpha(100),
+          fontWeight: FontWeight.w500,
+        ),
+        suffixIcon:
+            suffix ??
+            ListenableBuilder(
+              listenable: controller,
+              builder: (context, child) {
+                if (controller.text.isEmpty) return const SizedBox.shrink();
+
+                return IconButton(
+                  onPressed: controller.clear,
+                  icon: const Icon(
+                    Icons.clear_rounded,
+                    size: 20.0,
+                    color: AppColors.textSub,
+                  ),
+                );
+              },
+            ),
+        filled: true,
+        fillColor: AppColors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding: const EdgeInsets.all(16.0),
+      ),
+    );
+  }
+}
+
 class CreateTaskInputFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -315,42 +373,10 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
         children: <Widget>[
           CreateTaskLabelWidget(label: label, isRequired: isRequired),
           const SizedBox(height: 8.0),
-          TextField(
+          CreateTaskInputWidget(
             controller: controller,
+            hint: hint,
             maxLines: maxLines,
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
-              fontWeight: FontWeight.w600,
-            ),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: GoogleFonts.plusJakartaSans(
-                color: AppColors.textSub.withAlpha(100),
-                fontWeight: FontWeight.w500,
-              ),
-              suffixIcon: ListenableBuilder(
-                listenable: controller,
-                builder: (context, child) {
-                  return controller.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: controller.clear,
-                          icon: const Icon(
-                            Icons.clear_rounded,
-                            size: 20.0,
-                            color: AppColors.textSub,
-                          ),
-                        )
-                      : const SizedBox.shrink();
-                },
-              ),
-              filled: true,
-              fillColor: AppColors.white,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.all(16.0),
-            ),
           ),
         ],
       ),
@@ -489,7 +515,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CreateTaskLabelWidget(label: "Categoria"),
+            CreateTaskLabelWidget(label: "Categoria", isRequired: isRequired),
             GestureDetector(
               onTap: onCreate,
               child: Text(
@@ -749,45 +775,14 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Links de Apoio",
-          style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textMain,
-            fontSize: 14.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        const CreateTaskLabelWidget(label: "Links de Apoio"),
         const SizedBox(height: 8.0),
         Row(
           children: <Widget>[
             Expanded(
-              child: TextField(
+              child: CreateTaskInputWidget(
                 controller: controller,
-                decoration: InputDecoration(
-                  hintText: "URL do material...",
-                  suffixIcon: ListenableBuilder(
-                    listenable: controller,
-                    builder: (context, child) {
-                      return controller.text.isNotEmpty
-                          ? IconButton(
-                              onPressed: () => controller.clear(),
-                              icon: const Icon(
-                                Icons.clear_rounded,
-                                size: 20.0,
-                                color: AppColors.textSub,
-                              ),
-                            )
-                          : const SizedBox.shrink();
-                    },
-                  ),
-                  filled: true,
-                  fillColor: AppColors.white,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                ),
+                hint: "URL do material...",
               ),
             ),
             const SizedBox(width: 8.0),
