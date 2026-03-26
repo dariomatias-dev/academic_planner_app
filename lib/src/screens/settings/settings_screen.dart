@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 
@@ -217,36 +216,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
         borderRadius: BorderRadius.circular(16.0),
         border: Border.all(color: AppColors.borderLight, width: 1.0),
       ),
-      child: ListTile(
-        onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 4.0,
-        ),
-        leading: Container(
-          width: 42.0,
-          height: 42.0,
-          decoration: BoxDecoration(
-            color: AppColors.bg,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          child: Icon(icon, color: AppColors.textMain, size: 20.0),
-        ),
-        title: Text(
-          title,
-          style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textMain,
-            fontSize: 15.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        trailing:
-            trailing ??
-            const Icon(
-              Icons.chevron_right_rounded,
-              color: AppColors.textSub,
-              size: 24.0,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16.0),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
             ),
+            child: Row(
+              children: <Widget>[
+                Container(
+                  width: 42.0,
+                  height: 42.0,
+                  decoration: BoxDecoration(
+                    color: AppColors.bg,
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Icon(icon, color: AppColors.textMain, size: 20.0),
+                ),
+                const SizedBox(width: 16.0),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.textMain,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                trailing ??
+                    const Icon(
+                      Icons.chevron_right_rounded,
+                      color: AppColors.textSub,
+                      size: 24.0,
+                    ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
