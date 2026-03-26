@@ -149,17 +149,20 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     controller: _titleController,
                     label: "Título da Tarefa",
                     hint: "O que deve ser feito?",
+                    isRequired: true,
                   ),
                   CreateTaskInputFieldWidget(
                     controller: _descriptionController,
                     label: "Descrição",
                     hint: "Mais detalhes...",
                     maxLines: 3,
+                    isRequired: true,
                   ),
                   const SizedBox(height: 32.0),
                   const CreateTaskSectionTitleWidget(title: "Classificação"),
                   CreateTaskDisciplinePickerWidget(
                     selectedDiscipline: _selectedDiscipline,
+                    isRequired: true,
                     onTap: () {
                       _unfocus();
                       ModalBottomSheetWidget.show(
@@ -180,6 +183,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   CreateTaskCategorySelectorWidget(
                     categories: _categories,
                     selectedCategory: _selectedCategory,
+                    isRequired: true,
                     onSelect: (category) {
                       return setState(() {
                         _selectedCategory = category;
@@ -206,6 +210,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   ),
                   CreateTaskDatePickerWidget(
                     dueDate: _dueDate,
+                    isRequired: true,
                     onTap: _selectDate,
                   ),
                   const SizedBox(height: 16.0),
@@ -248,11 +253,49 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   }
 }
 
+class CreateTaskLabelWidget extends StatelessWidget {
+  final String label;
+  final bool isRequired;
+  final double fontSize;
+
+  const CreateTaskLabelWidget({
+    super.key,
+    required this.label,
+    this.isRequired = false,
+    this.fontSize = 14.0,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(
+      TextSpan(
+        text: label,
+        style: GoogleFonts.plusJakartaSans(
+          color: AppColors.textMain,
+          fontSize: fontSize,
+          fontWeight: FontWeight.w700,
+        ),
+        children: <TextSpan>[
+          if (isRequired)
+            TextSpan(
+              text: ' *',
+              style: GoogleFonts.plusJakartaSans(
+                color: Colors.red,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
 class CreateTaskInputFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
   final int maxLines;
+  final bool isRequired;
 
   const CreateTaskInputFieldWidget({
     super.key,
@@ -260,6 +303,7 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
     required this.label,
     required this.hint,
     this.maxLines = 1,
+    this.isRequired = false,
   });
 
   @override
@@ -269,14 +313,7 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            label,
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
-              fontSize: 14.0,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          CreateTaskLabelWidget(label: label, isRequired: isRequired),
           const SizedBox(height: 8.0),
           TextField(
             controller: controller,
@@ -309,11 +346,13 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
 class CreateTaskDisciplinePickerWidget extends StatelessWidget {
   final DisciplineModel? selectedDiscipline;
   final VoidCallback onTap;
+  final bool isRequired;
 
   const CreateTaskDisciplinePickerWidget({
     super.key,
     this.selectedDiscipline,
     required this.onTap,
+    this.isRequired = false,
   });
 
   @override
@@ -321,14 +360,7 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "Disciplina",
-          style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textMain,
-            fontSize: 14.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
+        CreateTaskLabelWidget(label: "Disciplina", isRequired: isRequired),
         const SizedBox(height: 8.0),
         GestureDetector(
           onTap: onTap,
@@ -423,6 +455,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
   final String selectedCategory;
   final Function(String value) onSelect;
   final VoidCallback onCreate;
+  final bool isRequired;
 
   const CreateTaskCategorySelectorWidget({
     super.key,
@@ -430,6 +463,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
     required this.selectedCategory,
     required this.onSelect,
     required this.onCreate,
+    this.isRequired = false,
   });
 
   @override
@@ -440,14 +474,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              "Categoria",
-              style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
+            CreateTaskLabelWidget(label: "Categoria"),
             GestureDetector(
               onTap: onCreate,
               child: Text(
@@ -558,11 +585,13 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
 class CreateTaskDatePickerWidget extends StatelessWidget {
   final DateTime? dueDate;
   final VoidCallback onTap;
+  final bool isRequired;
 
   const CreateTaskDatePickerWidget({
     super.key,
     this.dueDate,
     required this.onTap,
+    this.isRequired = false,
   });
 
   @override
@@ -594,14 +623,7 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Data de Entrega",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textSub,
-                    fontSize: 11.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+                CreateTaskLabelWidget(label: "Data de Entrega", fontSize: 11.0),
                 Text(
                   dueDate == null
                       ? "Definir prazo"
