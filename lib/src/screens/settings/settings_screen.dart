@@ -62,18 +62,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildSettingsTile(
               icon: Icons.notifications_none_rounded,
               title: "Notificações",
-              trailing: SwitchWidget(
-                value: _notificationsEnabled,
-                onChanged: (value) =>
-                    setState(() => _notificationsEnabled = value),
+              onTap: () {
+                setState(() {
+                  _notificationsEnabled = !_notificationsEnabled;
+                });
+              },
+              trailing: IgnorePointer(
+                child: SwitchWidget(
+                  value: _notificationsEnabled,
+                  onChanged: (value) {},
+                ),
               ),
             ),
             _buildSettingsTile(
               icon: Icons.dark_mode_outlined,
               title: "Modo Escuro",
-              trailing: SwitchWidget(
-                value: _darkMode,
-                onChanged: (value) => setState(() => _darkMode = value),
+              onTap: () {
+                setState(() {
+                  _darkMode = !_darkMode;
+                });
+              },
+              trailing: IgnorePointer(
+                child: SwitchWidget(value: _darkMode, onChanged: (value) {}),
               ),
             ),
             const SizedBox(height: 24.0),
