@@ -20,7 +20,9 @@ import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.da
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
 class CreateTaskScreen extends StatefulWidget {
-  const CreateTaskScreen({super.key});
+  final int? initialDisciplineId;
+
+  const CreateTaskScreen({super.key, this.initialDisciplineId});
 
   @override
   State<CreateTaskScreen> createState() => _CreateTaskScreenState();
@@ -126,6 +128,17 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
     if (_formKey.currentState?.validate() ?? false) {
       Navigator.pop(context);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.initialDisciplineId != null) {
+      _selectedDiscipline = adsDisciplines
+          .where((d) => d.id == widget.initialDisciplineId)
+          .firstOrNull;
     }
   }
 
