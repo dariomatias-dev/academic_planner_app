@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+
+import 'package:academic_planner/src/screens/about/about_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 
@@ -102,7 +104,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             _buildSettingsTile(
               icon: Icons.info_outline_rounded,
               title: "Sobre o App",
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutScreen()),
+                );
+              },
             ),
           ],
         ),
