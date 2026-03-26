@@ -30,14 +30,17 @@ class DisciplineCardWidget extends StatelessWidget {
         opacity: opacity,
         child: Container(
           margin: const EdgeInsets.only(bottom: 20.0),
-          height: 110.0,
+          height: 130.0,
           child: Stack(
             children: <Widget>[
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(24.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0,
+                    vertical: 20.0,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(28.0),
@@ -70,11 +73,11 @@ class DisciplineCardWidget extends StatelessWidget {
                               style: GoogleFonts.plusJakartaSans(
                                 color: AppColors.primary,
                                 fontWeight: FontWeight.w800,
-                                fontSize: 12.0,
+                                fontSize: 11.0,
                                 letterSpacing: 1.0,
                               ),
                             ),
-                            const SizedBox(height: 4.0),
+                            const SizedBox(height: 2.0),
                             Text(
                               discipline.name,
                               style: GoogleFonts.plusJakartaSans(
@@ -83,8 +86,47 @@ class DisciplineCardWidget extends StatelessWidget {
                                 fontSize: 16.0,
                                 height: 1.2,
                               ),
-                              maxLines: 2,
+                              maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 8.0),
+                            Row(
+                              children: <Widget>[
+                                Icon(
+                                  Icons.calendar_today_rounded,
+                                  size: 14.0,
+                                  color: AppColors.textSub.withAlpha(180),
+                                ),
+                                const SizedBox(width: 6.0),
+                                Text(
+                                  "${discipline.period}º Período",
+                                  style: GoogleFonts.plusJakartaSans(
+                                    color: AppColors.textSub,
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                const SizedBox(width: 16.0),
+                                Icon(
+                                  Icons.person_outline_rounded,
+                                  size: 16.0,
+                                  color: AppColors.textSub.withAlpha(180),
+                                ),
+                                const SizedBox(width: 6.0),
+                                Expanded(
+                                  child: Text(
+                                    discipline.responsibleProfessorId
+                                        .toString(),
+                                    style: GoogleFonts.plusJakartaSans(
+                                      color: AppColors.textSub,
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
