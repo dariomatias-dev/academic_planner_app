@@ -45,6 +45,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
   @override
   void dispose() {
     _tabController.dispose();
+
     super.dispose();
   }
 
@@ -63,14 +64,22 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
       floatingActionButton: _showFab
           ? FloatingActionButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return CreateTaskScreen();
-                    },
-                  ),
-                );
+                switch (_tabController.index) {
+                  case 0:
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return CreateTaskScreen(
+                            initialDisciplineId: widget.discipline.id,
+                          );
+                        },
+                      ),
+                    );
+                    break;
+                  case 1:
+                    break;
+                }
               },
               backgroundColor: AppColors.primary,
               shape: RoundedRectangleBorder(
