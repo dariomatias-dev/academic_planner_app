@@ -15,6 +15,7 @@ import 'package:academic_planner/src/screens/create_task/widgets/create_task_rem
 import 'package:academic_planner/src/screens/create_task/widgets/create_task_section_title_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
@@ -367,72 +368,6 @@ class CreateTaskLabelWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskInputWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
-  final int maxLines;
-  final Widget? suffix;
-  final String? Function(String? value)? validator;
-
-  const CreateTaskInputWidget({
-    super.key,
-    required this.controller,
-    required this.hint,
-    this.maxLines = 1,
-    this.suffix,
-    this.validator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      maxLines: maxLines,
-      validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: GoogleFonts.plusJakartaSans(
-        color: AppColors.textMain,
-        fontWeight: FontWeight.w600,
-      ),
-      decoration: InputDecoration(
-        hintText: hint,
-        hintStyle: GoogleFonts.plusJakartaSans(
-          color: AppColors.textSub.withAlpha(100),
-          fontWeight: FontWeight.w500,
-        ),
-        errorStyle: GoogleFonts.plusJakartaSans(
-          color: Colors.red.shade700,
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
-        suffixIcon:
-            suffix ??
-            ListenableBuilder(
-              listenable: controller,
-              builder: (context, child) {
-                if (controller.text.isEmpty) return const SizedBox.shrink();
-
-                return IconButton(
-                  onPressed: controller.clear,
-                  icon: const Icon(
-                    Icons.clear_rounded,
-                    size: 20.0,
-                    color: AppColors.textSub,
-                  ),
-                );
-              },
-            ),
-        filled: true,
-        fillColor: AppColors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.all(16.0),
-      ),
-    );
-  }
-}
 
 class CreateTaskInputFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -461,7 +396,7 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
         children: <Widget>[
           CreateTaskLabelWidget(label: label, isRequired: isRequired),
           const SizedBox(height: 8.0),
-          CreateTaskInputWidget(
+          InputWidget(
             controller: controller,
             hint: hint,
             maxLines: maxLines,
@@ -874,7 +809,7 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Expanded(
-              child: CreateTaskInputWidget(
+              child: InputWidget(
                 controller: controller,
                 hint: "URL do material...",
                 validator: AppValidators.url,
