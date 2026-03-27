@@ -9,7 +9,7 @@ import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_per
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {

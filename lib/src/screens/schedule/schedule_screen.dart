@@ -7,8 +7,7 @@ import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/utils/image_export.dart';
-import 'package:academic_planner/src/shared/widgets/back_icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view_widget.dart';
 
 class ScheduleScreen extends StatefulWidget {

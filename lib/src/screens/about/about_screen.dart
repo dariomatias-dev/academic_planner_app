@@ -3,8 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-import 'package:academic_planner/src/shared/widgets/back_icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});

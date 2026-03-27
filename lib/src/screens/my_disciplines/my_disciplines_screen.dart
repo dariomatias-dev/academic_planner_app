@@ -9,7 +9,7 @@ import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
