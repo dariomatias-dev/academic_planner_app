@@ -15,6 +15,7 @@ import 'package:academic_planner/src/screens/create_task/widgets/create_task_rem
 import 'package:academic_planner/src/screens/create_task/widgets/create_task_section_title_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
@@ -368,7 +369,6 @@ class CreateTaskLabelWidget extends StatelessWidget {
   }
 }
 
-
 class CreateTaskInputFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
@@ -623,22 +623,10 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
           children: availableTags.builder((tag, index) {
             final isSelected = selectedTags.contains(tag);
 
-            return FilterChip(
-              label: Text(tag),
-              selected: isSelected,
+            return FilterChipWidget(
+              label: tag,
+              isSelected: isSelected,
               onSelected: (value) => onToggle(tag, value),
-              backgroundColor: AppColors.white,
-              selectedColor: AppColors.primary,
-              checkmarkColor: AppColors.white,
-              labelStyle: GoogleFonts.plusJakartaSans(
-                color: isSelected ? AppColors.white : AppColors.textSub,
-                fontWeight: FontWeight.w700,
-                fontSize: 12.0,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.0),
-                side: BorderSide.none,
-              ),
             );
           }),
         ),
