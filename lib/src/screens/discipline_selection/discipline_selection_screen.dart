@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -81,21 +82,9 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       _buildSelectionSummary(),
-                      TabBar(
+                      TabBarWidget(
                         controller: _mainTabController,
-                        labelColor: AppColors.primary,
-                        unselectedLabelColor: AppColors.textSub,
-                        indicatorColor: AppColors.primary,
-                        indicatorWeight: 3.0,
-                        labelStyle: GoogleFonts.plusJakartaSans(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 14.0,
-                        ),
-                        unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0,
-                        ),
-                        tabs: const <Widget>[
+                        tabs: const <Tab>[
                           Tab(text: "Minha Grade"),
                           Tab(text: "Adicionar"),
                         ],
