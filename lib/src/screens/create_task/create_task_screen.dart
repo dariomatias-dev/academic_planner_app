@@ -9,7 +9,6 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/create_task/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/create_task/widgets/create_tag_dialog_widget.dart';
-import 'package:academic_planner/src/screens/create_task/widgets/create_task_category_selector/create_task_category_selector_item_widget.dart';
 import 'package:academic_planner/src/screens/create_task/widgets/create_task_header_widget.dart';
 import 'package:academic_planner/src/screens/create_task/widgets/create_task_reminders/create_task_reminder_widget.dart';
 import 'package:academic_planner/src/screens/create_task/widgets/create_task_section_title_widget.dart';
@@ -18,6 +17,7 @@ import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
+import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
@@ -561,7 +561,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
             children: categories.builder((category, index) {
               final isSelected = selectedCategory == category;
 
-              return CreateTaskCategorySelectorItemWidget(
+              return SelectableChipWidget(
                 onTap: () => onSelect(category),
                 label: category,
                 isSelected: isSelected,

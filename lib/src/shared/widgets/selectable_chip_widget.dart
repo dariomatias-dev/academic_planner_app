@@ -3,12 +3,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-class CreateTaskCategorySelectorItemWidget extends StatelessWidget {
+class SelectableChipWidget extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
   final bool isSelected;
 
-  const CreateTaskCategorySelectorItemWidget({
+  const SelectableChipWidget({
     super.key,
     required this.onTap,
     required this.label,
