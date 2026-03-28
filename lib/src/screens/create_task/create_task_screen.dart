@@ -557,6 +557,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
+            spacing: 8.0,
             children: categories.builder((category, index) {
               final isSelected = selectedCategory == category;
 
