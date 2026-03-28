@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
@@ -12,6 +11,7 @@ import 'package:academic_planner/src/screens/discipline_details/widgets/discipli
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
   const DisciplineDetailsScreen({super.key, required this.discipline});
@@ -106,21 +106,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               SliverPersistentHeader(
                 pinned: true,
                 delegate: DisciplineDetailsTabBarDelegate(
-                  TabBar(
+                  TabBarWidget(
                     controller: _tabController,
-                    labelColor: AppColors.primary,
-                    unselectedLabelColor: AppColors.textSub,
-                    indicatorColor: AppColors.primary,
-                    indicatorWeight: 3.0,
-                    labelStyle: GoogleFonts.plusJakartaSans(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 14.0,
-                    ),
-                    unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.0,
-                    ),
-                    tabs: const <Widget>[
+                    tabs: const <Tab>[
                       Tab(text: "Tarefas"),
                       Tab(text: "Anotações"),
                       Tab(text: "Sobre"),

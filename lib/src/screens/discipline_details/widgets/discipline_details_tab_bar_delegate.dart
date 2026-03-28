@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 
 class DisciplineDetailsTabBarDelegate extends SliverPersistentHeaderDelegate {
-  DisciplineDetailsTabBarDelegate(this.tabBar);
+  final PreferredSizeWidget tabBar;
 
-  final TabBar tabBar;
+  DisciplineDetailsTabBarDelegate(this.tabBar);
 
   @override
   double get minExtent => tabBar.preferredSize.height;
@@ -19,11 +19,15 @@ class DisciplineDetailsTabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return Container(color: AppColors.white, child: tabBar);
+    return Container(
+      color: AppColors.white,
+      height: tabBar.preferredSize.height,
+      child: tabBar,
+    );
   }
 
   @override
-  bool shouldRebuild(DisciplineDetailsTabBarDelegate oldDelegate) {
-    return false;
+  bool shouldRebuild(covariant DisciplineDetailsTabBarDelegate oldDelegate) {
+    return oldDelegate.tabBar != tabBar;
   }
 }
