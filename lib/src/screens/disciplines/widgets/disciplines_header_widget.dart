@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
+
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+
 class DisciplinesHeaderWidget extends StatelessWidget {
   const DisciplinesHeaderWidget({super.key, required this.totalDisciplines});
 
@@ -35,24 +39,19 @@ class DisciplinesHeaderWidget extends StatelessWidget {
                   size: 20.0,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 6.0,
-                ),
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withAlpha(20),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Text(
-                  "$totalDisciplines DISCIPLINAS",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 10.0,
-                    letterSpacing: 0.5,
-                  ),
-                ),
+              IconButtonWidget(
+                icon: Icons.account_tree_rounded,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const ScheduleScreen();
+                      },
+                    ),
+                  );
+                },
+                style: IconButtonStyles.primary,
               ),
             ],
           ),
