@@ -5,7 +5,6 @@ import 'package:academic_planner/src/core/app_colors.dart';
 
 import 'package:academic_planner/src/screens/about/about_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
-import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
@@ -42,18 +41,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const DisciplinesScreen(),
-                  ),
-                );
-              },
-            ),
-            _buildSettingsTile(
-              icon: Icons.grid_on_rounded,
-              title: "Grade Curricular Geral",
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ScheduleScreen(),
                   ),
                 );
               },
