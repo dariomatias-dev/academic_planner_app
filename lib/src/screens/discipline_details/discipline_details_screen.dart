@@ -14,9 +14,14 @@ import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
-  const DisciplineDetailsScreen({super.key, required this.discipline});
-
   final DisciplineModel discipline;
+  final int? initialTabIndex;
+
+  const DisciplineDetailsScreen({
+    super.key,
+    required this.discipline,
+    this.initialTabIndex,
+  });
 
   @override
   State<DisciplineDetailsScreen> createState() =>
@@ -25,7 +30,11 @@ class DisciplineDetailsScreen extends StatefulWidget {
 
 class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
     with SingleTickerProviderStateMixin {
-  late final _tabController = TabController(length: 3, vsync: this);
+  late final _tabController = TabController(
+    length: 3,
+    vsync: this,
+    initialIndex: widget.initialTabIndex ?? 0,
+  );
 
   bool _showFab = true;
 
