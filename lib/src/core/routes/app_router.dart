@@ -1,6 +1,5 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/root_navigation.dart';
 import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/core/routes/route_paths.dart';
@@ -89,9 +88,7 @@ class AppRouter {
                   int.tryParse(state.uri.queryParameters['tab'] ?? '0') ?? 0;
 
               return DisciplineDetailsScreen(
-                discipline: adsDisciplines.firstWhere(
-                  (d) => d.id == disciplineId,
-                ),
+                disciplineId: disciplineId,
                 initialTabIndex: initialTabIndex,
               );
             },

@@ -10,16 +10,15 @@ import 'package:academic_planner/src/screens/discipline_details/widgets/discipli
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_header_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
-  final DisciplineModel discipline;
+  final int disciplineId;
   final int? initialTabIndex;
 
   const DisciplineDetailsScreen({
     super.key,
-    required this.discipline,
+    required this.disciplineId,
     this.initialTabIndex,
   });
 
@@ -60,12 +59,16 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    final prerequisitesList = adsDisciplines.filter(
-      (d) => widget.discipline.prerequisites.contains(d.id),
+    final discipline = adsDisciplines.firstWhere(
+      (discipline) => discipline.id == widget.disciplineId,
     );
 
-    final prerequisiteForList = adsDisciplines.filter(
-      (d) => widget.discipline.prerequisiteFor.contains(d.id),
+    final prerequisites = adsDisciplines.filter(
+      (discipline) => discipline.prerequisites.contains(discipline.id),
+    );
+
+    final prerequisiteFor = adsDisciplines.filter(
+      (discipline) => discipline.prerequisiteFor.contains(discipline.id),
     );
 
     return Scaffold(
@@ -77,7 +80,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                   case 0:
                     AppRoutes.goToCreateTask(
                       context,
-                      disciplineId: widget.discipline.id,
+                      disciplineId: discipline.id,
                     );
                     break;
                   case 1:
@@ -101,9 +104,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
             return <Widget>[
               SliverToBoxAdapter(
                 child: DisciplineDetailsHeaderWidget(
-                  acronym: widget.discipline.acronym,
-                  name: widget.discipline.name,
-                  period: widget.discipline.period,
+                  acronym: discipline.acronym,
+                  name: discipline.name,
+                  period: discipline.period,
                 ),
               ),
               SliverPersistentHeader(
@@ -135,9 +138,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                 message: "Você ainda não criou anotações para esta matéria.",
               ),
               DisciplineDetailsAboutTabWidget(
-                discipline: widget.discipline,
-                prerequisites: prerequisitesList,
-                prerequisiteFor: prerequisiteForList,
+                discipline: discipline,
+                prerequisites: prerequisites,
+                prerequisiteFor: prerequisiteFor,
               ),
             ],
           ),
