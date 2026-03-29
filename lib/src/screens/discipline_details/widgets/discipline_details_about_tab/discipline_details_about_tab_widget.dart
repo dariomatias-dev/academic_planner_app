@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
@@ -11,6 +9,10 @@ import 'package:academic_planner/src/screens/discipline_details/widgets/discipli
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 
 class DisciplineDetailsAboutTabWidget extends StatelessWidget {
+  final DisciplineModel discipline;
+  final List<DisciplineModel> prerequisites;
+  final List<DisciplineModel> prerequisiteFor;
+
   const DisciplineDetailsAboutTabWidget({
     super.key,
     required this.discipline,
@@ -18,14 +20,12 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
     required this.prerequisiteFor,
   });
 
-  final DisciplineModel discipline;
-  final List<DisciplineModel> prerequisites;
-  final List<DisciplineModel> prerequisiteFor;
-
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.white,
+      color: colorScheme.surface,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 40.0),
@@ -47,7 +47,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
               discipline.description,
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 15.0,
-                color: AppColors.textSub,
+                color: colorScheme.onSurface.withAlpha(160),
                 height: 1.6,
               ),
             ),
@@ -60,13 +60,13 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
             DisciplineDetailsRequirementExpandableTileWidget(
               label: "Pré-requisitos",
               linkedDisciplines: prerequisites,
-              color: AppColors.primary,
+              color: colorScheme.primary,
             ),
             const SizedBox(height: 12.0),
             DisciplineDetailsRequirementExpandableTileWidget(
               label: "Libera acesso para",
               linkedDisciplines: prerequisiteFor,
-              color: AppColors.accent,
+              color: colorScheme.secondary,
             ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(

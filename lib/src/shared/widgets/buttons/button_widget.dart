@@ -3,59 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-class ButtonStyles {
-  final Color backgroundColor;
-  final Color textColor;
-  final Color? borderColor;
-  final double elevation;
-  final Color? iconColor;
-  final Color? iconBackgroundColor;
-
-  const ButtonStyles({
-    required this.backgroundColor,
-    required this.textColor,
-    this.borderColor,
-    this.elevation = 0.0,
-    this.iconColor,
-    this.iconBackgroundColor,
-  });
-
-  static const primary = ButtonStyles(
-    backgroundColor: AppColors.primary,
-    textColor: AppColors.white,
-    iconColor: AppColors.white,
-  );
-
-  static final secondary = ButtonStyles(
-    backgroundColor: AppColors.primary.withAlpha(25),
-    textColor: AppColors.primary,
-    iconColor: AppColors.primary,
-  );
-
-  static const neutral = ButtonStyles(
-    backgroundColor: AppColors.bg,
-    textColor: AppColors.textMain,
-    borderColor: AppColors.borderMedium,
-  );
-
-  static const outline = ButtonStyles(
-    backgroundColor: Colors.transparent,
-    textColor: AppColors.primary,
-    borderColor: AppColors.primary,
-  );
-
-  static const destructive = ButtonStyles(
-    backgroundColor: Color(0xFFFEE2E2),
-    textColor: Color(0xFFDC2626),
-    iconColor: Color(0xFFDC2626),
-    iconBackgroundColor: Color(0xFFFECACA),
-  );
-
-  static const destructiveSolid = ButtonStyles(
-    backgroundColor: Color(0xFFDC2626),
-    textColor: AppColors.white,
-    iconColor: AppColors.white,
-  );
+enum AppButtonStyle {
+  primary,
+  secondary,
+  neutral,
+  outline,
+  destructive,
+  destructiveSolid,
 }
 
 class ButtonWidget extends StatelessWidget {
@@ -63,7 +17,7 @@ class ButtonWidget extends StatelessWidget {
   final VoidCallback onPressed;
   final IconData? icon;
   final IconData? trailingIcon;
-  final ButtonStyles style;
+  final AppButtonStyle style;
   final bool isFullWidth;
   final double height;
   final double fontSize;
@@ -78,7 +32,7 @@ class ButtonWidget extends StatelessWidget {
     required this.onPressed,
     this.icon,
     this.trailingIcon,
-    this.style = ButtonStyles.primary,
+    this.style = AppButtonStyle.primary,
     this.isFullWidth = false,
     this.height = 56.0,
     this.fontSize = 16.0,
@@ -90,6 +44,44 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    late Color backgroundColor;
+    late Color textColor;
+    Color? borderColor;
+    Color? iconBackgroundColor;
+
+    switch (style) {
+      case AppButtonStyle.primary:
+        backgroundColor = colorScheme.primary;
+        textColor = colorScheme.onPrimary;
+        break;
+      case AppButtonStyle.secondary:
+        backgroundColor = colorScheme.primary.withAlpha(25);
+        textColor = colorScheme.primary;
+        break;
+      case AppButtonStyle.neutral:
+        backgroundColor = theme.scaffoldBackgroundColor;
+        textColor = colorScheme.onSurface;
+        borderColor = theme.dividerTheme.color;
+        break;
+      case AppButtonStyle.outline:
+        backgroundColor = AppColors.transparent;
+        textColor = colorScheme.primary;
+        borderColor = colorScheme.primary;
+        break;
+      case AppButtonStyle.destructive:
+        backgroundColor = colorScheme.errorContainer;
+        textColor = colorScheme.error;
+        iconBackgroundColor = colorScheme.error.withAlpha(40);
+        break;
+      case AppButtonStyle.destructiveSolid:
+        backgroundColor = colorScheme.error;
+        textColor = colorScheme.onError;
+        break;
+    }
+
     return SizedBox(
       width: isFullWidth ? double.infinity : null,
       height: height,
@@ -97,13 +89,13 @@ class ButtonWidget extends StatelessWidget {
         onPressed: onPressed,
         style:
             ElevatedButton.styleFrom(
-              backgroundColor: style.backgroundColor,
-              foregroundColor: style.textColor,
-              elevation: style.elevation,
-              shadowColor: style.backgroundColor.withAlpha(50),
+              backgroundColor: backgroundColor,
+              foregroundColor: textColor,
+              elevation: 0.0,
+              shadowColor: backgroundColor.withAlpha(50),
               padding: padding ?? const EdgeInsets.symmetric(horizontal: 16.0),
-              side: style.borderColor != null
-                  ? BorderSide(color: style.borderColor!, width: 1.5)
+              side: borderColor != null
+                  ? BorderSide(color: borderColor, width: 1.5)
                   : BorderSide.none,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(borderRadius),
@@ -111,7 +103,7 @@ class ButtonWidget extends StatelessWidget {
             ).copyWith(
               overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return style.textColor.withAlpha(20);
+                  return textColor.withAlpha(20);
                 }
                 return null;
               }),
@@ -124,14 +116,10 @@ class ButtonWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                  color: style.iconBackgroundColor ?? Colors.transparent,
+                  color: iconBackgroundColor ?? AppColors.transparent,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  icon,
-                  size: 20.0,
-                  color: style.iconColor ?? style.textColor,
-                ),
+                child: Icon(icon, size: 20.0, color: textColor),
               ),
               const SizedBox(width: 12.0),
             ],
@@ -140,16 +128,12 @@ class ButtonWidget extends StatelessWidget {
               style: GoogleFonts.plusJakartaSans(
                 fontSize: fontSize,
                 fontWeight: fontWeight,
-                color: style.textColor,
+                color: textColor,
               ),
             ),
             if (trailingIcon != null) ...<Widget>[
               const Spacer(),
-              Icon(
-                trailingIcon,
-                size: 20.0,
-                color: style.iconColor ?? style.textColor,
-              ),
+              Icon(trailingIcon, size: 20.0, color: textColor),
             ],
           ],
         ),

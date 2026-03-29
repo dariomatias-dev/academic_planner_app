@@ -5,25 +5,20 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
 
 class NavBarWidget extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+
   const NavBarWidget({
     super.key,
     required this.selectedIndex,
     required this.onTap,
   });
 
-  final int selectedIndex;
-  final Function(int value) onTap;
-
-  double getAlignmentX(int index) {
-    if (index == 0) return -1.0;
-    if (index == 1) return -0.33;
-    if (index == 2) return 0.33;
-
-    return 1.0;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Positioned(
       bottom: 24.0,
       left: 24.0,
@@ -32,20 +27,23 @@ class NavBarWidget extends StatelessWidget {
         height: 76.0,
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(28.0),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: AppColors.black.withAlpha(15),
+              color: colorScheme.onSurface.withAlpha(15),
               blurRadius: 20.0,
               offset: const Offset(0.0, 8.0),
             ),
           ],
-          border: Border.all(color: AppColors.borderLight, width: 1.5),
+          border: Border.all(
+            color: theme.dividerTheme.color ?? AppColors.transparent,
+            width: 1.5,
+          ),
         ),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final itemWidth = (constraints.maxWidth) / 4.0;
+            final itemWidth = constraints.maxWidth / 4.0;
 
             return Stack(
               children: <Widget>[
@@ -53,12 +51,12 @@ class NavBarWidget extends StatelessWidget {
                   duration: const Duration(milliseconds: 350),
                   curve: Curves.easeInOutBack,
                   left: (itemWidth * selectedIndex) + 4.0,
-                  top: (76.0 - 56.0) / 2,
+                  top: (76.0 - 56.0) / 2.0,
                   child: Container(
                     width: itemWidth - 8.0,
                     height: 56.0,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withAlpha(31),
+                      color: colorScheme.primary.withAlpha(31),
                       borderRadius: BorderRadius.circular(20.0),
                     ),
                   ),

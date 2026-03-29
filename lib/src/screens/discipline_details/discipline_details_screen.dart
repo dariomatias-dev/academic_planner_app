@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
@@ -35,7 +34,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
     initialIndex: widget.initialTabIndex ?? 0,
   );
 
-  bool _showFab = true;
+  bool get _showFab => _tabController.index != 2;
 
   @override
   void initState() {
@@ -43,9 +42,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
 
     _tabController.addListener(() {
       if (!_tabController.indexIsChanging) {
-        setState(() {
-          _showFab = _tabController.index != 2;
-        });
+        setState(() {});
       }
     });
   }
@@ -59,6 +56,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final discipline = adsDisciplines.firstWhere(
       (discipline) => discipline.id == widget.disciplineId,
     );
@@ -72,7 +72,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
     );
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: theme.scaffoldBackgroundColor,
       floatingActionButton: _showFab
           ? FloatingActionButton(
               onPressed: () {
@@ -87,13 +87,13 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                     break;
                 }
               },
-              backgroundColor: AppColors.primary,
+              backgroundColor: colorScheme.primary,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.add_rounded,
-                color: AppColors.white,
+                color: colorScheme.onPrimary,
                 size: 32.0,
               ),
             )

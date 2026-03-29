@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 
 class DisciplineCardWidget extends StatelessWidget {
@@ -23,6 +21,8 @@ class DisciplineCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
       onTap: onTap,
       child: AnimatedOpacity(
@@ -42,11 +42,11 @@ class DisciplineCardWidget extends StatelessWidget {
                     vertical: 20.0,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: colorScheme.surface,
                     borderRadius: BorderRadius.circular(28.0),
                     boxShadow: <BoxShadow>[
                       BoxShadow(
-                        color: AppColors.black.withAlpha(12),
+                        color: colorScheme.onSurface.withAlpha(15),
                         blurRadius: 24.0,
                         offset: const Offset(0.0, 8.0),
                       ),
@@ -58,7 +58,7 @@ class DisciplineCardWidget extends StatelessWidget {
                         width: 4.0,
                         height: 40.0,
                         decoration: BoxDecoration(
-                          color: AppColors.primary,
+                          color: colorScheme.primary,
                           borderRadius: BorderRadius.circular(2.0),
                         ),
                       ),
@@ -71,7 +71,7 @@ class DisciplineCardWidget extends StatelessWidget {
                             Text(
                               discipline.acronym,
                               style: GoogleFonts.plusJakartaSans(
-                                color: AppColors.primary,
+                                color: colorScheme.primary,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 11.0,
                                 letterSpacing: 1.0,
@@ -81,7 +81,7 @@ class DisciplineCardWidget extends StatelessWidget {
                             Text(
                               discipline.name,
                               style: GoogleFonts.plusJakartaSans(
-                                color: AppColors.textMain,
+                                color: colorScheme.onSurface,
                                 fontWeight: FontWeight.w800,
                                 fontSize: 16.0,
                                 height: 1.2,
@@ -95,13 +95,13 @@ class DisciplineCardWidget extends StatelessWidget {
                                 Icon(
                                   Icons.calendar_today_rounded,
                                   size: 14.0,
-                                  color: AppColors.textSub.withAlpha(180),
+                                  color: colorScheme.onSurface.withAlpha(120),
                                 ),
                                 const SizedBox(width: 6.0),
                                 Text(
                                   "${discipline.period}º Período",
                                   style: GoogleFonts.plusJakartaSans(
-                                    color: AppColors.textSub,
+                                    color: colorScheme.onSurface.withAlpha(160),
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -110,7 +110,7 @@ class DisciplineCardWidget extends StatelessWidget {
                                 Icon(
                                   Icons.person_outline_rounded,
                                   size: 16.0,
-                                  color: AppColors.textSub.withAlpha(180),
+                                  color: colorScheme.onSurface.withAlpha(120),
                                 ),
                                 const SizedBox(width: 6.0),
                                 Expanded(
@@ -118,7 +118,9 @@ class DisciplineCardWidget extends StatelessWidget {
                                     discipline.responsibleProfessorId
                                         .toString(),
                                     style: GoogleFonts.plusJakartaSans(
-                                      color: AppColors.textSub,
+                                      color: colorScheme.onSurface.withAlpha(
+                                        160,
+                                      ),
                                       fontSize: 12.0,
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -134,7 +136,7 @@ class DisciplineCardWidget extends StatelessWidget {
                       trailing ??
                           Icon(
                             Icons.arrow_forward_ios_rounded,
-                            color: AppColors.textSub.withAlpha(80),
+                            color: colorScheme.onSurface.withAlpha(80),
                             size: 16.0,
                           ),
                     ],
@@ -149,7 +151,7 @@ class DisciplineCardWidget extends StatelessWidget {
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 60.0,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.primary.withAlpha(10),
+                    color: colorScheme.primary.withAlpha(20),
                   ),
                 ),
               ),

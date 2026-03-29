@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 
 class PdfViewerScreen extends StatefulWidget {
   final String url;
@@ -22,9 +22,9 @@ class PdfViewerScreen extends StatefulWidget {
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
-  final _pdfViewerKey = GlobalKey<SfPdfViewerState>();
-
-  final _pdfViewerController = PdfViewerController();
+  final GlobalKey<SfPdfViewerState> _pdfViewerKey =
+      GlobalKey<SfPdfViewerState>();
+  final PdfViewerController _pdfViewerController = PdfViewerController();
 
   bool _isLoading = true;
   bool _hasError = false;
@@ -48,27 +48,23 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   @override
   void dispose() {
     _hideTimer?.cancel();
-
     _pdfViewerController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBarWidget(label: widget.subtitle, title: widget.title),
       body: Column(
         children: <Widget>[
-          PdfViewerHeaderWidget(
-            onBack: () => Navigator.pop(context),
-            title: widget.title,
-            subtitle: widget.subtitle,
-          ),
           Container(
             height: 1.0,
             width: double.infinity,
-            color: AppColors.textMain.withAlpha(20),
+            color: colorScheme.onSurface.withAlpha(20),
           ),
           Expanded(
             child: Stack(
@@ -122,11 +118,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                             vertical: 6.0,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.textMain.withAlpha(230),
+                            color: colorScheme.onSurface.withAlpha(230),
                             borderRadius: BorderRadius.circular(30.0),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: AppColors.black.withAlpha(40),
+                                color: Colors.black.withAlpha(40),
                                 blurRadius: 12.0,
                                 offset: const Offset(0.0, 4.0),
                               ),
@@ -135,7 +131,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                           child: Text(
                             "$_currentPage / $_totalPages",
                             style: GoogleFonts.plusJakartaSans(
-                              color: AppColors.white,
+                              color: colorScheme.surface,
                               fontSize: 11.0,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 0.5,
@@ -154,91 +150,24 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   }
 }
 
-class PdfViewerHeaderWidget extends StatelessWidget {
-  final VoidCallback onBack;
-  final String title;
-  final String? subtitle;
-
-  const PdfViewerHeaderWidget({
-    super.key,
-    required this.onBack,
-    required this.title,
-    this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(16.0, 60.0, 16.0, 16.0),
-      color: AppColors.white,
-      child: Row(
-        children: <Widget>[
-          IconButton(
-            onPressed: onBack,
-            style: IconButton.styleFrom(
-              backgroundColor: AppColors.bg,
-              fixedSize: const Size(48.0, 48.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-            icon: const Icon(
-              Icons.chevron_left_rounded,
-              color: AppColors.textMain,
-              size: 28.0,
-            ),
-          ),
-          const SizedBox(width: 16.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                if (subtitle != null)
-                  Text(
-                    subtitle!.toUpperCase(),
-                    style: GoogleFonts.plusJakartaSans(
-                      color: AppColors.primary,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 0.8,
-                    ),
-                  ),
-                Text(
-                  title,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textMain,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w800,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class PdfViewerLoadingWidget extends StatelessWidget {
   const PdfViewerLoadingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.bg,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(
+            SizedBox(
               width: 24.0,
               height: 24.0,
               child: CircularProgressIndicator(
-                color: AppColors.primary,
+                color: colorScheme.primary,
                 strokeWidth: 3.0,
               ),
             ),
@@ -246,7 +175,7 @@ class PdfViewerLoadingWidget extends StatelessWidget {
             Text(
               "Carregando documento...",
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textSub,
+                color: colorScheme.onSurface.withAlpha(160),
                 fontSize: 13.0,
                 fontWeight: FontWeight.w600,
               ),
@@ -263,22 +192,24 @@ class PdfViewerErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.bg,
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Icon(
+            Icon(
               Icons.error_outline_rounded,
-              color: AppColors.dangerText,
+              color: colorScheme.error,
               size: 48.0,
             ),
             const SizedBox(height: 16.0),
             Text(
               "Erro ao carregar arquivo",
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
                 fontSize: 15.0,
                 fontWeight: FontWeight.w700,
               ),

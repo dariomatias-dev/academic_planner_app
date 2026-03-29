@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
@@ -25,13 +24,15 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final canGoBack = Navigator.canPop(context);
     final displayBackButton = showBackButton ?? canGoBack;
 
     return AppBar(
       automaticallyImplyLeading: false,
-      surfaceTintColor: AppColors.white,
-      backgroundColor: AppColors.white,
+      surfaceTintColor: colorScheme.surface,
+      backgroundColor: colorScheme.surface,
       elevation: 0.0,
       titleSpacing: 0.0,
       toolbarHeight: preferredSize.height,
@@ -41,8 +42,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             if (displayBackButton)
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
+              const Padding(
+                padding: EdgeInsets.only(right: 16.0),
                 child: BackIconButtonWidget(),
               ),
             Expanded(
@@ -54,7 +55,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     Text(
                       label!.toUpperCase(),
                       style: GoogleFonts.plusJakartaSans(
-                        color: AppColors.accent,
+                        color: colorScheme.primary,
                         fontSize: 10.0,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
@@ -64,7 +65,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     Text(
                       title!,
                       style: GoogleFonts.plusJakartaSans(
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w800,
                       ),

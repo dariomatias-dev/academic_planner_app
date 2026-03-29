@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/theme/theme_controller.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -16,22 +18,24 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
-  bool _darkMode = false;
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Provider.of<ThemeController>(context);
+
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const AppBarWidget(title: "Ajustes do App"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildProfileCard(),
+            _buildProfileCard(context),
             const SizedBox(height: 32.0),
-            _buildSectionTitle("Informações do Curso"),
+            _buildSectionTitle(context, "Informações do Curso"),
             _buildSettingsTile(
+              context,
               icon: Icons.list_alt_rounded,
               title: "Disciplinas do Curso",
               onTap: () {
@@ -39,8 +43,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
             const SizedBox(height: 24.0),
-            _buildSectionTitle("Preferências"),
+            _buildSectionTitle(context, "Preferências"),
             _buildSettingsTile(
+              context,
               icon: Icons.notifications_none_rounded,
               title: "Notificações",
               onTap: () {
@@ -56,32 +61,35 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             _buildSettingsTile(
+              context,
               icon: Icons.dark_mode_outlined,
               title: "Modo Escuro",
-              onTap: () {
-                setState(() {
-                  _darkMode = !_darkMode;
-                });
-              },
+              onTap: themeController.toggleTheme,
               trailing: IgnorePointer(
-                child: SwitchWidget(value: _darkMode, onChanged: (value) {}),
+                child: SwitchWidget(
+                  value: themeController.isDarkMode,
+                  onChanged: (value) {},
+                ),
               ),
             ),
             const SizedBox(height: 24.0),
-            _buildSectionTitle("Conta"),
+            _buildSectionTitle(context, "Conta"),
             _buildSettingsTile(
+              context,
               icon: Icons.person_outline_rounded,
               title: "Dados Pessoais",
               onTap: () {},
             ),
             const SizedBox(height: 24.0),
-            _buildSectionTitle("Suporte"),
+            _buildSectionTitle(context, "Suporte"),
             _buildSettingsTile(
+              context,
               icon: Icons.help_outline_rounded,
               title: "Central de Ajuda",
               onTap: () {},
             ),
             _buildSettingsTile(
+              context,
               icon: Icons.info_outline_rounded,
               title: "Sobre o App",
               onTap: () {
@@ -95,16 +103,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: AppColors.borderMedium, width: 1.5),
+        border: Border.all(
+          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+          width: 1.5,
+        ),
         boxShadow: <BoxShadow>[
           BoxShadow(
-            color: AppColors.textMain.withAlpha(10),
+            color: colorScheme.onSurface.withAlpha(10),
             blurRadius: 20.0,
             offset: const Offset(0.0, 10.0),
           ),
@@ -116,16 +129,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
             width: 64.0,
             height: 64.0,
             decoration: BoxDecoration(
-              color: AppColors.primary.withAlpha(25),
+              color: colorScheme.primary.withAlpha(25),
               shape: BoxShape.circle,
               border: Border.all(
-                color: AppColors.primary.withAlpha(50),
+                color: colorScheme.primary.withAlpha(50),
                 width: 2.0,
               ),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.person_rounded,
-              color: AppColors.primary,
+              color: colorScheme.primary,
               size: 32.0,
             ),
           ),
@@ -137,7 +150,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   "John Doe",
                   style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textMain,
+                    color: colorScheme.onSurface,
                     fontSize: 18.0,
                     fontWeight: FontWeight.w800,
                   ),
@@ -145,7 +158,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Text(
                   "john.doe@university.com",
                   style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textSub,
+                    color: colorScheme.onSurface.withAlpha(160),
                     fontSize: 13.0,
                     fontWeight: FontWeight.w600,
                   ),
@@ -156,14 +169,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
           IconButton(
             onPressed: () {},
             style: IconButton.styleFrom(
-              backgroundColor: AppColors.bg,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),
             ),
-            icon: const Icon(
+            icon: Icon(
               Icons.edit_rounded,
-              color: AppColors.primary,
+              color: colorScheme.primary,
               size: 20.0,
             ),
           ),
@@ -172,13 +185,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title) {
+  Widget _buildSectionTitle(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 12.0),
       child: Text(
         title.toUpperCase(),
         style: GoogleFonts.plusJakartaSans(
-          color: AppColors.textSub,
+          color: Theme.of(context).colorScheme.onSurface.withAlpha(160),
           fontSize: 11.0,
           fontWeight: FontWeight.w900,
           letterSpacing: 1.5,
@@ -187,21 +200,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildSettingsTile({
+  Widget _buildSettingsTile(
+    BuildContext context, {
     required IconData icon,
     required String title,
     Widget? trailing,
     VoidCallback? onTap,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12.0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: AppColors.borderLight, width: 1.0),
+        border: Border.all(
+          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+          width: 1.0,
+        ),
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(16.0),
@@ -216,26 +235,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   width: 42.0,
                   height: 42.0,
                   decoration: BoxDecoration(
-                    color: AppColors.bg,
+                    color: Theme.of(context).scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(12.0),
                   ),
-                  child: Icon(icon, color: AppColors.textMain, size: 20.0),
+                  child: Icon(icon, color: colorScheme.onSurface, size: 20.0),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     title,
                     style: GoogleFonts.plusJakartaSans(
-                      color: AppColors.textMain,
+                      color: colorScheme.onSurface,
                       fontSize: 15.0,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 trailing ??
-                    const Icon(
+                    Icon(
                       Icons.chevron_right_rounded,
-                      color: AppColors.textSub,
+                      color: colorScheme.onSurface.withAlpha(160),
                       size: 24.0,
                     ),
               ],

@@ -24,11 +24,13 @@ class ModalBottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 24.0),
-      decoration: const BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(32.0)),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32.0)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -37,7 +39,9 @@ class ModalBottomSheetWidget extends StatelessWidget {
             width: 40.0,
             height: 4.0,
             decoration: BoxDecoration(
-              color: AppColors.borderMedium,
+              color:
+                  Theme.of(context).dividerTheme.color ??
+                  colorScheme.onSurface.withAlpha(30),
               borderRadius: BorderRadius.circular(2.0),
             ),
           ),
@@ -46,7 +50,7 @@ class ModalBottomSheetWidget extends StatelessWidget {
             Text(
               title!,
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
                 fontSize: 18.0,
                 fontWeight: FontWeight.w800,
               ),

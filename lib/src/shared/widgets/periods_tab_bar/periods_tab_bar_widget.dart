@@ -5,19 +5,21 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
 
 class PeriodsTabBarWidget extends StatelessWidget {
+  final TabController controller;
+  final List<int> periods;
+
   const PeriodsTabBarWidget({
     super.key,
     required this.controller,
     required this.periods,
   });
 
-  final TabController controller;
-  final List<int> periods;
-
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      color: AppColors.white,
+      color: colorScheme.surface,
       padding: const EdgeInsets.only(bottom: 16.0),
       child: TabBar(
         controller: controller,
@@ -29,7 +31,7 @@ class PeriodsTabBarWidget extends StatelessWidget {
         splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-        tabs: List.generate(periods.length, (index) {
+        tabs: List<Widget>.generate(periods.length, (index) {
           final period = periods[index];
 
           return Tab(

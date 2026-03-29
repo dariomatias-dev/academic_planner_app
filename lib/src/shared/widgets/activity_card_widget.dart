@@ -14,8 +14,11 @@ class ActivityCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final disc = adsDisciplines.firstWhere(
-      (d) => d.id == activity.disciplineId,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    final disciplines = adsDisciplines.firstWhere(
+      (disciplines) => disciplines.id == activity.disciplineId,
     );
     final isHighPriority = activity.priority == "Alta";
 
@@ -23,9 +26,12 @@ class ActivityCardWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: AppColors.borderLight),
+        border: Border.all(
+          color: theme.dividerTheme.color ?? AppColors.transparent,
+          width: 1.0,
+        ),
       ),
       child: Row(
         children: <Widget>[
@@ -33,14 +39,14 @@ class ActivityCardWidget extends StatelessWidget {
             width: 50.0,
             height: 50.0,
             decoration: BoxDecoration(
-              color: AppColors.bg,
+              color: theme.scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Center(
               child: Text(
-                disc.acronym,
-                style: const TextStyle(
-                  color: AppColors.primary,
+                disciplines.acronym,
+                style: TextStyle(
+                  color: colorScheme.primary,
                   fontWeight: FontWeight.w800,
                   fontSize: 12.0,
                 ),
@@ -57,13 +63,13 @@ class ActivityCardWidget extends StatelessWidget {
                   style: GoogleFonts.plusJakartaSans(
                     fontWeight: FontWeight.w700,
                     fontSize: 15.0,
-                    color: AppColors.textMain,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 Text(
                   DateFormat('dd MMM').format(activity.deadline),
-                  style: const TextStyle(
-                    color: AppColors.textSub,
+                  style: TextStyle(
+                    color: colorScheme.onSurface.withAlpha(160),
                     fontSize: 13.0,
                   ),
                 ),
@@ -77,13 +83,13 @@ class ActivityCardWidget extends StatelessWidget {
                 vertical: 4.0,
               ),
               decoration: BoxDecoration(
-                color: AppColors.dangerBg,
+                color: colorScheme.errorContainer,
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: const Text(
+              child: Text(
                 "URGENTE",
                 style: TextStyle(
-                  color: AppColors.dangerText,
+                  color: colorScheme.error,
                   fontSize: 10.0,
                   fontWeight: FontWeight.w900,
                 ),

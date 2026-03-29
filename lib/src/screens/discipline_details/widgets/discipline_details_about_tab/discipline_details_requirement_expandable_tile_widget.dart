@@ -52,24 +52,27 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
   @override
   void dispose() {
     expandController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final hasDisciplines = widget.linkedDisciplines.isNotEmpty;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Column(
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-            color: AppColors.bg.withAlpha(100),
+            color: colorScheme.surface.withAlpha(100),
             borderRadius: BorderRadius.circular(20.0),
-            border: Border.all(color: AppColors.borderLight),
+            border: Border.all(
+              color: theme.dividerTheme.color ?? AppColors.transparent,
+            ),
           ),
           child: Material(
-            color: Colors.transparent,
+            color: AppColors.transparent,
             child: InkWell(
               onTap: hasDisciplines ? toggleExpansion : null,
               borderRadius: BorderRadius.circular(20.0),
@@ -83,7 +86,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                       style: GoogleFonts.plusJakartaSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 14.0,
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     Row(

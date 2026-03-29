@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
 
-  TextStyle _textStyle({
+  TextStyle _textStyle(
+    BuildContext context, {
     double size = 14.0,
-    Color color = AppColors.textMain,
+    Color? color,
     FontWeight weight = FontWeight.w500,
     double? spacing,
     double? height,
   }) {
     return GoogleFonts.plusJakartaSans(
       fontSize: size,
-      color: color,
+      color: color ?? Theme.of(context).colorScheme.onSurface,
       fontWeight: weight,
       letterSpacing: spacing,
       height: height,
@@ -28,7 +27,7 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         label: "Apresentação",
         title: "Sobre o App",
@@ -36,7 +35,7 @@ class AboutScreen extends StatelessWidget {
           IconButtonWidget(
             icon: Icons.share_rounded,
             onPressed: () {},
-            style: IconButtonStyles.primary,
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
@@ -45,18 +44,26 @@ class AboutScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _buildBrandingSection(),
-            _buildMetricBadges(),
+            _buildBrandingSection(context),
+            _buildMetricBadges(context),
             const SizedBox(height: 48.0),
-            _buildMissionStatement(),
+            _buildMissionStatement(context),
             const SizedBox(height: 56.0),
-            _buildSection("Funcionalidades", _buildBenefitList()),
+            _buildSection(
+              context,
+              "Funcionalidades",
+              _buildBenefitList(context),
+            ),
             const SizedBox(height: 64.0),
-            _buildSection("Especificações", _buildTechnicalSheet()),
+            _buildSection(
+              context,
+              "Especificações",
+              _buildTechnicalSheet(context),
+            ),
             const SizedBox(height: 64.0),
-            const Divider(color: AppColors.borderMedium, thickness: 1.0),
+            const Divider(),
             const SizedBox(height: 48.0),
-            _buildProfessionalFooter(),
+            _buildProfessionalFooter(context),
             const SizedBox(height: 48.0),
           ],
         ),
@@ -64,15 +71,16 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSection(String title, Widget content) {
+  Widget _buildSection(BuildContext context, String title, Widget content) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
           title.toUpperCase(),
           style: _textStyle(
+            context,
             size: 11.0,
-            color: AppColors.accent,
+            color: Theme.of(context).colorScheme.primary,
             weight: FontWeight.w900,
             spacing: 1.5,
           ),
@@ -83,7 +91,9 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBrandingSection() {
+  Widget _buildBrandingSection(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 48.0),
@@ -92,19 +102,19 @@ class AboutScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
-              color: AppColors.accent,
+              color: colorScheme.primary,
               borderRadius: BorderRadius.circular(24.0),
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: AppColors.accent.withAlpha(40),
+                  color: colorScheme.primary.withAlpha(40),
                   blurRadius: 24.0,
                   offset: const Offset(0.0, 8.0),
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.auto_stories_rounded,
-              color: AppColors.white,
+              color: colorScheme.onPrimary,
               size: 48.0,
             ),
           ),
@@ -112,6 +122,7 @@ class AboutScreen extends StatelessWidget {
           Text(
             "Academic Planner",
             style: _textStyle(
+              context,
               size: 28.0,
               weight: FontWeight.w900,
               spacing: -0.5,
@@ -121,7 +132,8 @@ class AboutScreen extends StatelessWidget {
           Text(
             "Gestão Educacional Inteligente",
             style: _textStyle(
-              color: AppColors.textSub,
+              context,
+              color: colorScheme.onSurface.withAlpha(160),
               weight: FontWeight.w600,
             ),
           ),
@@ -130,34 +142,37 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMetricBadges() {
+  Widget _buildMetricBadges(BuildContext context) {
     return Row(
       children: <Widget>[
-        _impactBadge("Foco", Icons.center_focus_strong_rounded),
+        _impactBadge(context, "Foco", Icons.center_focus_strong_rounded),
         const SizedBox(width: 12.0),
-        _impactBadge("Gestão", Icons.auto_graph_rounded),
+        _impactBadge(context, "Gestão", Icons.auto_graph_rounded),
         const SizedBox(width: 12.0),
-        _impactBadge("Eficaz", Icons.bolt_rounded),
+        _impactBadge(context, "Eficaz", Icons.bolt_rounded),
       ],
     );
   }
 
-  Widget _impactBadge(String label, IconData icon) {
+  Widget _impactBadge(BuildContext context, String label, IconData icon) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20.0),
         decoration: BoxDecoration(
-          color: AppColors.accent.withAlpha(15),
+          color: colorScheme.primary.withAlpha(20),
           borderRadius: BorderRadius.circular(24.0),
         ),
         child: Column(
           children: <Widget>[
-            Icon(icon, color: AppColors.primary, size: 28.0),
+            Icon(icon, color: colorScheme.primary, size: 28.0),
             const SizedBox(height: 12.0),
             Text(
               label,
               style: _textStyle(
-                color: AppColors.primary,
+                context,
+                color: colorScheme.primary,
                 weight: FontWeight.w800,
                 size: 13.0,
               ),
@@ -168,12 +183,13 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMissionStatement() {
+  Widget _buildMissionStatement(BuildContext context) {
     return Text(
       "Desenvolvido para transformar a rotina estudantil, o Academic Planner centraliza disciplinas, prazos e metas em uma interface direta. Nosso objetivo é reduzir a carga cognitiva, permitindo que você mantenha a atenção onde ela realmente importa.",
       textAlign: TextAlign.center,
       style: _textStyle(
-        color: AppColors.textSub,
+        context,
+        color: Theme.of(context).colorScheme.onSurface.withAlpha(160),
         weight: FontWeight.w500,
         size: 15.0,
         height: 1.8,
@@ -181,7 +197,8 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBenefitList() {
+  Widget _buildBenefitList(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final List<List<Object>> benefits = <List<Object>>[
       <Object>[
         "Acompanhamento de Evolução",
@@ -208,7 +225,11 @@ class AboutScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Icon(b[2] as IconData, color: AppColors.accent, size: 24.0),
+                  Icon(
+                    b[2] as IconData,
+                    color: colorScheme.primary,
+                    size: 24.0,
+                  ),
                   const SizedBox(width: 20.0),
                   Expanded(
                     child: Column(
@@ -217,6 +238,7 @@ class AboutScreen extends StatelessWidget {
                         Text(
                           b[0] as String,
                           style: _textStyle(
+                            context,
                             weight: FontWeight.w800,
                             size: 15.0,
                           ),
@@ -225,7 +247,8 @@ class AboutScreen extends StatelessWidget {
                         Text(
                           b[1] as String,
                           style: _textStyle(
-                            color: AppColors.textSub,
+                            context,
+                            color: colorScheme.onSurface.withAlpha(160),
                             size: 14.0,
                             height: 1.5,
                           ),
@@ -241,31 +264,48 @@ class AboutScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTechnicalSheet() {
+  Widget _buildTechnicalSheet(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20.0),
-        border: Border.all(color: AppColors.borderLight, width: 2.0),
+        border: Border.all(
+          color: theme.dividerTheme.color ?? Colors.transparent,
+          width: 1.0,
+        ),
       ),
       child: Column(
         children: <Widget>[
-          _infoRow("Versão Instalada", "1.0.0", false),
-          _infoRow("Plataforma Principal", "Android OS", false),
-          _infoRow("Tecnologia Base", "Flutter", true),
+          _infoRow(context, "Versão Instalada", "1.0.0", false),
+          _infoRow(context, "Plataforma Principal", "Android OS", false),
+          _infoRow(context, "Tecnologia Base", "Flutter", true),
         ],
       ),
     );
   }
 
-  Widget _infoRow(String label, String value, bool isLast) {
+  Widget _infoRow(
+    BuildContext context,
+    String label,
+    String value,
+    bool isLast,
+  ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 18.0),
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : const Border(
-                bottom: BorderSide(color: AppColors.borderLight, width: 1.5),
+            : Border(
+                bottom: BorderSide(
+                  color: theme.dividerTheme.color ?? Colors.transparent,
+                  width: 1.0,
+                ),
               ),
       ),
       child: Row(
@@ -274,36 +314,39 @@ class AboutScreen extends StatelessWidget {
           Text(
             label,
             style: _textStyle(
-              color: AppColors.textSub,
+              context,
+              color: colorScheme.onSurface.withAlpha(160),
               size: 13.0,
               weight: FontWeight.w600,
             ),
           ),
-          Text(value, style: _textStyle(size: 13.0, weight: FontWeight.w800)),
+          Text(
+            value,
+            style: _textStyle(context, size: 13.0, weight: FontWeight.w800),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildProfessionalFooter() {
+  Widget _buildProfessionalFooter(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         children: <Widget>[
-          const Icon(
-            Icons.verified_rounded,
-            color: AppColors.accent,
-            size: 24.0,
-          ),
+          Icon(Icons.verified_rounded, color: colorScheme.primary, size: 24.0),
           const SizedBox(height: 16.0),
           Text(
             "Academic Planner Professional",
-            style: _textStyle(size: 15.0, weight: FontWeight.w800),
+            style: _textStyle(context, size: 15.0, weight: FontWeight.w800),
           ),
           const SizedBox(height: 6.0),
           Text(
             "© 2026 Todos os direitos reservados",
             style: _textStyle(
-              color: AppColors.textSub.withAlpha(140),
+              context,
+              color: colorScheme.onSurface.withAlpha(100),
               size: 12.0,
               weight: FontWeight.w600,
             ),
@@ -313,7 +356,7 @@ class AboutScreen extends StatelessWidget {
             height: 4.0,
             width: 40.0,
             decoration: BoxDecoration(
-              color: AppColors.accent.withAlpha(40),
+              color: colorScheme.primary.withAlpha(40),
               borderRadius: BorderRadius.circular(2.0),
             ),
           ),

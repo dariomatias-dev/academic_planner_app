@@ -45,6 +45,9 @@ class _ScheduleScreenState extends State<ScheduleScreen>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final filteredEntries = schedules.filter((entry) {
       final discipline = adsDisciplines.firstWhere(
         (adsDiscipline) => adsDiscipline.id == entry.disciplineId,
@@ -54,7 +57,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     });
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         label: "CRONOGRAMA",
         title: "Grade de Aulas",
@@ -62,22 +65,25 @@ class _ScheduleScreenState extends State<ScheduleScreen>
           IconButtonWidget(
             icon: Icons.download_rounded,
             onPressed: _exportSchedule,
-            style: IconButtonStyles.primary,
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
       body: Column(
         children: <Widget>[
           Container(
-            decoration: const BoxDecoration(
-              color: AppColors.white,
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
               border: Border(
-                bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+                bottom: BorderSide(
+                  color: theme.dividerTheme.color ?? AppColors.transparent,
+                  width: 1.0,
+                ),
               ),
             ),
             child: PeriodsTabBarWidget(
               controller: _tabController,
-              periods: List.generate(6, (index) => index + 1),
+              periods: List<int>.generate(6, (index) => index + 1),
             ),
           ),
           Expanded(

@@ -11,10 +11,12 @@ class CreateCategoryDialogWidget extends StatefulWidget {
   const CreateCategoryDialogWidget({super.key, required this.onCategoryAdded});
 
   @override
-  State<CreateCategoryDialogWidget> createState() => _CreateCategoryDialogWidgetState();
+  State<CreateCategoryDialogWidget> createState() =>
+      _CreateCategoryDialogWidgetState();
 }
 
-class _CreateCategoryDialogWidgetState extends State<CreateCategoryDialogWidget> {
+class _CreateCategoryDialogWidgetState
+    extends State<CreateCategoryDialogWidget> {
   final _controller = TextEditingController();
 
   @override
@@ -26,6 +28,9 @@ class _CreateCategoryDialogWidgetState extends State<CreateCategoryDialogWidget>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return DialogWidget(
       title: "Nova Categoria",
       message: "Defina um novo grupo para suas atividades.",
@@ -36,13 +41,23 @@ class _CreateCategoryDialogWidgetState extends State<CreateCategoryDialogWidget>
             controller: _controller,
             decoration: InputDecoration(
               hintText: "Nome da categoria",
+              hintStyle: TextStyle(color: colorScheme.onSurface.withAlpha(100)),
               filled: true,
-              fillColor: AppColors.bg,
+              fillColor: theme.scaffoldBackgroundColor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide.none,
+                borderSide: BorderSide(
+                  color: theme.dividerTheme.color ?? AppColors.transparent,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16.0),
+                borderSide: BorderSide(
+                  color: theme.dividerTheme.color ?? AppColors.transparent,
+                ),
               ),
             ),
+            style: TextStyle(color: colorScheme.onSurface),
           ),
           const SizedBox(height: 40.0),
           Row(
@@ -50,7 +65,7 @@ class _CreateCategoryDialogWidgetState extends State<CreateCategoryDialogWidget>
               Expanded(
                 child: ButtonWidget(
                   onPressed: () => Navigator.pop(context),
-                  style: ButtonStyles.neutral,
+                  style: AppButtonStyle.neutral,
                   label: 'Cancelar',
                   isFullWidth: true,
                 ),

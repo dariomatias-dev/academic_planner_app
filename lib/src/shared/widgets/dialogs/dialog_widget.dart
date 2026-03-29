@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DialogWidget extends StatelessWidget {
   final String title;
   final String message;
@@ -21,9 +19,12 @@ class DialogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
-      backgroundColor: AppColors.white,
+      backgroundColor: colorScheme.surface,
       insetPadding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -35,12 +36,12 @@ class DialogWidget extends StatelessWidget {
                 width: 80.0,
                 height: 80.0,
                 decoration: BoxDecoration(
-                  color: (iconColor ?? AppColors.primary).withAlpha(15),
+                  color: (iconColor ?? colorScheme.primary).withAlpha(15),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   icon,
-                  color: iconColor ?? AppColors.primary,
+                  color: iconColor ?? colorScheme.primary,
                   size: 36.0,
                 ),
               ),
@@ -50,7 +51,7 @@ class DialogWidget extends StatelessWidget {
               title,
               textAlign: TextAlign.center,
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
                 fontSize: 22.0,
                 fontWeight: FontWeight.w800,
               ),
@@ -60,7 +61,7 @@ class DialogWidget extends StatelessWidget {
               message,
               textAlign: TextAlign.center,
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textSub,
+                color: colorScheme.onSurface.withAlpha(160),
                 fontSize: 15.0,
                 fontWeight: FontWeight.w500,
                 height: 1.5,

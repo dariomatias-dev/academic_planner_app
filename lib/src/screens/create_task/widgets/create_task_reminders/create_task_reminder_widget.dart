@@ -15,26 +15,30 @@ class CreateTaskReminderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
       decoration: BoxDecoration(
-        color: AppColors.white,
+        color: colorScheme.surface,
         borderRadius: BorderRadius.circular(14.0),
-        border: Border.all(color: AppColors.borderLight),
+        border: Border.all(
+          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          const Icon(
+          Icon(
             Icons.access_time_rounded,
-            color: AppColors.primary,
+            color: colorScheme.primary,
             size: 16.0,
           ),
           const SizedBox(width: 8.0),
           Text(
             time.format(context),
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
               fontSize: 13.0,
               fontWeight: FontWeight.w800,
             ),
@@ -44,7 +48,7 @@ class CreateTaskReminderWidget extends StatelessWidget {
             onTap: onRemove,
             child: Icon(
               Icons.close_rounded,
-              color: AppColors.textSub.withAlpha(150),
+              color: colorScheme.onSurface.withAlpha(150),
               size: 16.0,
             ),
           ),

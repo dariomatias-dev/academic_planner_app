@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DisciplineDetailsTabBarDelegate extends SliverPersistentHeaderDelegate {
   final PreferredSizeWidget tabBar;
 
@@ -20,7 +18,7 @@ class DisciplineDetailsTabBarDelegate extends SliverPersistentHeaderDelegate {
     bool overlapsContent,
   ) {
     return Container(
-      color: AppColors.white,
+      color: Theme.of(context).colorScheme.surface,
       height: tabBar.preferredSize.height,
       child: tabBar,
     );

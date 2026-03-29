@@ -158,7 +158,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         label: 'Atividade',
         title: "Criar Tarefa",
@@ -166,7 +166,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           IconButtonWidget(
             icon: Icons.check_rounded,
             onPressed: _saveTask,
-            style: IconButtonStyles.primary,
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
@@ -341,7 +341,7 @@ class CreateTaskLabelWidget extends StatelessWidget {
       TextSpan(
         text: label,
         style: GoogleFonts.plusJakartaSans(
-          color: AppColors.textMain,
+          color: Theme.of(context).colorScheme.onSurface,
           fontSize: fontSize,
           fontWeight: FontWeight.w700,
         ),
@@ -413,6 +413,8 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -423,14 +425,19 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(16.0),
+              border: Border.all(
+                color:
+                    Theme.of(context).dividerTheme.color ??
+                    AppColors.transparent,
+              ),
             ),
             child: Row(
               children: <Widget>[
-                const Icon(
+                Icon(
                   Icons.bookmark_border_rounded,
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   size: 20.0,
                 ),
                 const SizedBox(width: 12.0),
@@ -439,14 +446,17 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
                     selectedDiscipline?.name ?? "Selecione uma matéria",
                     style: GoogleFonts.plusJakartaSans(
                       color: selectedDiscipline == null
-                          ? AppColors.textSub
-                          : AppColors.textMain,
+                          ? colorScheme.onSurface.withAlpha(160)
+                          : colorScheme.onSurface,
                       fontWeight: FontWeight.w600,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                const Icon(Icons.expand_more_rounded, color: AppColors.textSub),
+                Icon(
+                  Icons.expand_more_rounded,
+                  color: colorScheme.onSurface.withAlpha(160),
+                ),
               ],
             ),
           ),
@@ -468,6 +478,7 @@ class CreateTaskDisciplineListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final enrolled = adsDisciplines.filter((discipline) {
       return studentEnrolledIds.contains(discipline.id);
     });
@@ -483,7 +494,7 @@ class CreateTaskDisciplineListWidget extends StatelessWidget {
           title: Text(
             discipline.name,
             style: GoogleFonts.plusJakartaSans(
-              color: isSelected ? AppColors.primary : AppColors.textMain,
+              color: isSelected ? colorScheme.primary : colorScheme.onSurface,
               fontSize: 14.0,
               fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
             ),
@@ -493,7 +504,7 @@ class CreateTaskDisciplineListWidget extends StatelessWidget {
             style: GoogleFonts.plusJakartaSans(fontSize: 12.0),
           ),
           trailing: isSelected
-              ? const Icon(Icons.check_circle_rounded, color: AppColors.primary)
+              ? Icon(Icons.check_circle_rounded, color: colorScheme.primary)
               : null,
           onTap: () {
             onSelected(discipline);
@@ -524,6 +535,8 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -536,7 +549,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
               child: Text(
                 "+ Nova Categoria",
                 style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   fontSize: 11.0,
                   fontWeight: FontWeight.w900,
                 ),
@@ -581,6 +594,8 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -590,7 +605,7 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
             Text(
               "Tags",
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
                 fontSize: 14.0,
                 fontWeight: FontWeight.w700,
               ),
@@ -600,7 +615,7 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
               child: Text(
                 "+ Nova Tag",
                 style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   fontSize: 11.0,
                   fontWeight: FontWeight.w900,
                 ),
@@ -641,26 +656,31 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(20.0),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(24.0),
-          border: Border.all(color: AppColors.borderLight),
+          border: Border.all(
+            color:
+                Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+          ),
         ),
         child: Row(
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
-                color: AppColors.primary.withAlpha(20),
+                color: colorScheme.primary.withAlpha(20),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.calendar_today_rounded,
-                color: AppColors.primary,
+                color: colorScheme.primary,
                 size: 24.0,
               ),
             ),
@@ -678,7 +698,7 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
                       ? "Definir prazo"
                       : DateFormat('dd / MM / yyyy').format(dueDate!),
                   style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textMain,
+                    color: colorScheme.onSurface,
                     fontSize: 16.0,
                     fontWeight: FontWeight.w800,
                   ),
@@ -686,9 +706,9 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const Icon(
+            Icon(
               Icons.edit_calendar_rounded,
-              color: AppColors.primary,
+              color: colorScheme.primary,
               size: 20.0,
             ),
           ],
@@ -712,6 +732,8 @@ class CreateTaskRemindersWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -721,7 +743,7 @@ class CreateTaskRemindersWidget extends StatelessWidget {
             Text(
               "Lembretes",
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
                 fontSize: 14.0,
                 fontWeight: FontWeight.w700,
               ),
@@ -731,7 +753,7 @@ class CreateTaskRemindersWidget extends StatelessWidget {
               child: Text(
                 "+ Novo Horário",
                 style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.primary,
+                  color: colorScheme.primary,
                   fontSize: 12.0,
                   fontWeight: FontWeight.w800,
                 ),
@@ -744,7 +766,7 @@ class CreateTaskRemindersWidget extends StatelessWidget {
           Text(
             "Nenhum lembrete definido.",
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textSub,
+              color: colorScheme.onSurface.withAlpha(160),
               fontSize: 12.0,
             ),
           )
@@ -780,6 +802,8 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -798,9 +822,9 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
             const SizedBox(width: 8.0),
             IconButton(
               onPressed: onAdd,
-              icon: const Icon(Icons.add_link_rounded, color: AppColors.white),
+              icon: Icon(Icons.add_link_rounded, color: colorScheme.onPrimary),
               style: IconButton.styleFrom(
-                backgroundColor: AppColors.primary,
+                backgroundColor: colorScheme.primary,
                 fixedSize: const Size(48.0, 48.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -818,15 +842,19 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 12.0),
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
-                    color: AppColors.white,
+                    color: colorScheme.surface,
                     borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: AppColors.borderLight),
+                    border: Border.all(
+                      color:
+                          Theme.of(context).dividerTheme.color ??
+                          AppColors.transparent,
+                    ),
                   ),
                   child: Row(
                     children: <Widget>[
-                      const Icon(
+                      Icon(
                         Icons.link_rounded,
-                        color: AppColors.primary,
+                        color: colorScheme.primary,
                         size: 18.0,
                       ),
                       const SizedBox(width: 12.0),
@@ -834,7 +862,7 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
                         child: Text(
                           link,
                           style: GoogleFonts.plusJakartaSans(
-                            color: AppColors.textMain,
+                            color: colorScheme.onSurface,
                             fontSize: 13.0,
                             fontWeight: FontWeight.w600,
                           ),
@@ -845,9 +873,9 @@ class CreateTaskLinksInputWidget extends StatelessWidget {
                       const SizedBox(width: 8.0),
                       GestureDetector(
                         onTap: () => onRemove(link),
-                        child: const Icon(
+                        child: Icon(
                           Icons.delete_outline_rounded,
-                          color: AppColors.textSub,
+                          color: colorScheme.onSurface.withAlpha(160),
                           size: 20.0,
                         ),
                       ),

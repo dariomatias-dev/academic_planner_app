@@ -17,21 +17,28 @@ class FilterChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return FilterChip(
       label: Text(label),
       selected: isSelected,
       onSelected: onSelected,
-      backgroundColor: AppColors.white,
-      selectedColor: AppColors.primary,
-      checkmarkColor: AppColors.white,
+      backgroundColor: colorScheme.surface,
+      selectedColor: colorScheme.primary,
+      checkmarkColor: colorScheme.onPrimary,
       labelStyle: GoogleFonts.plusJakartaSans(
-        color: isSelected ? AppColors.white : AppColors.textSub,
+        color: isSelected
+            ? colorScheme.onPrimary
+            : colorScheme.onSurface.withAlpha(160),
         fontWeight: FontWeight.w700,
         fontSize: 12.0,
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        side: BorderSide.none,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      side: BorderSide(
+        color: isSelected
+            ? colorScheme.primary
+            : (Theme.of(context).dividerTheme.color ?? AppColors.transparent),
+        width: 1.0,
       ),
     );
   }

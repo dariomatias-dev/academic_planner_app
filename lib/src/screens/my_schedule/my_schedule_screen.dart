@@ -7,10 +7,11 @@ import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/utils/image_export.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view_widget.dart';
 
-const studentEnrolledIds = {51, 52, 53, 54, 55};
+const Set<int> studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
 class MyScheduleScreen extends StatefulWidget {
   const MyScheduleScreen({super.key});
@@ -32,8 +33,11 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     final enrolledDisciplines = adsDisciplines.filter(
-      (d) => studentEnrolledIds.contains(d.id),
+      (discipline) => studentEnrolledIds.contains(discipline.id),
     );
 
     final enrolledEntries = schedules.filter(
@@ -41,65 +45,62 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
     );
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
-      body: SafeArea(
-        top: false,
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.fromLTRB(16.0, 60.0, 16.0, 24.0),
-              decoration: const BoxDecoration(
-                color: AppColors.white,
-                border: Border(
-                  bottom: BorderSide(color: AppColors.borderMedium, width: 1.0),
+      backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: AppBarWidget(
+        actions: <Widget>[
+          IconButtonWidget(
+            icon: Icons.download_rounded,
+            onPressed: _exportSchedule,
+            style: IconButtonStyle.primary,
+          ),
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
+            decoration: BoxDecoration(
+              color: colorScheme.surface,
+              border: Border(
+                bottom: BorderSide(
+                  color: theme.dividerTheme.color ?? AppColors.transparent,
+                  width: 1.0,
                 ),
               ),
-              child: Row(
-                children: <Widget>[
-                  const BackIconButtonWidget(),
-                  const SizedBox(width: 16.0),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "ESTUDANTE",
-                          style: GoogleFonts.plusJakartaSans(
-                            color: AppColors.primary,
-                            fontSize: 10.0,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Text(
-                          "Minha Grade",
-                          style: GoogleFonts.plusJakartaSans(
-                            color: AppColors.textMain,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  IconButtonWidget(
-                    icon: Icons.download_rounded,
-                    onPressed: _exportSchedule,
-                    style: IconButtonStyles.primary,
-                  ),
-                ],
-              ),
             ),
-            Expanded(
-              child: ScheduleTableViewWidget(
-                repaintKey: _globalKey,
-                timeSlots: timeSlots,
-                entries: enrolledEntries,
-                disciplines: enrolledDisciplines,
-              ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "ESTUDANTE",
+                  style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.primary,
+                    fontSize: 10.0,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                Text(
+                  "Minha Grade",
+                  style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: ScheduleTableViewWidget(
+              repaintKey: _globalKey,
+              timeSlots: timeSlots,
+              entries: enrolledEntries,
+              disciplines: enrolledDisciplines,
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,10 +8,11 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
+import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {
   const DisciplineSelectionScreen({super.key});
@@ -69,21 +69,21 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     final headerHeight = isAddTab ? 128.0 : 48.0;
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.check_rounded,
             onPressed: () => Navigator.pop(context, _selectedIds),
-            style: IconButtonStyles.primary,
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
-            SliverToBoxAdapter(child: _buildTextHeader()),
+            SliverToBoxAdapter(child: _buildTextHeader(context)),
             SliverPersistentHeader(
               pinned: true,
               delegate: _SliverAppBarDelegate(
@@ -98,7 +98,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
                         Tab(text: "Adicionar"),
                       ],
                     ),
-                    if (isAddTab) _buildPeriodSelector(),
+                    if (isAddTab) _buildPeriodSelector(context),
                   ],
                 ),
               ),
@@ -108,26 +108,28 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
         body: TabBarView(
           controller: _mainTabController,
           children: <Widget>[
-            _buildMyGradeTab(selectedDisciplines),
-            _buildAddTabContent(),
+            _buildMyGradeTab(context, selectedDisciplines),
+            _buildAddTabContent(context),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTextHeader() {
+  Widget _buildTextHeader(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
-      decoration: const BoxDecoration(color: AppColors.white),
+      decoration: BoxDecoration(color: colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             "Configurar Grade",
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
               fontSize: 28.0,
               fontWeight: FontWeight.w900,
               letterSpacing: -0.5,
@@ -136,7 +138,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
           Text(
             "Gerencie as disciplinas do seu semestre",
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textSub,
+              color: colorScheme.onSurface.withAlpha(160),
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
             ),
@@ -146,10 +148,12 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     );
   }
 
-  Widget _buildPeriodSelector() {
+  Widget _buildPeriodSelector(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 80.0,
-      color: AppColors.white,
+      color: colorScheme.surface,
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: TabBar(
         controller: _periodTabController,
@@ -175,13 +179,18 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     );
   }
 
-  Widget _buildMyGradeTab(List<DisciplineModel> selected) {
+  Widget _buildMyGradeTab(
+    BuildContext context,
+    List<DisciplineModel> selected,
+  ) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     if (selected.isEmpty) {
       return Center(
         child: Text(
           "Nenhuma disciplina selecionada",
           style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textSub,
+            color: colorScheme.onSurface.withAlpha(160),
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -209,9 +218,9 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
           index: index,
           discipline: discipline,
           onTap: () => _toggleDiscipline(discipline.id),
-          trailing: const Icon(
+          trailing: Icon(
             Icons.remove_circle_outline_rounded,
-            color: AppColors.primary,
+            color: colorScheme.primary,
             size: 24.0,
           ),
         );
@@ -219,7 +228,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     );
   }
 
-  Widget _buildAddTabContent() {
+  Widget _buildAddTabContent(BuildContext context) {
     return TabBarView(
       controller: _periodTabController,
       children: _periods.builder((period, index) {
@@ -239,7 +248,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
               discipline: discipline,
               opacity: isSelected ? 1.0 : 0.4,
               onTap: () => _toggleDiscipline(discipline.id),
-              trailing: _buildCheckIcon(isSelected),
+              trailing: _buildCheckIcon(context, isSelected),
             );
           },
         );
@@ -247,21 +256,25 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     );
   }
 
-  Widget _buildCheckIcon(bool isSelected) {
+  Widget _buildCheckIcon(BuildContext context, bool isSelected) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       width: 28.0,
       height: 28.0,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primary : AppColors.transparent,
+        color: isSelected ? colorScheme.primary : AppColors.transparent,
         shape: BoxShape.circle,
         border: Border.all(
-          color: isSelected ? AppColors.primary : AppColors.borderMedium,
+          color: isSelected
+              ? colorScheme.primary
+              : Theme.of(context).dividerTheme.color ?? AppColors.transparent,
           width: 2.0,
         ),
       ),
       child: isSelected
-          ? const Icon(Icons.check_rounded, size: 18.0, color: AppColors.white)
+          ? Icon(Icons.check_rounded, size: 18.0, color: colorScheme.onPrimary)
           : null,
     );
   }
@@ -287,7 +300,7 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     return SizedBox(
       height: height,
       child: Container(
-        color: AppColors.white,
+        color: Theme.of(context).colorScheme.surface,
         child: SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: child,

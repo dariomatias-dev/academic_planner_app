@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 
 import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_widget.dart';
@@ -14,11 +13,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(24.0, 60.0, 24.0, 20.0),
+            padding: const EdgeInsets.fromLTRB(24.0, 60.0, 24.0, 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -30,25 +31,25 @@ class HomeScreen extends StatelessWidget {
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 26.0,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.textMain,
+                        color: colorScheme.onSurface,
                       ),
                     ),
                     Text(
                       "Vamos organizar seus estudos?",
                       style: GoogleFonts.plusJakartaSans(
                         fontSize: 14.0,
-                        color: AppColors.textSub,
+                        color: colorScheme.onSurface.withAlpha(160),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 25.0,
-                  backgroundColor: AppColors.white,
+                  backgroundColor: colorScheme.surface,
                   child: Icon(
                     Icons.person_outline_rounded,
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                   ),
                 ),
               ],
@@ -75,7 +76,7 @@ class HomeScreen extends StatelessWidget {
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textMain,
+                color: colorScheme.onSurface,
               ),
             ),
           ),

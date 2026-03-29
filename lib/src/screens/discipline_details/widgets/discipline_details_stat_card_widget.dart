@@ -17,19 +17,23 @@ class DisciplineDetailsStatCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       constraints: const BoxConstraints(minHeight: 100.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.bg.withAlpha(150),
+        color: colorScheme.surface.withAlpha(150),
         borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: AppColors.borderLight),
+        border: Border.all(
+          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Icon(icon, size: 18.0, color: AppColors.primary),
+          Icon(icon, size: 18.0, color: colorScheme.primary),
           const SizedBox(height: 8.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +45,7 @@ class DisciplineDetailsStatCardWidget extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                   fontWeight: FontWeight.w800,
                   fontSize: 13.0,
-                  color: AppColors.textMain,
+                  color: colorScheme.onSurface,
                   height: 1.2,
                 ),
               ),
@@ -51,7 +55,7 @@ class DisciplineDetailsStatCardWidget extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                   fontWeight: FontWeight.w500,
                   fontSize: 9.0,
-                  color: AppColors.textSub,
+                  color: colorScheme.onSurface.withAlpha(160),
                 ),
               ),
             ],

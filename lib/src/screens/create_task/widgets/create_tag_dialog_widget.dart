@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
@@ -26,6 +24,8 @@ class _CreateTagDialogWidgetState extends State<CreateTagDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return DialogWidget(
       title: "Nova Tag",
       message: "Crie uma etiqueta personalizada.",
@@ -37,7 +37,7 @@ class _CreateTagDialogWidgetState extends State<CreateTagDialogWidget> {
             decoration: InputDecoration(
               hintText: "Nome da tag",
               filled: true,
-              fillColor: AppColors.bg,
+              fillColor: theme.scaffoldBackgroundColor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16.0),
                 borderSide: BorderSide.none,
@@ -50,7 +50,7 @@ class _CreateTagDialogWidgetState extends State<CreateTagDialogWidget> {
               Expanded(
                 child: ButtonWidget(
                   onPressed: () => Navigator.pop(context),
-                  style: ButtonStyles.neutral,
+                  style: AppButtonStyle.neutral,
                   label: 'Cancelar',
                   isFullWidth: true,
                 ),

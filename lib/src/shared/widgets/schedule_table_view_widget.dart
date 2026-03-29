@@ -33,6 +33,10 @@ class ScheduleTableViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+
     return InteractiveViewer(
       constrained: false,
       minScale: 0.1,
@@ -44,9 +48,9 @@ class ScheduleTableViewWidget extends StatelessWidget {
           child: Container(
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: colorScheme.surface,
               borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(color: AppColors.borderMedium, width: 1.5),
+              border: Border.all(color: dividerColor, width: 1.5),
             ),
             child: Table(
               defaultVerticalAlignment: TableCellVerticalAlignment.middle,
@@ -60,23 +64,21 @@ class ScheduleTableViewWidget extends StatelessWidget {
               },
               children: <TableRow>[
                 TableRow(
-                  decoration: const BoxDecoration(color: AppColors.white),
+                  decoration: BoxDecoration(color: colorScheme.surface),
                   children: <Widget>[
-                    _buildHeaderCell("HORA"),
-                    ..._days.map(_buildHeaderCell),
+                    _buildHeaderCell(context, "HORA"),
+                    ..._days.map((day) => _buildHeaderCell(context, day)),
                   ],
                 ),
                 ...timeSlots.map((slot) {
                   if (slot.type != SlotType.classTime) {
                     return TableRow(
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withAlpha(10),
-                        border: const Border(
-                          bottom: BorderSide(color: AppColors.borderMedium),
-                        ),
+                        color: colorScheme.primary.withAlpha(20),
+                        border: Border(bottom: BorderSide(color: dividerColor)),
                       ),
                       children: <Widget>[
-                        _buildTimeCell(slot.label, isBreak: true),
+                        _buildTimeCell(context, slot.label, isBreak: true),
                         ...List<Widget>.generate(5, (index) {
                           if (index == 2) {
                             return Padding(
@@ -87,7 +89,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                                 child: Text(
                                   slot.label.toUpperCase(),
                                   style: GoogleFonts.plusJakartaSans(
-                                    color: AppColors.primary,
+                                    color: colorScheme.primary,
                                     fontSize: 10.0,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 2.0,
@@ -103,13 +105,13 @@ class ScheduleTableViewWidget extends StatelessWidget {
                   }
 
                   return TableRow(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(color: AppColors.borderLight),
+                        bottom: BorderSide(color: dividerColor.withAlpha(100)),
                       ),
                     ),
                     children: <Widget>[
-                      _buildTimeCell(slot.label),
+                      _buildTimeCell(context, slot.label),
                       ...List<Widget>.generate(5, (index) {
                         return _buildDataCell(context, slot, index + 1);
                       }),
@@ -124,20 +126,23 @@ class ScheduleTableViewWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderCell(String text) {
+  Widget _buildHeaderCell(BuildContext context, String text) {
+    final theme = Theme.of(context);
+    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         border: Border(
-          right: BorderSide(color: AppColors.borderMedium),
-          bottom: BorderSide(color: AppColors.borderMedium),
+          right: BorderSide(color: dividerColor),
+          bottom: BorderSide(color: dividerColor),
         ),
       ),
       child: Center(
         child: Text(
           text.toUpperCase(),
           style: GoogleFonts.plusJakartaSans(
-            color: AppColors.black,
+            color: theme.colorScheme.onSurface,
             fontSize: 10.0,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.0,
@@ -147,15 +152,21 @@ class ScheduleTableViewWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildTimeCell(String time, {bool isBreak = false}) {
+  Widget _buildTimeCell(
+    BuildContext context,
+    String time, {
+    bool isBreak = false,
+  }) {
+    final theme = Theme.of(context);
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 26.0),
-      color: isBreak ? AppColors.transparent : AppColors.bg,
+      color: isBreak ? AppColors.transparent : theme.scaffoldBackgroundColor,
       child: Center(
         child: Text(
           isBreak ? "" : time,
           style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textMain,
+            color: theme.colorScheme.onSurface,
             fontSize: 14.0,
             fontWeight: FontWeight.w800,
           ),
@@ -165,6 +176,9 @@ class ScheduleTableViewWidget extends StatelessWidget {
   }
 
   Widget _buildDataCell(BuildContext context, TimeSlot slot, int dayId) {
+    final theme = Theme.of(context);
+    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+
     final entry = entries.cast<ScheduleEntry?>().firstWhere(
       (e) => e?.day == dayId && e?.time == slot.label,
       orElse: () => null,
@@ -173,18 +187,22 @@ class ScheduleTableViewWidget extends StatelessWidget {
     return Container(
       height: 120.0,
       padding: const EdgeInsets.all(12.0),
-      decoration: const BoxDecoration(
-        border: Border(left: BorderSide(color: AppColors.borderLight)),
+      decoration: BoxDecoration(
+        border: Border(left: BorderSide(color: dividerColor.withAlpha(100))),
       ),
       child: entry == null
-          ? _buildEmptyStatus()
+          ? _buildEmptyStatus(context)
           : _buildDisciplineCard(context, entry),
     );
   }
 
   Widget _buildDisciplineCard(BuildContext context, ScheduleEntry entry) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final dividerColor =
+        Theme.of(context).dividerTheme.color ?? AppColors.transparent;
+
     final discipline = disciplines.firstWhere(
-      (d) => d.id == entry.disciplineId,
+      (discipline) => discipline.id == entry.disciplineId,
     );
 
     return GestureDetector(
@@ -198,12 +216,12 @@ class ScheduleTableViewWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(16.0),
-          border: Border.all(color: AppColors.borderMedium, width: 1.0),
+          border: Border.all(color: dividerColor, width: 1.0),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: AppColors.textMain.withAlpha(10),
+              color: colorScheme.onSurface.withAlpha(15),
               blurRadius: 10.0,
               offset: const Offset(0.0, 4.0),
             ),
@@ -214,20 +232,20 @@ class ScheduleTableViewWidget extends StatelessWidget {
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 2,
+                    horizontal: 6.0,
+                    vertical: 2.0,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     borderRadius: BorderRadius.circular(6.0),
                   ),
                   child: Text(
                     discipline.acronym,
                     style: GoogleFonts.plusJakartaSans(
-                      color: AppColors.white,
+                      color: colorScheme.onPrimary,
                       fontWeight: FontWeight.w800,
                       fontSize: 9.0,
                     ),
@@ -236,7 +254,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                 Text(
                   "${discipline.period}º Período",
                   style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.primary,
+                    color: colorScheme.primary,
                     fontWeight: FontWeight.w800,
                     fontSize: 9.0,
                   ),
@@ -248,7 +266,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
               child: Text(
                 discipline.name,
                 style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.textMain,
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w800,
                   fontSize: 11.0,
                   height: 1.2,
@@ -260,17 +278,17 @@ class ScheduleTableViewWidget extends StatelessWidget {
             const SizedBox(height: 4.0),
             Row(
               children: <Widget>[
-                const Icon(
+                Icon(
                   Icons.person_rounded,
                   size: 10.0,
-                  color: AppColors.textSub,
+                  color: colorScheme.onSurface.withAlpha(160),
                 ),
                 const SizedBox(width: 4.0),
                 Expanded(
                   child: Text(
                     "Prof. ID: ${entry.teacherId}",
                     style: GoogleFonts.plusJakartaSans(
-                      color: AppColors.textSub,
+                      color: colorScheme.onSurface.withAlpha(160),
                       fontWeight: FontWeight.w600,
                       fontSize: 9.0,
                     ),
@@ -285,17 +303,19 @@ class ScheduleTableViewWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyStatus() {
+  Widget _buildEmptyStatus(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.bg,
+        color: theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Center(
         child: Text(
           "LIVRE",
           style: GoogleFonts.plusJakartaSans(
-            color: AppColors.textSub.withAlpha(100),
+            color: theme.colorScheme.onSurface.withAlpha(80),
             fontSize: 10.0,
             fontWeight: FontWeight.w900,
             letterSpacing: 0.5,

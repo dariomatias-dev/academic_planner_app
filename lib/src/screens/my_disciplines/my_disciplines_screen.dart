@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
@@ -16,12 +15,13 @@ class MyDisciplinesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final enrolledDisciplines = adsDisciplines.filter(
-      (d) => studentEnrolledIds.contains(d.id),
+      (discipline) => studentEnrolledIds.contains(discipline.id),
     );
 
     return Scaffold(
-      backgroundColor: AppColors.bg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Minha Grade",
         actions: <Widget>[
@@ -30,7 +30,7 @@ class MyDisciplinesScreen extends StatelessWidget {
             onPressed: () {
               AppRoutes.goToMySchedule(context);
             },
-            style: IconButtonStyles.primary,
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
@@ -38,13 +38,13 @@ class MyDisciplinesScreen extends StatelessWidget {
         onPressed: () {
           AppRoutes.goToDisciplineSelection(context);
         },
-        backgroundColor: AppColors.primary,
+        backgroundColor: colorScheme.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: const Icon(
+        child: Icon(
           Icons.calendar_today_rounded,
-          color: AppColors.white,
+          color: colorScheme.onPrimary,
           size: 24.0,
         ),
       ),

@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class SwitchWidget extends StatelessWidget {
-  const SwitchWidget({
-    super.key,
-    required this.value,
-    required this.onChanged,
-  });
-
   final bool value;
   final ValueChanged<bool> onChanged;
 
+  const SwitchWidget({super.key, required this.value, required this.onChanged});
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Switch(
       value: value,
       onChanged: onChanged,
-      activeThumbColor: AppColors.primary,
-      activeTrackColor: AppColors.primary.withAlpha(80),
-      trackColor: const WidgetStatePropertyAll(AppColors.white),
-      trackOutlineColor: const WidgetStatePropertyAll(AppColors.black),
-      trackOutlineWidth: const WidgetStatePropertyAll(0.5),
-      inactiveThumbColor: Colors.grey.shade400,
-      inactiveTrackColor: Colors.grey.withAlpha(60),
+      activeThumbColor: colorScheme.primary,
+      activeTrackColor: colorScheme.primary.withAlpha(80),
+      trackColor: WidgetStatePropertyAll<Color>(colorScheme.surface),
+      trackOutlineColor: WidgetStatePropertyAll<Color>(
+        colorScheme.onSurface.withAlpha(50),
+      ),
+      trackOutlineWidth: const WidgetStatePropertyAll<double>(1.0),
+      inactiveThumbColor: colorScheme.onSurface.withAlpha(100),
+      inactiveTrackColor: colorScheme.onSurface.withAlpha(40),
     );
   }
 }

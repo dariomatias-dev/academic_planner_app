@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class NavItemWidget extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final int index;
+  final bool isSelected;
+  final ValueChanged<int> onTap;
+
   const NavItemWidget({
     super.key,
     required this.icon,
@@ -12,14 +16,12 @@ class NavItemWidget extends StatelessWidget {
     required this.onTap,
   });
 
-  final IconData icon;
-  final String label;
-  final int index;
-  final bool isSelected;
-  final Function(int) onTap;
-
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final activeColor = colorScheme.primary;
+    final inactiveColor = colorScheme.onSurface.withAlpha(153);
+
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(index),
@@ -32,9 +34,7 @@ class NavItemWidget extends StatelessWidget {
               scale: isSelected ? 1.15 : 1.0,
               child: Icon(
                 icon,
-                color: isSelected
-                    ? AppColors.primary
-                    : AppColors.textSub.withAlpha(153),
+                color: isSelected ? activeColor : inactiveColor,
                 size: 23.0,
               ),
             ),
@@ -42,9 +42,7 @@ class NavItemWidget extends StatelessWidget {
             AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 200),
               style: TextStyle(
-                color: isSelected
-                    ? AppColors.primary
-                    : AppColors.textSub.withAlpha(153),
+                color: isSelected ? activeColor : inactiveColor,
                 fontSize: 10.0,
                 fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
               ),

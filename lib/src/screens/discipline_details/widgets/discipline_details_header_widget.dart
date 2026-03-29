@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DisciplineDetailsHeaderWidget extends StatelessWidget {
   const DisciplineDetailsHeaderWidget({
     super.key,
@@ -17,25 +15,27 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 40.0),
-      decoration: const BoxDecoration(color: AppColors.white),
+      decoration: BoxDecoration(color: colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           IconButton(
             onPressed: () => Navigator.pop(context),
             style: IconButton.styleFrom(
-              backgroundColor: AppColors.bg,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               fixedSize: const Size(48.0, 48.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16.0),
               ),
             ),
-            icon: const Icon(
+            icon: Icon(
               Icons.chevron_left_rounded,
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
               size: 28.0,
             ),
           ),
@@ -46,13 +46,13 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
               vertical: 6.0,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primary.withAlpha(20),
+              color: colorScheme.primary.withAlpha(20),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
               "$periodº PERÍODO",
               style: GoogleFonts.plusJakartaSans(
-                color: AppColors.primary,
+                color: colorScheme.primary,
                 fontSize: 10.0,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 1.2,
@@ -63,7 +63,7 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
           Text(
             name,
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
+              color: colorScheme.onSurface,
               fontSize: 28.0,
               fontWeight: FontWeight.w900,
               height: 1.1,
@@ -74,7 +74,7 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
           Text(
             acronym,
             style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textSub,
+              color: colorScheme.onSurface.withAlpha(160),
               fontSize: 18.0,
               fontWeight: FontWeight.w600,
             ),

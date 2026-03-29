@@ -77,16 +77,20 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
   ];
 
   void _showDetailsModal(BuildContext context, _FocusItem item) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          decoration: const BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(32.0)),
+          decoration: BoxDecoration(
+            color: colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(32.0),
+            ),
           ),
           child: SingleChildScrollView(
             child: Column(
@@ -117,7 +121,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                           child: Container(
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                              color: AppColors.white.withAlpha(220),
+                              color: colorScheme.surface.withAlpha(220),
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
                                 BoxShadow(
@@ -126,9 +130,9 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                                 ),
                               ],
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.close_rounded,
-                              color: AppColors.textMain,
+                              color: colorScheme.onSurface,
                               size: 24.0,
                             ),
                           ),
@@ -148,13 +152,13 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                           vertical: 6.0,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withAlpha(20),
+                          color: colorScheme.primary.withAlpha(20),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: Text(
                           item.tag,
                           style: GoogleFonts.plusJakartaSans(
-                            color: AppColors.primary,
+                            color: colorScheme.primary,
                             fontSize: 10.0,
                             fontWeight: FontWeight.w900,
                             letterSpacing: 1.2,
@@ -165,7 +169,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                       Text(
                         item.title,
                         style: GoogleFonts.plusJakartaSans(
-                          color: AppColors.textMain,
+                          color: colorScheme.onSurface,
                           fontSize: 26.0,
                           fontWeight: FontWeight.w800,
                         ),
@@ -174,7 +178,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                       Text(
                         item.description,
                         style: GoogleFonts.plusJakartaSans(
-                          color: AppColors.textSub,
+                          color: colorScheme.onSurface.withAlpha(160),
                           fontSize: 16.0,
                           fontWeight: FontWeight.w500,
                           height: 1.6,
@@ -187,16 +191,16 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                           width: double.infinity,
                           height: 60.0,
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
+                            gradient: LinearGradient(
                               colors: <Color>[
-                                AppColors.primary,
-                                AppColors.accent,
+                                colorScheme.primary,
+                                colorScheme.secondary,
                               ],
                             ),
                             borderRadius: BorderRadius.circular(20.0),
                             boxShadow: <BoxShadow>[
                               BoxShadow(
-                                color: AppColors.primary.withAlpha(60),
+                                color: colorScheme.primary.withAlpha(60),
                                 blurRadius: 20.0,
                                 offset: const Offset(0.0, 8.0),
                               ),
@@ -206,7 +210,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                             child: Text(
                               "Entendido",
                               style: GoogleFonts.plusJakartaSans(
-                                color: AppColors.white,
+                                color: colorScheme.onPrimary,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.w800,
                                 letterSpacing: 0.5,
@@ -228,6 +232,8 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       children: <Widget>[
         CarouselSlider(
@@ -246,12 +252,17 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
             return Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: AppColors.white,
+                color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(32.0),
-                border: Border.all(color: AppColors.borderMedium, width: 1.0),
+                border: Border.all(
+                  color:
+                      Theme.of(context).dividerTheme.color ??
+                      AppColors.transparent,
+                  width: 1.0,
+                ),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                    color: AppColors.textMain.withAlpha(8),
+                    color: colorScheme.onSurface.withAlpha(8),
                     blurRadius: 30.0,
                     offset: const Offset(0.0, 15.0),
                   ),
@@ -260,17 +271,17 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(32.0),
                 child: Material(
-                  color: Colors.transparent,
+                  color: AppColors.transparent,
                   child: InkWell(
                     onTap: hasAction
                         ? () => _showDetailsModal(context, item)
                         : null,
                     splashColor: hasAction
-                        ? AppColors.primary.withAlpha(15)
-                        : Colors.transparent,
+                        ? colorScheme.primary.withAlpha(15)
+                        : AppColors.transparent,
                     highlightColor: hasAction
-                        ? AppColors.primary.withAlpha(5)
-                        : Colors.transparent,
+                        ? colorScheme.primary.withAlpha(5)
+                        : AppColors.transparent,
                     child: Stack(
                       children: <Widget>[
                         Positioned(
@@ -279,7 +290,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                           child: Icon(
                             item.icon,
                             size: 160.0,
-                            color: AppColors.primary.withAlpha(8),
+                            color: colorScheme.primary.withAlpha(8),
                           ),
                         ),
                         Padding(
@@ -293,13 +304,13 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                                   vertical: 6.0,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.primary.withAlpha(20),
+                                  color: colorScheme.primary.withAlpha(20),
                                   borderRadius: BorderRadius.circular(10.0),
                                 ),
                                 child: Text(
                                   item.tag,
                                   style: GoogleFonts.plusJakartaSans(
-                                    color: AppColors.primary,
+                                    color: colorScheme.primary,
                                     fontSize: 10.0,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 1.2,
@@ -310,7 +321,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                               Text(
                                 item.title,
                                 style: GoogleFonts.plusJakartaSans(
-                                  color: AppColors.textMain,
+                                  color: colorScheme.onSurface,
                                   fontSize: 22.0,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -323,7 +334,7 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: GoogleFonts.plusJakartaSans(
-                                    color: AppColors.textSub,
+                                    color: colorScheme.onSurface.withAlpha(160),
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.w500,
                                     height: 1.4,
@@ -338,15 +349,15 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
                                     Text(
                                       "Ver detalhes",
                                       style: GoogleFonts.plusJakartaSans(
-                                        color: AppColors.primary,
+                                        color: colorScheme.primary,
                                         fontSize: 14.0,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                     const SizedBox(width: 4.0),
-                                    const Icon(
+                                    Icon(
                                       Icons.chevron_right_rounded,
-                                      color: AppColors.primary,
+                                      color: colorScheme.primary,
                                       size: 18.0,
                                     ),
                                   ],
@@ -375,7 +386,9 @@ class _HomeMainFocusCardWidgetState extends State<HomeMainFocusCardWidget> {
               margin: const EdgeInsets.symmetric(horizontal: 4.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
-                color: isSelected ? AppColors.primary : AppColors.borderMedium,
+                color: isSelected
+                    ? colorScheme.primary
+                    : Theme.of(context).dividerTheme.color,
               ),
             );
           }).toList(),

@@ -15,21 +15,25 @@ class DisciplinesPeriodChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       padding: const EdgeInsets.symmetric(horizontal: 22.0),
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.textMain : AppColors.white,
+        color: isSelected ? colorScheme.onSurface : colorScheme.surface,
         borderRadius: BorderRadius.circular(18.0),
         border: Border.all(
-          color: isSelected ? AppColors.textMain : AppColors.borderLight,
+          color: isSelected
+              ? colorScheme.onSurface
+              : Theme.of(context).dividerTheme.color ?? AppColors.transparent,
           width: 1.2,
         ),
         boxShadow: isSelected
             ? <BoxShadow>[
                 BoxShadow(
-                  color: AppColors.textMain.withAlpha(30),
+                  color: colorScheme.onSurface.withAlpha(30),
                   blurRadius: 15.0,
                   offset: const Offset(0.0, 8.0),
                 ),
@@ -39,7 +43,9 @@ class DisciplinesPeriodChipWidget extends StatelessWidget {
       child: Text(
         label,
         style: GoogleFonts.plusJakartaSans(
-          color: isSelected ? AppColors.white : AppColors.textSub,
+          color: isSelected
+              ? colorScheme.surface
+              : colorScheme.onSurface.withAlpha(160),
           fontSize: 13.0,
           fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
         ),

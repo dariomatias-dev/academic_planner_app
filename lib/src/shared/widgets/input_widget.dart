@@ -21,23 +21,26 @@ class InputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: GoogleFonts.plusJakartaSans(
-        color: AppColors.textMain,
+        color: colorScheme.onSurface,
         fontWeight: FontWeight.w600,
       ),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: GoogleFonts.plusJakartaSans(
-          color: AppColors.textSub.withAlpha(100),
+          color: colorScheme.onSurface.withAlpha(100),
           fontWeight: FontWeight.w500,
         ),
         errorStyle: GoogleFonts.plusJakartaSans(
-          color: Colors.red.shade700,
+          color: colorScheme.error,
           fontWeight: FontWeight.w600,
           fontSize: 12.0,
         ),
@@ -50,19 +53,30 @@ class InputWidget extends StatelessWidget {
 
                 return IconButton(
                   onPressed: controller.clear,
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.clear_rounded,
                     size: 20.0,
-                    color: AppColors.textSub,
+                    color: colorScheme.onSurface.withAlpha(160),
                   ),
                 );
               },
             ),
         filled: true,
-        fillColor: AppColors.white,
+        fillColor: colorScheme.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.0),
           borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: BorderSide(
+            color: theme.dividerTheme.color ?? AppColors.transparent,
+            width: 1.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.0),
+          borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
         ),
         contentPadding: const EdgeInsets.all(16.0),
       ),

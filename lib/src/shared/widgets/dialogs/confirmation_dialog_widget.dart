@@ -13,7 +13,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
   final String confirmLabel;
   final String cancelLabel;
   final VoidCallback onConfirm;
-  final ButtonStyles confirmStyle;
+  final AppButtonStyle confirmStyle;
 
   const ConfirmationDialogWidget({
     super.key,
@@ -24,7 +24,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
     required this.onConfirm,
     this.confirmLabel = "Confirmar",
     this.cancelLabel = "Cancelar",
-    this.confirmStyle = ButtonStyles.primary,
+    this.confirmStyle = AppButtonStyle.primary,
   });
 
   @override
@@ -35,16 +35,17 @@ class ConfirmationDialogWidget extends StatelessWidget {
         child: ButtonWidget(
           onPressed: () => Navigator.pop(context),
           label: cancelLabel,
-          style: ButtonStyles.neutral,
+          style: AppButtonStyle.neutral,
           isFullWidth: true,
         ),
       ),
-      SizedBox(width: vertical ? 0 : 12, height: vertical ? 12 : 0),
+      SizedBox(width: vertical ? 0 : 12, height: vertical ? 12.0 : 0.0),
       Flexible(
         fit: FlexFit.loose,
         child: ButtonWidget(
           onPressed: () {
             Navigator.pop(context);
+
             onConfirm();
           },
           label: confirmLabel,
@@ -58,7 +59,6 @@ class ConfirmationDialogWidget extends StatelessWidget {
       title: title,
       message: message,
       icon: icon,
-      iconColor: confirmStyle.backgroundColor,
       actions: vertical
           ? Column(mainAxisSize: MainAxisSize.min, children: children.reverse())
           : Row(mainAxisSize: MainAxisSize.min, children: children),
