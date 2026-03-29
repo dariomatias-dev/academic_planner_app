@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_header_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
 
 class DisciplinesScreen extends StatefulWidget {
@@ -45,9 +48,45 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg,
+      appBar: AppBarWidget(
+        actions: <Widget>[
+          IconButtonWidget(
+            icon: Icons.account_tree_rounded,
+            onPressed: () => AppRoutes.goToSchedule(context),
+            style: IconButtonStyles.primary,
+          ),
+        ],
+      ),
       body: Column(
         children: <Widget>[
-          DisciplinesHeaderWidget(totalDisciplines: adsDisciplines.length),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 20.0),
+            decoration: const BoxDecoration(color: AppColors.white),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Disciplinas",
+                  style: GoogleFonts.plusJakartaSans(
+                    color: AppColors.textMain,
+                    fontSize: 28.0,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1.0,
+                  ),
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  "Análise e Desenvolvimento de Sistemas",
+                  style: GoogleFonts.plusJakartaSans(
+                    color: AppColors.textSub,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
           PeriodsTabBarWidget(controller: tabController, periods: periods),
           Expanded(
             child: TabBarView(
