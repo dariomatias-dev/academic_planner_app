@@ -79,6 +79,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                     return DisciplineCardItemWidget(
                       index: index,
                       discipline: discipline,
+                      initialTabIndex: 2,
                     );
                   },
                 );

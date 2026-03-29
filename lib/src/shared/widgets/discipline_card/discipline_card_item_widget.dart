@@ -10,10 +10,12 @@ class DisciplineCardItemWidget extends StatelessWidget {
     super.key,
     required this.index,
     required this.discipline,
+    this.initialTabIndex,
   });
 
   final int index;
   final DisciplineModel discipline;
+  final int? initialTabIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,10 @@ class DisciplineCardItemWidget extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return DisciplineDetailsScreen(discipline: discipline);
+              return DisciplineDetailsScreen(
+                discipline: discipline,
+                initialTabIndex: initialTabIndex,
+              );
             },
           ),
         );
