@@ -15,6 +15,15 @@ class AppWidget extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: AppColors.bg,
         textTheme: GoogleFonts.plusJakartaSansTextTheme(),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.primary,
+          primary: AppColors.primary,
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColors.primary,
+          selectionColor: AppColors.primary.withAlpha(70),
+          selectionHandleColor: AppColors.primary,
+        ),
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{'/': (context) => const RootNavigation()},
