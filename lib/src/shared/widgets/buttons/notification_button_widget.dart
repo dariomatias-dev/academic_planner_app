@@ -5,7 +5,7 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 class NotificationButtonWidget extends StatelessWidget {
   const NotificationButtonWidget({super.key});
 
-  final hasNotification = true;
+  final hasNotification = false;
 
   void handlePressed() {}
 

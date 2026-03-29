@@ -5,6 +5,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
@@ -32,6 +33,7 @@ class MyDisciplinesScreen extends StatelessWidget {
             },
             style: IconButtonStyle.primary,
           ),
+          NotificationButtonWidget(),
         ],
       ),
       floatingActionButton: FloatingActionButton(

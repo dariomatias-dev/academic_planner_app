@@ -7,6 +7,7 @@ import 'package:academic_planner/src/core/theme/theme_controller.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -25,7 +26,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: const AppBarWidget(title: "Ajustes do App"),
+      appBar: const AppBarWidget(
+        title: "Ajustes do App",
+        actions: <Widget>[NotificationButtonWidget()],
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20.0),
         child: Column(
