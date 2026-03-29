@@ -33,13 +33,24 @@ class _ScheduleScreenState extends State<ScheduleScreen>
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {});
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final filteredEntries = schedules.filter((entry) {
       final discipline = adsDisciplines.firstWhere(
-        (d) => d.id == entry.disciplineId,
+        (adsDiscipline) => adsDiscipline.id == entry.disciplineId,
       );
 
-      return discipline.period == _tabController.index;
+      return discipline.period == _tabController.index + 1;
     });
 
     return Scaffold(
