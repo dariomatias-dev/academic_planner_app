@@ -5,13 +5,18 @@ import 'package:academic_planner/src/core/app_colors.dart';
 
 class CreateTaskSectionTitleWidget extends StatelessWidget {
   final String title;
+  final EdgeInsetsGeometry? padding;
 
-  const CreateTaskSectionTitleWidget({super.key, required this.title});
+  const CreateTaskSectionTitleWidget({
+    super.key,
+    required this.title,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16.0, top: 24.0),
+      padding: padding ?? const EdgeInsets.only(top: 24.0, bottom: 16.0),
       child: Text(
         title.toUpperCase(),
         style: GoogleFonts.plusJakartaSans(
