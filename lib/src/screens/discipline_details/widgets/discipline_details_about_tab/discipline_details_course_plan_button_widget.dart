@@ -54,12 +54,12 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                  color: colorScheme.onPrimary.withAlpha(45),
+                  color: AppColors.white.withAlpha(45),
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.picture_as_pdf_rounded,
-                  color: colorScheme.onPrimary,
+                  color: AppColors.white,
                   size: 20.0,
                 ),
               ),
@@ -67,7 +67,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               Text(
                 "Visualizar Plano de Ensino",
                 style: GoogleFonts.plusJakartaSans(
-                  color: colorScheme.onPrimary,
+                  color: AppColors.white,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w800,
                 ),
