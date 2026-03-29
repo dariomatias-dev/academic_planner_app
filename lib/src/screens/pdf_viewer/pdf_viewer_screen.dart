@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -5,6 +6,10 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 
 class PdfViewerScreen extends StatefulWidget {
+  final String url;
+  final String title;
+  final String? subtitle;
+
   const PdfViewerScreen({
     super.key,
     required this.url,
@@ -12,22 +17,42 @@ class PdfViewerScreen extends StatefulWidget {
     this.subtitle,
   });
 
-  final String url;
-  final String title;
-  final String? subtitle;
-
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
   final _pdfViewerKey = GlobalKey<SfPdfViewerState>();
+
   final _pdfViewerController = PdfViewerController();
 
   bool _isLoading = true;
   bool _hasError = false;
+  bool _showIndicator = false;
   int _currentPage = 1;
   int _totalPages = 0;
+  Timer? _hideTimer;
+
+  void _triggerIndicator() {
+    _hideTimer?.cancel();
+
+    setState(() => _showIndicator = true);
+
+    _hideTimer = Timer(const Duration(seconds: 2), () {
+      if (mounted) {
+        setState(() => _showIndicator = false);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _hideTimer?.cancel();
+
+    _pdfViewerController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +85,15 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                       _isLoading = false;
                       _totalPages = details.document.pages.count;
                     });
+
+                    _triggerIndicator();
                   },
                   onPageChanged: (details) {
                     setState(() {
                       _currentPage = details.newPageNumber;
                     });
+
+                    _triggerIndicator();
                   },
                   onDocumentLoadFailed: (details) {
                     setState(() {
@@ -77,33 +106,40 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                 if (_hasError) const PdfViewerErrorWidget(),
                 if (!_isLoading && !_hasError && _totalPages > 0)
                   Positioned(
-                    bottom: 32,
-                    left: 0,
-                    right: 0,
+                    bottom: 32.0,
+                    left: 0.0,
+                    right: 0.0,
                     child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.textMain.withAlpha(230),
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.black.withAlpha(40),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
+                      child: AnimatedOpacity(
+                        opacity: _showIndicator ? 1.0 : 0.0,
+                        duration: _showIndicator
+                            ? Duration.zero
+                            : const Duration(milliseconds: 600),
+                        curve: Curves.easeOut,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14.0,
+                            vertical: 6.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.textMain.withAlpha(230),
+                            borderRadius: BorderRadius.circular(30.0),
+                            boxShadow: <BoxShadow>[
+                              BoxShadow(
+                                color: AppColors.black.withAlpha(40),
+                                blurRadius: 12.0,
+                                offset: const Offset(0.0, 4.0),
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            "$_currentPage / $_totalPages",
+                            style: GoogleFonts.plusJakartaSans(
+                              color: AppColors.white,
+                              fontSize: 11.0,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 0.5,
                             ),
-                          ],
-                        ),
-                        child: Text(
-                          "$_currentPage / $_totalPages",
-                          style: GoogleFonts.plusJakartaSans(
-                            color: AppColors.white,
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w700,
-                            letterSpacing: 0.5,
                           ),
                         ),
                       ),
@@ -119,16 +155,16 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 }
 
 class PdfViewerHeaderWidget extends StatelessWidget {
+  final VoidCallback onBack;
+  final String title;
+  final String? subtitle;
+
   const PdfViewerHeaderWidget({
     super.key,
     required this.onBack,
     required this.title,
     this.subtitle,
   });
-
-  final VoidCallback onBack;
-  final String title;
-  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +235,8 @@ class PdfViewerLoadingWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(
-              width: 24,
-              height: 24,
+              width: 24.0,
+              height: 24.0,
               child: CircularProgressIndicator(
                 color: AppColors.primary,
                 strokeWidth: 3.0,
