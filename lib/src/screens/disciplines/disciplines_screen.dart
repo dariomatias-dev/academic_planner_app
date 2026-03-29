@@ -5,10 +5,10 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_header_widget.dart';
-import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
+import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
 
 class DisciplinesScreen extends StatefulWidget {
   const DisciplinesScreen({super.key});
@@ -48,32 +48,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
       body: Column(
         children: <Widget>[
           DisciplinesHeaderWidget(totalDisciplines: adsDisciplines.length),
-          Container(
-            color: AppColors.white,
-            padding: const EdgeInsets.only(bottom: 16.0),
-            child: TabBar(
-              controller: tabController,
-              isScrollable: true,
-              tabAlignment: TabAlignment.start,
-              dividerColor: AppColors.transparent,
-              indicatorColor: AppColors.transparent,
-              overlayColor: WidgetStateProperty.all(AppColors.transparent),
-              splashFactory: NoSplash.splashFactory,
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-              tabs: periods.builder((period, index) {
-                final isSelected =
-                    tabController.index == periods.indexOf(period);
-
-                return Tab(
-                  child: DisciplinesPeriodChipWidget(
-                    label: "$periodº Período",
-                    isSelected: isSelected,
-                  ),
-                );
-              }),
-            ),
-          ),
+          PeriodsTabBarWidget(controller: tabController, periods: periods),
           Expanded(
             child: TabBarView(
               controller: tabController,
