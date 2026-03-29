@@ -9,6 +9,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
@@ -65,83 +66,64 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     );
 
     final isAddTab = _mainTabController.index == 1;
-    final headerHeight = isAddTab ? 172.0 : 92.0;
+    final headerHeight = isAddTab ? 128.0 : 48.0;
 
     return Scaffold(
       backgroundColor: AppColors.bg,
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget>[
-              SliverToBoxAdapter(child: _buildTopHeader()),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _SliverAppBarDelegate(
-                  height: headerHeight,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      _buildSelectionSummary(),
-                      TabBarWidget(
-                        controller: _mainTabController,
-                        tabs: const <Tab>[
-                          Tab(text: "Minha Grade"),
-                          Tab(text: "Adicionar"),
-                        ],
-                      ),
-                      if (isAddTab) _buildPeriodSelector(),
-                    ],
-                  ),
+      appBar: AppBarWidget(
+        title: "",
+        actions: <Widget>[
+          IconButtonWidget(
+            icon: Icons.check_rounded,
+            onPressed: () => Navigator.pop(context, _selectedIds),
+            style: IconButtonStyles.primary,
+          ),
+        ],
+      ),
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverToBoxAdapter(child: _buildTextHeader()),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: _SliverAppBarDelegate(
+                height: headerHeight,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    TabBarWidget(
+                      controller: _mainTabController,
+                      tabs: const <Tab>[
+                        Tab(text: "Minha Grade"),
+                        Tab(text: "Adicionar"),
+                      ],
+                    ),
+                    if (isAddTab) _buildPeriodSelector(),
+                  ],
                 ),
               ),
-            ];
-          },
-          body: TabBarView(
-            controller: _mainTabController,
-            children: <Widget>[
-              _buildMyGradeTab(selectedDisciplines),
-              _buildAddTabContent(),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          controller: _mainTabController,
+          children: <Widget>[
+            _buildMyGradeTab(selectedDisciplines),
+            _buildAddTabContent(),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildTopHeader() {
+  Widget _buildTextHeader() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 16.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
       decoration: const BoxDecoration(color: AppColors.white),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                style: IconButton.styleFrom(
-                  backgroundColor: AppColors.bg,
-                  fixedSize: const Size(48.0, 48.0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-                icon: const Icon(
-                  Icons.chevron_left_rounded,
-                  color: AppColors.textMain,
-                  size: 28.0,
-                ),
-              ),
-              IconButtonWidget(
-                icon: Icons.check_rounded,
-                onPressed: () => Navigator.pop(context, _selectedIds),
-                style: IconButtonStyles.primary,
-              ),
-            ],
-          ),
-          const SizedBox(height: 32.0),
           Text(
             "Configurar Grade",
             style: GoogleFonts.plusJakartaSans(
@@ -157,36 +139,6 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
               color: AppColors.textSub,
               fontSize: 16.0,
               fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSelectionSummary() {
-    return Container(
-      height: 44.0,
-      color: AppColors.white,
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "MINHA SELEÇÃO ATUAL",
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.primary,
-              fontSize: 10.0,
-              fontWeight: FontWeight.w900,
-              letterSpacing: 1.2,
-            ),
-          ),
-          Text(
-            "${_selectedIds.length} ITENS SELECIONADOS",
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textSub,
-              fontSize: 10.0,
-              fontWeight: FontWeight.w800,
             ),
           ),
         ],
