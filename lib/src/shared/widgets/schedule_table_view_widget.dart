@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 
+import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
+
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/models/schedule_entry.dart';
 
@@ -17,6 +19,7 @@ final _days = <String>[
 
 class ScheduleTableViewWidget extends StatelessWidget {
   final GlobalKey repaintKey;
+
   final List<TimeSlot> timeSlots;
   final List<ScheduleEntry> entries;
   final List<DisciplineModel> disciplines;
@@ -109,7 +112,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                     children: <Widget>[
                       _buildTimeCell(slot.label),
                       ...List<Widget>.generate(5, (index) {
-                        return _buildDataCell(slot, index + 1);
+                        return _buildDataCell(context, slot, index + 1);
                       }),
                     ],
                   );
@@ -162,7 +165,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildDataCell(TimeSlot slot, int dayId) {
+  Widget _buildDataCell(BuildContext context, TimeSlot slot, int dayId) {
     final entry = entries.cast<ScheduleEntry?>().firstWhere(
       (e) => e?.day == dayId && e?.time == slot.label,
       orElse: () => null,
@@ -174,74 +177,117 @@ class ScheduleTableViewWidget extends StatelessWidget {
       decoration: const BoxDecoration(
         border: Border(left: BorderSide(color: AppColors.borderLight)),
       ),
-      child: entry == null ? _buildEmptyStatus() : _buildDisciplineCard(entry),
+      child: entry == null
+          ? _buildEmptyStatus()
+          : _buildDisciplineCard(context, entry),
     );
   }
 
-  Widget _buildDisciplineCard(ScheduleEntry entry) {
+  Widget _buildDisciplineCard(BuildContext context, ScheduleEntry entry) {
     final discipline = disciplines.firstWhere(
       (d) => d.id == entry.disciplineId,
     );
 
-    return Container(
-      padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(16.0),
-        border: Border.all(color: AppColors.borderMedium, width: 1.0),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: AppColors.textMain.withAlpha(10),
-            blurRadius: 10.0,
-            offset: const Offset(0.0, 4.0),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return DisciplineDetailsScreen(
+                discipline: discipline,
+                initialTabIndex: 2,
+              );
+            },
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            discipline.name,
-            style: GoogleFonts.plusJakartaSans(
-              color: AppColors.textMain,
-              fontWeight: FontWeight.w800,
-              fontSize: 12.0,
-              height: 1.2,
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(color: AppColors.borderMedium, width: 1.0),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: AppColors.textMain.withAlpha(10),
+              blurRadius: 10.0,
+              offset: const Offset(0.0, 4.0),
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          const Spacer(),
-          Row(
-            children: <Widget>[
-              Container(
-                width: 20.0,
-                height: 20.0,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withAlpha(20),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.person_rounded,
-                  size: 12.0,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(width: 8.0),
-              Expanded(
-                child: Text(
-                  "Professor ID: ${entry.teacherId}",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: AppColors.textSub,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 10.0,
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
                   ),
-                  overflow: TextOverflow.ellipsis,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(6.0),
+                  ),
+                  child: Text(
+                    discipline.acronym,
+                    style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 9.0,
+                    ),
+                  ),
                 ),
+                Text(
+                  "${discipline.period}º Período",
+                  style: GoogleFonts.plusJakartaSans(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 9.0,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8.0),
+            Expanded(
+              child: Text(
+                discipline.name,
+                style: GoogleFonts.plusJakartaSans(
+                  color: AppColors.textMain,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 11.0,
+                  height: 1.2,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
-            ],
-          ),
-        ],
+            ),
+            const SizedBox(height: 4.0),
+            Row(
+              children: <Widget>[
+                const Icon(
+                  Icons.person_rounded,
+                  size: 10.0,
+                  color: AppColors.textSub,
+                ),
+                const SizedBox(width: 4.0),
+                Expanded(
+                  child: Text(
+                    "Prof. ID: ${entry.teacherId}",
+                    style: GoogleFonts.plusJakartaSans(
+                      color: AppColors.textSub,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 9.0,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
