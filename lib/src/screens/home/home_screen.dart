@@ -7,7 +7,7 @@ import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_w
 import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -45,11 +45,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                IconButtonWidget(
-                  icon: Icons.notifications_none_rounded,
-                  onPressed: () {},
-                  style: IconButtonStyle.primary,
-                ),
+                NotificationButtonWidget(),
               ],
             ),
           ),
