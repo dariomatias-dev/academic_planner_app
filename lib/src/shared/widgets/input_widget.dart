@@ -66,6 +66,9 @@ class InputWidget extends StatelessWidget {
         ),
         contentPadding: const EdgeInsets.all(16.0),
       ),
+      onTapUpOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
     );
   }
 }

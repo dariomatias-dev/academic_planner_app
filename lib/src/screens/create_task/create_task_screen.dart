@@ -156,173 +156,170 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _unfocus,
-      child: Scaffold(
-        backgroundColor: AppColors.bg,
-        body: SafeArea(
-          child: NestedScrollView(
-            headerSliverBuilder: (context, inner) => [
-              SliverToBoxAdapter(
-                child: CreateTaskHeaderWidget(
-                  onBack: () => Navigator.pop(context),
-                  onSave: _saveTask,
-                ),
+    return Scaffold(
+      backgroundColor: AppColors.bg,
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (context, inner) => [
+            SliverToBoxAdapter(
+              child: CreateTaskHeaderWidget(
+                onBack: () => Navigator.pop(context),
+                onSave: _saveTask,
               ),
-            ],
-            body: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 120.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const CreateTaskSectionTitleWidget(title: "Conteúdo"),
-                    CreateTaskInputFieldWidget(
-                      controller: _titleController,
-                      label: "Título da Tarefa",
-                      hint: "O que deve ser feito?",
-                      isRequired: true,
-                      validator: (validator) {
-                        return AppValidators.required(
-                          validator,
-                          message: "O título é obrigatório",
-                        );
-                      },
-                    ),
-                    CreateTaskInputFieldWidget(
-                      controller: _descriptionController,
-                      label: "Descrição",
-                      hint: "Mais detalhes...",
-                      maxLines: 3,
-                      isRequired: true,
-                      validator: (validator) {
-                        return AppValidators.required(
-                          validator,
-                          message: "A descrição é obrigatória",
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 32.0),
-                    const CreateTaskSectionTitleWidget(title: "Classificação"),
-                    FormField<DisciplineModel>(
-                      initialValue: _selectedDiscipline,
-                      validator: (validator) {
-                        return validator == null
-                            ? "Selecione uma disciplina obrigatória"
-                            : null;
-                      },
-                      builder: (state) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            CreateTaskDisciplinePickerWidget(
-                              selectedDiscipline: state.value,
-                              isRequired: true,
-                              onTap: () {
-                                _unfocus();
+            ),
+          ],
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 120.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const CreateTaskSectionTitleWidget(title: "Conteúdo"),
+                  CreateTaskInputFieldWidget(
+                    controller: _titleController,
+                    label: "Título da Tarefa",
+                    hint: "O que deve ser feito?",
+                    isRequired: true,
+                    validator: (validator) {
+                      return AppValidators.required(
+                        validator,
+                        message: "O título é obrigatório",
+                      );
+                    },
+                  ),
+                  CreateTaskInputFieldWidget(
+                    controller: _descriptionController,
+                    label: "Descrição",
+                    hint: "Mais detalhes...",
+                    maxLines: 3,
+                    isRequired: true,
+                    validator: (validator) {
+                      return AppValidators.required(
+                        validator,
+                        message: "A descrição é obrigatória",
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 32.0),
+                  const CreateTaskSectionTitleWidget(title: "Classificação"),
+                  FormField<DisciplineModel>(
+                    initialValue: _selectedDiscipline,
+                    validator: (validator) {
+                      return validator == null
+                          ? "Selecione uma disciplina obrigatória"
+                          : null;
+                    },
+                    builder: (state) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          CreateTaskDisciplinePickerWidget(
+                            selectedDiscipline: state.value,
+                            isRequired: true,
+                            onTap: () {
+                              _unfocus();
 
-                                ModalBottomSheetWidget.show(
-                                  context: context,
-                                  title: "Minhas Matérias",
-                                  child: CreateTaskDisciplineListWidget(
-                                    selectedId: state.value?.id,
-                                    onSelected: (discipline) {
-                                      setState(
-                                        () => _selectedDiscipline = discipline,
-                                      );
+                              ModalBottomSheetWidget.show(
+                                context: context,
+                                title: "Minhas Matérias",
+                                child: CreateTaskDisciplineListWidget(
+                                  selectedId: state.value?.id,
+                                  onSelected: (discipline) {
+                                    setState(
+                                      () => _selectedDiscipline = discipline,
+                                    );
 
-                                      state.didChange(discipline);
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                            if (state.hasError)
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  top: 8.0,
-                                  left: 24.0,
+                                    state.didChange(discipline);
+                                  },
                                 ),
-                                child: Text(
-                                  state.errorText!,
-                                  style: GoogleFonts.plusJakartaSans(
-                                    color: Colors.red.shade700,
-                                    fontSize: 12.0,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              );
+                            },
+                          ),
+                          if (state.hasError)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 8.0,
+                                left: 24.0,
+                              ),
+                              child: Text(
+                                state.errorText!,
+                                style: GoogleFonts.plusJakartaSans(
+                                  color: Colors.red.shade700,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                          ],
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 20.0),
-                    CreateTaskCategorySelectorWidget(
-                      categories: _categories,
-                      selectedCategory: _selectedCategory,
-                      isRequired: true,
-                      onSelect: (category) {
-                        setState(() {
-                          _selectedCategory = category;
-                        });
-                      },
-                      onCreate: _showCreateCategoryDialog,
-                    ),
-                    const SizedBox(height: 20.0),
-                    CreateTaskTagSelectorWidget(
-                      availableTags: _availableTags,
-                      selectedTags: _selectedTags,
-                      onToggle: (tag, value) {
-                        setState(() {
-                          value
-                              ? _selectedTags.add(tag)
-                              : _selectedTags.remove(tag);
-                        });
-                      },
-                      onCreate: _showCreateTagDialog,
-                    ),
-                    const SizedBox(height: 32.0),
-                    const CreateTaskSectionTitleWidget(
-                      title: "Prazos e Lembretes",
-                    ),
-                    CreateTaskDatePickerWidget(
-                      dueDate: _dueDate,
-                      isRequired: false,
-                      onTap: _selectDate,
-                    ),
-                    const SizedBox(height: 16.0),
-                    CreateTaskRemindersWidget(
-                      reminders: _reminders,
-                      onAdd: _addReminder,
-                      onRemove: (time) {
-                        setState(() {
-                          _reminders.remove(time);
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 32.0),
-                    const CreateTaskSectionTitleWidget(
-                      title: "Anotações e Links",
-                    ),
-                    CreateTaskInputFieldWidget(
-                      controller: _notesController,
-                      label: "Notas",
-                      hint: "Rascunhos ou lembretes rápidos...",
-                      maxLines: 5,
-                    ),
-                    CreateTaskLinksInputWidget(
-                      controller: _linkController,
-                      links: _links,
-                      onAdd: _addLink,
-                      onRemove: (link) {
-                        setState(() {
-                          _links.remove(link);
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20.0),
+                  CreateTaskCategorySelectorWidget(
+                    categories: _categories,
+                    selectedCategory: _selectedCategory,
+                    isRequired: true,
+                    onSelect: (category) {
+                      setState(() {
+                        _selectedCategory = category;
+                      });
+                    },
+                    onCreate: _showCreateCategoryDialog,
+                  ),
+                  const SizedBox(height: 20.0),
+                  CreateTaskTagSelectorWidget(
+                    availableTags: _availableTags,
+                    selectedTags: _selectedTags,
+                    onToggle: (tag, value) {
+                      setState(() {
+                        value
+                            ? _selectedTags.add(tag)
+                            : _selectedTags.remove(tag);
+                      });
+                    },
+                    onCreate: _showCreateTagDialog,
+                  ),
+                  const SizedBox(height: 32.0),
+                  const CreateTaskSectionTitleWidget(
+                    title: "Prazos e Lembretes",
+                  ),
+                  CreateTaskDatePickerWidget(
+                    dueDate: _dueDate,
+                    isRequired: false,
+                    onTap: _selectDate,
+                  ),
+                  const SizedBox(height: 16.0),
+                  CreateTaskRemindersWidget(
+                    reminders: _reminders,
+                    onAdd: _addReminder,
+                    onRemove: (time) {
+                      setState(() {
+                        _reminders.remove(time);
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 32.0),
+                  const CreateTaskSectionTitleWidget(
+                    title: "Anotações e Links",
+                  ),
+                  CreateTaskInputFieldWidget(
+                    controller: _notesController,
+                    label: "Notas",
+                    hint: "Rascunhos ou lembretes rápidos...",
+                    maxLines: 5,
+                  ),
+                  CreateTaskLinksInputWidget(
+                    controller: _linkController,
+                    links: _links,
+                    onAdd: _addLink,
+                    onRemove: (link) {
+                      setState(() {
+                        _links.remove(link);
+                      });
+                    },
+                  ),
+                ],
               ),
             ),
           ),
