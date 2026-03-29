@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/root_navigation.dart';
+import 'package:academic_planner/src/core/routes/app_router.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Academic Planner',
       theme: ThemeData(
@@ -25,8 +25,7 @@ class AppWidget extends StatelessWidget {
           selectionHandleColor: AppColors.primary,
         ),
       ),
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{'/': (context) => const RootNavigation()},
+      routerConfig: AppRouter.router,
     );
   }
 }
