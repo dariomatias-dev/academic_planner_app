@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
@@ -42,14 +41,7 @@ class DisciplinesHeaderWidget extends StatelessWidget {
               IconButtonWidget(
                 icon: Icons.account_tree_rounded,
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const ScheduleScreen();
-                      },
-                    ),
-                  );
+                  AppRoutes.goToSchedule(context);
                 },
                 style: IconButtonStyles.primary,
               ),

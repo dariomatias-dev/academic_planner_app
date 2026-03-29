@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
@@ -23,16 +23,10 @@ class DisciplineCardItemWidget extends StatelessWidget {
       index: index,
       discipline: discipline,
       onTap: () {
-        Navigator.push(
+        AppRoutes.goToDisciplineDetails(
           context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DisciplineDetailsScreen(
-                discipline: discipline,
-                initialTabIndex: initialTabIndex,
-              );
-            },
-          ),
+          disciplineId: discipline.id,
+          tab: initialTabIndex,
         );
       },
     );

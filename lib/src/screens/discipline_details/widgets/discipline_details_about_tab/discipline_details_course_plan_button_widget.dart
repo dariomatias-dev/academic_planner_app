@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
   const DisciplineDetailsCoursePlanButtonWidget({
@@ -39,17 +38,11 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            Navigator.push(
+            AppRoutes.goToPdfViewer(
               context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return PdfViewerScreen(
-                    url: url,
-                    title: disciplineName,
-                    subtitle: "Plano de Ensino",
-                  );
-                },
-              ),
+              url: url,
+              title: disciplineName,
+              subtitle: "Plano de Ensino",
             );
           },
           borderRadius: BorderRadius.circular(24.0),

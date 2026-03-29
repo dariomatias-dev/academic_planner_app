@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
-import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
@@ -30,14 +28,7 @@ class MyDisciplinesScreen extends StatelessWidget {
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const MyScheduleScreen();
-                  },
-                ),
-              );
+              AppRoutes.goToMySchedule(context);
             },
             style: IconButtonStyles.primary,
           ),
@@ -46,14 +37,7 @@ class MyDisciplinesScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return const DisciplineSelectionScreen();
-              },
-            ),
-          );
+          AppRoutes.goToDisciplineSelection(context);
         },
         backgroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(

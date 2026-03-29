@@ -3,8 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
-
-import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/models/schedule_entry.dart';
@@ -190,16 +189,10 @@ class ScheduleTableViewWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
+        AppRoutes.goToDisciplineDetails(
           context,
-          MaterialPageRoute(
-            builder: (context) {
-              return DisciplineDetailsScreen(
-                discipline: discipline,
-                initialTabIndex: 2,
-              );
-            },
-          ),
+          disciplineId: discipline.id,
+          tab: 2,
         );
       },
       child: Container(

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/screens/about/about_screen.dart';
-import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
@@ -37,12 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.list_alt_rounded,
               title: "Disciplinas do Curso",
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DisciplinesScreen(),
-                  ),
-                );
+                AppRoutes.goToDisciplines(context);
               },
             ),
             const SizedBox(height: 24.0),
@@ -92,10 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               icon: Icons.info_outline_rounded,
               title: "Sobre o App",
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutScreen()),
-                );
+                AppRoutes.goToAbout(context);
               },
             ),
           ],

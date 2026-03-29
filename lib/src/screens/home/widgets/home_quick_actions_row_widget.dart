@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/screens/create_task/create_task_screen.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/action_button_widget.dart';
 
@@ -15,14 +14,7 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
       children: <Widget>[
         ActionButtonWidget(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return CreateTaskScreen();
-                },
-              ),
-            );
+            AppRoutes.goToCreateTask(context, disciplineId: 0);
           },
           icon: Icons.add_rounded,
           label: "Nova Tarefa",

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/screens/create_task/create_task_screen.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_header_widget.dart';
@@ -75,15 +75,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               onPressed: () {
                 switch (_tabController.index) {
                   case 0:
-                    Navigator.push(
+                    AppRoutes.goToCreateTask(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return CreateTaskScreen(
-                            initialDisciplineId: widget.discipline.id,
-                          );
-                        },
-                      ),
+                      disciplineId: widget.discipline.id,
                     );
                     break;
                   case 1:
