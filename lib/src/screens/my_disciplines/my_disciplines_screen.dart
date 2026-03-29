@@ -32,7 +32,6 @@ class MyDisciplinesScreen extends StatelessWidget {
             },
             style: IconButtonStyles.primary,
           ),
-          const SizedBox(width: 16.0),
         ],
       ),
       floatingActionButton: FloatingActionButton(
