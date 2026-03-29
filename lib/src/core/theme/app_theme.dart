@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:academic_planner/src/core/app_colors.dart';
 
 class AppTheme {
@@ -14,6 +15,10 @@ class AppTheme {
         secondary: AppColors.emerald500,
         surface: AppColors.white,
         onSurface: AppColors.slate800,
+        error: AppColors.red600,
+        onError: AppColors.white,
+        errorContainer: AppColors.red50,
+        onErrorContainer: AppColors.red700,
         brightness: Brightness.light,
       ),
       textSelectionTheme: const TextSelectionThemeData(
@@ -35,16 +40,18 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.black,
       textTheme: GoogleFonts.plusJakartaSansTextTheme(
         baseDark.textTheme,
-      ).apply(bodyColor: AppColors.slate400, displayColor: AppColors.white),
+      ).apply(bodyColor: AppColors.slate300, displayColor: AppColors.white),
       colorScheme: const ColorScheme.dark(
         primary: AppColors.emerald500,
-        secondary: AppColors.emerald400,
+        secondary: AppColors.emerald600,
         surface: AppColors.zinc950,
         onSurface: AppColors.white,
         onSurfaceVariant: AppColors.emerald400,
         onPrimary: AppColors.black,
-        error: AppColors.red500,
+        error: AppColors.red600,
+        onError: AppColors.white,
         errorContainer: AppColors.red950,
+        onErrorContainer: AppColors.red500,
         brightness: Brightness.dark,
       ),
       appBarTheme: const AppBarTheme(
