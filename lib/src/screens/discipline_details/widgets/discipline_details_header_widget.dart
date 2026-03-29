@@ -19,27 +19,11 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 40.0),
+      padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 40.0),
       decoration: BoxDecoration(color: colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            style: IconButton.styleFrom(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              fixedSize: const Size(48.0, 48.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-            ),
-            icon: Icon(
-              Icons.chevron_left_rounded,
-              color: colorScheme.onSurface,
-              size: 28.0,
-            ),
-          ),
-          const SizedBox(height: 32.0),
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 12.0,

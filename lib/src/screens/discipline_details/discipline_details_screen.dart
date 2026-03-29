@@ -9,6 +9,7 @@ import 'package:academic_planner/src/screens/discipline_details/widgets/discipli
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_header_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
@@ -73,6 +74,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
+      appBar: const AppBarWidget(),
       floatingActionButton: _showFab
           ? FloatingActionButton(
               onPressed: () {
@@ -98,52 +100,50 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               ),
             )
           : null,
-      body: SafeArea(
-        child: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget>[
-              SliverToBoxAdapter(
-                child: DisciplineDetailsHeaderWidget(
-                  acronym: discipline.acronym,
-                  name: discipline.name,
-                  period: discipline.period,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverToBoxAdapter(
+              child: DisciplineDetailsHeaderWidget(
+                acronym: discipline.acronym,
+                name: discipline.name,
+                period: discipline.period,
+              ),
+            ),
+            SliverPersistentHeader(
+              pinned: true,
+              delegate: DisciplineDetailsTabBarDelegate(
+                TabBarWidget(
+                  controller: _tabController,
+                  tabs: const <Tab>[
+                    Tab(text: "Tarefas"),
+                    Tab(text: "Anotações"),
+                    Tab(text: "Sobre"),
+                  ],
                 ),
               ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: DisciplineDetailsTabBarDelegate(
-                  TabBarWidget(
-                    controller: _tabController,
-                    tabs: const <Tab>[
-                      Tab(text: "Tarefas"),
-                      Tab(text: "Anotações"),
-                      Tab(text: "Sobre"),
-                    ],
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children: <Widget>[
-              const DisciplineDetailsEmptyStateWidget(
-                icon: Icons.assignment_outlined,
-                title: "Sem tarefas",
-                message: "Nenhuma tarefa pendente para esta disciplina.",
-              ),
-              const DisciplineDetailsEmptyStateWidget(
-                icon: Icons.edit_note_rounded,
-                title: "Sem anotações",
-                message: "Você ainda não criou anotações para esta matéria.",
-              ),
-              DisciplineDetailsAboutTabWidget(
-                discipline: discipline,
-                prerequisites: prerequisites,
-                prerequisiteFor: prerequisiteFor,
-              ),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          controller: _tabController,
+          children: <Widget>[
+            const DisciplineDetailsEmptyStateWidget(
+              icon: Icons.assignment_outlined,
+              title: "Sem tarefas",
+              message: "Nenhuma tarefa pendente para esta disciplina.",
+            ),
+            const DisciplineDetailsEmptyStateWidget(
+              icon: Icons.edit_note_rounded,
+              title: "Sem anotações",
+              message: "Você ainda não criou anotações para esta matéria.",
+            ),
+            DisciplineDetailsAboutTabWidget(
+              discipline: discipline,
+              prerequisites: prerequisites,
+              prerequisiteFor: prerequisiteFor,
+            ),
+          ],
         ),
       ),
     );
