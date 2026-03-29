@@ -11,12 +11,16 @@ import 'package:academic_planner/src/screens/discipline_details/discipline_detai
 import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
+import 'package:academic_planner/src/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
     initialLocation: RoutePaths.home,
+    errorBuilder: (context, state) {
+      return NotFoundScreen();
+    },
     routes: <GoRoute>[
       GoRoute(
         name: RouteNames.root,
