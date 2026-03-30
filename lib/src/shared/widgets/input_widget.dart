@@ -7,6 +7,7 @@ class InputWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hint;
   final int maxLines;
+  final Widget? prefixIcon;
   final Widget? suffix;
   final String? Function(String? value)? validator;
 
@@ -15,6 +16,7 @@ class InputWidget extends StatelessWidget {
     required this.controller,
     required this.hint,
     this.maxLines = 1,
+    this.prefixIcon,
     this.suffix,
     this.validator,
   });
@@ -44,6 +46,7 @@ class InputWidget extends StatelessWidget {
           fontWeight: FontWeight.w600,
           fontSize: 12.0,
         ),
+        prefixIcon: prefixIcon,
         suffixIcon:
             suffix ??
             ListenableBuilder(
