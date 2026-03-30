@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/core/constants/teachers.dart';
+
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_stat_card_widget.dart';
 
 class DisciplineDetailsStatsGridWidget extends StatelessWidget {
@@ -16,6 +18,8 @@ class DisciplineDetailsStatsGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final teacher = teachers.firstWhere((t) => t.id == professorId);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -38,7 +42,7 @@ class DisciplineDetailsStatsGridWidget extends StatelessWidget {
         Expanded(
           child: DisciplineDetailsStatCardWidget(
             label: "Docente",
-            value: "Prof. ID $professorId",
+            value: teacher.name,
             icon: Icons.person_outline_rounded,
           ),
         ),
