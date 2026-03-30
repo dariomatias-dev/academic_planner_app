@@ -65,11 +65,11 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
     );
 
     final prerequisites = adsDisciplines.filter(
-      (discipline) => discipline.prerequisites.contains(discipline.id),
+      (d) => discipline.prerequisites.contains(d.id),
     );
 
     final prerequisiteFor = adsDisciplines.filter(
-      (discipline) => discipline.prerequisiteFor.contains(discipline.id),
+      (d) => discipline.prerequisiteFor.contains(d.id),
     );
 
     return Scaffold(
