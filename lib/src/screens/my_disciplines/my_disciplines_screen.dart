@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
+
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-
-const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
 class MyDisciplinesScreen extends StatelessWidget {
   const MyDisciplinesScreen({super.key});
@@ -17,13 +18,17 @@ class MyDisciplinesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final userDisciplinesNotifier = context.watch<UserDisciplinesNotifier>();
+
     final enrolledDisciplines = adsDisciplines.filter(
-      (discipline) => studentEnrolledIds.contains(discipline.id),
+      (discipline) =>
+          userDisciplinesNotifier.selectedIds.contains(discipline.id),
     );
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
+        label: "ESTUDANTE",
         title: "Minha Grade",
         actions: <Widget>[
           IconButtonWidget(
