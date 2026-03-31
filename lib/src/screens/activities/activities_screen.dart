@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+
+import 'package:academic_planner/src/screens/activities/widgets/activities_date_indicator_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card_widget.dart';
@@ -78,10 +79,6 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final formattedDate = DateFormat(
-      "d 'de' MMMM • EEEE",
-      'pt_BR',
-    ).format(DateTime.now());
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -115,34 +112,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 16.0),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withAlpha(20),
-                          borderRadius: BorderRadius.circular(8.0),
-                        ),
-                        child: Icon(
-                          Icons.calendar_today_rounded,
-                          size: 14.0,
-                          color: colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 10.0),
-                      Text(
-                        formattedDate,
-                        style: GoogleFonts.plusJakartaSans(
-                          fontSize: 13.0,
-                          fontWeight: FontWeight.w700,
-                          color: colorScheme.onSurface.withAlpha(180),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                ActivitiesDateIndicatorWidget(),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
                   child: InputWidget(
