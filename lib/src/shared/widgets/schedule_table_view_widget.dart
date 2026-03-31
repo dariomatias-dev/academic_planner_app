@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
+import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
@@ -205,6 +206,10 @@ class ScheduleTableViewWidget extends StatelessWidget {
       (discipline) => discipline.id == entry.disciplineId,
     );
 
+    final teacher = teachers.firstWhere(
+      (t) => t.id == discipline.responsibleProfessorId,
+    );
+
     return GestureDetector(
       onTap: () {
         AppRoutes.goToDisciplineDetails(
@@ -286,7 +291,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                 const SizedBox(width: 4.0),
                 Expanded(
                   child: Text(
-                    "Prof. ID: ${entry.teacherId}",
+                    teacher.name,
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onSurface.withAlpha(160),
                       fontWeight: FontWeight.w600,
