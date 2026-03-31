@@ -1,15 +1,31 @@
-class ActivityModel {
-  final String title;
-  final DateTime deadline;
-  final int disciplineId;
-  final String priority;
-  final bool isCompleted;
+import 'package:flutter/material.dart';
 
-  ActivityModel({
+enum ActivityStatus { draft, pending, inProgress, completed, canceled }
+
+class ActivityModel {
+  final String id;
+  final String title;
+  final String description;
+  final String? notes;
+  final int disciplineId;
+  final DateTime? dueDate;
+  final String category;
+  final Set<String> tags;
+  final List<String> links;
+  final List<TimeOfDay> reminders;
+  final ActivityStatus status;
+
+  const ActivityModel({
+    required this.id,
     required this.title,
-    required this.deadline,
+    required this.description,
+    this.notes,
     required this.disciplineId,
-    required this.priority,
-    this.isCompleted = false,
+    this.dueDate,
+    required this.category,
+    required this.tags,
+    required this.links,
+    required this.reminders,
+    this.status = ActivityStatus.pending,
   });
 }

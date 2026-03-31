@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 120.0),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return ActivityCardWidget(activity: mockActivities[index]);
+              return ActivityCardWidget(task: mockActivities[index]);
             }, childCount: mockActivities.length),
           ),
         ),
