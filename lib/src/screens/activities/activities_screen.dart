@@ -5,14 +5,17 @@ import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/activities/widgets/activities_date_indicator_widget.dart';
+import 'package:academic_planner/src/screens/activities/widgets/activities_empty_state_widget.dart';
+import 'package:academic_planner/src/screens/activities/widgets/activities_metric_card_widget.dart';
+import 'package:academic_planner/src/screens/activities/widgets/activities_task_list_tab_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 
 class ActivitiesScreenWidget extends StatefulWidget {
   const ActivitiesScreenWidget({super.key});
@@ -141,7 +144,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
               controller: _tabController,
               children: <Widget>[
                 _SummaryTab(tasks: _getFilteredTasks()),
-                _TaskListTab(
+                ActivitiesTaskListTabWidget(
                   tasks: _getFilteredTasks(
                     allowedStatuses: <ActivityStatus>[
                       ActivityStatus.pending,
@@ -151,14 +154,14 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
                   description: "Tarefas em andamento ou pendentes",
                   emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
                 ),
-                _TaskListTab(
+                ActivitiesTaskListTabWidget(
                   tasks: _getFilteredTasks(
                     allowedStatuses: <ActivityStatus>[ActivityStatus.completed],
                   ),
                   description: "Histórico de atividades finalizadas",
                   emptyMessage: "O histórico está vazio. Vamos começar?",
                 ),
-                _TaskListTab(
+                ActivitiesTaskListTabWidget(
                   tasks: _getFilteredTasks(
                     allowedStatuses: <ActivityStatus>[
                       ActivityStatus.draft,
@@ -316,7 +319,7 @@ class _SummaryTab extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: _MetricCard(
+              child: ActivitiesMetricCardWidget(
                 label: "Ativas",
                 value: pending.toString(),
                 icon: Icons.bolt_rounded,
@@ -325,7 +328,7 @@ class _SummaryTab extends StatelessWidget {
             ),
             const SizedBox(width: 16.0),
             Expanded(
-              child: _MetricCard(
+              child: ActivitiesMetricCardWidget(
                 label: "Concluídas",
                 value: completed.toString(),
                 icon: Icons.check_circle_rounded,
@@ -358,7 +361,7 @@ class _SummaryTab extends StatelessWidget {
         ),
         const SizedBox(height: 20.0),
         if (tasks.where((t) => t.status != ActivityStatus.completed).isEmpty)
-          const _EmptyState(
+          const ActivitiesEmptyStateWidget(
             icon: Icons.celebration_rounded,
             message: "Tudo em dia por aqui!",
           )
@@ -367,162 +370,6 @@ class _SummaryTab extends StatelessWidget {
               .where((t) => t.status != ActivityStatus.completed)
               .take(3)
               .map((task) => ActivityCardWidget(task: task)),
-      ],
-    );
-  }
-}
-
-class _MetricCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final IconData icon;
-  final Color color;
-
-  const _MetricCard({
-    required this.label,
-    required this.value,
-    required this.icon,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: colorScheme.outlineVariant.withAlpha(100)),
-      ),
-      child: Row(
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              color: color.withAlpha(30),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(icon, color: color, size: 20.0),
-          ),
-          const SizedBox(width: 16.0),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                value,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w800,
-                  color: colorScheme.onSurface,
-                ),
-              ),
-              Text(
-                label,
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 11.0,
-                  fontWeight: FontWeight.w600,
-                  color: colorScheme.onSurface.withAlpha(140),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  final IconData icon;
-  final String message;
-
-  const _EmptyState({required this.icon, required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Center(
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 24.0),
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(28.0),
-          border: Border.all(
-            color: Theme.of(context).dividerTheme.color ?? Colors.transparent,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Icon(icon, size: 44.0, color: colorScheme.primary.withAlpha(80)),
-            const SizedBox(height: 16.0),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface.withAlpha(140),
-                fontWeight: FontWeight.w600,
-                fontSize: 15.0,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _TaskListTab extends StatelessWidget {
-  final List<ActivityModel> tasks;
-  final String description;
-  final String emptyMessage;
-
-  const _TaskListTab({
-    required this.tasks,
-    required this.description,
-    required this.emptyMessage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-          child: Text(
-            description.toUpperCase(),
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 10.0,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.0,
-              color: colorScheme.primary.withAlpha(180),
-            ),
-          ),
-        ),
-        Expanded(
-          child: tasks.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: _EmptyState(
-                    icon: Icons.inventory_2_outlined,
-                    message: emptyMessage,
-                  ),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 140.0),
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: tasks.length,
-                  itemBuilder: (context, index) =>
-                      ActivityCardWidget(task: tasks[index]),
-                ),
-        ),
       ],
     );
   }
