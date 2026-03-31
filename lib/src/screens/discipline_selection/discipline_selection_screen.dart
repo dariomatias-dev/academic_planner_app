@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_add_tab_content_widget.dart';
 import 'package:academic_planner/src/screens/discipline_selection/widgets/discipline_selection_my_grade_tab_widget.dart';
 import 'package:academic_planner/src/screens/discipline_selection/widgets/discipline_selection_period_selector_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {
@@ -52,11 +54,21 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
       appBar: AppBarWidget(
         label: "CONFIGURAR GRADE",
         title: "Gerencie seu Semestre",
+        actions: <Widget>[
+          IconButtonWidget(
+            icon: Icons.account_tree_rounded,
+            onPressed: () {
+              AppRoutes.goToMySchedule(context);
+            },
+            style: IconButtonStyle.primary,
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
           TabBarWidget(
             controller: _mainTabController,
+            backgroundColor: Theme.of(context).colorScheme.surface,
             tabs: const <Tab>[
               Tab(text: "Minha Grade"),
               Tab(text: "Adicionar"),
