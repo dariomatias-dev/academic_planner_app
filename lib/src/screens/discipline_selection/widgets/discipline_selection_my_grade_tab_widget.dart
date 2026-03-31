@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
 
 class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
-  final List<DisciplineModel> selected;
-  final Function(int) onToggle;
-
-  const DisciplineSelectionMyGradeTabWidget({
-    super.key,
-    required this.selected,
-    required this.onToggle,
-  });
+  const DisciplineSelectionMyGradeTabWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final notifier = context.watch<UserDisciplinesNotifier>();
+
+    final selected = adsDisciplines.filter(
+      (d) => notifier.selectedIds.contains(d.id),
+    );
 
     if (selected.isEmpty) {
       return Center(
@@ -52,7 +55,7 @@ class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
         return DisciplineCardWidget(
           index: index,
           discipline: discipline,
-          onTap: () => onToggle(discipline.id),
+          onTap: () => notifier.toggleDiscipline(discipline.id),
           trailing: Icon(
             Icons.remove_circle_outline_rounded,
             color: colorScheme.primary,

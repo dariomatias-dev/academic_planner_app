@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
 
@@ -10,19 +13,17 @@ import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_c
 class DisciplineSelectionAddTabContentWidget extends StatelessWidget {
   final List<int> periods;
   final TabController periodController;
-  final Set<int> selectedIds;
-  final Function(int) onToggle;
 
   const DisciplineSelectionAddTabContentWidget({
     super.key,
     required this.periods,
     required this.periodController,
-    required this.selectedIds,
-    required this.onToggle,
   });
 
   @override
   Widget build(BuildContext context) {
+    final notifier = context.watch<UserDisciplinesNotifier>();
+
     return TabBarView(
       controller: periodController,
       children: periods.builder((period, index) {
@@ -35,13 +36,13 @@ class DisciplineSelectionAddTabContentWidget extends StatelessWidget {
           itemCount: periodDisciplines.length,
           itemBuilder: (context, index) {
             final discipline = periodDisciplines[index];
-            final isSelected = selectedIds.contains(discipline.id);
+            final isSelected = notifier.selectedIds.contains(discipline.id);
 
             return DisciplineCardWidget(
               index: index + 1,
               discipline: discipline,
               opacity: isSelected ? 1.0 : 0.4,
-              onTap: () => onToggle(discipline.id),
+              onTap: () => notifier.toggleDiscipline(discipline.id),
               trailing: DisciplineSelectionCheckIconWidget(
                 isSelected: isSelected,
               ),
