@@ -9,6 +9,8 @@ import 'package:academic_planner/src/app_widget.dart';
 import 'package:academic_planner/src/core/theme/theme_controller.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -18,13 +20,16 @@ Future<void> main() async {
 
   final themeController = ThemeController();
 
+  final prefsService = SharedPreferencesService(prefs);
+
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
-        Provider<SharedPreferencesService>(
-          create: (_) => SharedPreferencesService(prefs),
+        Provider<SharedPreferencesService>(create: (_) => prefsService),
+        ChangeNotifierProvider<UserDisciplinesNotifier>(
+          create: (_) => UserDisciplinesNotifier(prefsService),
         ),
-        ChangeNotifierProvider(create: (_) => themeController),
+        ChangeNotifierProvider<ThemeController>(create: (_) => themeController),
       ],
       child: const AppWidget(),
     ),
