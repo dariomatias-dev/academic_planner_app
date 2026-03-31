@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
@@ -34,7 +32,6 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     final enrolledDisciplines = adsDisciplines.filter(
       (discipline) => studentEnrolledIds.contains(discipline.id),
@@ -47,6 +44,8 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
+        label: "ESTUDANTE",
+        title: "Minha Grade",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.download_rounded,
@@ -57,41 +56,6 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
       ),
       body: Column(
         children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              border: Border(
-                bottom: BorderSide(
-                  color: theme.dividerTheme.color ?? AppColors.transparent,
-                  width: 1.0,
-                ),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "ESTUDANTE",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.primary,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1.5,
-                  ),
-                ),
-                Text(
-                  "Minha Grade",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface,
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
           Expanded(
             child: ScheduleTableViewWidget(
               repaintKey: _globalKey,
