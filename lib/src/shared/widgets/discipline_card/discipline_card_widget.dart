@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/constants/teachers.dart';
+
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 
 class DisciplineCardWidget extends StatelessWidget {
+  final int index;
+  final DisciplineModel discipline;
+  final VoidCallback? onTap;
+  final Widget? trailing;
+  final double opacity;
+
   const DisciplineCardWidget({
     super.key,
     required this.index,
@@ -13,15 +21,13 @@ class DisciplineCardWidget extends StatelessWidget {
     this.opacity = 1.0,
   });
 
-  final int index;
-  final DisciplineModel discipline;
-  final VoidCallback? onTap;
-  final Widget? trailing;
-  final double opacity;
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    final teacher = teachers.firstWhere(
+      (t) => t.id == discipline.responsibleProfessorId,
+    );
 
     return GestureDetector(
       onTap: onTap,
@@ -72,8 +78,8 @@ class DisciplineCardWidget extends StatelessWidget {
                               discipline.acronym,
                               style: GoogleFonts.plusJakartaSans(
                                 color: colorScheme.primary,
-                                fontWeight: FontWeight.w800,
                                 fontSize: 11.0,
+                                fontWeight: FontWeight.w800,
                                 letterSpacing: 1.0,
                               ),
                             ),
@@ -82,8 +88,8 @@ class DisciplineCardWidget extends StatelessWidget {
                               discipline.name,
                               style: GoogleFonts.plusJakartaSans(
                                 color: colorScheme.onSurface,
-                                fontWeight: FontWeight.w800,
                                 fontSize: 16.0,
+                                fontWeight: FontWeight.w800,
                                 height: 1.2,
                               ),
                               maxLines: 1,
@@ -115,8 +121,7 @@ class DisciplineCardWidget extends StatelessWidget {
                                 const SizedBox(width: 6.0),
                                 Expanded(
                                   child: Text(
-                                    discipline.responsibleProfessorId
-                                        .toString(),
+                                    teacher.name,
                                     style: GoogleFonts.plusJakartaSans(
                                       color: colorScheme.onSurface.withAlpha(
                                         160,
@@ -149,9 +154,9 @@ class DisciplineCardWidget extends StatelessWidget {
                 child: Text(
                   index.toString().padLeft(2, '0'),
                   style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.primary.withAlpha(18),
                     fontSize: 60.0,
                     fontWeight: FontWeight.w900,
-                    color: colorScheme.primary.withAlpha(20),
                   ),
                 ),
               ),
