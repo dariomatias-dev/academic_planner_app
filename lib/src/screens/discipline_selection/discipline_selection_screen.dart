@@ -7,7 +7,6 @@ import 'package:academic_planner/src/screens/discipline_selection/widgets/discip
 import 'package:academic_planner/src/screens/discipline_selection/widgets/discipline_selection_period_selector_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {
@@ -53,15 +52,6 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
       appBar: AppBarWidget(
         label: "CONFIGURAR GRADE",
         title: "Gerencie seu Semestre",
-        actions: <Widget>[
-          IconButtonWidget(
-            icon: Icons.check_rounded,
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: IconButtonStyle.primary,
-          ),
-        ],
       ),
       body: Column(
         children: <Widget>[
