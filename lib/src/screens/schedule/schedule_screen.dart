@@ -9,7 +9,7 @@ import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/schedule_table_view_widget.dart';
+import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
