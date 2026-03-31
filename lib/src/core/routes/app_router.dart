@@ -13,19 +13,25 @@ import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart
 import 'package:academic_planner/src/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
+import 'package:academic_planner/src/screens/splash/splash_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
-    initialLocation: RoutePaths.home,
+    initialLocation: RoutePaths.splash,
     errorBuilder: (context, state) {
       return NotFoundScreen();
     },
     routes: <GoRoute>[
       GoRoute(
         name: RouteNames.root,
-        path: RoutePaths.home,
+        path: RoutePaths.root,
         builder: (context, state) => const RootNavigation(),
         routes: <GoRoute>[
+          GoRoute(
+            name: RouteNames.splash,
+            path: RoutePaths.splash,
+            builder: (context, state) => const SplashScreen(),
+          ),
           GoRoute(
             name: RouteNames.disciplines,
             path: RoutePaths.disciplines,

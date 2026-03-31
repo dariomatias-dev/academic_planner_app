@@ -58,7 +58,7 @@ class NotFoundScreen extends StatelessWidget {
               const SizedBox(height: 40.0),
               ButtonWidget(
                 onPressed: () {
-                  AppRoutes.goHome(context);
+                  AppRoutes.goRoot(context);
                 },
                 isFullWidth: true,
                 label: 'Voltar para o Início',

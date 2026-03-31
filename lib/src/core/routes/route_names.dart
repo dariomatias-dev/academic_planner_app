@@ -1,4 +1,6 @@
 class RouteNames {
+  static const splash = 'splash';
+
   static const root = 'root';
 
   static const disciplines = 'disciplines';
