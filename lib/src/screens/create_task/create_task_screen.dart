@@ -37,7 +37,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _notesController = TextEditingController();
-  final _linkController = TextEditingController();
   final _reminders = <TimeOfDay>[];
 
   DisciplineModel? _selectedDiscipline;
@@ -49,24 +48,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   final _selectedTags = <String>{};
   final _availableTags = <String>["Urgente", "Teórica", "Prática", "Grupo"];
 
-  final _links = <String>[];
-
   void _unfocus() => FocusManager.instance.primaryFocus?.unfocus();
-
-  void _addLink() {
-    if (_linkController.text.isEmpty) return;
-
-    final validationError = AppValidators.url(_linkController.text);
-    if (validationError != null) return;
-
-    final link = _linkController.text.trim();
-    if (!_links.contains(link)) {
-      setState(() {
-        _links.add(link);
-        _linkController.clear();
-      });
-    }
-  }
 
   void _showCreateCategoryDialog() {
     _unfocus();
@@ -150,7 +132,6 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     _titleController.dispose();
     _descriptionController.dispose();
     _notesController.dispose();
-    _linkController.dispose();
 
     super.dispose();
   }
@@ -160,8 +141,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: 'Atividade',
-        title: "Criar Tarefa",
+        label: 'Planejamento',
+        title: "Criar Atividade",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.check_rounded,
@@ -183,7 +164,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
               CreateTaskInputFieldWidget(
                 controller: _titleController,
-                label: "Título da Tarefa",
+                label: "Título",
                 hint: "O que deve ser feito?",
                 isRequired: true,
                 validator: (validator) {
@@ -298,22 +279,11 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 },
               ),
               const SizedBox(height: 32.0),
-              const CreateTaskSectionTitleWidget(title: "Anotações e Links"),
-              CreateTaskInputFieldWidget(
+              const CreateTaskSectionTitleWidget(title: "Anotações"),
+              InputWidget(
                 controller: _notesController,
-                label: "Notas",
                 hint: "Rascunhos ou lembretes rápidos...",
                 maxLines: 5,
-              ),
-              CreateTaskLinksInputWidget(
-                controller: _linkController,
-                links: _links,
-                onAdd: _addLink,
-                onRemove: (link) {
-                  setState(() {
-                    _links.remove(link);
-                  });
-                },
               ),
             ],
           ),
@@ -780,110 +750,6 @@ class CreateTaskRemindersWidget extends StatelessWidget {
                 onRemove: () => onRemove(time),
               );
             }),
-          ),
-      ],
-    );
-  }
-}
-
-class CreateTaskLinksInputWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final List<String> links;
-  final VoidCallback onAdd;
-  final Function(String) onRemove;
-
-  const CreateTaskLinksInputWidget({
-    super.key,
-    required this.controller,
-    required this.links,
-    required this.onAdd,
-    required this.onRemove,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const CreateTaskLabelWidget(label: "Links de Apoio"),
-        const SizedBox(height: 8.0),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Expanded(
-              child: InputWidget(
-                controller: controller,
-                hint: "URL do material...",
-                validator: AppValidators.url,
-              ),
-            ),
-            const SizedBox(width: 8.0),
-            IconButton(
-              onPressed: onAdd,
-              icon: Icon(Icons.add_link_rounded, color: colorScheme.onPrimary),
-              style: IconButton.styleFrom(
-                backgroundColor: colorScheme.primary,
-                fixedSize: const Size(48.0, 48.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-              ),
-            ),
-          ],
-        ),
-        if (links.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: Column(
-              children: links.builder((link, index) {
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 12.0),
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(
-                      color:
-                          Theme.of(context).dividerTheme.color ??
-                          AppColors.transparent,
-                    ),
-                  ),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.link_rounded,
-                        color: colorScheme.primary,
-                        size: 18.0,
-                      ),
-                      const SizedBox(width: 12.0),
-                      Expanded(
-                        child: Text(
-                          link,
-                          style: GoogleFonts.plusJakartaSans(
-                            color: colorScheme.onSurface,
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      GestureDetector(
-                        onTap: () => onRemove(link),
-                        child: Icon(
-                          Icons.delete_outline_rounded,
-                          color: colorScheme.onSurface.withAlpha(160),
-                          size: 20.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            ),
           ),
       ],
     );
