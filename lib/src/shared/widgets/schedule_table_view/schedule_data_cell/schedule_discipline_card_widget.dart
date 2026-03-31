@@ -7,6 +7,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/models/schedule_entry.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 
 class ScheduleDisciplineCardWidget extends StatelessWidget {
   final ScheduleEntry entry;
@@ -28,9 +29,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
       (discipline) => discipline.id == entry.disciplineId,
     );
 
-    final teacher = teachers.firstWhere(
-      (t) => t.id == discipline.responsibleProfessorId,
-    );
+    final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
     return GestureDetector(
       onTap: () {

@@ -4,21 +4,23 @@ import 'package:academic_planner/src/core/constants/teachers.dart';
 
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_stat_card_widget.dart';
 
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
+
 class DisciplineDetailsStatsGridWidget extends StatelessWidget {
   const DisciplineDetailsStatsGridWidget({
     super.key,
     required this.workload,
     required this.weeklyHours,
-    required this.professorId,
+    required this.teacherId,
   });
 
   final int workload;
   final int weeklyHours;
-  final int professorId;
+  final int teacherId;
 
   @override
   Widget build(BuildContext context) {
-    final teacher = teachers.firstWhere((t) => t.id == professorId);
+    final teacher = getTeacherById(teacherId, teachers);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

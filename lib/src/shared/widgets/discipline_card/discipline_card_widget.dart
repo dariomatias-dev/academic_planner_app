@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/constants/teachers.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 
 class DisciplineCardWidget extends StatelessWidget {
   final int index;
@@ -25,9 +26,7 @@ class DisciplineCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final teacher = teachers.firstWhere(
-      (t) => t.id == discipline.responsibleProfessorId,
-    );
+    final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
     return GestureDetector(
       onTap: onTap,
