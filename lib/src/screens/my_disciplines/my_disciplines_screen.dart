@@ -13,21 +13,23 @@ import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_c
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class MyDisciplinesScreen extends StatelessWidget {
-  const MyDisciplinesScreen({super.key});
+  const MyDisciplinesScreen({super.key, this.showBackButton});
+
+  final bool? showBackButton;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final userDisciplinesNotifier = context.watch<UserDisciplinesNotifier>();
 
-    final enrolledDisciplines = adsDisciplines.filter(
-      (discipline) =>
-          userDisciplinesNotifier.selectedIds.contains(discipline.id),
-    );
+    final enrolledDisciplines = adsDisciplines.filter((discipline) {
+      return userDisciplinesNotifier.selectedIds.contains(discipline.id);
+    });
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
+        showBackButton: showBackButton,
         label: "ESTUDANTE",
         title: "Minha Grade",
         actions: <Widget>[

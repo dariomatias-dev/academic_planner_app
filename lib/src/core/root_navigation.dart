@@ -21,7 +21,7 @@ class RootNavigationState extends State<RootNavigation> {
 
   final _screens = <Widget>[
     const HomeScreen(),
-    const MyDisciplinesScreen(),
+    const MyDisciplinesScreen(showBackButton: false),
     const ActivitiesScreenWidget(),
     const SettingsScreen(),
   ];
