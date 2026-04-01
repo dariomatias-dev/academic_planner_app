@@ -10,7 +10,7 @@ import 'package:academic_planner/src/screens/activities/widgets/activities_metri
 import 'package:academic_planner/src/screens/activities/widgets/activities_task_list_tab_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
