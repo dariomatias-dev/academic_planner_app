@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(
-        title: "Home",
+        title: "Bem-vindo",
         showBackButton: false,
         actions: <Widget>[NotificationButtonWidget()],
       ),
