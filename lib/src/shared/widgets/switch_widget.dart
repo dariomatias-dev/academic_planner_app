@@ -11,18 +11,50 @@ class SwitchWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return Switch(
-      value: value,
-      onChanged: onChanged,
-      activeThumbColor: colorScheme.primary,
-      activeTrackColor: colorScheme.primary.withAlpha(80),
-      trackColor: WidgetStatePropertyAll<Color>(colorScheme.surface),
-      trackOutlineColor: WidgetStatePropertyAll<Color>(
-        colorScheme.onSurface.withAlpha(50),
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: Container(
+        width: 58.0,
+        height: 34.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(100.0),
+          color: value
+              ? colorScheme.primary.withAlpha(30)
+              : colorScheme.surface,
+          border: Border.all(
+            color: value
+                ? colorScheme.primary.withAlpha(80)
+                : (theme.dividerTheme.color ?? Colors.transparent),
+            width: 2.0,
+          ),
+        ),
+        child: AnimatedAlign(
+          duration: const Duration(milliseconds: 180),
+          curve: Curves.easeInOutQuart,
+          alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Container(
+              width: 22.0,
+              height: 22.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: value
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withAlpha(60),
+                boxShadow: <BoxShadow>[
+                  if (value)
+                    BoxShadow(
+                      color: colorScheme.primary.withAlpha(60),
+                      blurRadius: 10.0,
+                      offset: const Offset(0.0, 4.0),
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
-      trackOutlineWidth: const WidgetStatePropertyAll<double>(1.0),
-      inactiveThumbColor: colorScheme.onSurface.withAlpha(100),
-      inactiveTrackColor: colorScheme.onSurface.withAlpha(40),
     );
   }
 }
