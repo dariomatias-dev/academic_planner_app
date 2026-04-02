@@ -1,34 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 
 class ActivitiesDateIndicatorWidget extends StatelessWidget {
   const ActivitiesDateIndicatorWidget({super.key});
 
-  String _formatDate() {
-    final raw = DateFormat(
-      "d 'de' MMMM • EEEE",
-      'pt_BR',
-    ).format(DateTime.now());
-
-    final parts = raw.split('•');
-
-    if (parts.length < 2) return raw;
-
-    final day = parts[1].trim();
-
-    final capitalized = day
-        .split('-')
-        .map((e) => e.isNotEmpty ? e[0].toUpperCase() + e.substring(1) : e)
-        .join('-');
-
-    return "${parts[0]}• $capitalized";
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final formattedDate = _formatDate();
+    final formattedDate = DateUtilsHelper.formatWeekdayDate(DateTime.now());
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 16.0),
