@@ -7,6 +7,7 @@ import 'package:academic_planner/src/core/theme/theme_controller.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/settings/widgets/settings_profile_header_widget.dart';
+import 'package:academic_planner/src/screens/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
@@ -122,131 +123,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _showThemeBottomSheet(BuildContext context) {
     final themeController = context.read<ThemeController>();
-    final colorScheme = Theme.of(context).colorScheme;
 
     ModalBottomSheetWidget.show(
       context: context,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            "APARÊNCIA",
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 11.0,
-              fontWeight: FontWeight.w900,
-              color: colorScheme.primary,
-              letterSpacing: 1.5,
-            ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            "Escolha o tema",
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w900,
-              color: colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: 24.0),
-          _buildThemeOption(
-            context,
-            label: 'Modo Claro',
-            icon: Icons.light_mode_rounded,
-            value: ThemeMode.light,
-            isSelected: themeController.themeMode == ThemeMode.light,
-            onTap: () {
-              themeController.setThemeMode(ThemeMode.light);
-              Navigator.pop(context);
-            },
-          ),
-          _buildThemeOption(
-            context,
-            label: 'Modo Escuro',
-            icon: Icons.dark_mode_rounded,
-            value: ThemeMode.dark,
-            isSelected: themeController.themeMode == ThemeMode.dark,
-            onTap: () {
-              themeController.setThemeMode(ThemeMode.dark);
-              Navigator.pop(context);
-            },
-          ),
-          _buildThemeOption(
-            context,
-            label: 'Padrão do Sistema',
-            icon: Icons.settings_brightness_rounded,
-            value: ThemeMode.system,
-            isSelected: themeController.themeMode == ThemeMode.system,
-            onTap: () {
-              themeController.setThemeMode(ThemeMode.system);
-              Navigator.pop(context);
-            },
-          ),
-          const SizedBox(height: 16.0),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildThemeOption(
-    BuildContext context, {
-    required String label,
-    required IconData icon,
-    required ThemeMode value,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(20.0),
-        child: Container(
-          padding: const EdgeInsets.all(16.0),
-          decoration: BoxDecoration(
-            color: isSelected
-                ? colorScheme.primary.withAlpha(15)
-                : Colors.transparent,
-            borderRadius: BorderRadius.circular(20.0),
-            border: Border.all(
-              color: isSelected
-                  ? colorScheme.primary.withAlpha(50)
-                  : (theme.dividerTheme.color ?? AppColors.transparent),
-              width: 1.0,
-            ),
-          ),
-          child: Row(
-            children: <Widget>[
-              Icon(
-                icon,
-                color: isSelected
-                    ? colorScheme.primary
-                    : colorScheme.onSurface.withAlpha(100),
-                size: 22.0,
-              ),
-              const SizedBox(width: 16.0),
-              Expanded(
-                child: Text(
-                  label,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface,
-                    fontSize: 15.0,
-                    fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-                  ),
-                ),
-              ),
-              if (isSelected)
-                Icon(
-                  Icons.check_circle_rounded,
-                  color: colorScheme.primary,
-                  size: 22.0,
-                ),
-            ],
-          ),
-        ),
+      child: ThemeSelectorModalWidget(
+        currentMode: themeController.themeMode,
+        onModeSelected: (mode) {
+          themeController.setThemeMode(mode);
+          Navigator.pop(context);
+        },
       ),
     );
   }
@@ -302,7 +187,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(24.0),
