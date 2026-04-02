@@ -75,7 +75,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               context,
               icon: Icons.dark_mode_outlined,
               title: "Modo Escuro",
-              onTap: themeController.toggleTheme,
+              onTap: () {},
               trailing: IgnorePointer(
                 child: SwitchWidget(
                   value: themeController.isDarkMode,

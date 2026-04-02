@@ -18,9 +18,9 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
-  final themeController = ThemeController();
-
   final prefsService = SharedPreferencesService(prefs);
+
+  final themeController = ThemeController(prefsService);
 
   runApp(
     MultiProvider(
