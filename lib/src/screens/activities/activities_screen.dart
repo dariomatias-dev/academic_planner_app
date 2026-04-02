@@ -46,9 +46,9 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     }).toList();
 
     filtered.sort((a, b) {
-      if (a.dueDate == null && b.dueDate == null) return 0;
-      if (a.dueDate == null) return 1;
-      if (b.dueDate == null) return -1;
+      if (a.dueDate == null && b.dueDate == null) return 0.0.toInt();
+      if (a.dueDate == null) return 1.0.toInt();
+      if (b.dueDate == null) return -1.0.toInt();
 
       return a.dueDate!.compareTo(b.dueDate!);
     });
@@ -91,18 +91,22 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
           const NotificationButtonWidget(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppRoutes.goToCreateTask(context, disciplineId: 0);
-        },
-        backgroundColor: colorScheme.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Icon(
-          Icons.add_rounded,
-          color: colorScheme.onPrimary,
-          size: 24.0,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 90.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            AppRoutes.goToCreateTask(context, disciplineId: 0);
+          },
+          backgroundColor: colorScheme.primary,
+          elevation: 4.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Icon(
+            Icons.add_rounded,
+            color: colorScheme.onPrimary,
+            size: 28.0,
+          ),
         ),
       ),
       body: Column(
@@ -171,6 +175,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
               ],
             ),
           ),
+          const SizedBox(height: 52.0),
         ],
       ),
     );
