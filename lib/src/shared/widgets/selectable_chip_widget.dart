@@ -15,7 +15,8 @@ class SelectableChipWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return GestureDetector(
       onTap: onTap,
@@ -35,7 +36,11 @@ class SelectableChipWidget extends StatelessWidget {
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
-          side: BorderSide.none,
+          side: BorderSide(
+            color: isSelected
+                ? colorScheme.primary
+                : (theme.dividerTheme.color ?? Colors.transparent),
+          ),
         ),
       ),
     );
