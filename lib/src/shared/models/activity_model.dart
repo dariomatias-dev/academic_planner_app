@@ -11,7 +11,6 @@ class ActivityModel {
   final DateTime? dueDate;
   final String category;
   final Set<String> tags;
-  final List<String> links;
   final List<TimeOfDay> reminders;
   final ActivityStatus status;
 
@@ -24,7 +23,6 @@ class ActivityModel {
     this.dueDate,
     required this.category,
     required this.tags,
-    required this.links,
     required this.reminders,
     this.status = ActivityStatus.pending,
   });
