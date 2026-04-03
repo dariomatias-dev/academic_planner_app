@@ -173,51 +173,55 @@ class ActivityCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
+                    spacing: 8.0,
                     children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 2.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withAlpha(20),
-                          borderRadius: BorderRadius.circular(6.0),
-                        ),
-                        child: Text(
-                          task.category.toUpperCase(),
-                          style: GoogleFonts.plusJakartaSans(
-                            color: colorScheme.primary,
-                            fontSize: 9.0,
-                            fontWeight: FontWeight.w900,
+                      if (task.category != null)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0,
+                            vertical: 2.0,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary.withAlpha(20),
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          child: Text(
+                            task.category?.toUpperCase() ?? '',
+                            style: GoogleFonts.plusJakartaSans(
+                              color: colorScheme.primary,
+                              fontSize: 9.0,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 8.0),
-                      Container(
-                        width: 6.0,
-                        height: 6.0,
-                        decoration: BoxDecoration(
-                          color: statusColor,
-                          shape: BoxShape.circle,
+                      if (task.dueDate != null)
+                        Row(
+                          children: <Widget>[
+                            Container(
+                              width: 6.0,
+                              height: 6.0,
+                              decoration: BoxDecoration(
+                                color: statusColor,
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            const SizedBox(width: 8.0),
+                            Icon(
+                              Icons.calendar_today_rounded,
+                              size: 12.0,
+                              color: colorScheme.onSurface.withAlpha(120),
+                            ),
+                            const SizedBox(width: 4.0),
+                            Text(
+                              DateFormat('dd MMM').format(task.dueDate!),
+                              style: GoogleFonts.plusJakartaSans(
+                                color: colorScheme.onSurface.withAlpha(160),
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      if (task.dueDate != null) ...[
-                        const SizedBox(width: 8.0),
-                        Icon(
-                          Icons.calendar_today_rounded,
-                          size: 12.0,
-                          color: colorScheme.onSurface.withAlpha(120),
-                        ),
-                        const SizedBox(width: 4.0),
-                        Text(
-                          DateFormat('dd MMM').format(task.dueDate!),
-                          style: GoogleFonts.plusJakartaSans(
-                            color: colorScheme.onSurface.withAlpha(160),
-                            fontSize: 11.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
                     ],
                   ),
                   const SizedBox(height: 6.0),
