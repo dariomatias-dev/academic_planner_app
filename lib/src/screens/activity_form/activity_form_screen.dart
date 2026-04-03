@@ -277,6 +277,11 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 dueDate: _dueDate,
                 isRequired: false,
                 onTap: _selectDate,
+                onClear: () {
+                  setState(() {
+                    _dueDate = null;
+                  });
+                },
               ),
               const SizedBox(height: 16.0),
               ActivityFormRemindersWidget(
@@ -670,12 +675,14 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
 class ActivityFormDatePickerWidget extends StatelessWidget {
   final DateTime? dueDate;
   final VoidCallback onTap;
+  final VoidCallback onClear;
   final bool isRequired;
 
   const ActivityFormDatePickerWidget({
     super.key,
     this.dueDate,
     required this.onTap,
+    required this.onClear,
     this.isRequired = false,
   });
 
@@ -731,10 +738,29 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
               ],
             ),
             const Spacer(),
+            if (dueDate != null) ...<Widget>[
+              GestureDetector(
+                onTap: (onClear),
+                child: Container(
+                  padding: const EdgeInsets.all(4.0),
+                  decoration: BoxDecoration(
+                    color: colorScheme.error.withAlpha(20),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.close_rounded,
+                    color: colorScheme.error,
+                    size: 22.0,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12.0),
+            ],
+            const SizedBox(width: 4.0),
             Icon(
               Icons.edit_calendar_rounded,
               color: colorScheme.primary,
-              size: 20.0,
+              size: 22.0,
             ),
           ],
         ),
