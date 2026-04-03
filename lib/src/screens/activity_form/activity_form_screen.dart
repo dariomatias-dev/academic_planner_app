@@ -45,7 +45,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   DateTime? _dueDate;
   ActivityStatus? _selectedStatus;
 
-  String _selectedCategory = "Estudo";
+  String? _selectedCategory;
   final _categories = <String>["Estudo", "Leitura", "Projeto", "Prova"];
 
   final _selectedTags = <String>{};
@@ -254,7 +254,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               ActivityFormCategorySelectorWidget(
                 categories: _categories,
                 selectedCategory: _selectedCategory,
-                isRequired: true,
                 onSelect: (category) {
                   setState(() {
                     _selectedCategory = category;
@@ -545,8 +544,8 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
 
 class ActivityFormCategorySelectorWidget extends StatelessWidget {
   final List<String> categories;
-  final String selectedCategory;
-  final void Function(String value) onSelect;
+  final String? selectedCategory;
+  final void Function(String? value) onSelect;
   final VoidCallback onCreate;
   final bool isRequired;
 
@@ -592,7 +591,7 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
               final isSelected = selectedCategory == category;
 
               return SelectableChipWidget(
-                onTap: () => onSelect(category),
+                onTap: () => onSelect(isSelected ? null : category),
                 label: category,
                 isSelected: isSelected,
               );
