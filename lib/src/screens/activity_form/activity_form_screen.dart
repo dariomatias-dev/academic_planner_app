@@ -165,7 +165,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 title: "Conteúdo",
                 padding: EdgeInsets.only(top: 12.0, bottom: 16.0),
               ),
-              CreateTaskInputFieldWidget(
+              ActivityFormInputFieldWidget(
                 controller: _titleController,
                 label: "Título",
                 hint: "O que deve ser feito?",
@@ -177,7 +177,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   );
                 },
               ),
-              CreateTaskInputFieldWidget(
+              ActivityFormInputFieldWidget(
                 controller: _descriptionController,
                 label: "Descrição",
                 hint: "Mais detalhes...",
@@ -203,7 +203,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      CreateTaskDisciplinePickerWidget(
+                      ActivityFormDisciplinePickerWidget(
                         selectedDiscipline: state.value,
                         isRequired: true,
                         onTap: () {
@@ -212,7 +212,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                           ModalBottomSheetWidget.show(
                             context: context,
                             title: "Minhas Matérias",
-                            child: CreateTaskDisciplineListWidget(
+                            child: ActivityFormDisciplineListWidget(
                               selectedId: state.value?.id,
                               onSelected: (discipline) {
                                 setState(() {
@@ -251,7 +251,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 },
               ),
               const SizedBox(height: 20.0),
-              CreateTaskCategorySelectorWidget(
+              ActivityFormCategorySelectorWidget(
                 categories: _categories,
                 selectedCategory: _selectedCategory,
                 isRequired: true,
@@ -263,7 +263,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 onCreate: _showCreateCategoryDialog,
               ),
               const SizedBox(height: 20.0),
-              CreateTaskTagSelectorWidget(
+              ActivityFormTagSelectorWidget(
                 availableTags: _availableTags,
                 selectedTags: _selectedTags,
                 onToggle: (tag, value) {
@@ -275,13 +275,13 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               ),
               const SizedBox(height: 32.0),
               const ActivityFormSectionTitleWidget(title: "Prazos e Lembretes"),
-              CreateTaskDatePickerWidget(
+              ActivityFormDatePickerWidget(
                 dueDate: _dueDate,
                 isRequired: false,
                 onTap: _selectDate,
               ),
               const SizedBox(height: 16.0),
-              CreateTaskRemindersWidget(
+              ActivityFormRemindersWidget(
                 reminders: _reminders,
                 onAdd: _addReminder,
                 onRemove: (time) {
@@ -305,12 +305,12 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   }
 }
 
-class CreateTaskLabelWidget extends StatelessWidget {
+class ActivityFormLabelWidget extends StatelessWidget {
   final String label;
   final bool isRequired;
   final double fontSize;
 
-  const CreateTaskLabelWidget({
+  const ActivityFormLabelWidget({
     super.key,
     required this.label,
     this.isRequired = false,
@@ -342,7 +342,7 @@ class CreateTaskLabelWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskInputFieldWidget extends StatelessWidget {
+class ActivityFormInputFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
@@ -350,7 +350,7 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
   final bool isRequired;
   final String? Function(String? value)? validator;
 
-  const CreateTaskInputFieldWidget({
+  const ActivityFormInputFieldWidget({
     super.key,
     required this.controller,
     required this.label,
@@ -367,7 +367,7 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          CreateTaskLabelWidget(label: label, isRequired: isRequired),
+          ActivityFormLabelWidget(label: label, isRequired: isRequired),
           const SizedBox(height: 8.0),
           InputWidget(
             controller: controller,
@@ -381,12 +381,12 @@ class CreateTaskInputFieldWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskDisciplinePickerWidget extends StatelessWidget {
+class ActivityFormDisciplinePickerWidget extends StatelessWidget {
   final DisciplineModel? selectedDiscipline;
   final VoidCallback onTap;
   final bool isRequired;
 
-  const CreateTaskDisciplinePickerWidget({
+  const ActivityFormDisciplinePickerWidget({
     super.key,
     this.selectedDiscipline,
     required this.onTap,
@@ -400,7 +400,7 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        CreateTaskLabelWidget(label: "Disciplina", isRequired: isRequired),
+        ActivityFormLabelWidget(label: "Disciplina", isRequired: isRequired),
         const SizedBox(height: 8.0),
         GestureDetector(
           onTap: onTap,
@@ -448,11 +448,11 @@ class CreateTaskDisciplinePickerWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskDisciplineListWidget extends StatelessWidget {
+class ActivityFormDisciplineListWidget extends StatelessWidget {
   final int? selectedId;
   final Function(DisciplineModel value) onSelected;
 
-  const CreateTaskDisciplineListWidget({
+  const ActivityFormDisciplineListWidget({
     super.key,
     this.selectedId,
     required this.onSelected,
@@ -524,7 +524,7 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const CreateTaskLabelWidget(label: "Status"),
+        const ActivityFormLabelWidget(label: "Status"),
         const SizedBox(height: 12.0),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -546,14 +546,14 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskCategorySelectorWidget extends StatelessWidget {
+class ActivityFormCategorySelectorWidget extends StatelessWidget {
   final List<String> categories;
   final String selectedCategory;
   final void Function(String value) onSelect;
   final VoidCallback onCreate;
   final bool isRequired;
 
-  const CreateTaskCategorySelectorWidget({
+  const ActivityFormCategorySelectorWidget({
     super.key,
     required this.categories,
     required this.selectedCategory,
@@ -572,7 +572,7 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            CreateTaskLabelWidget(label: "Categoria", isRequired: isRequired),
+            ActivityFormLabelWidget(label: "Categoria", isRequired: isRequired),
             GestureDetector(
               onTap: onCreate,
               child: Text(
@@ -607,13 +607,13 @@ class CreateTaskCategorySelectorWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskTagSelectorWidget extends StatelessWidget {
+class ActivityFormTagSelectorWidget extends StatelessWidget {
   final List<String> availableTags;
   final Set<String> selectedTags;
   final Function(String tag, bool value) onToggle;
   final VoidCallback onCreate;
 
-  const CreateTaskTagSelectorWidget({
+  const ActivityFormTagSelectorWidget({
     super.key,
     required this.availableTags,
     required this.selectedTags,
@@ -671,12 +671,12 @@ class CreateTaskTagSelectorWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskDatePickerWidget extends StatelessWidget {
+class ActivityFormDatePickerWidget extends StatelessWidget {
   final DateTime? dueDate;
   final VoidCallback onTap;
   final bool isRequired;
 
-  const CreateTaskDatePickerWidget({
+  const ActivityFormDatePickerWidget({
     super.key,
     this.dueDate,
     required this.onTap,
@@ -717,7 +717,7 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                CreateTaskLabelWidget(
+                ActivityFormLabelWidget(
                   label: "Data de Entrega",
                   isRequired: isRequired,
                   fontSize: 11.0,
@@ -747,12 +747,12 @@ class CreateTaskDatePickerWidget extends StatelessWidget {
   }
 }
 
-class CreateTaskRemindersWidget extends StatelessWidget {
+class ActivityFormRemindersWidget extends StatelessWidget {
   final List<TimeOfDay> reminders;
   final VoidCallback onAdd;
   final Function(TimeOfDay) onRemove;
 
-  const CreateTaskRemindersWidget({
+  const ActivityFormRemindersWidget({
     super.key,
     required this.reminders,
     required this.onAdd,
