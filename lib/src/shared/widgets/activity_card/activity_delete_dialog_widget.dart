@@ -4,11 +4,11 @@ import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
-class DeleteActivityDialogWidget extends StatelessWidget {
+class ActivityDeleteDialogWidget extends StatelessWidget {
   final ActivityModel task;
   final VoidCallback onDelete;
 
-  const DeleteActivityDialogWidget({
+  const ActivityDeleteDialogWidget({
     super.key,
     required this.task,
     required this.onDelete,
@@ -22,7 +22,7 @@ class DeleteActivityDialogWidget extends StatelessWidget {
     return showDialog(
       context: context, 
       builder: (context) {
-        return DeleteActivityDialogWidget(task: task, onDelete: onDelete);
+        return ActivityDeleteDialogWidget(task: task, onDelete: onDelete);
       },
     );
   }

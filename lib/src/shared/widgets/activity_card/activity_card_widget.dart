@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/delete_activity_dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/activity_card/activity_delete_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 class ActivityCardWidget extends StatelessWidget {
@@ -102,7 +102,7 @@ class ActivityCardWidget extends StatelessWidget {
             label: "Excluir atividade",
             color: colorScheme.error,
             onTap: () {
-              DeleteActivityDialogWidget.show(
+              ActivityDeleteDialogWidget.show(
                 context,
                 task: task,
                 onDelete: () {
