@@ -9,6 +9,7 @@ import 'package:academic_planner/src/screens/activities/widgets/activities_task_
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
@@ -98,21 +99,12 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 90.0),
-        child: FloatingActionButton(
+        child: FloatingActionButtonWidget(
           heroTag: null,
           onPressed: () {
             AppRoutes.goToActivityForm(context, disciplineId: 0);
           },
-          backgroundColor: colorScheme.primary,
-          elevation: 4.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-          ),
-          child: Icon(
-            Icons.add_rounded,
-            color: colorScheme.onPrimary,
-            size: 28.0,
-          ),
+          icon: Icons.add_rounded,
         ),
       ),
       body: Column(
