@@ -1,7 +1,11 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
@@ -23,8 +27,11 @@ class ActivityDetailsScreen extends StatefulWidget {
 }
 
 class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
+  final _logger = Logger();
+
   late ActivityStatus? _originalStatus;
   late ActivityStatus? _currentStatus;
+  late QuillController _quillController;
 
   String _getStatusLabel(ActivityStatus? status) {
     return switch (status) {
@@ -60,11 +67,36 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   @override
   void initState() {
     super.initState();
+
     final activity = mockActivities.firstWhere(
       (a) => a.id == widget.activityId,
     );
+
     _originalStatus = activity.status;
     _currentStatus = activity.status;
+
+    if (activity.description.startsWith('[') ||
+        activity.description.startsWith('{')) {
+      _quillController = QuillController(
+        document: Document.fromJson(jsonDecode(activity.description)),
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true,
+      );
+    } else {
+      final doc = Document()..insert(0, activity.description);
+      _quillController = QuillController(
+        document: doc,
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _quillController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -78,11 +110,30 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       (d) => d.id == activity.disciplineId,
     );
 
+    final defaultStyles = DefaultStyles(
+      paragraph: DefaultTextBlockStyle(
+        GoogleFonts.plusJakartaSans(
+          fontSize: 16.0,
+          color: colorScheme.onSurface.withAlpha(180),
+          height: 1.6,
+        ),
+        const HorizontalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        const VerticalSpacing(0, 0),
+        null,
+      ),
+      link: GoogleFonts.plusJakartaSans(
+        color: colorScheme.primary,
+        fontWeight: FontWeight.w700,
+        decoration: TextDecoration.underline,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         label: 'Planejamento',
-        title: "Detalhes da Atividade",
+        title: "Detalhes",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.edit_outlined,
@@ -214,11 +265,9 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                     children: ActivityStatus.values.map((status) {
                       final isSelected = _currentStatus == status;
                       return SelectableChipWidget(
-                        onTap: () {
-                          setState(() {
-                            _currentStatus = isSelected ? null : status;
-                          });
-                        },
+                        onTap: () => setState(
+                          () => _currentStatus = isSelected ? null : status,
+                        ),
                         label: _getStatusLabel(status),
                         isSelected: isSelected,
                       );
@@ -227,12 +276,37 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                 ),
                 const SizedBox(height: 32.0),
                 const ActivityDetailsSectionTitleWidget(title: "Descrição"),
-                Text(
-                  activity.description,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 16.0,
-                    color: colorScheme.onSurface.withAlpha(180),
-                    height: 1.6,
+                QuillEditor(
+                  controller: _quillController,
+                  scrollController: ScrollController(),
+                  focusNode: FocusNode(),
+                  config: QuillEditorConfig(
+                    scrollable: false,
+                    autoFocus: false,
+                    expands: false,
+                    showCursor: false,
+                    padding: EdgeInsets.zero,
+                    customStyles: defaultStyles,
+                    onLaunchUrl: (url) async {
+                      try {
+                        final uri = Uri.parse(url);
+
+                        final launched = await launchUrl(
+                          uri,
+                          mode: LaunchMode.externalApplication,
+                        );
+
+                        if (!launched) {
+                          _logger.e("Could not open link $uri");
+                        }
+                      } catch (err, stackTrace) {
+                        _logger.e(
+                          "Error opening link",
+                          error: err,
+                          stackTrace: stackTrace,
+                        );
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(height: 32.0),
