@@ -45,25 +45,27 @@ class MyDisciplinesScreen extends StatelessWidget {
           NotificationButtonWidget(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          AppRoutes.goToDisciplineSelection(context);
-        },
-        backgroundColor: colorScheme.primary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Icon(
-          Icons.calendar_today_rounded,
-          color: colorScheme.onPrimary,
-          size: 24.0,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 90.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            AppRoutes.goToDisciplineSelection(context);
+          },
+          backgroundColor: colorScheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Icon(
+            Icons.calendar_today_rounded,
+            color: colorScheme.onPrimary,
+            size: 24.0,
+          ),
         ),
       ),
-      bottomNavigationBar: const SizedBox(height: 110.0),
       body: enrolledDisciplines.isEmpty
           ? const MyDisciplinesEmptyState()
           : ListView.builder(
-              padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 80.0),
+              padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 190.0),
               itemCount: enrolledDisciplines.length,
               itemBuilder: (context, index) {
                 return DisciplineCardItemWidget(
