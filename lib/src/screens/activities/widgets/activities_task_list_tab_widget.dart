@@ -51,7 +51,7 @@ class ActivitiesTaskListTabWidget extends StatelessWidget {
                   physics: const BouncingScrollPhysics(),
                   itemCount: tasks.length,
                   itemBuilder: (context, index) {
-                    return ActivityCardWidget(task: tasks[index]);
+                    return ActivityCardWidget(activity: tasks[index]);
                   },
                 ),
         ),

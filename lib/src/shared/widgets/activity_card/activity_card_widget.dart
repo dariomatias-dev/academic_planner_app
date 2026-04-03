@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -9,18 +10,19 @@ import 'package:academic_planner/src/shared/widgets/activity_card/activity_delet
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 class ActivityCardWidget extends StatelessWidget {
-  final ActivityModel task;
+  final ActivityModel activity;
   final VoidCallback? onTap;
 
-  const ActivityCardWidget({super.key, required this.task, this.onTap});
+  const ActivityCardWidget({super.key, required this.activity, this.onTap});
 
   bool _isUrgent() {
-    if (task.dueDate == null || task.status == ActivityStatus.completed) {
+    if (activity.dueDate == null ||
+        activity.status == ActivityStatus.completed) {
       return false;
     }
 
     final now = DateTime.now();
-    final difference = task.dueDate!.difference(now);
+    final difference = activity.dueDate!.difference(now);
 
     return difference.inDays <= 3;
   }
@@ -52,7 +54,7 @@ class ActivityCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      task.title,
+                      activity.title,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.plusJakartaSans(
@@ -88,8 +90,12 @@ class ActivityCardWidget extends StatelessWidget {
           const SizedBox(height: 24.0),
           _ActionTile(
             icon: Icons.edit_rounded,
-            label: "Editar detalhes",
-            onTap: () => Navigator.pop(context),
+            label: "Editar atividade",
+            onTap: () {
+              AppRoutes.goToActivityForm(context, activityId: activity.id);
+
+              Navigator.pop(context);
+            },
           ),
           _ActionTile(
             icon: Icons.check_circle_rounded,
@@ -104,7 +110,7 @@ class ActivityCardWidget extends StatelessWidget {
             onTap: () {
               ActivityDeleteDialogWidget.show(
                 context,
-                task: task,
+                task: activity,
                 onDelete: () {
                   Navigator.pop(context);
                 },
@@ -122,11 +128,11 @@ class ActivityCardWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final discipline = adsDisciplines.firstWhere(
-      (d) => d.id == task.disciplineId,
+      (d) => d.id == activity.disciplineId,
     );
     final isUrgent = _isUrgent();
 
-    final statusColor = switch (task.status) {
+    final statusColor = switch (activity.status) {
       ActivityStatus.completed => Colors.teal,
       ActivityStatus.inProgress => colorScheme.secondary,
       ActivityStatus.canceled => colorScheme.error.withAlpha(150),
@@ -175,7 +181,7 @@ class ActivityCardWidget extends StatelessWidget {
                   Row(
                     spacing: 8.0,
                     children: <Widget>[
-                      if (task.category != null)
+                      if (activity.category != null)
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8.0,
@@ -186,7 +192,7 @@ class ActivityCardWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6.0),
                           ),
                           child: Text(
-                            task.category?.toUpperCase() ?? '',
+                            activity.category?.toUpperCase() ?? '',
                             style: GoogleFonts.plusJakartaSans(
                               color: colorScheme.primary,
                               fontSize: 9.0,
@@ -194,7 +200,7 @@ class ActivityCardWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                      if (task.dueDate != null)
+                      if (activity.dueDate != null)
                         Row(
                           children: <Widget>[
                             Container(
@@ -213,7 +219,7 @@ class ActivityCardWidget extends StatelessWidget {
                             ),
                             const SizedBox(width: 4.0),
                             Text(
-                              DateFormat('dd MMM').format(task.dueDate!),
+                              DateFormat('dd MMM').format(activity.dueDate!),
                               style: GoogleFonts.plusJakartaSans(
                                 color: colorScheme.onSurface.withAlpha(160),
                                 fontSize: 11.0,
@@ -226,7 +232,7 @@ class ActivityCardWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 6.0),
                   Text(
-                    task.title,
+                    activity.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.plusJakartaSans(

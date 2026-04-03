@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
               else
                 ...mockActivities
                     .take(4)
-                    .map((task) => ActivityCardWidget(task: task)),
+                    .map((task) => ActivityCardWidget(activity: task)),
             ],
           ),
         ],

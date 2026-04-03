@@ -196,7 +196,7 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
           ...tasks
               .where((t) => t.status != ActivityStatus.completed)
               .take(3)
-              .map((task) => ActivityCardWidget(task: task)),
+              .map((task) => ActivityCardWidget(activity: task)),
       ],
     );
   }
