@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
@@ -25,9 +26,14 @@ import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.da
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityFormScreen extends StatefulWidget {
+  final String? activityId;
   final int? initialDisciplineId;
 
-  const ActivityFormScreen({super.key, this.initialDisciplineId});
+  const ActivityFormScreen({
+    super.key,
+    this.activityId,
+    this.initialDisciplineId,
+  });
 
   @override
   State<ActivityFormScreen> createState() => _ActivityFormScreenState();
@@ -36,16 +42,16 @@ class ActivityFormScreen extends StatefulWidget {
 class _ActivityFormScreenState extends State<ActivityFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _notesController = TextEditingController();
+  late final TextEditingController _titleController;
+  late final TextEditingController _descriptionController;
+  late final TextEditingController _notesController;
   final _reminders = <TimeOfDay>[];
 
   DisciplineModel? _selectedDiscipline;
   DateTime? _dueDate;
   ActivityStatus? _selectedStatus;
 
-  String? _selectedCategory;
+  String? _selectedCategory = "Estudo";
   final _categories = <String>["Estudo", "Leitura", "Projeto", "Prova"];
 
   final _selectedTags = <String>{};
@@ -90,8 +96,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      initialDate: _dueDate ?? DateTime.now(),
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime(2030),
     );
 
@@ -123,7 +129,32 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   void initState() {
     super.initState();
 
-    if (widget.initialDisciplineId != null) {
+    final activity = mockActivities
+        .where((activity) => activity.id == widget.activityId)
+        .firstOrNull;
+
+    _titleController = TextEditingController(text: activity?.title);
+    _descriptionController = TextEditingController(text: activity?.description);
+    _notesController = TextEditingController(text: activity?.notes);
+
+    if (activity != null) {
+      _selectedDiscipline = adsDisciplines
+          .where((d) => d.id == activity.disciplineId)
+          .firstOrNull;
+      _dueDate = activity.dueDate;
+      _selectedStatus = activity.status;
+      _selectedCategory = activity.category;
+      _selectedTags.addAll(activity.tags);
+      _reminders.addAll(activity.reminders);
+
+      for (final tag in activity.tags) {
+        if (!_availableTags.contains(tag)) _availableTags.add(tag);
+      }
+      if (activity.category != null &&
+          !_categories.contains(activity.category)) {
+        _categories.add(activity.category!);
+      }
+    } else if (widget.initialDisciplineId != null) {
       _selectedDiscipline = adsDisciplines
           .where((d) => d.id == widget.initialDisciplineId)
           .firstOrNull;
@@ -141,11 +172,13 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isEditing = widget.activityId != null;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         label: 'Planejamento',
-        title: "Criar Atividade",
+        title: isEditing ? "Editar Atividade" : "Criar Atividade",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.check_rounded,
@@ -155,7 +188,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 80.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -245,19 +278,16 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               ActivityFormStatusSelectorWidget(
                 selectedStatus: _selectedStatus,
                 onSelect: (status) {
-                  setState(() {
-                    _selectedStatus = status;
-                  });
+                  setState(() => _selectedStatus = status);
                 },
               ),
               const SizedBox(height: 20.0),
               ActivityFormCategorySelectorWidget(
                 categories: _categories,
                 selectedCategory: _selectedCategory,
+                isRequired: true,
                 onSelect: (category) {
-                  setState(() {
-                    _selectedCategory = category;
-                  });
+                  setState(() => _selectedCategory = category);
                 },
                 onCreate: _showCreateCategoryDialog,
               ),
@@ -278,9 +308,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 isRequired: false,
                 onTap: _selectDate,
                 onClear: () {
-                  setState(() {
-                    _dueDate = null;
-                  });
+                  setState(() => _dueDate = null);
                 },
               ),
               const SizedBox(height: 16.0),
