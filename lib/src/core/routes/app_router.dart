@@ -41,13 +41,16 @@ class AppRouter {
             name: RouteNames.activityForm,
             path: RoutePaths.activityForm,
             builder: (context, state) {
-              final disciplineId =
-                  int.tryParse(
-                    state.uri.queryParameters['disciplineId'] ?? '0',
-                  ) ??
-                  0;
+              final disciplineId = int.tryParse(
+                state.uri.queryParameters['disciplineId'] ?? '',
+              );
 
-              return ActivityFormScreen(initialDisciplineId: disciplineId);
+              final activityId = state.uri.queryParameters['activityId'];
+
+              return ActivityFormScreen(
+                activityId: activityId,
+                initialDisciplineId: disciplineId,
+              );
             },
           ),
           GoRoute(

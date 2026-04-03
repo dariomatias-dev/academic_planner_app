@@ -10,11 +10,22 @@ class AppRoutes {
 
   static void goToActivityForm(
     BuildContext context, {
-    required int disciplineId,
+    String? activityId,
+    int? disciplineId,
   }) {
+    final queryParameters = <String, String>{};
+
+    if (activityId != null) {
+      queryParameters['activityId'] = activityId;
+    }
+
+    if (disciplineId != null) {
+      queryParameters['disciplineId'] = disciplineId.toString();
+    }
+
     final uri = Uri(
       path: RoutePaths.activityForm,
-      queryParameters: {'disciplineId': disciplineId.toString()},
+      queryParameters: queryParameters,
     );
 
     context.push(uri.toString());
