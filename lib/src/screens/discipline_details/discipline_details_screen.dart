@@ -80,7 +80,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               onPressed: () {
                 switch (_tabController.index) {
                   case 0:
-                    AppRoutes.goToCreateTask(
+                    AppRoutes.goToActivityForm(
                       context,
                       disciplineId: discipline.id,
                     );

@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/core/routes/route_paths.dart';
 
 import 'package:academic_planner/src/screens/about/about_screen.dart';
-import 'package:academic_planner/src/screens/create_task/create_task_screen.dart';
+import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
 import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
 import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
@@ -38,8 +38,8 @@ class AppRouter {
             builder: (context, state) => const DisciplinesScreen(),
           ),
           GoRoute(
-            name: RouteNames.createTask,
-            path: RoutePaths.createTask,
+            name: RouteNames.activityForm,
+            path: RoutePaths.activityForm,
             builder: (context, state) {
               final disciplineId =
                   int.tryParse(
@@ -47,7 +47,7 @@ class AppRouter {
                   ) ??
                   0;
 
-              return CreateTaskScreen(initialDisciplineId: disciplineId);
+              return ActivityFormScreen(initialDisciplineId: disciplineId);
             },
           ),
           GoRoute(

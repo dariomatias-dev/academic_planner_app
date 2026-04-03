@@ -5,7 +5,7 @@ class RouteNames {
 
   static const disciplines = 'disciplines';
 
-  static const createTask = 'create_task';
+  static const activityForm = 'activity_form';
 
   static const pdfViewer = 'pdf_viewer';
 

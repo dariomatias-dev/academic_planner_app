@@ -8,12 +8,12 @@ class AppRoutes {
     context.go(RoutePaths.root);
   }
 
-  static void goToCreateTask(
+  static void goToActivityForm(
     BuildContext context, {
     required int disciplineId,
   }) {
     final uri = Uri(
-      path: RoutePaths.createTask,
+      path: RoutePaths.activityForm,
       queryParameters: {'disciplineId': disciplineId.toString()},
     );
 

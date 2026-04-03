@@ -14,7 +14,7 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
       children: <Widget>[
         ActionButtonWidget(
           onPressed: () {
-            AppRoutes.goToCreateTask(context, disciplineId: 0);
+            AppRoutes.goToActivityForm(context, disciplineId: 0);
           },
           icon: Icons.add_rounded,
           label: "Nova Tarefa",

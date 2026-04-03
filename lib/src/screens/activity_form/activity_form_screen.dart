@@ -7,10 +7,10 @@ import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/screens/create_task/widgets/create_category_dialog_widget.dart';
-import 'package:academic_planner/src/screens/create_task/widgets/create_tag_dialog_widget.dart';
-import 'package:academic_planner/src/screens/create_task/widgets/create_task_reminders/create_task_reminder_widget.dart';
-import 'package:academic_planner/src/screens/create_task/widgets/create_task_section_title_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_dialog_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -22,16 +22,16 @@ import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart'
 
 const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
-class CreateTaskScreen extends StatefulWidget {
+class ActivityFormScreen extends StatefulWidget {
   final int? initialDisciplineId;
 
-  const CreateTaskScreen({super.key, this.initialDisciplineId});
+  const ActivityFormScreen({super.key, this.initialDisciplineId});
 
   @override
-  State<CreateTaskScreen> createState() => _CreateTaskScreenState();
+  State<ActivityFormScreen> createState() => _ActivityFormScreenState();
 }
 
-class _CreateTaskScreenState extends State<CreateTaskScreen> {
+class _ActivityFormScreenState extends State<ActivityFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
@@ -158,7 +158,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const CreateTaskSectionTitleWidget(
+              const ActivityFormSectionTitleWidget(
                 title: "Conteúdo",
                 padding: EdgeInsets.only(top: 12.0, bottom: 16.0),
               ),
@@ -188,7 +188,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 },
               ),
               const SizedBox(height: 32.0),
-              const CreateTaskSectionTitleWidget(title: "Classificação"),
+              const ActivityFormSectionTitleWidget(title: "Classificação"),
               FormField<DisciplineModel>(
                 initialValue: _selectedDiscipline,
                 validator: (validator) {
@@ -262,7 +262,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 onCreate: _showCreateTagDialog,
               ),
               const SizedBox(height: 32.0),
-              const CreateTaskSectionTitleWidget(title: "Prazos e Lembretes"),
+              const ActivityFormSectionTitleWidget(title: "Prazos e Lembretes"),
               CreateTaskDatePickerWidget(
                 dueDate: _dueDate,
                 isRequired: false,
@@ -279,7 +279,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 },
               ),
               const SizedBox(height: 32.0),
-              const CreateTaskSectionTitleWidget(title: "Anotações"),
+              const ActivityFormSectionTitleWidget(title: "Anotações"),
               InputWidget(
                 controller: _notesController,
                 hint: "Rascunhos ou lembretes rápidos...",
@@ -745,7 +745,7 @@ class CreateTaskRemindersWidget extends StatelessWidget {
             spacing: 12.0,
             runSpacing: 12.0,
             children: reminders.builder((time, index) {
-              return CreateTaskReminderWidget(
+              return ActivityReminderWidget(
                 time: time,
                 onRemove: () => onRemove(time),
               );

@@ -99,8 +99,9 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButton(
+          heroTag: null,
           onPressed: () {
-            AppRoutes.goToCreateTask(context, disciplineId: 0);
+            AppRoutes.goToActivityForm(context, disciplineId: 0);
           },
           backgroundColor: colorScheme.primary,
           elevation: 4.0,
