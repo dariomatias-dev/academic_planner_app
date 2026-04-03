@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_actions_modal_widget.dart';
@@ -10,9 +11,8 @@ import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.da
 
 class ActivityCardWidget extends StatelessWidget {
   final ActivityModel activity;
-  final VoidCallback? onTap;
 
-  const ActivityCardWidget({super.key, required this.activity, this.onTap});
+  const ActivityCardWidget({super.key, required this.activity});
 
   bool _isUrgent() {
     if (activity.dueDate == null ||
@@ -51,7 +51,9 @@ class ActivityCardWidget extends StatelessWidget {
     };
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: () {
+        AppRoutes.goToActivityDetails(context, activityId: activity.id);
+      },
       onLongPress: () => _showActionMenu(context),
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
