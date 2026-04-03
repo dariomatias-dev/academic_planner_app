@@ -9,10 +9,10 @@ class ActivityModel {
   final String? notes;
   final int disciplineId;
   final DateTime? dueDate;
-  final String category;
+  final String? category;
   final Set<String> tags;
   final List<TimeOfDay> reminders;
-  final ActivityStatus status;
+  final ActivityStatus? status;
 
   const ActivityModel({
     required this.id,
@@ -21,9 +21,9 @@ class ActivityModel {
     this.notes,
     required this.disciplineId,
     this.dueDate,
-    required this.category,
+    this.category,
     required this.tags,
     required this.reminders,
-    this.status = ActivityStatus.pending,
+    this.status,
   });
 }
