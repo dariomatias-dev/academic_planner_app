@@ -8,6 +8,22 @@ class AppRoutes {
     context.go(RoutePaths.root);
   }
 
+  static void goToActivityDetails(
+    BuildContext context, {
+    required String activityId,
+  }) {
+    final queryParameters = <String, String>{};
+
+    queryParameters['activityId'] = activityId;
+
+    final uri = Uri(
+      path: RoutePaths.activityDetails,
+      queryParameters: queryParameters,
+    );
+
+    context.push(uri.toString());
+  }
+
   static void goToActivityForm(
     BuildContext context, {
     String? activityId,

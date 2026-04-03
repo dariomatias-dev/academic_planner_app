@@ -3,6 +3,8 @@ class RoutePaths {
 
   static const root = '/';
 
+  static const activityDetails = '/activity-details';
+
   static const activityForm = '/activity-form';
 
   static const pdfViewer = '/pdf-viewer';
