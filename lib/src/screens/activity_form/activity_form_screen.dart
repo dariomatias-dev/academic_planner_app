@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,10 +13,11 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_dialog_widget.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
@@ -43,7 +46,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late final TextEditingController _titleController;
-  late final TextEditingController _descriptionController;
+  late final QuillController _descriptionController;
   late final TextEditingController _notesController;
   final _reminders = <TimeOfDay>[];
 
@@ -134,8 +137,21 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         .firstOrNull;
 
     _titleController = TextEditingController(text: activity?.title);
-    _descriptionController = TextEditingController(text: activity?.description);
     _notesController = TextEditingController(text: activity?.notes);
+
+    if (activity != null && activity.description.isNotEmpty) {
+      try {
+        final doc = Document.fromJson(jsonDecode(activity.description));
+        _descriptionController = QuillController(
+          document: doc,
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      } catch (e) {
+        _descriptionController = QuillController.basic();
+      }
+    } else {
+      _descriptionController = QuillController.basic();
+    }
 
     if (activity != null) {
       _selectedDiscipline = adsDisciplines
@@ -211,18 +227,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 },
               ),
               const SizedBox(height: 20.0),
-              ActivityFormInputFieldWidget(
+              ActivityFormDescriptionFieldWidget(
                 controller: _descriptionController,
-                label: "Descrição",
-                hint: "Mais detalhes...",
-                maxLines: 3,
-                isRequired: true,
-                validator: (validator) {
-                  return AppValidators.required(
-                    validator,
-                    message: "A descrição é obrigatória",
-                  );
-                },
               ),
               const ActivityFormSectionTitleWidget(title: "Classificação"),
               FormField<DisciplineModel>(
