@@ -12,6 +12,7 @@ import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_di
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 
+import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
@@ -41,6 +42,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
   DisciplineModel? _selectedDiscipline;
   DateTime? _dueDate;
+
+  ActivityStatus? _selectedStatus;
 
   String _selectedCategory = "Estudo";
   final _categories = <String>["Estudo", "Leitura", "Projeto", "Prova"];
@@ -236,6 +239,15 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                         ),
                     ],
                   );
+                },
+              ),
+              const SizedBox(height: 20.0),
+              ActivityFormStatusSelectorWidget(
+                selectedStatus: _selectedStatus,
+                onSelect: (status) {
+                  setState(() {
+                    _selectedStatus = status;
+                  });
                 },
               ),
               const SizedBox(height: 20.0),
@@ -483,6 +495,53 @@ class CreateTaskDisciplineListWidget extends StatelessWidget {
           },
         );
       },
+    );
+  }
+}
+
+class ActivityFormStatusSelectorWidget extends StatelessWidget {
+  final ActivityStatus? selectedStatus;
+  final void Function(ActivityStatus? value) onSelect;
+
+  const ActivityFormStatusSelectorWidget({
+    super.key,
+    required this.selectedStatus,
+    required this.onSelect,
+  });
+
+  String _getStatusLabel(ActivityStatus status) {
+    return switch (status) {
+      ActivityStatus.draft => "Rascunho",
+      ActivityStatus.pending => "Pendente",
+      ActivityStatus.inProgress => "Em Andamento",
+      ActivityStatus.completed => "Concluído",
+      ActivityStatus.canceled => "Cancelado",
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const CreateTaskLabelWidget(label: "Status"),
+        const SizedBox(height: 12.0),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            spacing: 8.0,
+            children: ActivityStatus.values.builder((status, index) {
+              final isSelected = selectedStatus == status;
+
+              return SelectableChipWidget(
+                onTap: () => onSelect(isSelected ? null : status),
+                label: _getStatusLabel(status),
+                isSelected: isSelected,
+              );
+            }),
+          ),
+        ),
+      ],
     );
   }
 }
