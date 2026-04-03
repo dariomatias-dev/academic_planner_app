@@ -22,12 +22,15 @@ class ActivitiesScreenWidget extends StatefulWidget {
 }
 
 class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
-    with SingleTickerProviderStateMixin {
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final _tabController = TabController(length: 4, vsync: this);
 
   final _searchController = TextEditingController();
 
   String _searchQuery = "";
+
+  @override
+  bool get wantKeepAlive => true;
 
   List<ActivityModel> _getFilteredTasks({
     List<ActivityStatus>? allowedStatuses,
@@ -46,9 +49,9 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     }).toList();
 
     filtered.sort((a, b) {
-      if (a.dueDate == null && b.dueDate == null) return 0.0.toInt();
-      if (a.dueDate == null) return 1.0.toInt();
-      if (b.dueDate == null) return -1.0.toInt();
+      if (a.dueDate == null && b.dueDate == null) return 0;
+      if (a.dueDate == null) return 1;
+      if (b.dueDate == null) return -1;
 
       return a.dueDate!.compareTo(b.dueDate!);
     });
@@ -77,6 +80,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 

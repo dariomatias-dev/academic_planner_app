@@ -14,13 +14,24 @@ import 'package:academic_planner/src/shared/widgets/buttons/notification_button_
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
-class MyDisciplinesScreen extends StatelessWidget {
+class MyDisciplinesScreen extends StatefulWidget {
   const MyDisciplinesScreen({super.key, this.showBackButton});
 
   final bool? showBackButton;
 
   @override
+  State<MyDisciplinesScreen> createState() => _MyDisciplinesScreenState();
+}
+
+class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final colorScheme = Theme.of(context).colorScheme;
     final userDisciplinesNotifier = context.watch<UserDisciplinesNotifier>();
 
@@ -31,7 +42,7 @@ class MyDisciplinesScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        showBackButton: showBackButton,
+        showBackButton: widget.showBackButton,
         label: "ESTUDANTE",
         title: "Minha Grade",
         actions: <Widget>[
