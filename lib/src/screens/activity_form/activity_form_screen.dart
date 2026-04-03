@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_dialog_widget.dart';
@@ -20,8 +23,6 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
-
-const studentEnrolledIds = <int>{51, 52, 53, 54, 55};
 
 class ActivityFormScreen extends StatefulWidget {
   final int? initialDisciplineId;
@@ -461,8 +462,10 @@ class ActivityFormDisciplineListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final userDisciplinesNotifier = context.read<UserDisciplinesNotifier>();
+
     final enrolled = adsDisciplines.filter((discipline) {
-      return studentEnrolledIds.contains(discipline.id);
+      return userDisciplinesNotifier.selectedIds.contains(discipline.id);
     });
 
     return ListView.builder(
