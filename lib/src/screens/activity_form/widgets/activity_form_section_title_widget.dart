@@ -16,7 +16,7 @@ class ActivityFormSectionTitleWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
-      padding: padding ?? const EdgeInsets.only(top: 24.0, bottom: 16.0),
+      padding: padding ?? const EdgeInsets.only(top: 32.0, bottom: 16.0),
       child: Text(
         title.toUpperCase(),
         style: GoogleFonts.plusJakartaSans(

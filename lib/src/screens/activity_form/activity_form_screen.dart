@@ -43,7 +43,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
   DisciplineModel? _selectedDiscipline;
   DateTime? _dueDate;
-
   ActivityStatus? _selectedStatus;
 
   String _selectedCategory = "Estudo";
@@ -156,7 +155,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 80.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -164,7 +163,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
             children: <Widget>[
               const ActivityFormSectionTitleWidget(
                 title: "Conteúdo",
-                padding: EdgeInsets.only(top: 12.0, bottom: 16.0),
+                padding: EdgeInsets.only(bottom: 16.0),
               ),
               ActivityFormInputFieldWidget(
                 controller: _titleController,
@@ -178,6 +177,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   );
                 },
               ),
+              const SizedBox(height: 20.0),
               ActivityFormInputFieldWidget(
                 controller: _descriptionController,
                 label: "Descrição",
@@ -191,7 +191,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 32.0),
               const ActivityFormSectionTitleWidget(title: "Classificação"),
               FormField<DisciplineModel>(
                 initialValue: _selectedDiscipline,
@@ -274,7 +273,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 },
                 onCreate: _showCreateTagDialog,
               ),
-              const SizedBox(height: 32.0),
               const ActivityFormSectionTitleWidget(title: "Prazos e Lembretes"),
               ActivityFormDatePickerWidget(
                 dueDate: _dueDate,
@@ -291,7 +289,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   });
                 },
               ),
-              const SizedBox(height: 32.0),
               const ActivityFormSectionTitleWidget(title: "Anotações"),
               InputWidget(
                 controller: _notesController,
@@ -363,21 +360,18 @@ class ActivityFormInputFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          ActivityFormLabelWidget(label: label, isRequired: isRequired),
-          const SizedBox(height: 8.0),
-          InputWidget(
-            controller: controller,
-            hint: hint,
-            maxLines: maxLines,
-            validator: validator,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ActivityFormLabelWidget(label: label, isRequired: isRequired),
+        const SizedBox(height: 8.0),
+        InputWidget(
+          controller: controller,
+          hint: hint,
+          maxLines: maxLines,
+          validator: validator,
+        ),
+      ],
     );
   }
 }
