@@ -47,9 +47,9 @@ class InputWidget extends StatelessWidget {
         enabledBorder: _border(
           color: theme.dividerTheme.color ?? AppColors.transparent,
         ),
-        focusedBorder: _border(color: colors.primary, width: 1.5),
-        errorBorder: _border(color: colors.error, width: 1.2),
-        focusedErrorBorder: _border(color: colors.error, width: 1.5),
+        focusedBorder: _border(color: colors.primary),
+        errorBorder: _border(color: colors.error),
+        focusedErrorBorder: _border(color: colors.error),
         contentPadding: _contentPadding,
       ),
       onTapUpOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
@@ -78,10 +78,10 @@ class InputWidget extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder _border({required Color color, double width = 1.0}) {
+  OutlineInputBorder _border({required Color color}) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(color: color, width: width),
+      borderSide: BorderSide(color: color, width: 1.0),
     );
   }
 }
