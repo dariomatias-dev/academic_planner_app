@@ -73,23 +73,16 @@ class _ActivityFormLinkDialogWidgetState
             InputWidget(
               controller: _textController,
               hint: "Texto para exibir (ex: Documentação)",
-              validator: (value) {
-                return AppValidators.required(
-                  value,
-                  message: "Campo obrigatório",
-                );
-              },
+              validator: AppValidators.required,
             ),
             const SizedBox(height: 16.0),
             InputWidget(
               controller: _urlController,
               hint: "Endereço URL (ex: https://...)",
-              validator: (value) {
-                return AppValidators.required(
-                  value,
-                  message: "Campo obrigatório",
-                );
-              },
+              validator: AppValidators.multiple([
+                AppValidators.required,
+                AppValidators.url,
+              ]),
             ),
             const SizedBox(height: 32.0),
             Row(
