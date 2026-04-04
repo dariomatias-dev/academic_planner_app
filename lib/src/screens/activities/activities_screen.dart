@@ -89,7 +89,6 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: 'Estudante',
         title: "Atividades",
         showBackButton: false,
         actions: <Widget>[

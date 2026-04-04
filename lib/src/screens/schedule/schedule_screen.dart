@@ -59,7 +59,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: "CRONOGRAMA",
         title: "Grade de Aulas",
         actions: <Widget>[
           IconButtonWidget(

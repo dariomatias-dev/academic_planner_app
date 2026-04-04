@@ -21,22 +21,16 @@ class ThemeSelectorModalWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(
-          "APARÊNCIA",
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 11.0,
-            fontWeight: FontWeight.w900,
-            color: colorScheme.primary,
-            letterSpacing: 1.5,
-          ),
-        ),
-        const SizedBox(height: 8.0),
-        Text(
-          "Escolha o tema",
-          style: GoogleFonts.plusJakartaSans(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w900,
-            color: colorScheme.onSurface,
+        Align(
+          alignment: AlignmentGeometry.center,
+          child: Text(
+            "Escolha o tema",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w900,
+              color: colorScheme.onSurface,
+            ),
           ),
         ),
         const SizedBox(height: 24.0),

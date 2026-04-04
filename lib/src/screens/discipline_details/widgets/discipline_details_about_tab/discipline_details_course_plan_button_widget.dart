@@ -44,7 +44,6 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               context,
               url: url,
               title: disciplineName,
-              subtitle: "Plano de Ensino",
             );
           },
           borderRadius: BorderRadius.circular(24.0),

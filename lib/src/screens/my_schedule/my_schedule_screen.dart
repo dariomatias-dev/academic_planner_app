@@ -48,7 +48,6 @@ class _MyScheduleScreenState extends State<MyScheduleScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: "Estudante",
         title: "Minha Grade",
         actions: <Widget>[
           IconButtonWidget(

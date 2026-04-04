@@ -191,7 +191,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: 'Planejamento',
         title: isEditing ? "Editar Atividade" : "Criar Atividade",
         actions: <Widget>[
           IconButtonWidget(
@@ -445,7 +444,7 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            ActivityFormLabelWidget(label: "Categoria", isRequired: isRequired),
+            ActivityFormLabelWidget(label: "Categoria"),
             GestureDetector(
               onTap: onCreate,
               child: Text(

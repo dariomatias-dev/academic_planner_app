@@ -8,13 +8,11 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 class PdfViewerScreen extends StatefulWidget {
   final String url;
   final String title;
-  final String? subtitle;
 
   const PdfViewerScreen({
     super.key,
     required this.url,
     required this.title,
-    this.subtitle,
   });
 
   @override
@@ -58,7 +56,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidget(label: widget.subtitle, title: widget.title),
+      appBar: AppBarWidget(title: widget.title),
       body: Column(
         children: <Widget>[
           Container(

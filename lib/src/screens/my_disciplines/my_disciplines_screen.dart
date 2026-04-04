@@ -43,7 +43,6 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         showBackButton: widget.showBackButton,
-        label: "ESTUDANTE",
         title: "Minha Grade",
         actions: <Widget>[
           IconButtonWidget(

@@ -51,11 +51,10 @@ class AppRoutes {
     BuildContext context, {
     required String url,
     required String title,
-    String? subtitle,
   }) {
     final uri = Uri(
       path: RoutePaths.pdfViewer,
-      queryParameters: {'url': url, 'title': title, 'subtitle': ?subtitle},
+      queryParameters: {'url': url, 'title': title},
     );
 
     context.push(uri.toString());

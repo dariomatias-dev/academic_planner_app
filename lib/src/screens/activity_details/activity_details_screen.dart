@@ -132,7 +132,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: 'Planejamento',
         title: "Detalhes",
         actions: <Widget>[
           IconButtonWidget(

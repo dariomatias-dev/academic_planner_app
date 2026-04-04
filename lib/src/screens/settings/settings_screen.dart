@@ -39,7 +39,6 @@ class _SettingsScreenState extends State<SettingsScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(
-        label: 'Configurações',
         title: "Ajustes do App",
         actions: <Widget>[NotificationButtonWidget()],
       ),

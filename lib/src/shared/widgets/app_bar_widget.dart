@@ -6,14 +6,12 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  final String? label;
   final String? title;
   final List<Widget>? actions;
   final bool? showBackButton;
 
   const AppBarWidget({
     super.key,
-    this.label,
     this.title,
     this.actions,
     this.showBackButton,
@@ -51,16 +49,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  if (label != null)
-                    Text(
-                      label!.toUpperCase(),
-                      style: GoogleFonts.plusJakartaSans(
-                        color: colorScheme.primary,
-                        fontSize: 10.0,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 1.5,
-                      ),
-                    ),
                   if (title != null)
                     Text(
                       title!,

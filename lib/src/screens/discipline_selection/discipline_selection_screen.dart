@@ -52,8 +52,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: "CONFIGURAR GRADE",
-        title: "Gerencie seu Semestre",
+        title: "Configurar Grade",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.account_tree_rounded,

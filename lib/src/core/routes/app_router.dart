@@ -69,10 +69,10 @@ class AppRouter {
             path: RoutePaths.pdfViewer,
             builder: (context, state) {
               final query = state.uri.queryParameters;
+
               return PdfViewerScreen(
                 url: query['url'] ?? '',
                 title: query['title'] ?? '',
-                subtitle: query['subtitle'],
               );
             },
           ),

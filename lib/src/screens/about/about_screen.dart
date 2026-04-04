@@ -29,7 +29,6 @@ class AboutScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        label: "Apresentação",
         title: "Sobre o App",
         actions: <Widget>[
           IconButtonWidget(
