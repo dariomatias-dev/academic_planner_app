@@ -9,6 +9,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
@@ -381,16 +382,6 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
     required this.onSelect,
   });
 
-  String _getStatusLabel(ActivityStatus status) {
-    return switch (status) {
-      ActivityStatus.draft => "Rascunho",
-      ActivityStatus.pending => "Pendente",
-      ActivityStatus.inProgress => "Em Andamento",
-      ActivityStatus.completed => "Concluído",
-      ActivityStatus.canceled => "Cancelado",
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -407,7 +398,7 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
 
               return SelectableChipWidget(
                 onTap: () => onSelect(isSelected ? null : status),
-                label: _getStatusLabel(status),
+                label: status.label,
                 isSelected: isSelected,
               );
             }),

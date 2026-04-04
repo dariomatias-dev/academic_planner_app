@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
@@ -37,18 +38,12 @@ class ActivityCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
     final discipline = adsDisciplines.firstWhere(
       (d) => d.id == activity.disciplineId,
     );
-    final isUrgent = _isUrgent();
 
-    final statusColor = switch (activity.status) {
-      ActivityStatus.completed => Colors.teal,
-      ActivityStatus.inProgress => colorScheme.secondary,
-      ActivityStatus.canceled => colorScheme.error.withAlpha(150),
-      ActivityStatus.draft => colorScheme.onSurface.withAlpha(80),
-      _ => Colors.orange,
-    };
+    final isUrgent = _isUrgent();
 
     return GestureDetector(
       onTap: () {
@@ -117,7 +112,7 @@ class ActivityCardWidget extends StatelessWidget {
                         width: 6.0,
                         height: 6.0,
                         decoration: BoxDecoration(
-                          color: statusColor,
+                          color: activity.status?.color(colorScheme),
                           shape: BoxShape.circle,
                         ),
                       ),

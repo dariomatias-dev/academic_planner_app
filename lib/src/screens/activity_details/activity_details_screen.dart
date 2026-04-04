@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,13 +10,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
   final String activityId;
@@ -32,27 +34,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   late ActivityStatus? _originalStatus;
   late ActivityStatus? _currentStatus;
   late QuillController _quillController;
-
-  String _getStatusLabel(ActivityStatus? status) {
-    return switch (status) {
-      ActivityStatus.draft => "Rascunho",
-      ActivityStatus.pending => "Pendente",
-      ActivityStatus.inProgress => "Em Andamento",
-      ActivityStatus.completed => "Concluído",
-      ActivityStatus.canceled => "Cancelado",
-      _ => "Sem Status",
-    };
-  }
-
-  Color _getStatusColor(ActivityStatus? status, ColorScheme colorScheme) {
-    return switch (status) {
-      ActivityStatus.completed => Colors.teal,
-      ActivityStatus.inProgress => colorScheme.secondary,
-      ActivityStatus.canceled => colorScheme.error,
-      ActivityStatus.draft => colorScheme.onSurface.withAlpha(120),
-      _ => colorScheme.onSurface.withAlpha(80),
-    };
-  }
 
   bool get _hasStatusChanged => _originalStatus != _currentStatus;
 
@@ -177,13 +158,15 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                       width: 8.0,
                       height: 8.0,
                       decoration: BoxDecoration(
-                        color: _getStatusColor(_currentStatus, colorScheme),
+                        color:
+                            _currentStatus?.color(colorScheme) ??
+                            colorScheme.onSurface.withAlpha(80),
                         shape: BoxShape.circle,
                       ),
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      _getStatusLabel(_currentStatus).toUpperCase(),
+                      (_currentStatus?.label ?? "Sem Status").toUpperCase(),
                       style: GoogleFonts.plusJakartaSans(
                         color: colorScheme.onSurface.withAlpha(150),
                         fontSize: 11.0,
@@ -267,7 +250,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                         onTap: () => setState(
                           () => _currentStatus = isSelected ? null : status,
                         ),
-                        label: _getStatusLabel(status),
+                        label: status.label,
                         isSelected: isSelected,
                       );
                     }).toList(),
