@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/app_validators.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 
 class CreateCategoryDialogWidget extends StatefulWidget {
   final Function(String value) onCategoryAdded;
@@ -18,6 +19,15 @@ class CreateCategoryDialogWidget extends StatefulWidget {
 class _CreateCategoryDialogWidgetState
     extends State<CreateCategoryDialogWidget> {
   final _controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  void _submit() {
+    if (_formKey.currentState?.validate() ?? false) {
+      widget.onCategoryAdded(_controller.text.trim());
+
+      Navigator.pop(context);
+    }
+  }
 
   @override
   void dispose() {
@@ -28,65 +38,48 @@ class _CreateCategoryDialogWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return DialogWidget(
       title: "Nova Categoria",
       message: "Defina um novo grupo para suas atividades.",
       icon: Icons.grid_view_rounded,
-      actions: Column(
-        children: <Widget>[
-          TextField(
-            controller: _controller,
-            decoration: InputDecoration(
-              hintText: "Nome da categoria",
-              hintStyle: TextStyle(color: colorScheme.onSurface.withAlpha(100)),
-              filled: true,
-              fillColor: theme.scaffoldBackgroundColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide(
-                  color: theme.dividerTheme.color ?? AppColors.transparent,
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
-                borderSide: BorderSide(
-                  color: theme.dividerTheme.color ?? AppColors.transparent,
-                ),
-              ),
+      actions: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            InputWidget(
+              controller: _controller,
+              hint: "Nome da categoria",
+              style: InputStyle.secondary,
+              validator: (value) {
+                return AppValidators.required(
+                  value,
+                  message: "O nome da categoria é obrigatório",
+                );
+              },
             ),
-            style: TextStyle(color: colorScheme.onSurface),
-          ),
-          const SizedBox(height: 40.0),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: ButtonWidget(
-                  onPressed: () => Navigator.pop(context),
-                  style: AppButtonStyle.neutral,
-                  label: 'Cancelar',
-                  isFullWidth: true,
+            const SizedBox(height: 40.0),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: ButtonWidget(
+                    onPressed: () => Navigator.pop(context),
+                    style: AppButtonStyle.neutral,
+                    label: 'Cancelar',
+                    isFullWidth: true,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 12.0),
-              Expanded(
-                child: ButtonWidget(
-                  onPressed: () {
-                    if (_controller.text.isNotEmpty) {
-                      widget.onCategoryAdded(_controller.text);
-
-                      Navigator.pop(context);
-                    }
-                  },
-                  label: "Adicionar",
-                  isFullWidth: true,
+                const SizedBox(width: 12.0),
+                Expanded(
+                  child: ButtonWidget(
+                    onPressed: _submit,
+                    label: "Adicionar",
+                    isFullWidth: true,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
