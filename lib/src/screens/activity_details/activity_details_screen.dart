@@ -1,17 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:logger/logger.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+
+import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_description_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -29,11 +26,8 @@ class ActivityDetailsScreen extends StatefulWidget {
 }
 
 class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
-  final _logger = Logger();
-
   late ActivityStatus? _originalStatus;
   late ActivityStatus? _currentStatus;
-  late QuillController _quillController;
 
   bool get _hasStatusChanged => _originalStatus != _currentStatus;
 
@@ -55,29 +49,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
 
     _originalStatus = activity.status;
     _currentStatus = activity.status;
-
-    if (activity.description.startsWith('[') ||
-        activity.description.startsWith('{')) {
-      _quillController = QuillController(
-        document: Document.fromJson(jsonDecode(activity.description)),
-        selection: const TextSelection.collapsed(offset: 0),
-        readOnly: true,
-      );
-    } else {
-      final doc = Document()..insert(0, activity.description);
-      _quillController = QuillController(
-        document: doc,
-        selection: const TextSelection.collapsed(offset: 0),
-        readOnly: true,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _quillController.dispose();
-
-    super.dispose();
   }
 
   @override
@@ -91,25 +62,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       (d) => d.id == activity.disciplineId,
     );
 
-    final defaultStyles = DefaultStyles(
-      paragraph: DefaultTextBlockStyle(
-        GoogleFonts.plusJakartaSans(
-          fontSize: 16.0,
-          color: colorScheme.onSurface.withAlpha(180),
-          height: 1.6,
-        ),
-        const HorizontalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        null,
-      ),
-      link: GoogleFonts.plusJakartaSans(
-        color: colorScheme.primary,
-        fontWeight: FontWeight.w700,
-        decoration: TextDecoration.underline,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
@@ -117,8 +69,9 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.edit_outlined,
-            onPressed: () =>
-                AppRoutes.goToActivityForm(context, activityId: activity.id),
+            onPressed: () {
+              AppRoutes.goToActivityForm(context, activityId: activity.id);
+            },
             style: IconButtonStyle.primary,
           ),
         ],
@@ -258,38 +211,8 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                 ),
                 const SizedBox(height: 32.0),
                 const ActivityDetailsSectionTitleWidget(title: "Descrição"),
-                QuillEditor(
-                  controller: _quillController,
-                  scrollController: ScrollController(),
-                  focusNode: FocusNode(),
-                  config: QuillEditorConfig(
-                    scrollable: false,
-                    autoFocus: false,
-                    expands: false,
-                    showCursor: false,
-                    padding: EdgeInsets.zero,
-                    customStyles: defaultStyles,
-                    onLaunchUrl: (url) async {
-                      try {
-                        final uri = Uri.parse(url);
-
-                        final launched = await launchUrl(
-                          uri,
-                          mode: LaunchMode.externalApplication,
-                        );
-
-                        if (!launched) {
-                          _logger.e("Could not open link $uri");
-                        }
-                      } catch (err, stackTrace) {
-                        _logger.e(
-                          "Error opening link",
-                          error: err,
-                          stackTrace: stackTrace,
-                        );
-                      }
-                    },
-                  ),
+                ActivityDetailsDescriptionWidget(
+                  description: activity.description,
                 ),
                 const SizedBox(height: 32.0),
                 const ActivityDetailsSectionTitleWidget(title: "Disciplina"),
