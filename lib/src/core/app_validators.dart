@@ -1,4 +1,17 @@
 class AppValidators {
+  static String? Function(String? value) multiple(
+    List<String? Function(String? value)> validators,
+  ) {
+    return (value) {
+      for (final validator in validators) {
+        final result = validator(value);
+        if (result != null) return result;
+      }
+
+      return null;
+    };
+  }
+
   static String? required(String? value, {String? message}) {
     if (value == null || value.trim().isEmpty) {
       return message ?? "Este campo é obrigatório";
@@ -13,6 +26,7 @@ class AppValidators {
     final regex = RegExp(
       r'^(https?:\/\/)?([\w\d.-]+)\.([a-z.]{2,6})([\/\w\d.-]*)*\/?$',
     );
+
     if (!regex.hasMatch(value)) {
       return message ?? "Insira um link válido";
     }
