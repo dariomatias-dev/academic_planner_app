@@ -10,11 +10,12 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_description_widget.dart';
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_due_date_widget.dart';
+import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_menu_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/shared/widgets/activity_card/activity_delete_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
@@ -68,12 +69,17 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       appBar: AppBarWidget(
         title: "Detalhes",
         actions: <Widget>[
-          IconButtonWidget(
-            icon: Icons.edit_outlined,
-            onPressed: () {
+          ActivityDetailsMenuWidget(
+            onEdit: () {
               AppRoutes.goToActivityForm(context, activityId: activity.id);
             },
-            style: IconButtonStyle.primary,
+            onDelete: () {
+              ActivityDeleteDialogWidget.show(
+                context,
+                task: activity,
+                onDelete: () {},
+              );
+            },
           ),
         ],
       ),
