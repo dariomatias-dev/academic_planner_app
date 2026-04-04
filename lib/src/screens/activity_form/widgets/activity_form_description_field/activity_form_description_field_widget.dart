@@ -26,8 +26,20 @@ class _ActivityFormDescriptionFieldWidgetState
   late final _scrollController = ScrollController();
   late final _focusNode = FocusNode();
 
+  void _onFocusChange() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _focusNode.addListener(_onFocusChange);
+  }
+
   @override
   void dispose() {
+    _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
     _scrollController.dispose();
 
@@ -89,14 +101,26 @@ class _ActivityFormDescriptionFieldWidgetState
         });
 
         final hasError = state.hasError;
-        final borderColor = theme.dividerTheme.color ?? AppColors.transparent;
+        final isFocused = _focusNode.hasFocus;
+
+        Color borderColor;
+
+        if (hasError) {
+          borderColor = colorScheme.error;
+        } else if (isFocused) {
+          borderColor = colorScheme.primary;
+        } else {
+          borderColor = theme.dividerTheme.color ?? AppColors.transparent;
+        }
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ActivityFormLabelWidget(label: 'Descrição', isRequired: true),
             const SizedBox(height: 8.0),
-            Container(
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 150),
+              curve: Curves.easeInOut,
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: colorScheme.surface,
@@ -110,7 +134,7 @@ class _ActivityFormDescriptionFieldWidgetState
                     config: QuillSimpleToolbarConfig(
                       decoration: BoxDecoration(
                         color: colorScheme.surface,
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(16.0),
                         ),
                       ),
@@ -149,7 +173,7 @@ class _ActivityFormDescriptionFieldWidgetState
                       showLink: false,
                       customButtons: <QuillToolbarCustomButtonOptions>[
                         QuillToolbarCustomButtonOptions(
-                          icon: Icon(Icons.link_rounded),
+                          icon: const Icon(Icons.link_rounded),
                           onPressed: () async {
                             final selection = widget.controller.selection;
 
@@ -235,18 +259,32 @@ class _ActivityFormDescriptionFieldWidgetState
                 ],
               ),
             ),
-            if (hasError)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 16.0),
-                child: Text(
-                  state.errorText!,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: Colors.red.shade700,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w600,
+            SizedBox(
+              height: hasError ? 26.0 : 0.0,
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: AnimatedSlide(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOut,
+                  offset: hasError ? Offset.zero : const Offset(0, -0.3),
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 120),
+                    opacity: hasError ? 1 : 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 8.0, left: 16.0),
+                      child: Text(
+                        state.errorText ?? '',
+                        style: GoogleFonts.plusJakartaSans(
+                          color: colorScheme.error,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
+            ),
           ],
         );
       },
