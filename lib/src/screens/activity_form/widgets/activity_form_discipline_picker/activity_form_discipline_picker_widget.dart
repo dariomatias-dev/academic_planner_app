@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_modal_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_modal/activity_form_discipline_modal_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';

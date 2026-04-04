@@ -7,6 +7,8 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_modal/activity_form_discipline_empty_state_modal_widget.dart';
+
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 
 class ActivityFormDisciplineModalWidget extends StatelessWidget {
@@ -27,6 +29,10 @@ class ActivityFormDisciplineModalWidget extends StatelessWidget {
     final enrolled = adsDisciplines.filter((discipline) {
       return userDisciplinesNotifier.selectedIds.contains(discipline.id);
     });
+
+    if (enrolled.isEmpty) {
+      return const ActivityFormDisciplineEmptyStateModalWidget();
+    }
 
     return ListView.builder(
       shrinkWrap: true,
