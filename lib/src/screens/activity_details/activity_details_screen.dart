@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
@@ -10,6 +9,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_description_widget.dart';
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_discipline_widget.dart';
+import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_due_date_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -140,55 +140,13 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                     height: 1.2,
                   ),
                 ),
-                const SizedBox(height: 24.0),
-                Container(
-                  padding: const EdgeInsets.all(20.0),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    borderRadius: BorderRadius.circular(24.0),
-                    border: Border.all(
-                      color: theme.dividerTheme.color ?? Colors.transparent,
+                if (activity.dueDate != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24.0),
+                    child: ActivityDetailsDueDateWidget(
+                      dueDate: activity.dueDate,
                     ),
                   ),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.calendar_today_rounded,
-                        color: colorScheme.primary,
-                        size: 20.0,
-                      ),
-                      const SizedBox(width: 12.0),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "PRAZO DE ENTREGA",
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 10.0,
-                                fontWeight: FontWeight.w900,
-                                color: colorScheme.onSurface.withAlpha(120),
-                              ),
-                            ),
-                            Text(
-                              activity.dueDate != null
-                                  ? DateFormat(
-                                      "dd 'de' MMMM, yyyy",
-                                      "pt_BR",
-                                    ).format(activity.dueDate!)
-                                  : "Sem data definida",
-                              style: GoogleFonts.plusJakartaSans(
-                                fontSize: 15.0,
-                                fontWeight: FontWeight.w700,
-                                color: colorScheme.onSurface,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 const SizedBox(height: 32.0),
                 const ActivityDetailsSectionTitleWidget(
                   title: "Alterar Status",
