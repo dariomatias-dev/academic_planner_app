@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
 
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_link_dialog_widget.dart';
 
 class ActivityFormDescriptionFieldWidget extends StatefulWidget {
   final QuillController controller;
@@ -22,15 +23,8 @@ class ActivityFormDescriptionFieldWidget extends StatefulWidget {
 
 class _ActivityFormDescriptionFieldWidgetState
     extends State<ActivityFormDescriptionFieldWidget> {
-  late final FocusNode _focusNode;
-  late final ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = FocusNode();
-    _scrollController = ScrollController();
-  }
+  late final _scrollController = ScrollController();
+  late final _focusNode = FocusNode();
 
   @override
   void dispose() {
@@ -142,7 +136,6 @@ class _ActivityFormDescriptionFieldWidgetState
                       showSuperscript: false,
                       showSmallButton: false,
                       showInlineCode: false,
-                      showLink: false,
                       showDirection: false,
                       showSearchButton: false,
                       showCodeBlock: false,
@@ -151,9 +144,60 @@ class _ActivityFormDescriptionFieldWidgetState
                       showColorButton: false,
                       showBackgroundColorButton: false,
                       showListCheck: false,
-                      showUndo: true,
-                      showRedo: true,
                       multiRowsDisplay: false,
+                      showLink: false,
+                      customButtons: <QuillToolbarCustomButtonOptions>[
+                        QuillToolbarCustomButtonOptions(
+                          icon: Icon(Icons.link_rounded),
+                          onPressed: () async {
+                            final selection = widget.controller.selection;
+                            String? selectedText;
+                            if (!selection.isCollapsed) {
+                              selectedText = widget.controller.document
+                                  .getPlainText(
+                                    selection.start,
+                                    selection.end - selection.start,
+                                  );
+                            }
+
+                            final result =
+                                await ActivityFormLinkDialogWidget.show(
+                                  context,
+                                  initialText: selectedText,
+                                  initialUrl: '',
+                                );
+
+                            if (result != null) {
+                              final insertIndex = selection.start;
+
+                              widget.controller.replaceText(
+                                insertIndex,
+                                selection.isCollapsed
+                                    ? 0
+                                    : selection.end - selection.start,
+                                result['text'] ?? result['url'] ?? '',
+                                null,
+                              );
+
+                              widget.controller.formatText(
+                                insertIndex,
+                                (result['text'] ?? result['url'] ?? '').length,
+                                LinkAttribute(result['url'] ?? ''),
+                              );
+
+                              widget.controller.updateSelection(
+                                TextSelection.collapsed(
+                                  offset:
+                                      insertIndex +
+                                      (result['text'] ?? result['url'] ?? '')
+                                          .length,
+                                ),
+                                ChangeSource.local,
+                              );
+                            }
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   Divider(
