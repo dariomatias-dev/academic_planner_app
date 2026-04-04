@@ -6,7 +6,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
 
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_link_dialog_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
 
 class ActivityFormDescriptionFieldWidget extends StatefulWidget {
   final QuillController controller;
