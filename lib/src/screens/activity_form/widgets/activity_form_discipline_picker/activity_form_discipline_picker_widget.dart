@@ -8,6 +8,7 @@ import 'package:academic_planner/src/screens/activity_form/widgets/activity_form
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
+import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 
 class ActivityFormDisciplinePickerWidget extends StatefulWidget {
   final DisciplineModel? selectedDiscipline;
@@ -168,18 +169,10 @@ class _ActivityFormDisciplinePickerWidgetState
                 ),
               ),
             ),
-            if (hasError)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, left: 16.0),
-                child: Text(
-                  state.errorText!,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.error,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
+            FormErrorMessageWidget(
+              hasError: hasError,
+              errorText: state.errorText,
+            ),
           ],
         );
       },
