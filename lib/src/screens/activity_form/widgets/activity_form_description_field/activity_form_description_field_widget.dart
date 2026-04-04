@@ -8,6 +8,8 @@ import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
 
+import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
+
 class ActivityFormDescriptionFieldWidget extends StatefulWidget {
   final QuillController controller;
 
@@ -259,31 +261,9 @@ class _ActivityFormDescriptionFieldWidgetState
                 ],
               ),
             ),
-            SizedBox(
-              height: hasError ? 26.0 : 0.0,
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: AnimatedSlide(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeOut,
-                  offset: hasError ? Offset.zero : const Offset(0, -0.3),
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 120),
-                    opacity: hasError ? 1 : 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 8.0, left: 16.0),
-                      child: Text(
-                        state.errorText ?? '',
-                        style: GoogleFonts.plusJakartaSans(
-                          color: colorScheme.error,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            FormErrorMessageWidget(
+              hasError: hasError,
+              errorText: state.errorText,
             ),
           ],
         );
