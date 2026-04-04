@@ -1,9 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/app_validators.dart';
@@ -11,9 +11,8 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
-
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
@@ -25,7 +24,6 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityFormScreen extends StatefulWidget {
@@ -231,53 +229,13 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                 controller: _descriptionController,
               ),
               const ActivityFormSectionTitleWidget(title: "Classificação"),
-              FormField<DisciplineModel>(
-                initialValue: _selectedDiscipline,
-                validator: (validator) {
-                  return validator == null
-                      ? "Selecione uma disciplina obrigatória"
-                      : null;
-                },
-                builder: (FormFieldState<DisciplineModel> state) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ActivityFormDisciplinePickerWidget(
-                        selectedDiscipline: state.value,
-                        isRequired: true,
-                        onTap: () {
-                          _unfocus();
-
-                          ModalBottomSheetWidget.show(
-                            context: context,
-                            title: "Minhas Matérias",
-                            child: ActivityFormDisciplineListWidget(
-                              selectedId: state.value?.id,
-                              onSelected: (discipline) {
-                                setState(() {
-                                  _selectedDiscipline = discipline;
-                                });
-
-                                state.didChange(discipline);
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      if (state.hasError)
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0, left: 24.0),
-                          child: Text(
-                            state.errorText!,
-                            style: GoogleFonts.plusJakartaSans(
-                              color: Colors.red.shade700,
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                    ],
-                  );
+              ActivityFormDisciplinePickerWidget(
+                selectedDiscipline: _selectedDiscipline,
+                isRequired: true,
+                onSelected: (discipline) {
+                  setState(() {
+                    _selectedDiscipline = discipline;
+                  });
                 },
               ),
               const SizedBox(height: 20.0),
@@ -410,126 +368,6 @@ class ActivityFormInputFieldWidget extends StatelessWidget {
           validator: validator,
         ),
       ],
-    );
-  }
-}
-
-class ActivityFormDisciplinePickerWidget extends StatelessWidget {
-  final DisciplineModel? selectedDiscipline;
-  final VoidCallback onTap;
-  final bool isRequired;
-
-  const ActivityFormDisciplinePickerWidget({
-    super.key,
-    this.selectedDiscipline,
-    required this.onTap,
-    this.isRequired = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        ActivityFormLabelWidget(label: "Disciplina", isRequired: isRequired),
-        const SizedBox(height: 8.0),
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: colorScheme.surface,
-              borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(
-                color:
-                    Theme.of(context).dividerTheme.color ??
-                    AppColors.transparent,
-              ),
-            ),
-            child: Row(
-              children: <Widget>[
-                Icon(
-                  Icons.bookmark_border_rounded,
-                  color: colorScheme.primary,
-                  size: 20.0,
-                ),
-                const SizedBox(width: 12.0),
-                Expanded(
-                  child: Text(
-                    selectedDiscipline?.name ?? "Selecione uma matéria",
-                    style: GoogleFonts.plusJakartaSans(
-                      color: selectedDiscipline == null
-                          ? colorScheme.onSurface.withAlpha(160)
-                          : colorScheme.onSurface,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                Icon(
-                  Icons.expand_more_rounded,
-                  color: colorScheme.onSurface.withAlpha(160),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ActivityFormDisciplineListWidget extends StatelessWidget {
-  final int? selectedId;
-  final Function(DisciplineModel value) onSelected;
-
-  const ActivityFormDisciplineListWidget({
-    super.key,
-    this.selectedId,
-    required this.onSelected,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final userDisciplinesNotifier = context.read<UserDisciplinesNotifier>();
-
-    final enrolled = adsDisciplines.filter((discipline) {
-      return userDisciplinesNotifier.selectedIds.contains(discipline.id);
-    });
-
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: enrolled.length,
-      itemBuilder: (context, index) {
-        final discipline = enrolled[index];
-        final isSelected = selectedId == discipline.id;
-
-        return ListTile(
-          title: Text(
-            discipline.name,
-            style: GoogleFonts.plusJakartaSans(
-              color: isSelected ? colorScheme.primary : colorScheme.onSurface,
-              fontSize: 14.0,
-              fontWeight: isSelected ? FontWeight.w800 : FontWeight.w700,
-            ),
-          ),
-          subtitle: Text(
-            discipline.acronym,
-            style: GoogleFonts.plusJakartaSans(fontSize: 12.0),
-          ),
-          trailing: isSelected
-              ? Icon(Icons.check_circle_rounded, color: colorScheme.primary)
-              : null,
-          onTap: () {
-            onSelected(discipline);
-
-            Navigator.pop(context);
-          },
-        );
-      },
     );
   }
 }
