@@ -13,7 +13,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';

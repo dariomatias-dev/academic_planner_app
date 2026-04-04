@@ -30,6 +30,7 @@ class _ActivityFormDescriptionFieldWidgetState
   void dispose() {
     _focusNode.dispose();
     _scrollController.dispose();
+
     super.dispose();
   }
 
@@ -151,6 +152,7 @@ class _ActivityFormDescriptionFieldWidgetState
                           icon: Icon(Icons.link_rounded),
                           onPressed: () async {
                             final selection = widget.controller.selection;
+
                             String? selectedText;
                             if (!selection.isCollapsed) {
                               selectedText = widget.controller.document
