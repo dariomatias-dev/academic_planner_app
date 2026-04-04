@@ -4,13 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 
 class InputWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final String hint;
-  final int maxLines;
-  final Widget? prefixIcon;
-  final Widget? suffix;
-  final String? Function(String? value)? validator;
-
   const InputWidget({
     super.key,
     required this.controller,
@@ -21,70 +14,98 @@ class InputWidget extends StatelessWidget {
     this.validator,
   });
 
+  final TextEditingController controller;
+  final String hint;
+  final int maxLines;
+  final Widget? prefixIcon;
+  final Widget? suffix;
+  final String? Function(String? value)? validator;
+
+  static const _radius = 16.0;
+  static const _contentPadding = EdgeInsets.all(16.0);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colors = theme.colorScheme;
 
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: GoogleFonts.plusJakartaSans(
-        color: colorScheme.onSurface,
-        fontWeight: FontWeight.w600,
-      ),
+      style: _textStyle(colors),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.plusJakartaSans(
-          color: colorScheme.onSurface.withAlpha(100),
-          fontWeight: FontWeight.w500,
-        ),
-        errorStyle: GoogleFonts.plusJakartaSans(
-          color: colorScheme.error,
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
+        hintStyle: _hintStyle(colors),
+        errorStyle: _errorStyle(colors),
         prefixIcon: prefixIcon,
-        suffixIcon:
-            suffix ??
-            ListenableBuilder(
-              listenable: controller,
-              builder: (context, child) {
-                if (controller.text.isEmpty) return const SizedBox.shrink();
-
-                return IconButton(
-                  onPressed: controller.clear,
-                  icon: Icon(
-                    Icons.clear_rounded,
-                    size: 20.0,
-                    color: colorScheme.onSurface.withAlpha(160),
-                  ),
-                );
-              },
-            ),
+        suffixIcon: suffix ?? _ClearButtonWidget(controller: controller),
         filled: true,
-        fillColor: colorScheme.surface,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide.none,
+        fillColor: colors.surface,
+        border: _border(color: theme.dividerTheme.color ?? Colors.transparent),
+        enabledBorder: _border(
+          color: theme.dividerTheme.color ?? AppColors.transparent,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(
-            color: theme.dividerTheme.color ?? AppColors.transparent,
-            width: 1.0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16.0),
-          borderSide: BorderSide(color: colorScheme.primary, width: 1.5),
-        ),
-        contentPadding: const EdgeInsets.all(16.0),
+        focusedBorder: _border(color: colors.primary, width: 1.5),
+        errorBorder: _border(color: colors.error, width: 1.2),
+        focusedErrorBorder: _border(color: colors.error, width: 1.5),
+        contentPadding: _contentPadding,
       ),
-      onTapUpOutside: (event) {
-        FocusManager.instance.primaryFocus?.unfocus();
+      onTapUpOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+    );
+  }
+
+  TextStyle _textStyle(ColorScheme colorScheme) {
+    return GoogleFonts.plusJakartaSans(
+      color: colorScheme.onSurface,
+      fontWeight: FontWeight.w600,
+    );
+  }
+
+  TextStyle _hintStyle(ColorScheme colorScheme) {
+    return GoogleFonts.plusJakartaSans(
+      color: colorScheme.onSurface.withAlpha(100),
+      fontWeight: FontWeight.w500,
+    );
+  }
+
+  TextStyle _errorStyle(ColorScheme colorScheme) {
+    return GoogleFonts.plusJakartaSans(
+      color: colorScheme.error,
+      fontWeight: FontWeight.w600,
+      fontSize: 12.0,
+    );
+  }
+
+  OutlineInputBorder _border({required Color color, double width = 1.0}) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_radius),
+      borderSide: BorderSide(color: color, width: width),
+    );
+  }
+}
+
+class _ClearButtonWidget extends StatelessWidget {
+  const _ClearButtonWidget({required this.controller});
+
+  final TextEditingController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (_, _) {
+        if (controller.text.isEmpty) return const SizedBox.shrink();
+
+        return IconButton(
+          onPressed: controller.clear,
+          icon: Icon(
+            Icons.clear_rounded,
+            size: 20.0,
+            color: Theme.of(context).colorScheme.onSurface.withAlpha(160),
+          ),
+        );
       },
     );
   }
