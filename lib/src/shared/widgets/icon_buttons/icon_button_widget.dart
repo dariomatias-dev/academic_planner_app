@@ -6,7 +6,7 @@ enum IconButtonStyle { primary, secondary, neutral, outline }
 
 class IconButtonWidget extends StatelessWidget {
   final IconData icon;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double size;
   final double? iconSize;
   final IconButtonStyle style;

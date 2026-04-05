@@ -3,12 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/app_validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_date_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
@@ -41,13 +44,20 @@ class ActivityFormScreen extends StatefulWidget {
 }
 
 class _ActivityFormScreenState extends State<ActivityFormScreen> {
+  late final _controller = context.read<ActivityController>();
+
   final _formKey = GlobalKey<FormState>();
 
-  late final TextEditingController _titleController;
+  late final _titleController = TextEditingController(
+    text: _initialActivity?.title,
+  );
   late final QuillController _descriptionController;
-  late final TextEditingController _notesController;
+  late final TextEditingController _notesController = TextEditingController(
+    text: _initialActivity?.notes,
+  );
   final _reminders = <TimeOfDay>[];
 
+  ActivityModel? _initialActivity;
   DisciplineModel? _selectedDiscipline;
   DateTime? _dueDate;
   ActivityStatus? _selectedStatus;
@@ -118,11 +128,51 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
     }
   }
 
-  void _saveTask() {
+  Future<void> _saveTask() async {
     _unfocus();
 
     if (_formKey.currentState?.validate() ?? false) {
-      Navigator.pop(context);
+      final description = jsonEncode(
+        _descriptionController.document.toDelta().toJson(),
+      );
+
+      Result<void> result;
+
+      if (_initialActivity != null) {
+        final updatedActivity = _initialActivity!.copyWith(
+          title: _titleController.text,
+          description: description,
+          notes: _notesController.text,
+          disciplineId: _selectedDiscipline?.id,
+          dueDate: _dueDate,
+          category: _selectedCategory,
+          tags: _selectedTags,
+          reminders: _reminders,
+          status: _selectedStatus,
+        );
+        result = await _controller.editActivity(updatedActivity);
+      } else {
+        result = await _controller.createActivity(
+          title: _titleController.text,
+          description: description,
+          notes: _notesController.text,
+          disciplineId: _selectedDiscipline!.id,
+          dueDate: _dueDate,
+          category: _selectedCategory,
+          tags: _selectedTags,
+          reminders: _reminders,
+          status: _selectedStatus,
+        );
+      }
+
+      result.fold(
+        onSuccess: (_) => Navigator.pop(context),
+        onFailure: (f) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Erro ao salvar: ${f.toString()}")),
+          );
+        },
+      );
     }
   }
 
@@ -130,16 +180,20 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   void initState() {
     super.initState();
 
-    final activity = mockActivities
+    _initialActivity = _controller
+        .getActivities()
         .where((activity) => activity.id == widget.activityId)
         .firstOrNull;
 
-    _titleController = TextEditingController(text: activity?.title);
-    _notesController = TextEditingController(text: activity?.notes);
+    _titleController.addListener(() => setState(() {}));
+    _notesController.addListener(() => setState(() {}));
 
-    if (activity != null && activity.description.isNotEmpty) {
+    if (_initialActivity != null && _initialActivity!.description.isNotEmpty) {
       try {
-        final doc = Document.fromJson(jsonDecode(activity.description));
+        final doc = Document.fromJson(
+          jsonDecode(_initialActivity!.description),
+        );
+
         _descriptionController = QuillController(
           document: doc,
           selection: const TextSelection.collapsed(offset: 0),
@@ -151,23 +205,25 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
       _descriptionController = QuillController.basic();
     }
 
-    if (activity != null) {
-      _selectedDiscipline = adsDisciplines
-          .where((d) => d.id == activity.disciplineId)
-          .firstOrNull;
-      _dueDate = activity.dueDate;
-      _selectedStatus = activity.status;
-      _selectedCategory = activity.category;
-      _selectedTags.addAll(activity.tags);
-      _reminders.addAll(activity.reminders);
+    _descriptionController.addListener(() => setState(() {}));
 
-      for (final tag in activity.tags) {
+    if (_initialActivity != null) {
+      _selectedDiscipline = adsDisciplines
+          .where((d) => d.id == _initialActivity!.disciplineId)
+          .firstOrNull;
+      _dueDate = _initialActivity!.dueDate;
+      _selectedStatus = _initialActivity!.status;
+      _selectedCategory = _initialActivity!.category;
+      _selectedTags.addAll(_initialActivity!.tags);
+      _reminders.addAll(_initialActivity!.reminders);
+
+      for (final tag in _initialActivity!.tags) {
         if (!_availableTags.contains(tag)) _availableTags.add(tag);
       }
 
-      if (activity.category != null &&
-          !_categories.contains(activity.category)) {
-        _categories.add(activity.category!);
+      if (_initialActivity!.category != null &&
+          !_categories.contains(_initialActivity!.category)) {
+        _categories.add(_initialActivity!.category!);
       }
     } else if (widget.initialDisciplineId != null) {
       _selectedDiscipline = adsDisciplines
@@ -188,6 +244,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   @override
   Widget build(BuildContext context) {
     final isEditing = widget.activityId != null;
+    final canSave = !isEditing;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -196,7 +253,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.check_rounded,
-            onPressed: _saveTask,
+            onPressed: canSave ? _saveTask : null,
             style: IconButtonStyle.primary,
           ),
         ],
