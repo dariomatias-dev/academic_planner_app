@@ -142,6 +142,7 @@ class _ActivityFormDescriptionFieldWidgetState
                       ),
                       buttonOptions: QuillSimpleToolbarButtonOptions(
                         base: QuillToolbarBaseButtonOptions(
+                          afterButtonPressed: _focusNode.requestFocus,
                           iconTheme: QuillIconTheme(
                             iconButtonSelectedData: IconButtonData(
                               color: colorScheme.primary,
@@ -223,6 +224,8 @@ class _ActivityFormDescriptionFieldWidgetState
                                 ChangeSource.local,
                               );
                             }
+
+                            _focusNode.requestFocus();
                           },
                         ),
                       ],
