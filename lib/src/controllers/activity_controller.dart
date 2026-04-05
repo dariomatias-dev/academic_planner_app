@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
@@ -20,8 +21,31 @@ class ActivityController {
     );
   }
 
-  Future<Result<void>> createActivity(ActivityModel activity) async {
-    return await notifier.addActivity(activity.copyWith(id: const Uuid().v7()));
+  Future<Result<void>> createActivity({
+    required String title,
+    required String description,
+    String? notes,
+    required int disciplineId,
+    DateTime? dueDate,
+    String? category,
+    required List<String> tags,
+    required List<TimeOfDay> reminders,
+    ActivityStatus? status,
+  }) async {
+    final activity = ActivityModel(
+      id: const Uuid().v7(),
+      title: title,
+      description: description,
+      notes: notes,
+      disciplineId: disciplineId,
+      dueDate: dueDate,
+      category: category,
+      tags: tags,
+      reminders: reminders,
+      status: status,
+    );
+
+    return await notifier.addActivity(activity);
   }
 
   List<ActivityModel> getActivities() {
