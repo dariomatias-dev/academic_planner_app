@@ -22,7 +22,9 @@ class HomeQuickActionsRowWidget extends StatelessWidget {
         ),
         const SizedBox(width: 16.0),
         ActionButtonWidget(
-          onPressed: () {},
+          onPressed: () {
+            AppRoutes.goToAgenda(context);
+          },
           icon: Icons.calendar_today_rounded,
           label: "Agenda",
           style: AppButtonStyle.neutral,
