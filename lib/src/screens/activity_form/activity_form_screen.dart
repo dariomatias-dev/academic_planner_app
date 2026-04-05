@@ -70,6 +70,41 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
   void _unfocus() => FocusManager.instance.primaryFocus?.unfocus();
 
+  bool _hasChanges() {
+    if (_initialActivity == null) return true;
+
+    final currentDescription = jsonEncode(
+      _descriptionController.document.toDelta().toJson(),
+    );
+    final initialDescription = _initialActivity!.description;
+
+    final hasTitleChanged = _titleController.text != _initialActivity!.title;
+    final hasDescriptionChanged = currentDescription != initialDescription;
+    final hasNotesChanged =
+        _notesController.text != (_initialActivity!.notes ?? "");
+    final hasDisciplineChanged =
+        _selectedDiscipline?.id != _initialActivity!.disciplineId;
+    final hasDueDateChanged = _dueDate != _initialActivity!.dueDate;
+    final hasStatusChanged = _selectedStatus != _initialActivity!.status;
+    final hasCategoryChanged = _selectedCategory != _initialActivity!.category;
+    final hasTagsChanged =
+        !(_selectedTags.length == _initialActivity!.tags.length &&
+            _selectedTags.every((t) => _initialActivity!.tags.contains(t)));
+    final hasRemindersChanged =
+        !(_reminders.length == _initialActivity!.reminders.length &&
+            _reminders.every((r) => _initialActivity!.reminders.contains(r)));
+
+    return hasTitleChanged ||
+        hasDescriptionChanged ||
+        hasNotesChanged ||
+        hasDisciplineChanged ||
+        hasDueDateChanged ||
+        hasStatusChanged ||
+        hasCategoryChanged ||
+        hasTagsChanged ||
+        hasRemindersChanged;
+  }
+
   void _showCreateCategoryDialog() {
     _unfocus();
 
@@ -244,7 +279,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   @override
   Widget build(BuildContext context) {
     final isEditing = widget.activityId != null;
-    final canSave = !isEditing;
+    final canSave = !isEditing || _hasChanges();
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
