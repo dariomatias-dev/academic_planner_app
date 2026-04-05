@@ -67,47 +67,12 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    late Color backgroundColor;
-    late Color textColor;
-    Color? borderColor;
-    Color? iconBackgroundColor;
-
-    switch (widget.style) {
-      case AppButtonStyle.primary:
-        backgroundColor = colorScheme.primary;
-        textColor = colorScheme.onPrimary;
-        break;
-      case AppButtonStyle.secondary:
-        backgroundColor = colorScheme.primary.withAlpha(25);
-        textColor = colorScheme.primary;
-        break;
-      case AppButtonStyle.neutral:
-        backgroundColor = theme.scaffoldBackgroundColor;
-        textColor = colorScheme.onSurface;
-        borderColor = theme.dividerTheme.color;
-        break;
-      case AppButtonStyle.outline:
-        backgroundColor = AppColors.transparent;
-        textColor = colorScheme.primary;
-        borderColor = colorScheme.primary;
-        break;
-      case AppButtonStyle.destructive:
-        backgroundColor = colorScheme.errorContainer;
-        textColor = colorScheme.error;
-        iconBackgroundColor = colorScheme.error.withAlpha(40);
-        break;
-      case AppButtonStyle.destructiveSolid:
-        backgroundColor = colorScheme.error;
-        textColor = colorScheme.onError;
-        break;
-    }
+    final colors = _ButtonColors.fromStyle(widget.style, theme);
 
     final isButtonDisabled = widget.onPressed == null || _isLoading;
     final effectiveBackgroundColor = _isLoading
-        ? backgroundColor.withAlpha(180)
-        : backgroundColor;
+        ? colors.backgroundColor.withAlpha(180)
+        : colors.backgroundColor;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
@@ -117,11 +82,11 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.borderRadius),
         boxShadow: widget.style == AppButtonStyle.primary && !_isLoading
-            ? [
+            ? <BoxShadow>[
                 BoxShadow(
-                  color: backgroundColor.withAlpha(40),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
+                  color: colors.backgroundColor.withAlpha(40),
+                  blurRadius: 12.0,
+                  offset: const Offset(0.0, 4.0),
                 ),
               ]
             : null,
@@ -131,18 +96,18 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         style:
             ElevatedButton.styleFrom(
               backgroundColor: effectiveBackgroundColor,
-              foregroundColor: textColor,
-              disabledBackgroundColor: backgroundColor.withAlpha(150),
-              disabledForegroundColor: textColor.withAlpha(150),
+              foregroundColor: colors.textColor,
+              disabledBackgroundColor: colors.backgroundColor.withAlpha(150),
+              disabledForegroundColor: colors.textColor.withAlpha(150),
               elevation: 0.0,
               padding:
                   widget.padding ??
                   const EdgeInsets.symmetric(horizontal: 24.0),
-              side: borderColor != null
+              side: colors.borderColor != null
                   ? BorderSide(
                       color: _isLoading
-                          ? borderColor.withAlpha(100)
-                          : borderColor,
+                          ? colors.borderColor!.withAlpha(100)
+                          : colors.borderColor!,
                       width: 1.5,
                     )
                   : BorderSide.none,
@@ -152,8 +117,9 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             ).copyWith(
               overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
                 if (states.contains(WidgetState.pressed)) {
-                  return textColor.withAlpha(25);
+                  return colors.textColor.withAlpha(25);
                 }
+
                 return null;
               }),
             ),
@@ -166,51 +132,153 @@ class _ButtonWidgetState extends State<ButtonWidget> {
             );
           },
           child: _isLoading
-              ? SizedBox(
-                  key: const ValueKey('loading'),
-                  height: 24.0,
-                  width: 24.0,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 3.0,
-                    strokeCap: StrokeCap.round,
-                    valueColor: AlwaysStoppedAnimation<Color>(textColor),
-                  ),
-                )
-              : Row(
-                  key: const ValueKey('content'),
-                  mainAxisSize: widget.isFullWidth
-                      ? MainAxisSize.max
-                      : MainAxisSize.min,
+              ? _ButtonLoadingIndicator(color: colors.textColor)
+              : _ButtonContent(
+                  label: widget.label,
+                  icon: widget.icon,
+                  trailingIcon: widget.trailingIcon,
+                  textColor: colors.textColor,
+                  iconBackgroundColor: colors.iconBackgroundColor,
+                  fontSize: widget.fontSize,
+                  fontWeight: widget.fontWeight,
+                  isFullWidth: widget.isFullWidth,
                   mainAxisAlignment: widget.mainAxisAlignment,
-                  children: <Widget>[
-                    if (widget.icon != null) ...<Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                          color: iconBackgroundColor ?? AppColors.transparent,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(widget.icon, size: 18.0, color: textColor),
-                      ),
-                      const SizedBox(width: 8.0),
-                    ],
-                    Text(
-                      widget.label,
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: widget.fontSize,
-                        fontWeight: widget.fontWeight,
-                        color: textColor,
-                        letterSpacing: -0.2,
-                      ),
-                    ),
-                    if (widget.trailingIcon != null) ...<Widget>[
-                      const Spacer(),
-                      Icon(widget.trailingIcon, size: 18.0, color: textColor),
-                    ],
-                  ],
                 ),
         ),
       ),
     );
+  }
+}
+
+class _ButtonContent extends StatelessWidget {
+  final String label;
+  final IconData? icon;
+  final IconData? trailingIcon;
+  final Color textColor;
+  final Color? iconBackgroundColor;
+  final double fontSize;
+  final FontWeight fontWeight;
+  final bool isFullWidth;
+  final MainAxisAlignment mainAxisAlignment;
+
+  const _ButtonContent({
+    required this.label,
+    required this.icon,
+    required this.trailingIcon,
+    required this.textColor,
+    this.iconBackgroundColor,
+    required this.fontSize,
+    required this.fontWeight,
+    required this.isFullWidth,
+    required this.mainAxisAlignment,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      key: const ValueKey('content'),
+      mainAxisSize: isFullWidth ? MainAxisSize.max : MainAxisSize.min,
+      mainAxisAlignment: mainAxisAlignment,
+      children: <Widget>[
+        if (icon != null) ...<Widget>[
+          Container(
+            padding: const EdgeInsets.all(6.0),
+            decoration: BoxDecoration(
+              color: iconBackgroundColor ?? AppColors.transparent,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, size: 18.0, color: textColor),
+          ),
+          const SizedBox(width: 8.0),
+        ],
+        Text(
+          label,
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+            color: textColor,
+            letterSpacing: -0.2,
+          ),
+        ),
+        if (trailingIcon != null) ...<Widget>[
+          const Spacer(),
+          Icon(trailingIcon, size: 18.0, color: textColor),
+        ],
+      ],
+    );
+  }
+}
+
+class _ButtonLoadingIndicator extends StatelessWidget {
+  final Color color;
+
+  const _ButtonLoadingIndicator({required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      key: const ValueKey('loading'),
+      height: 24.0,
+      width: 24.0,
+      child: CircularProgressIndicator(
+        strokeWidth: 3.0,
+        strokeCap: StrokeCap.round,
+        valueColor: AlwaysStoppedAnimation<Color>(color),
+      ),
+    );
+  }
+}
+
+class _ButtonColors {
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? borderColor;
+  final Color? iconBackgroundColor;
+
+  const _ButtonColors({
+    required this.backgroundColor,
+    required this.textColor,
+    this.borderColor,
+    this.iconBackgroundColor,
+  });
+
+  factory _ButtonColors.fromStyle(AppButtonStyle style, ThemeData theme) {
+    final colorScheme = theme.colorScheme;
+
+    switch (style) {
+      case AppButtonStyle.primary:
+        return _ButtonColors(
+          backgroundColor: colorScheme.primary,
+          textColor: colorScheme.onPrimary,
+        );
+      case AppButtonStyle.secondary:
+        return _ButtonColors(
+          backgroundColor: colorScheme.primary.withAlpha(25),
+          textColor: colorScheme.primary,
+        );
+      case AppButtonStyle.neutral:
+        return _ButtonColors(
+          backgroundColor: theme.scaffoldBackgroundColor,
+          textColor: colorScheme.onSurface,
+          borderColor: theme.dividerTheme.color,
+        );
+      case AppButtonStyle.outline:
+        return _ButtonColors(
+          backgroundColor: AppColors.transparent,
+          textColor: colorScheme.primary,
+          borderColor: colorScheme.primary,
+        );
+      case AppButtonStyle.destructive:
+        return _ButtonColors(
+          backgroundColor: colorScheme.errorContainer,
+          textColor: colorScheme.error,
+          iconBackgroundColor: colorScheme.error.withAlpha(40),
+        );
+      case AppButtonStyle.destructiveSolid:
+        return _ButtonColors(
+          backgroundColor: colorScheme.error,
+          textColor: colorScheme.onError,
+        );
+    }
   }
 }
