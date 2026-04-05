@@ -50,6 +50,7 @@ dependencies:
   shared_preferences: ^2.5.5
   flutter_quill: ^11.5.0
   url_launcher: ^6.3.2
+  syncfusion_flutter_calendar: ^33.1.46
 
 dev_dependencies:
   flutter_test:
