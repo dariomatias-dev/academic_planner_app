@@ -5,6 +5,9 @@ import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/database/app_database.dart';
 
+import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
+import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
+import 'package:academic_planner/src/data/seeds/activity/activity_seed.dart';
 import 'package:academic_planner/src/data/seeds/seed.dart';
 import 'package:academic_planner/src/data/seeds/seed_runner.dart';
 
@@ -15,8 +18,12 @@ Future<void> main() async {
 
   final db = await AppDatabase.instance;
 
+  final activityRepository = ActivityRepositoryImpl(
+    ActivityLocalDataSource(db),
+  );
+
   final runner = SeedRunner(
-    seeds: <Seed>[],
+    seeds: <Seed>[ActivitySeed(activityRepository)],
     logger: logger,
   );
 
