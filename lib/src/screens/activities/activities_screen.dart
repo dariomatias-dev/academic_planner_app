@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:academic_planner/src/core/constants/mock_activities.dart';
+import 'package:academic_planner/src/controllers/activity_controller.dart';
+
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/activities/widgets/activities_date_indicator_widget.dart';
@@ -24,6 +27,8 @@ class ActivitiesScreenWidget extends StatefulWidget {
 
 class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  late final _activityController = context.read<ActivityController>();
+
   late final _tabController = TabController(length: 4, vsync: this);
 
   final _searchController = TextEditingController();
@@ -36,7 +41,9 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   List<ActivityModel> _getFilteredTasks({
     List<ActivityStatus>? allowedStatuses,
   }) {
-    final filtered = mockActivities.where((task) {
+    final activities = _activityController.getActivities();
+
+    final filtered = activities.filter((task) {
       final matchesSearch =
           task.title.toLowerCase().contains(_searchQuery) ||
           task.description.toLowerCase().contains(_searchQuery);
@@ -47,7 +54,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
       }
 
       return matchesSearch && matchesStatus;
-    }).toList();
+    });
 
     filtered.sort((a, b) {
       if (a.dueDate == null && b.dueDate == null) return 0;
@@ -63,6 +70,10 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _activityController.init();
+    });
 
     _searchController.addListener(() {
       setState(() => _searchQuery = _searchController.text.toLowerCase());
@@ -106,74 +117,86 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
           icon: Icons.add_rounded,
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            color: colorScheme.surface,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                ActivitiesDateIndicatorWidget(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                  child: InputWidget(
-                    controller: _searchController,
-                    hint: "Filtrar atividades...",
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      color: colorScheme.onSurface.withAlpha(100),
+      body: ListenableBuilder(
+        listenable: _activityController.notifier,
+        builder: (context, _) {
+          if (_activityController.notifier.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Column(
+            children: <Widget>[
+              Container(
+                color: colorScheme.surface,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    ActivitiesDateIndicatorWidget(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                      child: InputWidget(
+                        controller: _searchController,
+                        hint: "Filtrar atividades...",
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          color: colorScheme.onSurface.withAlpha(100),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                TabBarWidget(
-                  controller: _tabController,
-                  tabs: const <Tab>[
-                    Tab(text: "Resumo"),
-                    Tab(text: "Ativas"),
-                    Tab(text: "Concluídas"),
-                    Tab(text: "Outras"),
+                    TabBarWidget(
+                      controller: _tabController,
+                      tabs: const <Tab>[
+                        Tab(text: "Resumo"),
+                        Tab(text: "Ativas"),
+                        Tab(text: "Concluídas"),
+                        Tab(text: "Outras"),
+                      ],
+                    ),
                   ],
                 ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: <Widget>[
-                ActivitiesSummaryTabWidget(tasks: _getFilteredTasks()),
-                ActivitiesTaskListTabWidget(
-                  tasks: _getFilteredTasks(
-                    allowedStatuses: <ActivityStatus>[
-                      ActivityStatus.pending,
-                      ActivityStatus.inProgress,
-                    ],
-                  ),
-                  description: "Tarefas em andamento ou pendentes",
-                  emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                    ActivitiesSummaryTabWidget(tasks: _getFilteredTasks()),
+                    ActivitiesTaskListTabWidget(
+                      tasks: _getFilteredTasks(
+                        allowedStatuses: <ActivityStatus>[
+                          ActivityStatus.pending,
+                          ActivityStatus.inProgress,
+                        ],
+                      ),
+                      description: "Tarefas em andamento ou pendentes",
+                      emptyMessage:
+                          "Foco total! Nenhuma tarefa ativa no momento.",
+                    ),
+                    ActivitiesTaskListTabWidget(
+                      tasks: _getFilteredTasks(
+                        allowedStatuses: <ActivityStatus>[
+                          ActivityStatus.completed,
+                        ],
+                      ),
+                      description: "Histórico de atividades finalizadas",
+                      emptyMessage: "O histórico está vazio. Vamos começar?",
+                    ),
+                    ActivitiesTaskListTabWidget(
+                      tasks: _getFilteredTasks(
+                        allowedStatuses: <ActivityStatus>[
+                          ActivityStatus.draft,
+                          ActivityStatus.canceled,
+                        ],
+                      ),
+                      description: "Rascunhos e tarefas canceladas",
+                      emptyMessage: "Sem rascunhos ou tarefas canceladas.",
+                    ),
+                  ],
                 ),
-                ActivitiesTaskListTabWidget(
-                  tasks: _getFilteredTasks(
-                    allowedStatuses: <ActivityStatus>[ActivityStatus.completed],
-                  ),
-                  description: "Histórico de atividades finalizadas",
-                  emptyMessage: "O histórico está vazio. Vamos começar?",
-                ),
-                ActivitiesTaskListTabWidget(
-                  tasks: _getFilteredTasks(
-                    allowedStatuses: <ActivityStatus>[
-                      ActivityStatus.draft,
-                      ActivityStatus.canceled,
-                    ],
-                  ),
-                  description: "Rascunhos e tarefas canceladas",
-                  emptyMessage: "Sem rascunhos ou tarefas canceladas.",
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 52.0),
-        ],
+              ),
+              const SizedBox(height: 52.0),
+            ],
+          );
+        },
       ),
     );
   }
