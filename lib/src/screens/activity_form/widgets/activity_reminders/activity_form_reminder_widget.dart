@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-class ActivityReminderWidget extends StatelessWidget {
+class ActivityFormReminderWidget extends StatelessWidget {
   final TimeOfDay time;
   final VoidCallback onRemove;
 
-  const ActivityReminderWidget({
+  const ActivityFormReminderWidget({
     super.key,
     required this.time,
     required this.onRemove,

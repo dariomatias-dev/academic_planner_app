@@ -14,7 +14,7 @@ import 'package:academic_planner/src/screens/activity_form/widgets/activity_form
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_reminder_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_dialog_widget.dart';
 
@@ -529,74 +529,6 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
             );
           }),
         ),
-      ],
-    );
-  }
-}
-
-class ActivityFormRemindersWidget extends StatelessWidget {
-  final List<TimeOfDay> reminders;
-  final VoidCallback onAdd;
-  final Function(TimeOfDay) onRemove;
-
-  const ActivityFormRemindersWidget({
-    super.key,
-    required this.reminders,
-    required this.onAdd,
-    required this.onRemove,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              "Lembretes",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            GestureDetector(
-              onTap: onAdd,
-              child: Text(
-                "+ Novo Horário",
-                style: GoogleFonts.plusJakartaSans(
-                  color: colorScheme.primary,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12.0),
-        if (reminders.isEmpty)
-          Text(
-            "Nenhum lembrete definido.",
-            style: GoogleFonts.plusJakartaSans(
-              color: colorScheme.onSurface.withAlpha(160),
-              fontSize: 12.0,
-            ),
-          )
-        else
-          Wrap(
-            spacing: 12.0,
-            runSpacing: 12.0,
-            children: reminders.builder((time, index) {
-              return ActivityReminderWidget(
-                time: time,
-                onRemove: () => onRemove(time),
-              );
-            }),
-          ),
       ],
     );
   }
