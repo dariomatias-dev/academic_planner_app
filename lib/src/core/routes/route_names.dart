@@ -7,6 +7,8 @@ class RouteNames {
 
   static const activityForm = 'activity_form';
 
+  static const agenda = 'agenda';
+
   static const disciplineDetails = 'discipline_details';
 
   static const disciplineSelection = 'discipline_selection';

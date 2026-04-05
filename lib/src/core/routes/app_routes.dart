@@ -50,6 +50,10 @@ class AppRoutes {
     context.push(uri.toString());
   }
 
+  static void goToAgenda(BuildContext context) {
+    context.push(RoutePaths.agenda);
+  }
+
   static void goToDisciplineDetails(
     BuildContext context, {
     required int disciplineId,

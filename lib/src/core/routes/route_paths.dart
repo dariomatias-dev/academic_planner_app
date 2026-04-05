@@ -7,6 +7,8 @@ class RoutePaths {
 
   static const activityForm = '/activity-form';
 
+  static const agenda = '/agenda';
+
   static const disciplineDetails = '/discipline-details';
 
   static const disciplineSelection = '/discipline-selection';

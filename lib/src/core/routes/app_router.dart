@@ -7,6 +7,7 @@ import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/screens/about/about_screen.dart';
 import 'package:academic_planner/src/screens/activity_details/activity_details_screen.dart';
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
+import 'package:academic_planner/src/screens/agenda/agenda_screen.dart';
 import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
 import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
@@ -58,6 +59,11 @@ class AppRouter {
                 initialDisciplineId: disciplineId,
               );
             },
+          ),
+          GoRoute(
+            name: RouteNames.agenda,
+            path: RoutePaths.agenda,
+            builder: (context, state) => const AgendaScreen(),
           ),
           GoRoute(
             name: RouteNames.disciplineDetails,
