@@ -1,16 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import 'package:academic_planner/src/controllers/activity_controller.dart';
+
+import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_delete_dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/activity_card/activity_removal_failure_dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/activity_card/activity_removal_success_dialog_widget.dart';
 
-class ActivityCardActionsModalWidget extends StatelessWidget {
+class ActivityCardActionsModalWidget extends StatefulWidget {
   final ActivityModel activity;
 
   const ActivityCardActionsModalWidget({super.key, required this.activity});
+
+  @override
+  State<ActivityCardActionsModalWidget> createState() =>
+      _ActivityCardActionsModalWidgetState();
+}
+
+class _ActivityCardActionsModalWidgetState
+    extends State<ActivityCardActionsModalWidget> {
+  late final _activityController = context.read<ActivityController>();
+
+  Future<void> _handleDelete() async {
+    await ActivityDeleteDialogWidget.show(
+      context,
+      task: widget.activity,
+      onDelete: _deleteActivity,
+    );
+  }
+
+  Future<void> _deleteActivity() async {
+    final result = await _activityController.removeActivity(widget.activity.id);
+
+    if (!mounted) return;
+
+    await result.whenAsync(
+      onSuccess: (_) async {
+        await ActivityRemovalSuccessDialogWidget.show(context);
+
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      },
+      onFailure: (failure) async {
+        await ActivityRemovalFailureDialogWidget.show(
+          context,
+          onRetry: _deleteActivity,
+          errorMessage: failure is DatabaseFailure ? failure.message : null,
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +84,7 @@ class ActivityCardActionsModalWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    activity.title,
+                    widget.activity.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.plusJakartaSans(
@@ -73,7 +119,8 @@ class ActivityCardActionsModalWidget extends StatelessWidget {
           label: "Editar atividade",
           onTap: () {
             Navigator.pop(context);
-            AppRoutes.goToActivityForm(context, activityId: activity.id);
+
+            AppRoutes.goToActivityForm(context, activityId: widget.activity.id);
           },
         ),
         ActivityCardActionTileModalWidget(
@@ -86,14 +133,7 @@ class ActivityCardActionsModalWidget extends StatelessWidget {
           icon: Icons.delete_outline_rounded,
           label: "Excluir atividade",
           color: colorScheme.error,
-          onTap: () {
-            Navigator.pop(context);
-            ActivityDeleteDialogWidget.show(
-              context,
-              task: activity,
-              onDelete: () {},
-            );
-          },
+          onTap: _handleDelete,
         ),
         const SizedBox(height: 8.0),
       ],
