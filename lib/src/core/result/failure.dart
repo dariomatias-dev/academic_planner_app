@@ -7,9 +7,3 @@ final class DatabaseFailure extends Failure {
 
   const DatabaseFailure(this.message);
 }
-
-final class ValidationFailure extends Failure {
-  final String message;
-
-  const ValidationFailure(this.message);
-}
