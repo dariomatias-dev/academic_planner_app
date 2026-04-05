@@ -6,9 +6,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:academic_planner/src/app_widget.dart';
 
-import 'package:academic_planner/src/core/theme/theme_controller.dart';
-import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
+import 'package:academic_planner/src/controllers/activity_controller.dart';
 
+import 'package:academic_planner/src/core/database/app_database.dart';
+import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
+import 'package:academic_planner/src/core/theme/theme_controller.dart';
+
+import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
+import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
+
+import 'package:academic_planner/src/notifiers/activity_notifier.dart';
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 Future<void> main() async {
@@ -17,19 +24,26 @@ Future<void> main() async {
   await initializeDateFormatting('pt_BR', null);
 
   final prefs = await SharedPreferences.getInstance();
-
   final prefsService = SharedPreferencesService(prefs);
-
   final themeController = ThemeController(prefsService);
+
+  final appDatabase = await AppDatabase.instance;
+
+  final activityLocalDataSource = ActivityLocalDataSource(appDatabase);
+  final activityRepository = ActivityRepositoryImpl(activityLocalDataSource);
+  final activityNotifier = ActivityNotifier(activityRepository);
 
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
         Provider<SharedPreferencesService>(create: (_) => prefsService),
+        ChangeNotifierProvider<ThemeController>(create: (_) => themeController),
         ChangeNotifierProvider<UserDisciplinesNotifier>(
           create: (_) => UserDisciplinesNotifier(prefsService),
         ),
-        ChangeNotifierProvider<ThemeController>(create: (_) => themeController),
+        Provider<ActivityController>(
+          create: (_) => ActivityController(activityNotifier),
+        ),
       ],
       child: const AppWidget(),
     ),
