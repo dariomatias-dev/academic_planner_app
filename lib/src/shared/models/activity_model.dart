@@ -10,7 +10,7 @@ class ActivityModel {
   final int disciplineId;
   final DateTime? dueDate;
   final String? category;
-  final Set<String> tags;
+  final List<String> tags;
   final List<TimeOfDay> reminders;
   final ActivityStatus? status;
 

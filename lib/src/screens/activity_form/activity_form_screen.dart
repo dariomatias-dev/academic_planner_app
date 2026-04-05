@@ -56,7 +56,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   String? _selectedCategory = "Estudo";
   final _categories = <String>["Estudo", "Leitura", "Projeto", "Prova"];
 
-  final _selectedTags = <String>{};
+  final _selectedTags = <String>[];
   final _availableTags = <String>["Urgente", "Teórica", "Prática", "Grupo"];
 
   void _unfocus() => FocusManager.instance.primaryFocus?.unfocus();
@@ -165,6 +165,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
       for (final tag in activity.tags) {
         if (!_availableTags.contains(tag)) _availableTags.add(tag);
       }
+
       if (activity.category != null &&
           !_categories.contains(activity.category)) {
         _categories.add(activity.category!);
@@ -472,7 +473,7 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
 
 class ActivityFormTagSelectorWidget extends StatelessWidget {
   final List<String> availableTags;
-  final Set<String> selectedTags;
+  final List<String> selectedTags;
   final Function(String tag, bool value) onToggle;
   final VoidCallback onCreate;
 

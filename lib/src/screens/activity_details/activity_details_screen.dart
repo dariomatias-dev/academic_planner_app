@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_description_widget.dart';
@@ -188,7 +189,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                   Wrap(
                     spacing: 8.0,
                     runSpacing: 8.0,
-                    children: activity.tags.toList().map((tag) {
+                    children: activity.tags.builder((tag, index) {
                       return Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14.0,
@@ -211,7 +212,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                           ),
                         ),
                       );
-                    }).toList(),
+                    }),
                   ),
                 ],
                 if (activity.reminders.isNotEmpty) ...<Widget>[
