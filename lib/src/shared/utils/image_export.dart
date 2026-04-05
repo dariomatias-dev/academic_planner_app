@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/services/image_export_service.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class ImageExport {

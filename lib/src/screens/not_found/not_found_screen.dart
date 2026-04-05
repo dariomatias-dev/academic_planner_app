@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class ActivityRemovalSuccessDialogWidget extends StatelessWidget {

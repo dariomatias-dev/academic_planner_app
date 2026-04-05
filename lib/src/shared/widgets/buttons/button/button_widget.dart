@@ -1,8 +1,11 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_colors.dart';
 
 enum AppButtonStyle {
   primary,
@@ -67,7 +70,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colors = _ButtonColors.fromStyle(widget.style, theme);
+    final colors = AppButtonStyles.fromStyle(widget.style, theme);
 
     final isButtonDisabled = widget.onPressed == null || _isLoading;
     final effectiveBackgroundColor = _isLoading
@@ -226,59 +229,5 @@ class _ButtonLoadingIndicator extends StatelessWidget {
         valueColor: AlwaysStoppedAnimation<Color>(color),
       ),
     );
-  }
-}
-
-class _ButtonColors {
-  final Color backgroundColor;
-  final Color textColor;
-  final Color? borderColor;
-  final Color? iconBackgroundColor;
-
-  const _ButtonColors({
-    required this.backgroundColor,
-    required this.textColor,
-    this.borderColor,
-    this.iconBackgroundColor,
-  });
-
-  factory _ButtonColors.fromStyle(AppButtonStyle style, ThemeData theme) {
-    final colorScheme = theme.colorScheme;
-
-    switch (style) {
-      case AppButtonStyle.primary:
-        return _ButtonColors(
-          backgroundColor: colorScheme.primary,
-          textColor: colorScheme.onPrimary,
-        );
-      case AppButtonStyle.secondary:
-        return _ButtonColors(
-          backgroundColor: colorScheme.primary.withAlpha(25),
-          textColor: colorScheme.primary,
-        );
-      case AppButtonStyle.neutral:
-        return _ButtonColors(
-          backgroundColor: theme.scaffoldBackgroundColor,
-          textColor: colorScheme.onSurface,
-          borderColor: theme.dividerTheme.color,
-        );
-      case AppButtonStyle.outline:
-        return _ButtonColors(
-          backgroundColor: AppColors.transparent,
-          textColor: colorScheme.primary,
-          borderColor: colorScheme.primary,
-        );
-      case AppButtonStyle.destructive:
-        return _ButtonColors(
-          backgroundColor: colorScheme.errorContainer,
-          textColor: colorScheme.error,
-          iconBackgroundColor: colorScheme.error.withAlpha(40),
-        );
-      case AppButtonStyle.destructiveSolid:
-        return _ButtonColors(
-          backgroundColor: colorScheme.error,
-          textColor: colorScheme.onError,
-        );
-    }
   }
 }

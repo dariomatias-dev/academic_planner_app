@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/app_validators.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/action_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 
 class HomeQuickActionsRowWidget extends StatelessWidget {
   const HomeQuickActionsRowWidget({super.key});

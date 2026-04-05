@@ -16,7 +16,7 @@ import 'package:academic_planner/src/screens/activity_details/widgets/activity_d
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_delete_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
@@ -78,7 +78,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
               ActivityDeleteDialogWidget.show(
                 context,
                 task: activity,
-                onDelete: () {},
+                onDelete: () async {},
               );
             },
           ),
