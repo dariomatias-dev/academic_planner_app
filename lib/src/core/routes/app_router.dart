@@ -29,14 +29,9 @@ class AppRouter {
         builder: (context, state) => const RootNavigation(),
         routes: <GoRoute>[
           GoRoute(
-            name: RouteNames.splash,
-            path: RoutePaths.splash,
-            builder: (context, state) => const SplashScreen(),
-          ),
-          GoRoute(
-            name: RouteNames.disciplines,
-            path: RoutePaths.disciplines,
-            builder: (context, state) => const DisciplinesScreen(),
+            name: RouteNames.about,
+            path: RoutePaths.about,
+            builder: (context, state) => const AboutScreen(),
           ),
           GoRoute(
             name: RouteNames.activityDetails,
@@ -65,6 +60,38 @@ class AppRouter {
             },
           ),
           GoRoute(
+            name: RouteNames.disciplineDetails,
+            path: '${RoutePaths.disciplineDetails}/:disciplineId',
+            builder: (context, state) {
+              final disciplineId =
+                  int.tryParse(state.pathParameters['disciplineId'] ?? '0') ??
+                  0;
+
+              final initialTabIndex =
+                  int.tryParse(state.uri.queryParameters['tab'] ?? '0') ?? 0;
+
+              return DisciplineDetailsScreen(
+                disciplineId: disciplineId,
+                initialTabIndex: initialTabIndex,
+              );
+            },
+          ),
+          GoRoute(
+            name: RouteNames.disciplineSelection,
+            path: RoutePaths.disciplineSelection,
+            builder: (context, state) => const DisciplineSelectionScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.disciplines,
+            path: RoutePaths.disciplines,
+            builder: (context, state) => const DisciplinesScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.mySchedule,
+            path: RoutePaths.mySchedule,
+            builder: (context, state) => const MyScheduleScreen(),
+          ),
+          GoRoute(
             name: RouteNames.pdfViewer,
             path: RoutePaths.pdfViewer,
             builder: (context, state) {
@@ -82,36 +109,9 @@ class AppRouter {
             builder: (context, state) => const ScheduleScreen(),
           ),
           GoRoute(
-            name: RouteNames.mySchedule,
-            path: RoutePaths.mySchedule,
-            builder: (context, state) => const MyScheduleScreen(),
-          ),
-          GoRoute(
-            name: RouteNames.disciplineSelection,
-            path: RoutePaths.disciplineSelection,
-            builder: (context, state) => const DisciplineSelectionScreen(),
-          ),
-          GoRoute(
-            name: RouteNames.about,
-            path: RoutePaths.about,
-            builder: (context, state) => const AboutScreen(),
-          ),
-          GoRoute(
-            name: RouteNames.disciplineDetails,
-            path: '${RoutePaths.disciplineDetails}/:disciplineId',
-            builder: (context, state) {
-              final disciplineId =
-                  int.tryParse(state.pathParameters['disciplineId'] ?? '0') ??
-                  0;
-
-              final initialTabIndex =
-                  int.tryParse(state.uri.queryParameters['tab'] ?? '0') ?? 0;
-
-              return DisciplineDetailsScreen(
-                disciplineId: disciplineId,
-                initialTabIndex: initialTabIndex,
-              );
-            },
+            name: RouteNames.splash,
+            path: RoutePaths.splash,
+            builder: (context, state) => const SplashScreen(),
           ),
         ],
       ),

@@ -8,12 +8,15 @@ class AppRoutes {
     context.go(RoutePaths.root);
   }
 
+  static void goToAbout(BuildContext context) {
+    context.push(RoutePaths.about);
+  }
+
   static void goToActivityDetails(
     BuildContext context, {
     required String activityId,
   }) {
     final queryParameters = <String, String>{};
-
     queryParameters['activityId'] = activityId;
 
     final uri = Uri(
@@ -47,6 +50,31 @@ class AppRoutes {
     context.push(uri.toString());
   }
 
+  static void goToDisciplineDetails(
+    BuildContext context, {
+    required int disciplineId,
+    int? tab,
+  }) {
+    final uri = Uri(
+      path: '${RoutePaths.disciplineDetails}/$disciplineId',
+      queryParameters: {if (tab != null) 'tab': tab.toString()},
+    );
+
+    context.push(uri.toString());
+  }
+
+  static void goToDisciplineSelection(BuildContext context) {
+    context.push(RoutePaths.disciplineSelection);
+  }
+
+  static void goToDisciplines(BuildContext context) {
+    context.push(RoutePaths.disciplines);
+  }
+
+  static void goToMySchedule(BuildContext context) {
+    context.push(RoutePaths.mySchedule);
+  }
+
   static void goToPdfViewer(
     BuildContext context, {
     required String url,
@@ -62,34 +90,5 @@ class AppRoutes {
 
   static void goToSchedule(BuildContext context) {
     context.push(RoutePaths.schedule);
-  }
-
-  static void goToMySchedule(BuildContext context) {
-    context.push(RoutePaths.mySchedule);
-  }
-
-  static void goToDisciplineSelection(BuildContext context) {
-    context.push(RoutePaths.disciplineSelection);
-  }
-
-  static void goToAbout(BuildContext context) {
-    context.push(RoutePaths.about);
-  }
-
-  static void goToDisciplineDetails(
-    BuildContext context, {
-    required int disciplineId,
-    int? tab,
-  }) {
-    final uri = Uri(
-      path: '${RoutePaths.disciplineDetails}/$disciplineId',
-      queryParameters: {if (tab != null) 'tab': tab.toString()},
-    );
-
-    context.push(uri.toString());
-  }
-
-  static void goToDisciplines(BuildContext context) {
-    context.push(RoutePaths.disciplines);
   }
 }
