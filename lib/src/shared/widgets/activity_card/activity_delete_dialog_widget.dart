@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class ActivityDeleteDialogWidget extends StatelessWidget {
   final ActivityModel task;
-  final VoidCallback onDelete;
+  final Future<void> Function() onDelete;
 
   const ActivityDeleteDialogWidget({
     super.key,
@@ -17,10 +17,11 @@ class ActivityDeleteDialogWidget extends StatelessWidget {
   static Future<void> show(
     BuildContext context, {
     required ActivityModel task,
-    required VoidCallback onDelete,
+    required Future<void> Function() onDelete,
   }) async {
     return showDialog(
-      context: context, 
+      context: context,
+      barrierDismissible: false,
       builder: (context) {
         return ActivityDeleteDialogWidget(task: task, onDelete: onDelete);
       },
@@ -50,10 +51,12 @@ class ActivityDeleteDialogWidget extends StatelessWidget {
           Expanded(
             child: ButtonWidget(
               label: "Excluir",
-              onPressed: () {
-                Navigator.pop(context);
+              onPressed: () async {
+                await onDelete();
 
-                onDelete();
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
               },
               style: AppButtonStyle.destructiveSolid,
             ),
