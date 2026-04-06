@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
 
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
@@ -29,11 +30,13 @@ class ActivityNotifier extends ChangeNotifier {
     );
   }
 
-  Future<Result<List<ActivityModel>>> getActivities() async {
+  Future<Result<List<ActivityModel>>> getActivities({
+    ActivityFilter? filter,
+  }) async {
     loading = true;
     notifyListeners();
 
-    final result = await repository.getActivities();
+    final result = await repository.getActivities(filter: filter);
 
     final output = await result.foldAsync<Result<List<ActivityModel>>>(
       onSuccess: (list) async {

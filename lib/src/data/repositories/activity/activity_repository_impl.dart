@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
@@ -18,9 +19,11 @@ class ActivityRepositoryImpl implements ActivityRepository {
   ActivityRepositoryImpl(this.datasource);
 
   @override
-  Future<Result<List<ActivityModel>>> getActivities() async {
+  Future<Result<List<ActivityModel>>> getActivities({
+    ActivityFilter? filter,
+  }) async {
     try {
-      final data = await datasource.getAll();
+      final data = await datasource.getAll(filter: filter);
 
       final activities = data.builder(
         (e, index) => ActivityDto.fromMap(e).toEntity(),

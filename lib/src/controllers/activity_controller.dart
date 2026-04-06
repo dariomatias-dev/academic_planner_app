@@ -3,6 +3,8 @@ import 'package:uuid/uuid.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
 
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
+
 import 'package:academic_planner/src/notifiers/activity_notifier.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
@@ -12,8 +14,8 @@ class ActivityController {
 
   ActivityController(this.notifier);
 
-  Future<Result<void>> init() async {
-    final result = await notifier.getActivities();
+  Future<Result<void>> init({ActivityFilter? filter}) async {
+    final result = await notifier.getActivities(filter: filter);
 
     return result.fold(
       onSuccess: (_) => const Success(null),
