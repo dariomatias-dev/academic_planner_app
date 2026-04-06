@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:uuid/uuid.dart';
 
 final activitySeedData = <ActivityModel>[
   ActivityModel(
-    id: "1",
+    id: Uuid().v7(),
     title: "Protótipo High-Fi",
     description:
         '[{"insert":"Desenvolver a interface de alta fidelidade do projeto no "},{"insert":"Figma","attributes":{"bold":true}},{"insert":", focando em acessibilidade e componentes reutilizáveis.\\n\\nDeve-se seguir as diretrizes do "},{"insert":"Material Design 3","attributes":{"italic":true}},{"insert":".\\n\\nLink de referência: "},{"insert":"https://www.figma.com","attributes":{"link":"https://www.figma.com"}},{"insert":"\\n"}]',
@@ -16,7 +17,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "2",
+    id: Uuid().v7(),
     title: "Configuração de Rotas",
     description:
         '[{"insert":"Implementar o sistema de rotas dinâmicas na API.\\n\\n"},{"insert":"Endpoints necessários:","attributes":{"bold":true}},{"insert":"\\n"},{"insert":"GET /users","attributes":{"list":"bullet"}},{"insert":"\\n"},{"insert":"POST /auth/login","attributes":{"list":"bullet"}},{"insert":"\\n"},{"insert":"PUT /profile","attributes":{"list":"bullet"}},{"insert":"\\n"}]',
@@ -28,7 +29,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "3",
+    id: Uuid().v7(),
     title: "Lista de Exercícios IA",
     description:
         '[{"insert":"Resolver os exercícios sobre algoritmos de busca.\\n\\n"},{"insert":"Algoritmos contemplados:","attributes":{"italic":true}},{"insert":"\\n"},{"insert":"A* (A-Estrela)"},{"insert":"\\n","attributes":{"list":"ordered"}},{"insert":"BFS (Breadth-First Search)"},{"insert":"\\n","attributes":{"list":"ordered"}},{"insert":"DFS (Depth-First Search)"},{"insert":"\\n","attributes":{"list":"ordered"}},{"insert":"\\nAs respostas devem ser enviadas via GitHub."},{"insert":"\\n"}]',
@@ -40,7 +41,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.completed,
   ),
   ActivityModel(
-    id: "4",
+    id: Uuid().v7(),
     title: "Ideia de Feature",
     description:
         '[{"insert":"Esboço inicial de nova funcionalidade para o sistema de notificações.\\n\\n"},{"insert":"Considerar o uso de Firebase Cloud Messaging.","attributes":{"bold":true,"italic":true}},{"insert":"\\nLink: "},{"insert":"https://firebase.google.com","attributes":{"link":"https://firebase.google.com"}},{"insert":"\\n"}]',
@@ -51,7 +52,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "5",
+    id: Uuid().v7(),
     title: "Revisão de Código",
     description:
         '[{"insert":"Revisar pull requests pendentes no repositório da equipe.\\n\\n"},{"insert":"Focar em:","attributes":{"bold":true}},{"insert":"\\n"},{"insert":"Tratamento de exceções","attributes":{"list":"bullet"}},{"insert":"\\n"},{"insert":"Nomenclatura de variáveis","attributes":{"list":"bullet"}},{"insert":"\\n"},{"insert":"Referência: "},{"insert":"https://github.com/features/code-review","attributes":{"link":"https://github.com/features/code-review"}},{"insert":"\\n"}]',
@@ -63,7 +64,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "6",
+    id: Uuid().v7(),
     title: "Leitura de Artigo",
     description:
         '[{"insert":"Ler artigo sobre arquitetura limpa aplicada a sistemas reativos.\\n\\nLink do artigo oficial: "},{"insert":"https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html","attributes":{"link":"https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html"}},{"insert":"\\n"}]',
@@ -75,7 +76,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.canceled,
   ),
   ActivityModel(
-    id: "7",
+    id: Uuid().v7(),
     title: "Entrega de Relatório",
     description:
         '[{"insert":"Finalizar e enviar relatório final pelo portal.\\n\\n"},{"insert":"Checklist de Envio:","attributes":{"bold":true}},{"insert":"\\n"},{"insert":"Introdução técnica"},{"insert":"\\n","attributes":{"list":"bullet"}},{"insert":"Metodologia aplicada"},{"insert":"\\n","attributes":{"list":"bullet"}},{"insert":"Resultados e Gráficos"},{"insert":"\\n","attributes":{"list":"bullet"}},{"insert":"\\nDocumentação em: "},{"insert":"https://docs.google.com","attributes":{"link":"https://docs.google.com"}},{"insert":"\\n"}]',
@@ -87,7 +88,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "8",
+    id: Uuid().v7(),
     title: "Aula Gravada Flutter",
     description:
         '[{"insert":"Assistir aula sobre gerenciamento de estado avançado.\\n\\n"},{"insert":"Recursos Úteis:","attributes":{"italic":true}},{"insert":"\\n"},{"insert":"Documentação Flutter"},{"insert":"\\n","attributes":{"link":"https://flutter.dev","list":"bullet"}},{"insert":"Pub.dev"},{"insert":"\\n","attributes":{"link":"https://pub.dev","list":"bullet"}},{"insert":"\\n"}]',
@@ -99,7 +100,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "9",
+    id: Uuid().v7(),
     title: "Refatorar Controller",
     description:
         '[{"insert":"Melhorar organização seguindo os princípios "},{"insert":"SOLID","attributes":{"bold":true}},{"insert":".\\n\\nGuia de referência: "},{"insert":"https://stackoverflow.com","attributes":{"link":"https://stackoverflow.com"}},{"insert":"\\n"}]',
@@ -111,7 +112,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "10",
+    id: Uuid().v7(),
     title: "Planejamento da Semana",
     description:
         '[{"insert":"Definir prioridades utilizando a metodologia "},{"insert":"Scrum","attributes":{"bold":true}},{"insert":".\\n\\n"},{"insert":"Quadro Kanban disponível em: "},{"insert":"https://trello.com","attributes":{"link":"https://trello.com"}},{"insert":"\\n"}]',
@@ -122,7 +123,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "11",
+    id: Uuid().v7(),
     title: "Simulado de Prova",
     description:
         '[{"insert":"Resolver questões na plataforma "},{"insert":"LeetCode","attributes":{"bold":true}},{"insert":" para treinar lógica.\\n\\nLink: "},{"insert":"https://leetcode.com","attributes":{"link":"https://leetcode.com"}},{"insert":"\\n"}]',
@@ -134,7 +135,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "12",
+    id: Uuid().v7(),
     title: "Atualizar Documentação",
     description:
         '[{"insert":"Revisar o README.md e incluir instruções de "},{"insert":"Docker","attributes":{"bold":true}},{"insert":".\\n\\n"},{"insert":"Instruções:","attributes":{"italic":true}},{"insert":"\\n"},{"insert":"Instalar Docker Desktop"},{"insert":"\\n","attributes":{"list":"ordered"}},{"insert":"Rodar docker-compose up"},{"insert":"\\n","attributes":{"list":"ordered"}},{"insert":"\\n"}]',
@@ -146,7 +147,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.completed,
   ),
   ActivityModel(
-    id: "13",
+    id: Uuid().v7(),
     title: "Brainstorm de Ideias",
     description:
         '[{"insert":"Levantar ideias no "},{"insert":"Miro","attributes":{"bold":true}},{"insert":" para o novo fluxo de checkout.\\n\\nLink: "},{"insert":"https://miro.com","attributes":{"link":"https://miro.com"}},{"insert":"\\n"}]',
@@ -157,7 +158,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "14",
+    id: Uuid().v7(),
     title: "Correção de Bugs",
     description:
         '[{"insert":"Verificar logs de erro no "},{"insert":"Sentry","attributes":{"bold":true}},{"insert":".\\n\\nURL do Dashboard: "},{"insert":"https://sentry.io","attributes":{"link":"https://sentry.io"}},{"insert":"\\n"}]',
@@ -169,7 +170,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "15",
+    id: Uuid().v7(),
     title: "Entrega Cancelada",
     description:
         '[{"insert":"Atividade cancelada. Avisar no "},{"insert":"Slack","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -181,7 +182,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.canceled,
   ),
   ActivityModel(
-    id: "16",
+    id: Uuid().v7(),
     title: "Pesquisa de Requisitos",
     description:
         '[{"insert":"Entrevistas via "},{"insert":"Google Meet","attributes":{"bold":true}},{"insert":".\\n\\nLink da sala: "},{"insert":"https://meet.google.com","attributes":{"link":"https://meet.google.com"}},{"insert":"\\n"}]',
@@ -193,7 +194,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "17",
+    id: Uuid().v7(),
     title: "Estudo de Caso SQL",
     description:
         '[{"insert":"Otimização de queries no "},{"insert":"PostgreSQL","attributes":{"bold":true}},{"insert":".\\n\\nManual: "},{"insert":"https://www.postgresql.org","attributes":{"link":"https://www.postgresql.org"}},{"insert":"\\n"}]',
@@ -205,7 +206,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "18",
+    id: Uuid().v7(),
     title: "Preparação para Pitch",
     description:
         '[{"insert":"Criar apresentação no "},{"insert":"Canva","attributes":{"bold":true}},{"insert":".\\n\\nLink: "},{"insert":"https://www.canva.com","attributes":{"link":"https://www.canva.com"}},{"insert":"\\n"}]',
@@ -217,7 +218,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "19",
+    id: Uuid().v7(),
     title: "Rascunho de Algoritmo",
     description:
         '[{"insert":"Pseudocódigo no "},{"insert":"Notion","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -229,7 +230,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "20",
+    id: Uuid().v7(),
     title: "Finalizar Deploy",
     description:
         '[{"insert":"Configurar o "},{"insert":"GitHub Actions","attributes":{"bold":true}},{"insert":" para CD.\\n"}]',
@@ -241,7 +242,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.completed,
   ),
   ActivityModel(
-    id: "21",
+    id: Uuid().v7(),
     title: "Seminário de Metodologias",
     description:
         '[{"insert":"Apresentação em grupo via "},{"insert":"Zoom","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -253,7 +254,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "22",
+    id: Uuid().v7(),
     title: "Resumo de Redes",
     description:
         '[{"insert":"Ler sobre "},{"insert":"TCP/IP","attributes":{"bold":true}},{"insert":" na Wikipedia.\\n\\nLink: "},{"insert":"https://pt.wikipedia.org/wiki/TCP/IP","attributes":{"link":"https://pt.wikipedia.org/wiki/TCP/IP"}},{"insert":"\\n"}]',
@@ -265,7 +266,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "23",
+    id: Uuid().v7(),
     title: "Configuração Firebase",
     description:
         '[{"insert":"Vincular ao console oficial.\\n\\n"},{"insert":"https://console.firebase.google.com","attributes":{"link":"https://console.firebase.google.com"}},{"insert":"\\n"}]',
@@ -277,7 +278,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.completed,
   ),
   ActivityModel(
-    id: "24",
+    id: Uuid().v7(),
     title: "Heurísticas de Nielsen",
     description:
         '[{"insert":"Análise de usabilidade. Referência: "},{"insert":"https://www.nngroup.com","attributes":{"link":"https://www.nngroup.com"}},{"insert":"\\n"}]',
@@ -289,7 +290,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "25",
+    id: Uuid().v7(),
     title: "Definição de Escopo",
     description:
         '[{"insert":"Documentar no "},{"insert":"Google Docs","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -301,7 +302,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "26",
+    id: Uuid().v7(),
     title: "Diagrama de Classes",
     description:
         '[{"insert":"Criar no "},{"insert":"Lucidchart","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -313,7 +314,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "27",
+    id: Uuid().v7(),
     title: "Simulado P1",
     description:
         '[{"insert":"Questões de lógica no "},{"insert":"HackerRank","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -325,7 +326,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.canceled,
   ),
   ActivityModel(
-    id: "28",
+    id: Uuid().v7(),
     title: "Estado com BLoC",
     description:
         '[{"insert":"Estudar no "},{"insert":"Bloc Library","attributes":{"bold":true}},{"insert":".\\n\\nLink: "},{"insert":"https://bloclibrary.dev","attributes":{"link":"https://bloclibrary.dev"}},{"insert":"\\n"}]',
@@ -337,7 +338,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "29",
+    id: Uuid().v7(),
     title: "Heurísticas Mobile",
     description:
         '[{"insert":"Acessibilidade no "},{"insert":"Android Developers","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -349,7 +350,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "30",
+    id: Uuid().v7(),
     title: "Backlog do Produto",
     description:
         '[{"insert":"Priorizar no "},{"insert":"Jira","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -361,7 +362,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "31",
+    id: Uuid().v7(),
     title: "Segurança de Dados",
     description:
         '[{"insert":"Criptografia com "},{"insert":"AES","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -373,7 +374,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "32",
+    id: Uuid().v7(),
     title: "Teste de Carga",
     description:
         '[{"insert":"Simular com "},{"insert":"K6","attributes":{"bold":true}},{"insert":".\\n\\nLink: "},{"insert":"https://k6.io","attributes":{"link":"https://k6.io"}},{"insert":"\\n"}]',
@@ -385,7 +386,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "33",
+    id: Uuid().v7(),
     title: "Design de Ícones",
     description:
         '[{"insert":"Exportar via "},{"insert":"Adobe Express","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -396,7 +397,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "34",
+    id: Uuid().v7(),
     title: "Reunião de Feedback",
     description: '[{"insert":"Presencial no campus.\\n"}]',
     disciplineId: 51,
@@ -407,7 +408,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "35",
+    id: Uuid().v7(),
     title: "Configuração de CI/CD",
     description:
         '[{"insert":"Automatizar no "},{"insert":"GitLab","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -419,7 +420,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.completed,
   ),
   ActivityModel(
-    id: "36",
+    id: Uuid().v7(),
     title: "Estudo de UX Writing",
     description:
         '[{"insert":"Consultar guia do "},{"insert":"Medium","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -431,7 +432,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "37",
+    id: Uuid().v7(),
     title: "Mapeamento de Fluxo",
     description:
         '[{"insert":"Desenhar no "},{"insert":"Whimsical","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -443,7 +444,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.pending,
   ),
   ActivityModel(
-    id: "38",
+    id: Uuid().v7(),
     title: "Lógica de Predição",
     description:
         '[{"insert":"Script em "},{"insert":"Python","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -454,7 +455,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.draft,
   ),
   ActivityModel(
-    id: "39",
+    id: Uuid().v7(),
     title: "Auditoria de Código",
     description:
         '[{"insert":"Análise estática com "},{"insert":"SonarQube","attributes":{"bold":true}},{"insert":".\\n"}]',
@@ -466,7 +467,7 @@ final activitySeedData = <ActivityModel>[
     status: ActivityStatus.inProgress,
   ),
   ActivityModel(
-    id: "40",
+    id: Uuid().v7(),
     title: "Entrega de Portfolio",
     description:
         '[{"insert":"Hospedar no "},{"insert":"Vercel","attributes":{"bold":true}},{"insert":".\\n\\nLink: "},{"insert":"https://vercel.com","attributes":{"link":"https://vercel.com"}},{"insert":"\\n"}]',
