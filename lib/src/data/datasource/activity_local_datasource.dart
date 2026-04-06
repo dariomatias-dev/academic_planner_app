@@ -2,13 +2,49 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:academic_planner/src/core/database/tables/activity_table.dart';
 
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
+
 class ActivityLocalDataSource {
   final Database db;
 
   ActivityLocalDataSource(this.db);
 
-  Future<List<Map<String, dynamic>>> getAll() async {
-    return db.query(ActivityTable.tableName);
+  Future<List<Map<String, dynamic>>> getAll({ActivityFilter? filter}) async {
+    final whereClauses = <String>[];
+    final whereArgs = <dynamic>[];
+
+    if (filter != null) {
+      if (filter.disciplineId != null) {
+        whereClauses.add('disciplineId = ?');
+        whereArgs.add(filter.disciplineId);
+      }
+
+      if (filter.status != null) {
+        whereClauses.add('status = ?');
+        whereArgs.add(filter.status);
+      }
+
+      if (filter.startDate != null) {
+        whereClauses.add('dueDate >= ?');
+        whereArgs.add(filter.startDate!.toIso8601String());
+      }
+
+      if (filter.endDate != null) {
+        whereClauses.add('dueDate <= ?');
+        whereArgs.add(filter.endDate!.toIso8601String());
+      }
+
+      if (filter.search != null && filter.search!.isNotEmpty) {
+        whereClauses.add('title LIKE ?');
+        whereArgs.add('%${filter.search}%');
+      }
+    }
+
+    return db.query(
+      ActivityTable.tableName,
+      where: whereClauses.isEmpty ? null : whereClauses.join(' AND '),
+      whereArgs: whereArgs.isEmpty ? null : whereArgs,
+    );
   }
 
   Future<Map<String, dynamic>?> getById(String id) async {
