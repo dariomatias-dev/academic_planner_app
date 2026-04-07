@@ -14,15 +14,6 @@ class ActivityController {
 
   ActivityController(this.notifier);
 
-  Future<Result<void>> init({ActivityFilter? filter}) async {
-    final result = await notifier.getActivities(filter: filter);
-
-    return result.fold(
-      onSuccess: (_) => const Success(null),
-      onFailure: (f) => FailureResult(f),
-    );
-  }
-
   Future<Result<void>> createActivity({
     required String title,
     required String description,
@@ -50,8 +41,10 @@ class ActivityController {
     return await notifier.addActivity(activity);
   }
 
-  List<ActivityModel> getActivities() {
-    return notifier.activities;
+  Future<Result<List<ActivityModel>>> getActivities({
+    ActivityFilter? filter,
+  }) async {
+    return await notifier.getActivities(filter: filter);
   }
 
   Future<Result<ActivityModel?>> getActivityById(String id) async {

@@ -12,49 +12,23 @@ class ActivityNotifier extends ChangeNotifier {
 
   ActivityNotifier(this.repository);
 
-  final activities = <ActivityModel>[];
-  bool loading = false;
-
   Future<Result<void>> addActivity(ActivityModel activity) async {
     final result = await repository.addActivity(activity);
 
-    return await result.foldAsync(
-      onSuccess: (_) async {
-        await getActivities();
+    return result.fold(
+      onSuccess: (_) {
+        notifyListeners();
 
-        return Success(null);
+        return const Success(null);
       },
-      onFailure: (failure) async {
-        return FailureResult(failure);
-      },
+      onFailure: (failure) => FailureResult(failure),
     );
   }
 
   Future<Result<List<ActivityModel>>> getActivities({
     ActivityFilter? filter,
   }) async {
-    loading = true;
-    notifyListeners();
-
-    final result = await repository.getActivities(filter: filter);
-
-    final output = await result.foldAsync<Result<List<ActivityModel>>>(
-      onSuccess: (list) async {
-        activities
-          ..clear()
-          ..addAll(list);
-
-        return Success(list);
-      },
-      onFailure: (failure) async {
-        return FailureResult(failure);
-      },
-    );
-
-    loading = false;
-    notifyListeners();
-
-    return output;
+    return await repository.getActivities(filter: filter);
   }
 
   Future<Result<ActivityModel?>> getActivityById(String id) async {
@@ -64,30 +38,26 @@ class ActivityNotifier extends ChangeNotifier {
   Future<Result<void>> updateActivity(ActivityModel activity) async {
     final result = await repository.updateActivity(activity);
 
-    return await result.foldAsync(
-      onSuccess: (_) async {
-        await getActivities();
+    return result.fold(
+      onSuccess: (_) {
+        notifyListeners();
 
-        return Success(null);
+        return const Success(null);
       },
-      onFailure: (failure) async {
-        return FailureResult(failure);
-      },
+      onFailure: (failure) => FailureResult(failure),
     );
   }
 
   Future<Result<void>> deleteActivity(String id) async {
     final result = await repository.deleteActivity(id);
 
-    return await result.foldAsync(
-      onSuccess: (_) async {
-        await getActivities();
+    return result.fold(
+      onSuccess: (_) {
+        notifyListeners();
 
-        return Success(null);
+        return const Success(null);
       },
-      onFailure: (failure) async {
-        return FailureResult(failure);
-      },
+      onFailure: (failure) => FailureResult(failure),
     );
   }
 }
