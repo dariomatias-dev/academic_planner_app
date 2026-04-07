@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
@@ -44,17 +46,14 @@ class ActivityFormScreen extends StatefulWidget {
 }
 
 class _ActivityFormScreenState extends State<ActivityFormScreen> {
-  late final _controller = context.read<ActivityController>();
+  late final _activityController = context.read<ActivityController>();
+  final _logger = Logger();
 
   final _formKey = GlobalKey<FormState>();
 
-  late final _titleController = TextEditingController(
-    text: _initialActivity?.title,
-  );
-  late final QuillController _descriptionController;
-  late final TextEditingController _notesController = TextEditingController(
-    text: _initialActivity?.notes,
-  );
+  final _titleController = TextEditingController();
+  late QuillController _descriptionController;
+  final _notesController = TextEditingController();
   final _reminders = <TimeOfDay>[];
 
   ActivityModel? _initialActivity;
@@ -67,6 +66,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
   final _selectedTags = <String>[];
   final _availableTags = <String>["Urgente", "Teórica", "Prática", "Grupo"];
+
+  bool _isLoading = false;
 
   void _unfocus() => FocusManager.instance.primaryFocus?.unfocus();
 
@@ -185,9 +186,9 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
           reminders: _reminders,
           status: _selectedStatus,
         );
-        result = await _controller.editActivity(updatedActivity);
+        result = await _activityController.editActivity(updatedActivity);
       } else {
-        result = await _controller.createActivity(
+        result = await _activityController.createActivity(
           title: _titleController.text,
           description: description,
           notes: _notesController.text,
@@ -211,60 +212,84 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
     }
   }
 
+  Future<void> _loadActivity() async {
+    if (widget.activityId == null) {
+      if (widget.initialDisciplineId != null) {
+        setState(() {
+          _selectedDiscipline = adsDisciplines
+              .where((d) => d.id == widget.initialDisciplineId)
+              .firstOrNull;
+        });
+      }
+
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    final result = await _activityController.getActivityById(
+      widget.activityId!,
+    );
+
+    result.fold(
+      onSuccess: (activity) {
+        if (activity != null) {
+          setState(() {
+            _initialActivity = activity;
+            _titleController.text = activity.title;
+            _notesController.text = activity.notes ?? "";
+
+            try {
+              final doc = Document.fromJson(jsonDecode(activity.description));
+              _descriptionController = QuillController(
+                document: doc,
+                selection: const TextSelection.collapsed(offset: 0),
+              );
+            } catch (err, stackTrace) {
+              _logger.e(
+                'Failed to parse activity description into QuillDocument',
+                error: err,
+                stackTrace: stackTrace,
+              );
+
+              _descriptionController = QuillController.basic();
+            }
+
+            _selectedDiscipline = adsDisciplines
+                .where((d) => d.id == activity.disciplineId)
+                .firstOrNull;
+            _dueDate = activity.dueDate;
+            _selectedStatus = activity.status;
+            _selectedCategory = activity.category;
+            _selectedTags.addAll(activity.tags);
+            _reminders.addAll(activity.reminders);
+
+            for (final tag in activity.tags) {
+              if (!_availableTags.contains(tag)) _availableTags.add(tag);
+            }
+
+            if (activity.category != null &&
+                !_categories.contains(activity.category)) {
+              _categories.add(activity.category!);
+            }
+          });
+        }
+      },
+      onFailure: (failure) {
+        Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
+      },
+    );
+
+    setState(() => _isLoading = false);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _initialActivity = _controller
-        .getActivities()
-        .where((activity) => activity.id == widget.activityId)
-        .firstOrNull;
+    _descriptionController = QuillController.basic();
 
-    _titleController.addListener(() => setState(() {}));
-    _notesController.addListener(() => setState(() {}));
-
-    if (_initialActivity != null && _initialActivity!.description.isNotEmpty) {
-      try {
-        final doc = Document.fromJson(
-          jsonDecode(_initialActivity!.description),
-        );
-
-        _descriptionController = QuillController(
-          document: doc,
-          selection: const TextSelection.collapsed(offset: 0),
-        );
-      } catch (e) {
-        _descriptionController = QuillController.basic();
-      }
-    } else {
-      _descriptionController = QuillController.basic();
-    }
-
-    _descriptionController.addListener(() => setState(() {}));
-
-    if (_initialActivity != null) {
-      _selectedDiscipline = adsDisciplines
-          .where((d) => d.id == _initialActivity!.disciplineId)
-          .firstOrNull;
-      _dueDate = _initialActivity!.dueDate;
-      _selectedStatus = _initialActivity!.status;
-      _selectedCategory = _initialActivity!.category;
-      _selectedTags.addAll(_initialActivity!.tags);
-      _reminders.addAll(_initialActivity!.reminders);
-
-      for (final tag in _initialActivity!.tags) {
-        if (!_availableTags.contains(tag)) _availableTags.add(tag);
-      }
-
-      if (_initialActivity!.category != null &&
-          !_categories.contains(_initialActivity!.category)) {
-        _categories.add(_initialActivity!.category!);
-      }
-    } else if (widget.initialDisciplineId != null) {
-      _selectedDiscipline = adsDisciplines
-          .where((d) => d.id == widget.initialDisciplineId)
-          .firstOrNull;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) => _loadActivity());
   }
 
   @override
@@ -293,100 +318,108 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const ActivityFormSectionTitleWidget(
-                title: "Conteúdo",
-                padding: EdgeInsets.only(bottom: 16.0),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const ActivityFormSectionTitleWidget(
+                      title: "Conteúdo",
+                      padding: EdgeInsets.only(bottom: 16.0),
+                    ),
+                    ActivityFormInputFieldWidget(
+                      controller: _titleController,
+                      label: "Título",
+                      hint: "O que deve ser feito?",
+                      isRequired: true,
+                      validator: (validator) {
+                        return AppValidators.required(
+                          validator,
+                          message: "O título é obrigatório",
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20.0),
+                    ActivityFormDescriptionFieldWidget(
+                      controller: _descriptionController,
+                    ),
+                    const ActivityFormSectionTitleWidget(
+                      title: "Classificação",
+                    ),
+                    ActivityFormDisciplinePickerWidget(
+                      selectedDiscipline: _selectedDiscipline,
+                      isRequired: true,
+                      onSelected: (discipline) {
+                        setState(() {
+                          _selectedDiscipline = discipline;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20.0),
+                    ActivityFormStatusSelectorWidget(
+                      selectedStatus: _selectedStatus,
+                      onSelect: (status) {
+                        setState(() => _selectedStatus = status);
+                      },
+                    ),
+                    const SizedBox(height: 20.0),
+                    ActivityFormCategorySelectorWidget(
+                      categories: _categories,
+                      selectedCategory: _selectedCategory,
+                      isRequired: true,
+                      onSelect: (category) {
+                        setState(() => _selectedCategory = category);
+                      },
+                      onCreate: _showCreateCategoryDialog,
+                    ),
+                    const SizedBox(height: 20.0),
+                    ActivityFormTagSelectorWidget(
+                      availableTags: _availableTags,
+                      selectedTags: _selectedTags,
+                      onToggle: (tag, value) {
+                        setState(() {
+                          value
+                              ? _selectedTags.add(tag)
+                              : _selectedTags.remove(tag);
+                        });
+                      },
+                      onCreate: _showCreateTagDialog,
+                    ),
+                    const ActivityFormSectionTitleWidget(
+                      title: "Prazos e Lembretes",
+                    ),
+                    ActivityFormDatePickerWidget(
+                      dueDate: _dueDate,
+                      isRequired: false,
+                      onTap: _selectDate,
+                      onClear: () {
+                        setState(() => _dueDate = null);
+                      },
+                    ),
+                    const SizedBox(height: 16.0),
+                    ActivityFormRemindersWidget(
+                      reminders: _reminders,
+                      onAdd: _addReminder,
+                      onRemove: (time) {
+                        setState(() {
+                          _reminders.remove(time);
+                        });
+                      },
+                    ),
+                    const ActivityFormSectionTitleWidget(title: "Anotações"),
+                    InputWidget(
+                      controller: _notesController,
+                      hint: "Rascunhos ou lembretes rápidos...",
+                      maxLines: 5,
+                    ),
+                  ],
+                ),
               ),
-              ActivityFormInputFieldWidget(
-                controller: _titleController,
-                label: "Título",
-                hint: "O que deve ser feito?",
-                isRequired: true,
-                validator: (validator) {
-                  return AppValidators.required(
-                    validator,
-                    message: "O título é obrigatório",
-                  );
-                },
-              ),
-              const SizedBox(height: 20.0),
-              ActivityFormDescriptionFieldWidget(
-                controller: _descriptionController,
-              ),
-              const ActivityFormSectionTitleWidget(title: "Classificação"),
-              ActivityFormDisciplinePickerWidget(
-                selectedDiscipline: _selectedDiscipline,
-                isRequired: true,
-                onSelected: (discipline) {
-                  setState(() {
-                    _selectedDiscipline = discipline;
-                  });
-                },
-              ),
-              const SizedBox(height: 20.0),
-              ActivityFormStatusSelectorWidget(
-                selectedStatus: _selectedStatus,
-                onSelect: (status) {
-                  setState(() => _selectedStatus = status);
-                },
-              ),
-              const SizedBox(height: 20.0),
-              ActivityFormCategorySelectorWidget(
-                categories: _categories,
-                selectedCategory: _selectedCategory,
-                isRequired: true,
-                onSelect: (category) {
-                  setState(() => _selectedCategory = category);
-                },
-                onCreate: _showCreateCategoryDialog,
-              ),
-              const SizedBox(height: 20.0),
-              ActivityFormTagSelectorWidget(
-                availableTags: _availableTags,
-                selectedTags: _selectedTags,
-                onToggle: (tag, value) {
-                  setState(() {
-                    value ? _selectedTags.add(tag) : _selectedTags.remove(tag);
-                  });
-                },
-                onCreate: _showCreateTagDialog,
-              ),
-              const ActivityFormSectionTitleWidget(title: "Prazos e Lembretes"),
-              ActivityFormDatePickerWidget(
-                dueDate: _dueDate,
-                isRequired: false,
-                onTap: _selectDate,
-                onClear: () {
-                  setState(() => _dueDate = null);
-                },
-              ),
-              const SizedBox(height: 16.0),
-              ActivityFormRemindersWidget(
-                reminders: _reminders,
-                onAdd: _addReminder,
-                onRemove: (time) {
-                  setState(() {
-                    _reminders.remove(time);
-                  });
-                },
-              ),
-              const ActivityFormSectionTitleWidget(title: "Anotações"),
-              InputWidget(
-                controller: _notesController,
-                hint: "Rascunhos ou lembretes rápidos...",
-                maxLines: 5,
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }
