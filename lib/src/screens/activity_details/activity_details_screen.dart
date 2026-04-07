@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,7 @@ import 'package:academic_planner/src/screens/activity_details/widgets/activity_d
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_due_date_widget.dart';
 import 'package:academic_planner/src/screens/activity_details/widgets/activity_details_menu_widget.dart';
 
+import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
@@ -92,7 +94,16 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                   _fetchActivity();
                 }
               },
-              onDelete: () {},
+              onDelete: () async {
+                final result = await handleActivityDeletion(
+                  context: context,
+                  activity: _activity!,
+                );
+
+                if (result && context.mounted) {
+                  context.pop();
+                }
+              },
             ),
         ],
       ),
