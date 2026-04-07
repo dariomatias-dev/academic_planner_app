@@ -9,6 +9,8 @@ class RoutePaths {
 
   static const agenda = '/agenda';
 
+  static const courseDetails = '/course-details';
+
   static const disciplineDetails = '/discipline-details';
 
   static const disciplineSelection = '/discipline-selection';

@@ -9,6 +9,8 @@ class RouteNames {
 
   static const agenda = 'agenda';
 
+  static const courseDetails = 'course_details';
+
   static const disciplineDetails = 'discipline_details';
 
   static const disciplineSelection = 'discipline_selection';
