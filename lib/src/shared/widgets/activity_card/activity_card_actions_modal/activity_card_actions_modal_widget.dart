@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'package:academic_planner/src/controllers/activity_controller.dart';
-
-import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_delete_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_removal_failure_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_removal_success_dialog_widget.dart';
 
 class ActivityCardActionsModalWidget extends StatefulWidget {
   final ActivityModel activity;
@@ -25,39 +19,6 @@ class ActivityCardActionsModalWidget extends StatefulWidget {
 
 class _ActivityCardActionsModalWidgetState
     extends State<ActivityCardActionsModalWidget> {
-  late final _activityController = context.read<ActivityController>();
-
-  Future<void> _handleDelete() async {
-    await ActivityDeleteDialogWidget.show(
-      context,
-      task: widget.activity,
-      onDelete: _deleteActivity,
-    );
-  }
-
-  Future<void> _deleteActivity() async {
-    final result = await _activityController.removeActivity(widget.activity.id);
-
-    if (!mounted) return;
-
-    await result.whenAsync(
-      onSuccess: (_) async {
-        await ActivityRemovalSuccessDialogWidget.show(context);
-
-        if (mounted) {
-          Navigator.pop(context);
-        }
-      },
-      onFailure: (failure) async {
-        await ActivityRemovalFailureDialogWidget.show(
-          context,
-          onRetry: _deleteActivity,
-          errorMessage: failure is DatabaseFailure ? failure.message : null,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -133,7 +94,9 @@ class _ActivityCardActionsModalWidgetState
           icon: Icons.delete_outline_rounded,
           label: "Excluir atividade",
           color: colorScheme.error,
-          onTap: _handleDelete,
+          onTap: () {
+            handleActivityDeletion(context: context, activity: widget.activity);
+          },
         ),
         const SizedBox(height: 8.0),
       ],
