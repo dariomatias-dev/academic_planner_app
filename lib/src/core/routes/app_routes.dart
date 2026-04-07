@@ -27,11 +27,11 @@ class AppRoutes {
     context.push(uri.toString());
   }
 
-  static void goToActivityForm(
+  static Future<bool?> goToActivityForm(
     BuildContext context, {
     String? activityId,
     int? disciplineId,
-  }) {
+  }) async {
     final queryParameters = <String, String>{};
 
     if (activityId != null) {
@@ -47,7 +47,9 @@ class AppRoutes {
       queryParameters: queryParameters,
     );
 
-    context.push(uri.toString());
+    final result = await context.push(uri.toString());
+
+    return result as bool?;
   }
 
   static void goToAgenda(BuildContext context) {

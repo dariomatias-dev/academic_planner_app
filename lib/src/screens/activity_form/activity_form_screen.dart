@@ -202,7 +202,9 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
       }
 
       result.fold(
-        onSuccess: (_) => Navigator.pop(context),
+        onSuccess: (_) {
+          Navigator.pop(context, true);
+        },
         onFailure: (f) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Erro ao salvar: ${f.toString()}")),
