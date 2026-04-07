@@ -60,7 +60,17 @@ class _SettingsScreenState extends State<SettingsScreen>
               context,
               icon: Icons.list_alt_rounded,
               title: "Disciplinas do Curso",
-              onTap: () => AppRoutes.goToDisciplines(context),
+              onTap: () {
+                AppRoutes.goToDisciplines(context);
+              },
+            ),
+            _buildSettingsTile(
+              context,
+              icon: Icons.list_alt_rounded,
+              title: "Sobre o Curso",
+              onTap: () {
+                AppRoutes.goToCourseDetails(context);
+              },
             ),
             const SizedBox(height: 24.0),
             _buildSectionTitle(context, "Preferências"),
