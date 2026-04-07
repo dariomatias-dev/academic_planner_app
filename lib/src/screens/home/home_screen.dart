@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/constants/mock_activities.dart';
 
 import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row_widget.dart';
 
+import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -21,6 +24,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with AutomaticKeepAliveClientMixin {
+  late final _activityController = context.read<ActivityController>();
+
   @override
   bool get wantKeepAlive => true;
 
@@ -57,33 +62,53 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
           ),
-          ListView(
-            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-            physics: const BouncingScrollPhysics(),
-            children: <Widget>[
-              _buildImpactfulHeader(context),
-              const SizedBox(height: 32.0),
-              const HomeMainFocusCardWidget(),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 32.0),
-                child: HomeQuickActionsRowWidget(),
-              ),
-              _buildSectionHeader(context, "Próximas Atividades"),
-              const SizedBox(height: 20.0),
-              if (mockActivities.isEmpty)
-                _buildEmptyState(context)
-              else
-                ...mockActivities
-                    .take(4)
-                    .map((task) => ActivityCardWidget(activity: task)),
-            ],
+          ListenableBuilder(
+            listenable: _activityController.notifier,
+            builder: (context, _) {
+              return FutureBuilder(
+                future: _activityController.getActivities(),
+                builder: (context, snapshot) {
+                  final result = snapshot.data;
+                  final activities =
+                      result?.fold(
+                        onSuccess: (list) => list,
+                        onFailure: (_) => <ActivityModel>[],
+                      ) ??
+                      <ActivityModel>[];
+
+                  return ListView(
+                    padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+                    physics: const BouncingScrollPhysics(),
+                    children: <Widget>[
+                      _buildImpactfulHeader(context, activities.length),
+                      const SizedBox(height: 32.0),
+                      const HomeMainFocusCardWidget(),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 32.0),
+                        child: HomeQuickActionsRowWidget(),
+                      ),
+                      _buildSectionHeader(context, "Próximas Atividades"),
+                      const SizedBox(height: 20.0),
+                      if (snapshot.connectionState == ConnectionState.waiting)
+                        const Center(child: CircularProgressIndicator())
+                      else if (activities.isEmpty)
+                        _buildEmptyState(context)
+                      else
+                        ...activities
+                            .take(4)
+                            .map((task) => ActivityCardWidget(activity: task)),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildImpactfulHeader(BuildContext context) {
+  Widget _buildImpactfulHeader(BuildContext context, int activityCount) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -173,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen>
                 children: <Widget>[
                   _buildHeaderMetric(
                     context,
-                    value: "14",
+                    value: activityCount.toString().padLeft(2, '0'),
                     label: "Atividades",
                     icon: Icons.auto_stories_rounded,
                   ),
