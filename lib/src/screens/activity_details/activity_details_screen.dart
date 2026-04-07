@@ -82,8 +82,15 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
         actions: <Widget>[
           if (!_isLoading && _activity != null)
             ActivityDetailsMenuWidget(
-              onEdit: () {
-                AppRoutes.goToActivityForm(context, activityId: _activity!.id);
+              onEdit: () async {
+                final result = await AppRoutes.goToActivityForm(
+                  context,
+                  activityId: _activity!.id,
+                );
+
+                if (result ?? false) {
+                  _fetchActivity();
+                }
               },
               onDelete: () {},
             ),
