@@ -24,29 +24,39 @@ class IconButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final isDisabled = onPressed == null;
 
     late Color backgroundColor;
     late Color iconColor;
     Color? borderColor;
 
-    switch (style) {
-      case IconButtonStyle.primary:
-        backgroundColor = colorScheme.primary.withAlpha(20);
-        iconColor = colorScheme.primary;
-        break;
-      case IconButtonStyle.secondary:
-        backgroundColor = colorScheme.primary.withAlpha(25);
-        iconColor = colorScheme.primary;
-        break;
-      case IconButtonStyle.neutral:
-        backgroundColor = theme.scaffoldBackgroundColor;
-        iconColor = colorScheme.onSurface;
-        break;
-      case IconButtonStyle.outline:
-        backgroundColor = AppColors.transparent;
-        iconColor = colorScheme.onSurface;
-        borderColor = theme.dividerTheme.color;
-        break;
+    if (isDisabled) {
+      backgroundColor = colorScheme.onSurface.withAlpha(255);
+      iconColor = colorScheme.onSurface.withAlpha(60);
+
+      if (style == IconButtonStyle.outline) {
+        borderColor = theme.dividerTheme.color?.withAlpha(40);
+      }
+    } else {
+      switch (style) {
+        case IconButtonStyle.primary:
+          backgroundColor = colorScheme.primary.withAlpha(20);
+          iconColor = colorScheme.primary;
+          break;
+        case IconButtonStyle.secondary:
+          backgroundColor = colorScheme.primary.withAlpha(25);
+          iconColor = colorScheme.primary;
+          break;
+        case IconButtonStyle.neutral:
+          backgroundColor = theme.scaffoldBackgroundColor;
+          iconColor = colorScheme.onSurface;
+          break;
+        case IconButtonStyle.outline:
+          backgroundColor = AppColors.transparent;
+          iconColor = colorScheme.onSurface;
+          borderColor = theme.dividerTheme.color;
+          break;
+      }
     }
 
     return IconButton(
