@@ -3,17 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class PdfViewerScreen extends StatefulWidget {
   final String url;
   final String title;
 
-  const PdfViewerScreen({
-    super.key,
-    required this.url,
-    required this.title,
-  });
+  const PdfViewerScreen({super.key, required this.url, required this.title});
 
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
@@ -47,6 +45,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   void dispose() {
     _hideTimer?.cancel();
     _pdfViewerController.dispose();
+
     super.dispose();
   }
 
@@ -56,7 +55,18 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidget(title: widget.title),
+      appBar: AppBarWidget(
+        title: widget.title,
+        actions: <Widget>[
+          IconButtonWidget(
+            icon: Icons.open_in_new_rounded,
+            onPressed: () {
+              openUrl(context, widget.url);
+            },
+            style: IconButtonStyle.neutral,
+          ),
+        ],
+      ),
       body: Column(
         children: <Widget>[
           Container(
