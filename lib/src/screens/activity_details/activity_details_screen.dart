@@ -65,7 +65,27 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
     );
   }
 
-  Future<void> _saveStatus() async {}
+  Future<void> _saveStatus() async {
+    if (_activity == null || _currentStatus == null) return;
+
+    final updatedActivity = _activity!.copyWith(status: _currentStatus);
+
+    final result = await _controller.editActivity(updatedActivity);
+
+    result.when(
+      onSuccess: (_) {
+        setState(() {
+          _activity = updatedActivity;
+          _originalStatus = _currentStatus;
+        });
+
+        Fluttertoast.showToast(msg: "Status atualizado com sucesso");
+      },
+      onFailure: (failure) {
+        Fluttertoast.showToast(msg: "Erro ao salvar alterações");
+      },
+    );
+  }
 
   @override
   void initState() {
