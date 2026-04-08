@@ -21,6 +21,7 @@ import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart'
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
@@ -139,54 +140,13 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
           }
 
           if (_activity == null) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: const EdgeInsets.all(24.0),
-                      decoration: BoxDecoration(
-                        color: colorScheme.error.withAlpha(15),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.description_outlined,
-                        size: 56.0,
-                        color: colorScheme.error.withAlpha(180),
-                      ),
-                    ),
-                    const SizedBox(height: 32.0),
-                    Text(
-                      "Atividade não encontrada",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w800,
-                        color: colorScheme.onSurface,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const SizedBox(height: 12.0),
-                    Text(
-                      "Não foi possível carregar os detalhes desta atividade. Ela pode ter sido removida ou não existe.",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 15.0,
-                        height: 1.5,
-                        color: colorScheme.onSurface.withAlpha(140),
-                      ),
-                    ),
-                    const SizedBox(height: 32.0),
-                    ButtonWidget(
-                      label: "Tentar novamente",
-                      onPressed: _fetchActivity,
-                      style: AppButtonStyle.primary,
-                    ),
-                  ],
-                ),
-              ),
+            return EmptyStateWidget(
+              icon: Icons.description_outlined,
+              title: "Atividade não encontrada",
+              description:
+                  "Não foi possível carregar os detalhes desta atividade.",
+              actionLabel: "Tentar novamente",
+              onActionPressed: _fetchActivity,
             );
           }
 
