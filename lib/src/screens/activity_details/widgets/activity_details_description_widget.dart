@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 
 class ActivityDetailsDescriptionWidget extends StatefulWidget {
   final String description;
@@ -21,7 +21,6 @@ class ActivityDetailsDescriptionWidget extends StatefulWidget {
 class _ActivityDetailsDescriptionWidgetState
     extends State<ActivityDetailsDescriptionWidget> {
   late QuillController _quillController;
-  final _logger = Logger();
 
   @override
   void initState() {
@@ -86,20 +85,7 @@ class _ActivityDetailsDescriptionWidgetState
         padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          try {
-            final uri = Uri.parse(url);
-
-            final launched = await launchUrl(
-              uri,
-              mode: LaunchMode.externalApplication,
-            );
-
-            if (!launched) {
-              _logger.e("Could not open link $uri");
-            }
-          } catch (err, stackTrace) {
-            _logger.e("Error opening link", error: err, stackTrace: stackTrace);
-          }
+          openUrl(context, url);
         },
       ),
     );
