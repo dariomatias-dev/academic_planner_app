@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
@@ -10,6 +9,7 @@ import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 import 'package:academic_planner/src/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 
 class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
   const DisciplineSelectionMyGradeTabWidget({super.key});
@@ -24,14 +24,13 @@ class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
     );
 
     if (selected.isEmpty) {
-      return Center(
-        child: Text(
-          "Nenhuma disciplina selecionada",
-          style: GoogleFonts.plusJakartaSans(
-            color: colorScheme.onSurface.withAlpha(160),
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+      return EmptyStateWidget(
+        icon: Icons.auto_stories_rounded,
+        title: "Sua grade está vazia",
+        description:
+            "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
+        actionLabel: "Adicionar disciplinas",
+        onActionPressed: () {},
       );
     }
 
