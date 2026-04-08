@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
@@ -113,7 +114,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: <Widget>[
                   SizedBox(
                     width: 44.0,
                     height: 44.0,
@@ -143,7 +144,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 40.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Container(
                       padding: const EdgeInsets.all(24.0),
                       decoration: BoxDecoration(
@@ -387,6 +388,41 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                         ),
                       ),
                     ],
+                    const SizedBox(height: 48.0),
+                    const ActivityDetailsSectionTitleWidget(
+                      title: "Cronologia",
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(24.0),
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withAlpha(15),
+                        borderRadius: BorderRadius.circular(32.0),
+                      ),
+                      child: Row(
+                        children: <Widget>[
+                          _buildMetadataInfo(
+                            context,
+                            "Criada em",
+                            _activity!.createdAt,
+                            Icons.calendar_today_rounded,
+                          ),
+                          Container(
+                            width: 1.0,
+                            height: 40.0,
+                            margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0,
+                            ),
+                            color: colorScheme.primary.withAlpha(40),
+                          ),
+                          _buildMetadataInfo(
+                            context,
+                            "Atualizada",
+                            _activity!.updatedAt,
+                            Icons.auto_awesome_rounded,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -408,7 +444,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                     child: ButtonWidget(
                       label: "Salvar Alterações",
                       onPressed: _saveStatus,
-                      style: AppButtonStyle.primary,
                       isFullWidth: true,
                     ),
                   ),
@@ -416,6 +451,49 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+
+  Widget _buildMetadataInfo(
+    BuildContext context,
+    String label,
+    DateTime date,
+    IconData icon,
+  ) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          Icon(icon, size: 20.0, color: colorScheme.primary),
+          const SizedBox(width: 12.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  label,
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 10.0,
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.primary.withAlpha(180),
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                const SizedBox(height: 2.0),
+                Text(
+                  DateFormat('dd/MM/yyyy').format(date),
+                  style: GoogleFonts.plusJakartaSans(
+                    fontSize: 13.0,
+                    fontWeight: FontWeight.w800,
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
