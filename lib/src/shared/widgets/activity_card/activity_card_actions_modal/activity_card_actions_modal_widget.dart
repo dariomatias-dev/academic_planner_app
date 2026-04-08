@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
@@ -19,6 +23,25 @@ class ActivityCardActionsModalWidget extends StatefulWidget {
 
 class _ActivityCardActionsModalWidgetState
     extends State<ActivityCardActionsModalWidget> {
+  Future<void> _markAsCompleted(BuildContext context) async {
+    final controller = context.read<ActivityController>();
+
+    final updated = widget.activity.copyWith(status: ActivityStatus.completed);
+
+    final result = await controller.editActivity(updated);
+
+    result.when(
+      onSuccess: (_) {
+        Fluttertoast.showToast(msg: "Atividade concluída!");
+
+        Navigator.pop(context);
+      },
+      onFailure: (failure) {
+        Fluttertoast.showToast(msg: "Erro ao atualizar atividade");
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -84,12 +107,13 @@ class _ActivityCardActionsModalWidgetState
             AppRoutes.goToActivityForm(context, activityId: widget.activity.id);
           },
         ),
-        ActivityCardActionTileModalWidget(
-          icon: Icons.check_circle_rounded,
-          label: "Marcar como concluída",
-          color: Colors.teal,
-          onTap: () => Navigator.pop(context),
-        ),
+        if (widget.activity.status != ActivityStatus.completed)
+          ActivityCardActionTileModalWidget(
+            icon: Icons.check_circle_rounded,
+            label: "Marcar como concluída",
+            color: Colors.teal,
+            onTap: () => _markAsCompleted(context),
+          ),
         ActivityCardActionTileModalWidget(
           icon: Icons.delete_outline_rounded,
           label: "Excluir atividade",
