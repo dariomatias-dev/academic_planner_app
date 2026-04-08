@@ -7,12 +7,11 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
-import 'package:academic_planner/src/screens/my_disciplines/widgets/my_disciplines_empty_state_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class MyDisciplinesScreen extends StatefulWidget {
@@ -65,7 +64,16 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
         ),
       ),
       body: enrolledDisciplines.isEmpty
-          ? const MyDisciplinesEmptyState()
+          ? EmptyStateWidget(
+              icon: Icons.auto_stories_rounded,
+              title: "Sua grade está vazia",
+              description:
+                  "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
+              actionLabel: "Configurar",
+              onActionPressed: () {
+                AppRoutes.goToDisciplineSelection(context);
+              },
+            )
           : ListView.builder(
               padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 190.0),
               itemCount: enrolledDisciplines.length,
