@@ -12,7 +12,12 @@ import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_c
 import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 
 class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
-  const DisciplineSelectionMyGradeTabWidget({super.key});
+  final TabController mainTabController;
+
+  const DisciplineSelectionMyGradeTabWidget({
+    super.key,
+    required this.mainTabController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,9 @@ class DisciplineSelectionMyGradeTabWidget extends StatelessWidget {
         description:
             "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
         actionLabel: "Adicionar disciplinas",
-        onActionPressed: () {},
+        onActionPressed: () {
+          mainTabController.animateTo(1);
+        },
       );
     }
 

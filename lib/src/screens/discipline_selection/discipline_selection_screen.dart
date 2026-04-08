@@ -82,7 +82,9 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
             child: TabBarView(
               controller: _mainTabController,
               children: <Widget>[
-                DisciplineSelectionMyGradeTabWidget(),
+                DisciplineSelectionMyGradeTabWidget(
+                  mainTabController: _mainTabController,
+                ),
                 DisciplineSelectionAddTabContentWidget(
                   periods: _periods,
                   periodController: _periodTabController,
