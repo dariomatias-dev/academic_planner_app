@@ -64,15 +64,18 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
         ),
       ),
       body: enrolledDisciplines.isEmpty
-          ? EmptyStateWidget(
-              icon: Icons.auto_stories_rounded,
-              title: "Sua grade está vazia",
-              description:
-                  "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
-              actionLabel: "Configurar",
-              onActionPressed: () {
-                AppRoutes.goToDisciplineSelection(context);
-              },
+          ? Padding(
+              padding: EdgeInsets.only(bottom: 100.0),
+              child: EmptyStateWidget(
+                icon: Icons.auto_stories_rounded,
+                title: "Sua grade está vazia",
+                description:
+                    "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
+                actionLabel: "Configurar",
+                onActionPressed: () {
+                  AppRoutes.goToDisciplineSelection(context);
+                },
+              ),
             )
           : ListView.builder(
               padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 190.0),
