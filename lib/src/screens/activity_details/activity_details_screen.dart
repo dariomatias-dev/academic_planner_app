@@ -101,7 +101,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Detalhes",
+        title: _activity?.title ?? 'Detalhes',
         actions: <Widget>[
           if (!_isLoading && _activity != null) ...<Widget>[
             if (_hasStatusChanged)
@@ -257,16 +257,15 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
                   clipBehavior: Clip.none,
                   child: Row(
                     spacing: 8.0,
-                    children: ActivityStatus.values.map((status) {
+                    children: ActivityStatus.values.builder((status, index) {
                       final isSelected = _currentStatus == status;
+
                       return SelectableChipWidget(
-                        onTap: () => setState(
-                          () => _currentStatus = isSelected ? null : status,
-                        ),
+                        onTap: () => setState(() => _currentStatus = status),
                         label: status.label,
                         isSelected: isSelected,
                       );
-                    }).toList(),
+                    }),
                   ),
                 ),
                 const SizedBox(height: 32.0),
