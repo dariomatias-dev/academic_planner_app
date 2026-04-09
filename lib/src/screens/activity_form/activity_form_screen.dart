@@ -58,7 +58,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   final _disciplineNotifier = ValueNotifier<DisciplineModel?>(null);
   final _dueDateNotifier = ValueNotifier<DateTime?>(null);
   final _statusNotifier = ValueNotifier<ActivityStatus>(ActivityStatus.draft);
-  final _categoryNotifier = ValueNotifier<String?>("Estudo");
+  final _categoryNotifier = ValueNotifier<String?>(null);
   final _categoriesNotifier = ValueNotifier<List<String>>(<String>[
     "Estudo",
     "Leitura",
@@ -83,6 +83,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   bool _isSameDay(DateTime? d1, DateTime? d2) {
     if (d1 == null && d2 == null) return true;
     if (d1 == null || d2 == null) return false;
+
     return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
   }
 
@@ -153,7 +154,9 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               ..._categoriesNotifier.value,
               categoryName,
             ];
+
             _categoryNotifier.value = categoryName;
+
             _updateChangeTracker();
           },
         );
@@ -173,7 +176,9 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               ..._availableTagsNotifier.value,
               tagName,
             ];
+
             _tagsNotifier.value = <String>[..._tagsNotifier.value, tagName];
+
             _updateChangeTracker();
           },
         );
@@ -193,6 +198,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
     if (picked != null) {
       _dueDateNotifier.value = picked;
+
       _updateChangeTracker();
     }
   }
@@ -237,6 +243,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
           reminders: _remindersNotifier.value,
           status: _statusNotifier.value,
         );
+
         result = await _activityController.editActivity(updatedActivity);
       } else {
         result = await _activityController.createActivity(
@@ -439,6 +446,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                         isRequired: true,
                         onSelected: (value) {
                           _disciplineNotifier.value = value;
+
                           _updateChangeTracker();
                         },
                       );
@@ -452,6 +460,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                         selectedStatus: status,
                         onSelect: (value) {
                           _statusNotifier.value = value;
+
                           _updateChangeTracker();
                         },
                       );
@@ -467,9 +476,9 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                           return ActivityFormCategorySelectorWidget(
                             categories: categories,
                             selectedCategory: selectedCategory,
-                            isRequired: true,
                             onSelect: (value) {
                               _categoryNotifier.value = value;
+
                               _updateChangeTracker();
                             },
                             onCreate: _showCreateCategoryDialog,
@@ -492,8 +501,11 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                               final current = List<String>.from(
                                 _tagsNotifier.value,
                               );
+
                               value ? current.add(tag) : current.remove(tag);
+
                               _tagsNotifier.value = current;
+
                               _updateChangeTracker();
                             },
                             onCreate: _showCreateTagDialog,
@@ -514,6 +526,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                         onTap: _selectDate,
                         onClear: () {
                           _dueDateNotifier.value = null;
+
                           _updateChangeTracker();
                         },
                       );
@@ -530,8 +543,11 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                           final current = List<TimeOfDay>.from(
                             _remindersNotifier.value,
                           );
+
                           current.remove(time);
+
                           _remindersNotifier.value = current;
+
                           _updateChangeTracker();
                         },
                       );
