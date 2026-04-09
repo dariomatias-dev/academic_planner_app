@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
 
 import 'package:academic_planner/src/screens/activities/activities_screen.dart';
 import 'package:academic_planner/src/screens/home/home_screen.dart';
@@ -11,13 +14,12 @@ class RootNavigation extends StatefulWidget {
   const RootNavigation({super.key});
 
   @override
-  State<RootNavigation> createState() => RootNavigationState();
+  State<RootNavigation> createState() => _RootNavigationState();
 }
 
-class RootNavigationState extends State<RootNavigation> {
-  late final _pageController = PageController(initialPage: selectedIndex);
-
-  int selectedIndex = 0;
+class _RootNavigationState extends State<RootNavigation> {
+  late final PageController _pageController;
+  late final NavigationNotifier _navigationNotifier;
 
   final _screens = <Widget>[
     const HomeScreen(),
@@ -26,22 +28,40 @@ class RootNavigationState extends State<RootNavigation> {
     const SettingsScreen(),
   ];
 
+  void _handleNavigationChange() {
+    final index = _navigationNotifier.index;
+
+    if (_pageController.hasClients && _pageController.page?.round() != index) {
+      _pageController.animateToPage(
+        index,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
   void _onPageChanged(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    _navigationNotifier.setIndex(index);
   }
 
   void _onNavBarTap(int index) {
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
+    _navigationNotifier.setIndex(index);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _navigationNotifier = context.read<NavigationNotifier>();
+
+    _pageController = PageController(initialPage: _navigationNotifier.index);
+
+    _navigationNotifier.addListener(_handleNavigationChange);
   }
 
   @override
   void dispose() {
+    _navigationNotifier.removeListener(_handleNavigationChange);
     _pageController.dispose();
 
     super.dispose();
@@ -49,6 +69,8 @@ class RootNavigationState extends State<RootNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = context.watch<NavigationNotifier>().index;
+
     return Scaffold(
       body: Stack(
         children: <Widget>[
