@@ -5,6 +5,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
+import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_header_widget.dart';
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
@@ -128,10 +129,8 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
         body: TabBarView(
           controller: _tabController,
           children: <Widget>[
-            const DisciplineDetailsEmptyStateWidget(
-              icon: Icons.assignment_outlined,
-              title: "Sem tarefas",
-              message: "Nenhuma tarefa pendente para esta disciplina.",
+            DisciplineDetailsActivitiesTabWidget(
+              disciplineId: widget.disciplineId,
             ),
             const DisciplineDetailsEmptyStateWidget(
               icon: Icons.edit_note_rounded,
