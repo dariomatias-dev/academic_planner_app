@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/shared/models/optional.dart';
 import 'package:flutter/material.dart';
 
 enum ActivityStatus { draft, pending, inProgress, completed, canceled }
@@ -33,31 +34,29 @@ class ActivityModel {
        updatedAt = updatedAt ?? DateTime.now();
 
   ActivityModel copyWith({
-    String? id,
     String? title,
     String? description,
     String? notes,
     int? disciplineId,
-    DateTime? dueDate,
+    Optional<DateTime?>? dueDate,
     String? category,
     List<String>? tags,
     List<TimeOfDay>? reminders,
     ActivityStatus? status,
-    DateTime? createdAt,
     DateTime? updatedAt,
   }) {
     return ActivityModel(
-      id: id ?? this.id,
+      id: id,
       title: title ?? this.title,
       description: description ?? this.description,
       notes: notes ?? this.notes,
       disciplineId: disciplineId ?? this.disciplineId,
-      dueDate: dueDate ?? this.dueDate,
+      dueDate: dueDate != null ? dueDate.value : this.dueDate,
       category: category ?? this.category,
       tags: tags ?? this.tags,
       reminders: reminders ?? this.reminders,
       status: status ?? this.status,
-      createdAt: createdAt ?? this.createdAt,
+      createdAt: createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }

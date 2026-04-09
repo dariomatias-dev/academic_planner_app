@@ -25,6 +25,7 @@ import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_di
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/models/optional.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -239,7 +240,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
           description: description,
           notes: _notesController.text.trim(),
           disciplineId: _disciplineNotifier.value?.id,
-          dueDate: _dueDateNotifier.value,
+          dueDate: Optional(_dueDateNotifier.value),
           category: _categoryNotifier.value,
           tags: _tagsNotifier.value,
           reminders: _remindersNotifier.value,
