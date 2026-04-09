@@ -30,6 +30,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   late final _activityController = context.read<ActivityController>();
   late final _tabController = TabController(length: 4, vsync: this);
   final _searchController = TextEditingController();
+
   String _searchQuery = "";
 
   @override
@@ -66,16 +67,17 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   @override
   void initState() {
     super.initState();
+
     _searchController.addListener(() {
       setState(() => _searchQuery = _searchController.text.toLowerCase());
     });
-    _tabController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _searchController.dispose();
+
     super.dispose();
   }
 

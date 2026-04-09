@@ -201,6 +201,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
       _updateChangeTracker();
     }
+
+    _unfocus();
   }
 
   Future<void> _addReminder() async {
@@ -289,6 +291,8 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
 
     result.fold(
       onSuccess: (activity) {
+        if (!mounted) return;
+
         if (activity != null) {
           _initialActivity = activity;
           _titleController.text = activity.title;
