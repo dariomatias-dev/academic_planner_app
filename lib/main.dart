@@ -16,6 +16,7 @@ import 'package:academic_planner/src/data/datasource/activity_local_datasource.d
 import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
 
 import 'package:academic_planner/src/notifiers/activity_notifier.dart';
+import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 Future<void> main() async {
@@ -36,6 +37,9 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
+        ChangeNotifierProvider<NavigationNotifier>(
+          create: (_) => NavigationNotifier(),
+        ),
         Provider<SharedPreferencesService>(create: (_) => prefsService),
         ChangeNotifierProvider<ThemeController>(create: (_) => themeController),
         ChangeNotifierProvider<UserDisciplinesNotifier>(
