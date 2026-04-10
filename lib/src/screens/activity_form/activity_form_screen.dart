@@ -30,6 +30,7 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/input_widget.dart';
+import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityFormScreen extends StatefulWidget {
@@ -412,7 +413,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         valueListenable: _isLoadingNotifier,
         builder: (context, isLoading, _) {
           if (isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return LoadingStateWidget();
           }
 
           return SingleChildScrollView(
