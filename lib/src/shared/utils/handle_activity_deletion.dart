@@ -17,6 +17,8 @@ Future<bool> handleActivityDeletion({
   bool success = false;
 
   Future<void> delete() async {
+    if (!context.mounted) return;
+
     final result = await context.read<ActivityController>().removeActivity(
       activity.id,
     );
