@@ -28,6 +28,10 @@ Future<bool> handleActivityDeletion({
         success = true;
 
         await ActivityRemovalSuccessDialogWidget.show(context);
+
+        if (!context.mounted) return;
+
+        Navigator.pop(context);
       },
       onFailure: (failure) async {
         await ActivityRemovalFailureDialogWidget.show(
