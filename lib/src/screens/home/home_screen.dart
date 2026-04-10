@@ -19,6 +19,7 @@ import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -333,31 +334,13 @@ class _HomeScreenState extends State<HomeScreen>
             ),
           ),
         ),
-        GestureDetector(
+        ViewAllButtonWidget(
           onTap: () {
             context.read<NavigationNotifier>().setIndex(2);
             context.read<ActivityFilterNotifier>().setFilter(
               ActivityFilter(status: ActivityStatus.inProgress),
             );
           },
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12.0,
-              vertical: 6.0,
-            ),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withAlpha(20),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: Text(
-              "Ver todas",
-              style: GoogleFonts.plusJakartaSans(
-                fontSize: 12.0,
-                fontWeight: FontWeight.w800,
-                color: colorScheme.primary,
-              ),
-            ),
-          ),
         ),
       ],
     );
