@@ -15,6 +15,7 @@ import 'package:academic_planner/src/core/theme/theme_controller.dart';
 import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
 
+import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
 import 'package:academic_planner/src/notifiers/activity_notifier.dart';
 import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
@@ -37,6 +38,7 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: <SingleChildWidget>[
+        ChangeNotifierProvider(create: (_) => ActivityFilterNotifier()),
         ChangeNotifierProvider<NavigationNotifier>(
           create: (_) => NavigationNotifier(),
         ),
