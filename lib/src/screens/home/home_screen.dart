@@ -10,6 +10,7 @@ import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
 import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
 import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row_widget.dart';
@@ -208,11 +209,21 @@ class _HomeScreenState extends State<HomeScreen>
                     label: "Atividades",
                     icon: Icons.auto_stories_rounded,
                   ),
-                  _buildHeaderMetric(
-                    context,
-                    value: "06",
-                    label: "Disciplinas",
-                    icon: Icons.grid_view_rounded,
+                  ListenableBuilder(
+                    listenable: context.read<UserDisciplinesNotifier>(),
+                    builder: (context, _) {
+                      final notifier = context.read<UserDisciplinesNotifier>();
+
+                      return _buildHeaderMetric(
+                        context,
+                        value: notifier.selectedIds.length.toString().padLeft(
+                          2,
+                          '0',
+                        ),
+                        label: "Disciplinas",
+                        icon: Icons.grid_view_rounded,
+                      );
+                    },
                   ),
                   _buildHeaderMetric(
                     context,
