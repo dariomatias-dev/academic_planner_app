@@ -9,10 +9,13 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
+import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
+
 import 'package:academic_planner/src/screens/activities/widgets/activities_metric_card_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 
 class DisciplineDetailsActivitiesTabWidget extends StatelessWidget {
@@ -186,22 +189,12 @@ class DisciplineDetailsActivitiesTabWidget extends StatelessWidget {
                 const SizedBox(height: 40.0),
                 _SectionHeader(
                   title: "Todas as Atividades",
-                  action: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      minimumSize: Size.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: Text(
-                      "VER TODAS",
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w800,
-                        color: colorScheme.primary,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
+                  action: ViewAllButtonWidget(
+                    onTap: () {
+                      Navigator.pop(context);
+
+                      context.read<NavigationNotifier>().setIndex(2);
+                    },
                   ),
                 ),
                 const SizedBox(height: 16.0),
