@@ -41,61 +41,64 @@ class NavBarWidget extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final itemWidth = constraints.maxWidth / 4.0;
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(36.0),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final itemWidth = constraints.maxWidth / 4.0;
 
-            return Stack(
-              children: <Widget>[
-                AnimatedPositioned(
-                  duration: const Duration(milliseconds: 350),
-                  curve: Curves.easeInOutBack,
-                  left: (itemWidth * selectedIndex) + 4.0,
-                  top: (76.0 - 56.0) / 2.0,
-                  child: Container(
-                    width: itemWidth - 8.0,
-                    height: 56.0,
-                    decoration: BoxDecoration(
-                      color: colorScheme.primary.withAlpha(31),
-                      borderRadius: BorderRadius.circular(20.0),
+              return Stack(
+                children: <Widget>[
+                  AnimatedPositioned(
+                    duration: const Duration(milliseconds: 350),
+                    curve: Curves.easeInOutBack,
+                    left: (itemWidth * selectedIndex) + 4.0,
+                    top: (76.0 - 56.0) / 2.0,
+                    child: Container(
+                      width: itemWidth - 8.0,
+                      height: 56.0,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primary.withAlpha(31),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    NavItemWidget(
-                      icon: Icons.grid_view_rounded,
-                      label: 'Início',
-                      index: 0,
-                      isSelected: selectedIndex == 0,
-                      onTap: onTap,
-                    ),
-                    NavItemWidget(
-                      icon: Icons.calendar_today_rounded,
-                      label: 'Grade',
-                      index: 1,
-                      isSelected: selectedIndex == 1,
-                      onTap: onTap,
-                    ),
-                    NavItemWidget(
-                      icon: Icons.task_alt_rounded,
-                      label: 'Atividades',
-                      index: 2,
-                      isSelected: selectedIndex == 2,
-                      onTap: onTap,
-                    ),
-                    NavItemWidget(
-                      icon: Icons.settings_rounded,
-                      label: 'Ajustes',
-                      index: 3,
-                      isSelected: selectedIndex == 3,
-                      onTap: onTap,
-                    ),
-                  ],
-                ),
-              ],
-            );
-          },
+                  Row(
+                    children: <Widget>[
+                      NavItemWidget(
+                        icon: Icons.grid_view_rounded,
+                        label: 'Início',
+                        index: 0,
+                        isSelected: selectedIndex == 0,
+                        onTap: onTap,
+                      ),
+                      NavItemWidget(
+                        icon: Icons.calendar_today_rounded,
+                        label: 'Grade',
+                        index: 1,
+                        isSelected: selectedIndex == 1,
+                        onTap: onTap,
+                      ),
+                      NavItemWidget(
+                        icon: Icons.task_alt_rounded,
+                        label: 'Atividades',
+                        index: 2,
+                        isSelected: selectedIndex == 2,
+                        onTap: onTap,
+                      ),
+                      NavItemWidget(
+                        icon: Icons.settings_rounded,
+                        label: 'Ajustes',
+                        index: 3,
+                        isSelected: selectedIndex == 3,
+                        onTap: onTap,
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
