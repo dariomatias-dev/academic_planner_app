@@ -21,6 +21,7 @@ import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends StatefulWidget {
@@ -138,31 +139,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       body: Builder(
         builder: (context) {
           if (_isLoading) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(
-                    width: 44.0,
-                    height: 44.0,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 3.5,
-                      color: colorScheme.primary,
-                      backgroundColor: colorScheme.primary.withAlpha(30),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Text(
-                    "Buscando informações...",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface.withAlpha(180),
-                    ),
-                  ),
-                ],
-              ),
-            );
+            return LoadingStateWidget();
           }
 
           if (_activity == null) {
