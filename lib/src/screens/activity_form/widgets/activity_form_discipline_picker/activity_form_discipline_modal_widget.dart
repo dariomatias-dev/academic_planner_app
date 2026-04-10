@@ -4,12 +4,12 @@ import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_modal/activity_form_discipline_empty_state_modal_widget.dart';
-
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 
 class ActivityFormDisciplineModalWidget extends StatelessWidget {
   final int? selectedId;
@@ -31,7 +31,17 @@ class ActivityFormDisciplineModalWidget extends StatelessWidget {
     });
 
     if (enrolled.isEmpty) {
-      return const ActivityFormDisciplineEmptyStateModalWidget();
+      return EmptyStateWidget(
+        icon: Icons.auto_stories_rounded,
+        title: 'Nenhuma disciplina',
+        description:
+            'Para vincular atividades, você precisa primeiro selecionar as disciplinas que está cursando na tela de minha grade.',
+        isCentered: false,
+        actionLabel: 'Configurar',
+        onActionPressed: () {
+          AppRoutes.goToDisciplineSelection(context);
+        },
+      );
     }
 
     return ListView.builder(
@@ -47,6 +57,7 @@ class ActivityFormDisciplineModalWidget extends StatelessWidget {
           child: ListTile(
             onTap: () {
               onSelected(discipline);
+
               Navigator.pop(context);
             },
             shape: RoundedRectangleBorder(
