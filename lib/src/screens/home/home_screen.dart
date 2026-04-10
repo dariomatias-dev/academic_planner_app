@@ -6,6 +6,11 @@ import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
+
+import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
+import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
+
 import 'package:academic_planner/src/screens/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/screens/home/widgets/home_quick_actions_row_widget.dart';
 
@@ -329,7 +334,12 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            context.read<NavigationNotifier>().setIndex(2);
+            context.read<ActivityFilterNotifier>().setFilter(
+              ActivityFilter(status: ActivityStatus.inProgress),
+            );
+          },
           child: Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 12.0,
