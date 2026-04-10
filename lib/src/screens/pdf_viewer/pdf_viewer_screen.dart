@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -6,6 +7,7 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
 
 class PdfViewerScreen extends StatefulWidget {
   final String url;
@@ -106,7 +108,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
                     });
                   },
                 ),
-                if (_isLoading) const PdfViewerLoadingWidget(),
+                if (_isLoading)
+                  const LoadingStateWidget(message: 'Carregando documento...'),
                 if (_hasError) const PdfViewerErrorWidget(),
                 if (!_isLoading && !_hasError && _totalPages > 0)
                   Positioned(
@@ -153,43 +156,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PdfViewerLoadingWidget extends StatelessWidget {
-  const PdfViewerLoadingWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              width: 24.0,
-              height: 24.0,
-              child: CircularProgressIndicator(
-                color: colorScheme.primary,
-                strokeWidth: 3.0,
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              "Carregando documento...",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface.withAlpha(160),
-                fontSize: 13.0,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
