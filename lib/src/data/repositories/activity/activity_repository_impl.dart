@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/data/filters/activity_filter.dart';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
@@ -7,9 +7,14 @@ import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
 import 'package:academic_planner/src/data/dtos/activity_dto.dart';
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
+
+List<ActivityModel> _mapActivities(List<Map<String, dynamic>> data) {
+  return data.builder((e, index) => ActivityDto.fromMap(e).toEntity());
+}
 
 class ActivityRepositoryImpl implements ActivityRepository {
   final ActivityLocalDataSource datasource;
@@ -25,9 +30,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     try {
       final data = await datasource.getAll(filter: filter);
 
-      final activities = data.builder(
-        (e, index) => ActivityDto.fromMap(e).toEntity(),
-      );
+      final activities = await compute(_mapActivities, data);
 
       _logger.i('Retrieved ${activities.length} activities');
 
