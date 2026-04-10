@@ -29,16 +29,23 @@ class ActivitiesScreenWidget extends StatefulWidget {
 
 class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  late final _activityController = context.read<ActivityController>();
   late final _tabController = TabController(length: 4, vsync: this);
+
   final _searchController = TextEditingController();
 
-  late final Future _activitiesFuture;
+  late ActivityController _activityController;
+  late Future _activitiesFuture;
 
   String _searchQuery = "";
 
   @override
   bool get wantKeepAlive => true;
+
+  void _loadActivities() {
+    setState(() {
+      _activitiesFuture = _activityController.getActivities();
+    });
+  }
 
   List<ActivityModel> _getFilteredTasks({
     required List<ActivityModel> activities,
@@ -87,10 +94,19 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _activityController = context.read<ActivityController>();
+    _activitiesFuture = _activityController.getActivities();
+
+    _activityController.notifier.removeListener(_loadActivities);
+    _activityController.notifier.addListener(_loadActivities);
+  }
+
+  @override
   void initState() {
     super.initState();
-
-    _activitiesFuture = _activityController.getActivities();
 
     _searchController.addListener(() {
       setState(() {
@@ -101,6 +117,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
 
   @override
   void dispose() {
+    _activityController.notifier.removeListener(_loadActivities);
     _tabController.dispose();
     _searchController.dispose();
 
@@ -134,8 +151,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButtonWidget(
           heroTag: null,
-          onPressed: () {
-            AppRoutes.goToActivityForm(context);
+          onPressed: () async {
+            await AppRoutes.goToActivityForm(context);
           },
           icon: Icons.add_rounded,
         ),
@@ -171,11 +188,10 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
             (task) => task.status == ActivityStatus.completed,
           );
 
-          final otherTasks = filteredTasks.filter(
-            (task) =>
-                task.status == ActivityStatus.draft ||
-                task.status == ActivityStatus.canceled,
-          );
+          final otherTasks = filteredTasks.filter((task) {
+            return task.status == ActivityStatus.draft ||
+                task.status == ActivityStatus.canceled;
+          });
 
           return Column(
             children: <Widget>[
