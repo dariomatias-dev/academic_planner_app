@@ -215,18 +215,19 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
                     ActivitiesSummaryTabWidget(tasks: filteredTasks),
                     ActivitiesTaskListTabWidget(
                       tasks: activeTasks,
-                      description: "Tarefas em andamento ou pendentes",
+                      description: "Ativas",
                       emptyMessage:
                           "Foco total! Nenhuma tarefa ativa no momento.",
                     ),
                     ActivitiesTaskListTabWidget(
                       tasks: completedTasks,
-                      description: "Histórico de atividades finalizadas",
-                      emptyMessage: "O histórico está vazio. Vamos começar?",
+                      description: "Concluídas",
+                      emptyMessage:
+                          "O histórico está vazio. Toque no + para começar.",
                     ),
                     ActivitiesTaskListTabWidget(
                       tasks: otherTasks,
-                      description: "Rascunhos e tarefas canceladas",
+                      description: "Outras",
                       emptyMessage: "Sem rascunhos ou tarefas canceladas.",
                     ),
                   ],
