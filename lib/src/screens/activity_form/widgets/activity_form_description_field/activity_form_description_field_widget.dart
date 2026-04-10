@@ -25,16 +25,26 @@ class ActivityFormDescriptionFieldWidget extends StatefulWidget {
 
 class _ActivityFormDescriptionFieldWidgetState
     extends State<ActivityFormDescriptionFieldWidget> {
-  late final ScrollController _scrollController = ScrollController();
-  late final FocusNode _focusNode = FocusNode();
+  late final _scrollController = ScrollController();
+  late final _focusNode = FocusNode();
 
   FormFieldState<String>? _fieldState;
-  late final VoidCallback _listener;
 
   void _onFocusChange() {
     if (!mounted) return;
 
     setState(() {});
+  }
+
+  void _onTextChange() {
+
+      if (!mounted || _fieldState == null) return;
+
+      final plainText = widget.controller.document.toPlainText().trim();
+
+      if (_fieldState!.value != plainText) {
+        _fieldState!.didChange(plainText);
+      }
   }
 
   @override
@@ -43,25 +53,16 @@ class _ActivityFormDescriptionFieldWidgetState
 
     _focusNode.addListener(_onFocusChange);
 
-    _listener = () {
-      if (!mounted || _fieldState == null) return;
-
-      final plainText = widget.controller.document.toPlainText().trim();
-
-      if (_fieldState!.value != plainText) {
-        _fieldState!.didChange(plainText);
-      }
-    };
-
-    widget.controller.addListener(_listener);
+    widget.controller.addListener(_onTextChange);
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_listener);
+    widget.controller.removeListener(_onTextChange);
 
     _focusNode.removeListener(_onFocusChange);
     _focusNode.dispose();
+
     _scrollController.dispose();
 
     super.dispose();
@@ -75,7 +76,6 @@ class _ActivityFormDescriptionFieldWidgetState
     final textStyle = GoogleFonts.plusJakartaSans(
       fontSize: 14.0,
       color: colorScheme.onSurface,
-      fontWeight: FontWeight.w600,
     );
 
     final hintStyle = GoogleFonts.plusJakartaSans(
