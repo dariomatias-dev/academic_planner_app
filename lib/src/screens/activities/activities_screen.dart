@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
@@ -32,6 +33,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   late final _tabController = TabController(length: 4, vsync: this);
   final _searchController = TextEditingController();
 
+  late final Future _activitiesFuture;
+
   String _searchQuery = "";
 
   @override
@@ -40,9 +43,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   List<ActivityModel> _getFilteredTasks({
     required List<ActivityModel> activities,
     required ActivityFilterNotifier filter,
-    List<ActivityStatus>? allowedStatuses,
   }) {
-    final filtered = activities.where((task) {
+    final filtered = activities.filter((task) {
       final matchesSearch =
           task.title.toLowerCase().contains(_searchQuery) ||
           task.description.toLowerCase().contains(_searchQuery);
@@ -50,11 +52,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
       final matchesStatus =
           filter.filter.status == null || filter.filter.status == task.status;
 
-      final matchesAllowedStatus =
-          allowedStatuses == null || allowedStatuses.contains(task.status);
-
-      return matchesSearch && matchesStatus && matchesAllowedStatus;
-    }).toList();
+      return matchesSearch && matchesStatus;
+    });
 
     filtered.sort((a, b) {
       if (a.dueDate == null && b.dueDate == null) return 0;
@@ -90,6 +89,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
   @override
   void initState() {
     super.initState();
+
+    _activitiesFuture = _activityController.getActivities();
 
     _searchController.addListener(() {
       setState(() {
@@ -139,115 +140,100 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
           icon: Icons.add_rounded,
         ),
       ),
-      body: ListenableBuilder(
-        listenable: _activityController.notifier,
-        builder: (context, _) {
-          return FutureBuilder(
-            future: _activityController.getActivities(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      body: FutureBuilder(
+        future: _activitiesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-              final result = snapshot.data;
+          final result = snapshot.data;
 
-              final activities =
-                  result?.fold(
-                    onSuccess: (list) => list,
-                    onFailure: (_) => <ActivityModel>[],
-                  ) ??
-                  <ActivityModel>[];
+          final activities =
+              result?.fold(
+                onSuccess: (list) => list,
+                onFailure: (_) => <ActivityModel>[],
+              ) ??
+              <ActivityModel>[];
 
-              return Column(
-                children: <Widget>[
-                  Container(
-                    color: colorScheme.surface,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        const ActivitiesDateIndicatorWidget(),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                            20.0,
-                            0.0,
-                            20.0,
-                            20.0,
-                          ),
-                          child: InputWidget(
-                            controller: _searchController,
-                            hint: "Filtrar atividades...",
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              color: colorScheme.onSurface.withAlpha(100),
-                            ),
-                          ),
+          final filteredTasks = _getFilteredTasks(
+            activities: activities,
+            filter: filter,
+          );
+
+          final activeTasks = filteredTasks.filter(
+            (task) =>
+                task.status == ActivityStatus.pending ||
+                task.status == ActivityStatus.inProgress,
+          );
+
+          final completedTasks = filteredTasks.filter(
+            (task) => task.status == ActivityStatus.completed,
+          );
+
+          final otherTasks = filteredTasks.filter(
+            (task) =>
+                task.status == ActivityStatus.draft ||
+                task.status == ActivityStatus.canceled,
+          );
+
+          return Column(
+            children: <Widget>[
+              Container(
+                color: colorScheme.surface,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    const ActivitiesDateIndicatorWidget(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                      child: InputWidget(
+                        controller: _searchController,
+                        hint: "Filtrar atividades...",
+                        prefixIcon: Icon(
+                          Icons.search_rounded,
+                          color: colorScheme.onSurface.withAlpha(100),
                         ),
-                        TabBarWidget(
-                          controller: _tabController,
-                          tabs: const <Tab>[
-                            Tab(text: "Resumo"),
-                            Tab(text: "Ativas"),
-                            Tab(text: "Concluídas"),
-                            Tab(text: "Outras"),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: TabBarView(
+                    TabBarWidget(
                       controller: _tabController,
-                      children: <Widget>[
-                        ActivitiesSummaryTabWidget(
-                          tasks: _getFilteredTasks(
-                            activities: activities,
-                            filter: filter,
-                          ),
-                        ),
-                        ActivitiesTaskListTabWidget(
-                          tasks: _getFilteredTasks(
-                            activities: activities,
-                            filter: filter,
-                            allowedStatuses: <ActivityStatus>[
-                              ActivityStatus.pending,
-                              ActivityStatus.inProgress,
-                            ],
-                          ),
-                          description: "Tarefas em andamento ou pendentes",
-                          emptyMessage:
-                              "Foco total! Nenhuma tarefa ativa no momento.",
-                        ),
-                        ActivitiesTaskListTabWidget(
-                          tasks: _getFilteredTasks(
-                            activities: activities,
-                            filter: filter,
-                            allowedStatuses: <ActivityStatus>[
-                              ActivityStatus.completed,
-                            ],
-                          ),
-                          description: "Histórico de atividades finalizadas",
-                          emptyMessage:
-                              "O histórico está vazio. Vamos começar?",
-                        ),
-                        ActivitiesTaskListTabWidget(
-                          tasks: _getFilteredTasks(
-                            activities: activities,
-                            filter: filter,
-                            allowedStatuses: <ActivityStatus>[
-                              ActivityStatus.draft,
-                              ActivityStatus.canceled,
-                            ],
-                          ),
-                          description: "Rascunhos e tarefas canceladas",
-                          emptyMessage: "Sem rascunhos ou tarefas canceladas.",
-                        ),
+                      tabs: const <Tab>[
+                        Tab(text: "Resumo"),
+                        Tab(text: "Ativas"),
+                        Tab(text: "Concluídas"),
+                        Tab(text: "Outras"),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 52.0),
-                ],
-              );
-            },
+                  ],
+                ),
+              ),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: <Widget>[
+                    ActivitiesSummaryTabWidget(tasks: filteredTasks),
+                    ActivitiesTaskListTabWidget(
+                      tasks: activeTasks,
+                      description: "Tarefas em andamento ou pendentes",
+                      emptyMessage:
+                          "Foco total! Nenhuma tarefa ativa no momento.",
+                    ),
+                    ActivitiesTaskListTabWidget(
+                      tasks: completedTasks,
+                      description: "Histórico de atividades finalizadas",
+                      emptyMessage: "O histórico está vazio. Vamos começar?",
+                    ),
+                    ActivitiesTaskListTabWidget(
+                      tasks: otherTasks,
+                      description: "Rascunhos e tarefas canceladas",
+                      emptyMessage: "Sem rascunhos ou tarefas canceladas.",
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 52.0),
+            ],
           );
         },
       ),
