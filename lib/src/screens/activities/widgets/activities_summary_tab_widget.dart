@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/screens/activities/widgets/activities_metric_card_widget.dart';
-import 'package:academic_planner/src/screens/activities/widgets/activities_summary_tab/activities_empty_state_widget.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 
 class ActivitiesSummaryTabWidget extends StatelessWidget {
   final List<ActivityModel> tasks;
@@ -188,9 +188,11 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
         ),
         const SizedBox(height: 20.0),
         if (tasks.where((t) => t.status != ActivityStatus.completed).isEmpty)
-          const ActivitiesEmptyStateWidget(
+          EmptyStateWidget(
             icon: Icons.celebration_rounded,
-            message: "Tudo em dia por aqui!",
+            title: 'Sem atividades',
+            description: 'Tudo em dia por aqui!',
+            isCentered: false,
           )
         else
           ...tasks
