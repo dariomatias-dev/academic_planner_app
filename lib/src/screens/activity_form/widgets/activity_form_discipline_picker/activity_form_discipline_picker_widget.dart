@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+
+import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_modal_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
@@ -58,6 +64,7 @@ class _ActivityFormDisciplinePickerWidgetState
         if (widget.isRequired && widget.selectedDiscipline == null) {
           return "A disciplina é obrigatória";
         }
+
         return widget.validator?.call(value);
       },
       builder: (state) {
@@ -95,8 +102,20 @@ class _ActivityFormDisciplinePickerWidgetState
                   ModalBottomSheetWidget.show(
                     context: context,
                     title: "Minhas Disciplinas",
-                    child: ActivityFormDisciplineModalWidget(
+                    child: DisciplineListModalWidget(
                       selectedId: widget.selectedDiscipline?.id,
+                      disciplines: adsDisciplines.filter((d) {
+                        return context
+                            .read<UserDisciplinesNotifier>()
+                            .selectedIds
+                            .contains(d.id);
+                      }),
+                      emptyDescription:
+                          'Para vincular atividades, selecione as disciplinas cursadas na sua grade.',
+                      actionLabel: 'Configurar',
+                      onActionPressed: () {
+                        AppRoutes.goToDisciplineSelection(context);
+                      },
                       onSelected: widget.onSelected,
                     ),
                   );
