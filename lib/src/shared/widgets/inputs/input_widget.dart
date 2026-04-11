@@ -15,6 +15,7 @@ class InputWidget extends StatelessWidget {
     this.suffix,
     this.validator,
     this.style = InputStyle.primary,
+    this.obscureText = false,
   });
 
   final TextEditingController controller;
@@ -24,6 +25,7 @@ class InputWidget extends StatelessWidget {
   final Widget? suffix;
   final String? Function(String? value)? validator;
   final InputStyle style;
+  final bool obscureText;
 
   static const double _radius = 16.0;
   static const EdgeInsets _contentPadding = EdgeInsets.all(16.0);
@@ -42,7 +44,8 @@ class InputWidget extends StatelessWidget {
 
     return TextFormField(
       controller: controller,
-      maxLines: maxLines,
+      maxLines: obscureText ? 1 : maxLines,
+      obscureText: obscureText,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: _textStyle(colors),
