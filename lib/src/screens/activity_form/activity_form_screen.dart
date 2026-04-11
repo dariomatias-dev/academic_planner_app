@@ -17,7 +17,7 @@ import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_date_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker/activity_form_discipline_picker_widget.dart';
+import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
