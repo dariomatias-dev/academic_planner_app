@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/core/constants/teachers.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/discipline_details/widgets/discipline_details_stat_card_widget.dart';
 
@@ -42,10 +43,15 @@ class DisciplineDetailsStatsGridWidget extends StatelessWidget {
         ),
         const SizedBox(width: 12.0),
         Expanded(
-          child: DisciplineDetailsStatCardWidget(
-            label: "Docente",
-            value: teacher.name,
-            icon: Icons.person_outline_rounded,
+          child: GestureDetector(
+            onTap: () {
+              AppRoutes.goToTeacherDetails(context, teacherId: teacherId);
+            },
+            child: DisciplineDetailsStatCardWidget(
+              label: "Docente",
+              value: teacher.name,
+              icon: Icons.person_outline_rounded,
+            ),
           ),
         ),
       ],
