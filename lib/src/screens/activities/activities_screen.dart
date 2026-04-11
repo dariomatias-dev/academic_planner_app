@@ -9,6 +9,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
 
 import 'package:academic_planner/src/screens/activities/widgets/activities_date_indicator_widget.dart';
+import 'package:academic_planner/src/screens/activities/widgets/activities_filter_modal_widget.dart';
 import 'package:academic_planner/src/screens/activities/widgets/activities_summary_tab/activities_summary_tab_widget.dart';
 import 'package:academic_planner/src/screens/activities/widgets/activities_task_list_tab_widget.dart';
 
@@ -143,7 +144,12 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
         title: "Atividades",
         showBackButton: false,
         actions: <Widget>[
-          IconButtonWidget(icon: Icons.filter_list_rounded, onPressed: () {}),
+          IconButtonWidget(
+            icon: Icons.filter_alt_outlined,
+            onPressed: () {
+              ActivitiesFilterModalWidget.show(context);
+            },
+          ),
           const NotificationButtonWidget(),
         ],
       ),
