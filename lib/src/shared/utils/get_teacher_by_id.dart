@@ -1,6 +1,10 @@
 import 'package:academic_planner/src/shared/models/teacher_model.dart';
 
-final defaultTeacher = TeacherModel(id: 0, name: "Professor não definido");
+final defaultTeacher = TeacherModel(
+  id: 0,
+  name: "Professor não definido",
+  lattes: "",
+);
 
 TeacherModel getTeacherById(int id, List<TeacherModel> teachers) {
   return teachers.firstWhere((t) => t.id == id, orElse: () => defaultTeacher);
