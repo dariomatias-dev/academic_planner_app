@@ -17,6 +17,7 @@ import 'package:academic_planner/src/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/screens/splash/splash_screen.dart';
+import 'package:academic_planner/src/screens/teacher_details/teacher_details_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -124,6 +125,16 @@ class AppRouter {
             name: RouteNames.splash,
             path: RoutePaths.splash,
             builder: (context, state) => const SplashScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.teacherDetails,
+            path: '${RoutePaths.teacherDetails}/:teacherId',
+            builder: (context, state) {
+              final teacherId =
+                  int.tryParse(state.pathParameters['teacherId'] ?? '0') ?? 0;
+
+              return TeacherDetailsScreen(teacherId: teacherId);
+            },
           ),
         ],
       ),

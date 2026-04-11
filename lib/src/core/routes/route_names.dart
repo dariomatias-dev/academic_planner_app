@@ -24,4 +24,6 @@ class RouteNames {
   static const schedule = 'schedule';
 
   static const splash = 'splash';
+
+  static const teacherDetails = 'teacher_details';
 }

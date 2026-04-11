@@ -101,4 +101,13 @@ class AppRoutes {
   static void goToSchedule(BuildContext context) {
     context.push(RoutePaths.schedule);
   }
+
+  static void goToTeacherDetails(
+    BuildContext context, {
+    required int teacherId,
+  }) {
+    final uri = Uri(path: '${RoutePaths.teacherDetails}/$teacherId');
+
+    context.push(uri.toString());
+  }
 }
