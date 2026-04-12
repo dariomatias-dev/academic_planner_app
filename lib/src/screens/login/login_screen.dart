@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
@@ -109,7 +111,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppRoutes.goToRegister(context, replace: true);
+                      },
                       child: Text(
                         "Cadastre-se",
                         style: _textStyle(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
@@ -127,7 +129,9 @@ class RegisterScreen extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppRoutes.goToLogin(context, replace: true);
+                      },
                       child: Text(
                         "Fazer Login",
                         style: _textStyle(
