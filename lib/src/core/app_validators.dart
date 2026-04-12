@@ -20,13 +20,23 @@ class AppValidators {
     return null;
   }
 
+  static String? email(String? value, {String? message}) {
+    if (value == null || value.trim().isEmpty) return null;
+
+    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!regex.hasMatch(value)) {
+      return message ?? "Insira um e-mail válido";
+    }
+
+    return null;
+  }
+
   static String? url(String? value, {String? message}) {
     if (value == null || value.trim().isEmpty) return null;
 
     final regex = RegExp(
       r'^(https?:\/\/)?([\w\d.-]+)\.([a-z.]{2,6})([\/\w\d.-]*)*\/?$',
     );
-
     if (!regex.hasMatch(value)) {
       return message ?? "Insira um link válido";
     }
