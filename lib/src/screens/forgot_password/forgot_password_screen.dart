@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -128,16 +128,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: 32.0),
                 Align(
                   alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      "Voltar para o Login",
-                      style: _textStyle(
-                        context,
-                        color: colorScheme.primary,
-                        weight: FontWeight.w800,
-                      ),
-                    ),
+                  child: TextButtonWidget(
+                    onTap: () => Navigator.pop(context),
+                    text: 'Voltar para o Login',
                   ),
                 ),
               ],

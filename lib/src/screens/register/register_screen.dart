@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/register_model.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 
@@ -172,18 +172,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           color: colorScheme.onSurface.withAlpha(150),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
+                      TextButtonWidget(
+                        onTap: () {
                           AppRoutes.goToLogin(context, replace: true);
                         },
-                        child: Text(
-                          "Fazer Login",
-                          style: _textStyle(
-                            context,
-                            color: colorScheme.primary,
-                            weight: FontWeight.w800,
-                          ),
-                        ),
+                        text: 'Fazer Login',
                       ),
                     ],
                   ),

@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/login_model.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 
@@ -130,19 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
+                  child: TextButtonWidget(
+                    onTap: () {
                       AppRoutes.goToForgotPassword(context);
                     },
-                    child: Text(
-                      "Esqueceu sua senha?",
-                      style: _textStyle(
-                        context,
-                        color: colorScheme.primary,
-                        weight: FontWeight.w700,
-                        size: 13.0,
-                      ),
-                    ),
+                    text: 'Esqueceu sua senha?',
                   ),
                 ),
                 const SizedBox(height: 16.0),
@@ -167,18 +159,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: colorScheme.onSurface.withAlpha(150),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
+                      TextButtonWidget(
+                        onTap: () {
                           AppRoutes.goToRegister(context, replace: true);
                         },
-                        child: Text(
-                          "Cadastre-se",
-                          style: _textStyle(
-                            context,
-                            color: colorScheme.primary,
-                            weight: FontWeight.w800,
-                          ),
-                        ),
+                        text: 'Cadastre-se',
                       ),
                     ],
                   ),

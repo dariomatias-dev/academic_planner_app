@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/text_button_widget.dart';
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});
@@ -64,19 +65,7 @@ class NotFoundScreen extends StatelessWidget {
                 label: 'Voltar para o Início',
               ),
               const SizedBox(height: 16.0),
-              TextButton(
-                onPressed: context.pop,
-                style: TextButton.styleFrom(
-                  foregroundColor: colorScheme.onSurface.withAlpha(160),
-                ),
-                child: Text(
-                  "Voltar",
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
+              TextButtonWidget(onTap: context.pop, text: 'Voltar'),
             ],
           ),
         ),
