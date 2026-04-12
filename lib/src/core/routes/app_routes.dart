@@ -81,6 +81,10 @@ class AppRoutes {
     context.push(RoutePaths.disciplines);
   }
 
+  static void goToEditProfile(BuildContext context) {
+    context.push(RoutePaths.editProfile);
+  }
+
   static void goToForgotPassword(BuildContext context) {
     context.push(RoutePaths.forgotPassword);
   }

@@ -17,7 +17,9 @@ class RoutePaths {
 
   static const disciplines = '/disciplines';
 
-  static const forgotPassword = '/forgot_password';
+  static const editProfile = '/edit-rofile';
+
+  static const forgotPassword = '/forgot-password';
 
   static const login = '/login';
 

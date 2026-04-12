@@ -17,6 +17,8 @@ class RouteNames {
 
   static const disciplines = 'disciplines';
 
+  static const editProfile = 'edit_profile';
+
   static const forgotPassword = 'forgot_password';
 
   static const login = 'login';

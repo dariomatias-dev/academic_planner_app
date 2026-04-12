@@ -12,6 +12,7 @@ import 'package:academic_planner/src/screens/course_details/course_details_scree
 import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
 import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/screens/edit_profile/edit_profile_screen.dart';
 import 'package:academic_planner/src/screens/forgot_password/forgot_password_screen.dart';
 import 'package:academic_planner/src/screens/login/login_screen.dart';
 import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
@@ -101,6 +102,11 @@ class AppRouter {
             name: RouteNames.disciplines,
             path: RoutePaths.disciplines,
             builder: (context, state) => const DisciplinesScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.editProfile,
+            path: RoutePaths.editProfile,
+            builder: (context, state) => const EditProfileScreen(),
           ),
           GoRoute(
             name: RouteNames.forgotPassword,
