@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/register_model.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
+import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 
@@ -31,19 +32,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         password: _passwordController.text,
       );
     }
-  }
-
-  TextStyle _textStyle(
-    BuildContext context, {
-    double size = 14.0,
-    Color? color,
-    FontWeight weight = FontWeight.w500,
-  }) {
-    return GoogleFonts.plusJakartaSans(
-      fontSize: size,
-      color: color ?? Theme.of(context).colorScheme.onSurface,
-      fontWeight: weight,
-    );
   }
 
   @override
@@ -89,26 +77,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 24.0),
                       Text(
                         "Criar Conta",
-                        style: _textStyle(
-                          context,
-                          size: 28.0,
-                          weight: FontWeight.w900,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                       const SizedBox(height: 8.0),
                       Text(
                         "Junte-se à nossa plataforma acadêmica",
-                        style: _textStyle(
-                          context,
+                        style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
-                          weight: FontWeight.w600,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 48.0),
-                _buildLabel(context, "NOME COMPLETO"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(
+                    label: "NOME COMPLETO",
+                    fontSize: 11.0,
+                  ),
+                ),
                 InputWidget(
                   controller: _nameController,
                   hint: "Seu nome completo",
@@ -120,7 +113,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                _buildLabel(context, "E-MAIL"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                ),
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
@@ -135,14 +131,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-                _buildLabel(context, "SENHA"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
+                ),
                 PasswordInputWidget(
                   controller: _passwordController,
                   hint: "Mínimo 8 caracteres",
                   validator: Validators.required,
                 ),
                 const SizedBox(height: 20.0),
-                _buildLabel(context, "CONFIRMAR SENHA"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(
+                    label: "CONFIRMAR SENHA",
+                    fontSize: 11.0,
+                  ),
+                ),
                 PasswordInputWidget(
                   controller: _confirmPasswordController,
                   hint: "Repita sua senha",
@@ -167,15 +172,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: <Widget>[
                       Text(
                         "Já possui uma conta?",
-                        style: _textStyle(
-                          context,
+                        style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
+                          fontSize: 14.0,
                         ),
                       ),
                       TextButtonWidget(
-                        onTap: () {
-                          AppRoutes.goToLogin(context, replace: true);
-                        },
+                        onTap: () =>
+                            AppRoutes.goToLogin(context, replace: true),
                         text: 'Fazer Login',
                       ),
                     ],
@@ -186,10 +190,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Text(
                     "Ao se cadastrar, você concorda com nossos\nTermos e Condições de Uso",
                     textAlign: TextAlign.center,
-                    style: _textStyle(
-                      context,
+                    style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onSurface.withAlpha(100),
-                      size: 12.0,
+                      fontSize: 12.0,
                     ),
                   ),
                 ),
@@ -197,21 +200,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLabel(BuildContext context, String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
-      child: Text(
-        label,
-        style: _textStyle(
-          context,
-          color: Theme.of(context).colorScheme.primary,
-          size: 11.0,
-          weight: FontWeight.w900,
         ),
       ),
     );
