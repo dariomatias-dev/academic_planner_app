@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
   final List<Widget>? actions;
   final bool? showBackButton;
+  final Color? backgroundColor;
 
   const AppBarWidget({
     super.key,
     this.title,
     this.actions,
     this.showBackButton,
+    this.backgroundColor,
   });
 
   @override
@@ -26,11 +27,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     final colorScheme = theme.colorScheme;
     final canGoBack = Navigator.canPop(context);
     final displayBackButton = showBackButton ?? canGoBack;
+    final bgColor = backgroundColor ?? colorScheme.surface;
 
     return AppBar(
       automaticallyImplyLeading: false,
-      surfaceTintColor: colorScheme.surface,
-      backgroundColor: colorScheme.surface,
+      surfaceTintColor: bgColor,
+      backgroundColor: bgColor,
       elevation: 0.0,
       titleSpacing: 0.0,
       toolbarHeight: preferredSize.height,
