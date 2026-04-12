@@ -128,7 +128,24 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                 ),
-                const SizedBox(height: 32.0),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      AppRoutes.goToForgotPassword(context);
+                    },
+                    child: Text(
+                      "Esqueceu sua senha?",
+                      style: _textStyle(
+                        context,
+                        color: colorScheme.primary,
+                        weight: FontWeight.w700,
+                        size: 13.0,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16.0),
                 ButtonWidget(
                   onPressed: _onLoginPressed,
                   label: "Entrar",
