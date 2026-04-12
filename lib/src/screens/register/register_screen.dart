@@ -147,13 +147,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _confirmPasswordController,
                   hint: "Repita sua senha",
                   validator: (value) {
-                    final requiredCheck = AppValidators.required(value);
-                    if (requiredCheck != null) return requiredCheck;
-                    if (value != _passwordController.text) {
-                      return "As senhas não conferem";
-                    }
-
-                    return null;
+                    return AppValidators.compare(
+                      value,
+                      _passwordController.text,
+                      message: "As senhas não conferem",
+                    );
                   },
                 ),
                 const SizedBox(height: 40.0),
