@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
+import 'package:academic_planner/src/screens/settings/widgets/logout_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/screens/settings/widgets/settings_profile_header_widget.dart';
 import 'package:academic_planner/src/screens/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
 
@@ -28,6 +29,32 @@ class _SettingsScreenState extends State<SettingsScreen>
 
   @override
   bool get wantKeepAlive => true;
+
+  void _showThemeBottomSheet(BuildContext context) {
+    final themeNotifier = context.read<ThemeNotifier>();
+
+    ModalBottomSheetWidget.show(
+      context: context,
+      child: ThemeSelectorModalWidget(
+        currentMode: themeNotifier.themeMode,
+        onModeSelected: (mode) {
+          themeNotifier.setThemeMode(mode);
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  String _getThemeLabel(ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.light:
+        return 'Claro';
+      case ThemeMode.dark:
+        return 'Escuro';
+      case ThemeMode.system:
+        return 'Sistema';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -144,38 +171,14 @@ class _SettingsScreenState extends State<SettingsScreen>
               icon: Icons.logout_rounded,
               title: "Sair da Conta",
               color: colorScheme.error,
-              onTap: () {},
+              onTap: () {
+                LogoutConfirmationDialogWidget.show(context);
+              },
             ),
           ],
         ),
       ),
     );
-  }
-
-  void _showThemeBottomSheet(BuildContext context) {
-    final themeNotifier = context.read<ThemeNotifier>();
-
-    ModalBottomSheetWidget.show(
-      context: context,
-      child: ThemeSelectorModalWidget(
-        currentMode: themeNotifier.themeMode,
-        onModeSelected: (mode) {
-          themeNotifier.setThemeMode(mode);
-          Navigator.pop(context);
-        },
-      ),
-    );
-  }
-
-  String _getThemeLabel(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.light:
-        return 'Claro';
-      case ThemeMode.dark:
-        return 'Escuro';
-      case ThemeMode.system:
-        return 'Sistema';
-    }
   }
 
   Widget _buildSectionTitle(BuildContext context, String title) {
