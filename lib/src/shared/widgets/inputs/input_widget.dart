@@ -16,6 +16,7 @@ class InputWidget extends StatelessWidget {
     this.validator,
     this.style = InputStyle.primary,
     this.obscureText = false,
+    this.readOnly = false,
   });
 
   final TextEditingController controller;
@@ -26,6 +27,7 @@ class InputWidget extends StatelessWidget {
   final String? Function(String? value)? validator;
   final InputStyle style;
   final bool obscureText;
+  final bool readOnly;
 
   static const double _radius = 16.0;
   static const EdgeInsets _contentPadding = EdgeInsets.all(16.0);
@@ -36,30 +38,48 @@ class InputWidget extends StatelessWidget {
     final colors = theme.colorScheme;
 
     final isPrimary = style == InputStyle.primary;
-    final effectiveFillColor = isPrimary
-        ? colors.surface
-        : theme.scaffoldBackgroundColor;
-    final effectiveBorderColor =
-        theme.dividerTheme.color ?? AppColors.transparent;
+
+    final effectiveFillColor = readOnly
+        ? (isPrimary
+              ? colors.onSurface.withAlpha(15)
+              : colors.onSurface.withAlpha(10))
+        : (isPrimary ? colors.surface : theme.scaffoldBackgroundColor);
+
+    final effectiveBorderColor = readOnly
+        ? AppColors.transparent
+        : (theme.dividerTheme.color ?? AppColors.transparent);
 
     return TextFormField(
       controller: controller,
       maxLines: obscureText ? 1 : maxLines,
       obscureText: obscureText,
+      readOnly: readOnly,
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: _textStyle(colors),
+      style: _textStyle(colors).copyWith(
+        color: readOnly ? colors.onSurface.withAlpha(140) : colors.onSurface,
+      ),
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: _hintStyle(colors),
         errorStyle: _errorStyle(colors),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffix ?? _ClearButtonWidget(controller: controller),
+        prefixIcon: prefixIcon != null
+            ? Opacity(opacity: readOnly ? 0.5 : 1.0, child: prefixIcon)
+            : null,
+        suffixIcon: readOnly
+            ? const Icon(
+                Icons.lock_outline_rounded,
+                size: 18.0,
+                color: Colors.grey,
+              )
+            : (suffix ?? _ClearButtonWidget(controller: controller)),
         filled: true,
         fillColor: effectiveFillColor,
         border: _border(effectiveBorderColor),
         enabledBorder: _border(effectiveBorderColor),
-        focusedBorder: _border(colors.primary),
+        focusedBorder: _border(
+          readOnly ? effectiveBorderColor : colors.primary,
+        ),
         errorBorder: _border(colors.error),
         focusedErrorBorder: _border(colors.error),
         contentPadding: _contentPadding,
