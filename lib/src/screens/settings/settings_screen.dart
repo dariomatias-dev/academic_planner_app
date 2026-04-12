@@ -59,22 +59,26 @@ class _SettingsScreenState extends State<SettingsScreen>
               ),
             ),
             const SizedBox(height: 32.0),
+            _buildSectionTitle(context, "Minha Conta"),
+            _buildSettingsTile(
+              context,
+              icon: Icons.person_outline_rounded,
+              title: "Editar Perfil",
+              onTap: () => AppRoutes.goToEditProfile(context),
+            ),
+            const SizedBox(height: 24.0),
             _buildSectionTitle(context, "Informações do Curso"),
             _buildSettingsTile(
               context,
               icon: Icons.list_alt_rounded,
               title: "Disciplinas do Curso",
-              onTap: () {
-                AppRoutes.goToDisciplines(context);
-              },
+              onTap: () => AppRoutes.goToDisciplines(context),
             ),
             _buildSettingsTile(
               context,
-              icon: Icons.list_alt_rounded,
+              icon: Icons.info_outline_rounded,
               title: "Sobre o Curso",
-              onTap: () {
-                AppRoutes.goToCourseDetails(context);
-              },
+              onTap: () => AppRoutes.goToCourseDetails(context),
             ),
             const SizedBox(height: 24.0),
             _buildSectionTitle(context, "Preferências"),
@@ -120,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                 ),
               ),
             ),
-            const SizedBox(height: 32.0),
+            const SizedBox(height: 24.0),
             _buildSectionTitle(context, "Suporte"),
             _buildSettingsTile(
               context,
@@ -133,6 +137,14 @@ class _SettingsScreenState extends State<SettingsScreen>
               icon: Icons.info_rounded,
               title: "Sobre o Academic Planner",
               onTap: () => AppRoutes.goToAbout(context),
+            ),
+            const SizedBox(height: 32.0),
+            _buildSettingsTile(
+              context,
+              icon: Icons.logout_rounded,
+              title: "Sair da Conta",
+              color: colorScheme.error,
+              onTap: () {},
             ),
           ],
         ),
