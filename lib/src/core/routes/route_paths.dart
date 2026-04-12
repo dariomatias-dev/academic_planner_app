@@ -17,6 +17,8 @@ class RoutePaths {
 
   static const disciplines = '/disciplines';
 
+  static const forgotPassword = '/forgot_password';
+
   static const login = '/login';
 
   static const mySchedule = '/my-schedule';

@@ -81,6 +81,10 @@ class AppRoutes {
     context.push(RoutePaths.disciplines);
   }
 
+  static void goToForgotPassword(BuildContext context) {
+    context.push(RoutePaths.forgotPassword);
+  }
+
   static void goToLogin(BuildContext context, {bool replace = false}) {
     if (replace) {
       context.go(RoutePaths.login);
