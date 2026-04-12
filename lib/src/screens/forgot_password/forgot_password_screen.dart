@@ -49,22 +49,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(backgroundColor: AppColors.transparent),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   titleSpacing: 0.0,
-      //   leading: SizedBox.shrink(),
-      //   title: Padding(
-      //     padding: const EdgeInsets.only(left: 16.0),
-      //     child: BackIconButtonWidget(),
-      //   ),
-      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 32.0),
                 Center(
