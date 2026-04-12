@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/login_model.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
+import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 
@@ -28,19 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
     }
-  }
-
-  TextStyle _textStyle(
-    BuildContext context, {
-    double size = 14.0,
-    Color? color,
-    FontWeight weight = FontWeight.w500,
-  }) {
-    return GoogleFonts.plusJakartaSans(
-      fontSize: size,
-      color: color ?? Theme.of(context).colorScheme.onSurface,
-      fontWeight: weight,
-    );
   }
 
   @override
@@ -84,26 +72,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 24.0),
                       Text(
                         "Academic Planner",
-                        style: _textStyle(
-                          context,
-                          size: 28.0,
-                          weight: FontWeight.w900,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                       const SizedBox(height: 8.0),
                       Text(
                         "Gestão Educacional Inteligente",
-                        style: _textStyle(
-                          context,
+                        style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
-                          weight: FontWeight.w600,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 48.0),
-                _buildLabel(context, "E-MAIL"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                ),
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
@@ -118,7 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 24.0),
-                _buildLabel(context, "SENHA"),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
+                ),
                 PasswordInputWidget(
                   controller: _passwordController,
                   validator: (value) {
@@ -131,9 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButtonWidget(
-                    onTap: () {
-                      AppRoutes.goToForgotPassword(context);
-                    },
+                    onTap: () => AppRoutes.goToForgotPassword(context),
                     text: 'Esqueceu sua senha?',
                   ),
                 ),
@@ -154,9 +145,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Text(
                         "Não tem uma conta?",
-                        style: _textStyle(
-                          context,
+                        style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
+                          fontSize: 14.0,
                         ),
                       ),
                       TextButtonWidget(
@@ -176,21 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildLabel(BuildContext context, String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
-      child: Text(
-        label,
-        style: _textStyle(
-          context,
-          size: 11.0,
-          weight: FontWeight.w900,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
-    );
-  }
-
   Widget _buildDivider(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
@@ -201,11 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             "ou entre com",
-            style: _textStyle(
-              context,
-              size: 12.0,
+            style: GoogleFonts.plusJakartaSans(
               color: colorScheme.onSurface.withAlpha(100),
-              weight: FontWeight.w700,
+              fontSize: 12.0,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -233,7 +208,10 @@ class _LoginScreenState extends State<LoginScreen> {
           const SizedBox(width: 8.0),
           Text(
             "Continuar com Google",
-            style: _textStyle(context, weight: FontWeight.w800, size: 15.0),
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 15.0,
+              fontWeight: FontWeight.w800,
+            ),
           ),
         ],
       ),
