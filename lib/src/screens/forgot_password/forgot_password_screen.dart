@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
+import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -23,22 +24,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     if (_formKey.currentState?.validate() ?? false) {}
   }
 
-  TextStyle _textStyle(
-    BuildContext context, {
-    double size = 14.0,
-    Color? color,
-    FontWeight weight = FontWeight.w500,
-  }) {
-    return GoogleFonts.plusJakartaSans(
-      fontSize: size,
-      color: color ?? Theme.of(context).colorScheme.onSurface,
-      fontWeight: weight,
-    );
-  }
-
   @override
   void dispose() {
     _emailController.dispose();
+
     super.dispose();
   }
 
@@ -76,27 +65,29 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       const SizedBox(height: 24.0),
                       Text(
                         "Recuperar Senha",
-                        style: _textStyle(
-                          context,
-                          size: 28.0,
-                          weight: FontWeight.w900,
+                        style: GoogleFonts.plusJakartaSans(
+                          fontSize: 28.0,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                       const SizedBox(height: 12.0),
                       Text(
                         "Insira seu e-mail abaixo para receber as instruções de redefinição de senha.",
                         textAlign: TextAlign.center,
-                        style: _textStyle(
-                          context,
+                        style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
-                          weight: FontWeight.w600,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 48.0),
-                _buildLabel(context, "E-MAIL"),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                ),
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
@@ -117,8 +108,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   isFullWidth: true,
                 ),
                 const SizedBox(height: 32.0),
-                Align(
-                  alignment: Alignment.center,
+                Center(
                   child: TextButtonWidget(
                     onTap: () => Navigator.pop(context),
                     text: 'Voltar para o Login',
@@ -127,21 +117,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLabel(BuildContext context, String label) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
-      child: Text(
-        label,
-        style: _textStyle(
-          context,
-          size: 11.0,
-          weight: FontWeight.w900,
-          color: Theme.of(context).colorScheme.primary,
         ),
       ),
     );
