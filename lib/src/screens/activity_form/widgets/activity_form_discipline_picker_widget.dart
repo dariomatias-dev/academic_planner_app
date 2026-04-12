@@ -9,10 +9,9 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
-import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
-
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
@@ -88,7 +87,7 @@ class _ActivityFormDisciplinePickerWidgetState
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ActivityFormLabelWidget(
+            FormFieldLabelWidget(
               label: "Disciplina",
               isRequired: widget.isRequired,
             ),

@@ -5,9 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
 
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 
 class ActivityFormDescriptionFieldWidget extends StatefulWidget {
@@ -131,7 +131,7 @@ class _ActivityFormDescriptionFieldWidgetState
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            ActivityFormLabelWidget(label: 'Descrição', isRequired: true),
+            FormFieldLabelWidget(label: 'Descrição', isRequired: true),
             const SizedBox(height: 8.0),
             AnimatedContainer(
               duration: const Duration(milliseconds: 150),

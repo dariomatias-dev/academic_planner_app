@@ -18,7 +18,6 @@ import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_date_picker_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
-import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_section_title_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/create_tag_dialog_widget.dart';
@@ -28,6 +27,7 @@ import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/models/optional.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
@@ -423,7 +423,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const ActivityFormSectionTitleWidget(
+                  const FormSectionTitleWidget(
                     title: "Conteúdo",
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
@@ -443,7 +443,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                   ActivityFormDescriptionFieldWidget(
                     controller: _descriptionController,
                   ),
-                  const ActivityFormSectionTitleWidget(title: "Classificação"),
+                  const FormSectionTitleWidget(title: "Classificação"),
                   ValueListenableBuilder<DisciplineModel?>(
                     valueListenable: _disciplineNotifier,
                     builder: (context, discipline, _) {
@@ -520,9 +520,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                       );
                     },
                   ),
-                  const ActivityFormSectionTitleWidget(
-                    title: "Prazos e Lembretes",
-                  ),
+                  const FormSectionTitleWidget(title: "Prazos e Lembretes"),
                   ValueListenableBuilder<DateTime?>(
                     valueListenable: _dueDateNotifier,
                     builder: (context, date, _) {
@@ -559,7 +557,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                       );
                     },
                   ),
-                  const ActivityFormSectionTitleWidget(title: "Anotações"),
+                  const FormSectionTitleWidget(title: "Anotações"),
                   InputWidget(
                     controller: _notesController,
                     hint: "Rascunhos ou lembretes rápidos...",
@@ -570,40 +568,6 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class ActivityFormLabelWidget extends StatelessWidget {
-  final String label;
-  final bool isRequired;
-  final double fontSize;
-
-  const ActivityFormLabelWidget({
-    super.key,
-    required this.label,
-    this.isRequired = false,
-    this.fontSize = 14.0,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: label,
-        style: GoogleFonts.plusJakartaSans(
-          color: Theme.of(context).colorScheme.onSurface,
-          fontSize: fontSize,
-          fontWeight: FontWeight.w700,
-        ),
-        children: <TextSpan>[
-          if (isRequired)
-            const TextSpan(
-              text: ' *',
-              style: TextStyle(color: Colors.red, fontWeight: FontWeight.w900),
-            ),
-        ],
       ),
     );
   }
@@ -632,7 +596,7 @@ class ActivityFormInputFieldWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        ActivityFormLabelWidget(label: label, isRequired: isRequired),
+        FormFieldLabelWidget(label: label, isRequired: isRequired),
         const SizedBox(height: 8.0),
         InputWidget(
           controller: controller,
@@ -660,7 +624,7 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const ActivityFormLabelWidget(label: "Status", isRequired: true),
+        const FormFieldLabelWidget(label: "Status", isRequired: true),
         const SizedBox(height: 12.0),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -708,7 +672,7 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            ActivityFormLabelWidget(label: "Categoria", isRequired: isRequired),
+            FormFieldLabelWidget(label: "Categoria", isRequired: isRequired),
             GestureDetector(
               onTap: onCreate,
               child: Text(

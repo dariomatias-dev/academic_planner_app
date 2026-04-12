@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
-import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 
 class ActivityFormDatePickerWidget extends StatelessWidget {
   final DateTime? dueDate;
@@ -54,7 +54,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                ActivityFormLabelWidget(
+                FormFieldLabelWidget(
                   label: "Data de Entrega",
                   isRequired: isRequired,
                   fontSize: 11.0,
