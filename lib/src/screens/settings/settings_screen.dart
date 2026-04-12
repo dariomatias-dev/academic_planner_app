@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/theme/theme_notifier.dart';
+import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 
 import 'package:academic_planner/src/screens/settings/widgets/logout_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/screens/settings/widgets/settings_profile_header_widget.dart';
@@ -43,17 +44,6 @@ class _SettingsScreenState extends State<SettingsScreen>
         },
       ),
     );
-  }
-
-  String _getThemeLabel(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.light:
-        return 'Claro';
-      case ThemeMode.dark:
-        return 'Escuro';
-      case ThemeMode.system:
-        return 'Sistema';
-    }
   }
 
   @override
@@ -142,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
-                  _getThemeLabel(themeNotifier.themeMode),
+                  themeNotifier.themeMode.label,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w800,
