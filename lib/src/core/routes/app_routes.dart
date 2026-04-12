@@ -81,6 +81,14 @@ class AppRoutes {
     context.push(RoutePaths.disciplines);
   }
 
+  static void goToLogin(BuildContext context, {bool replace = false}) {
+    if (replace) {
+      context.go(RoutePaths.login);
+    } else {
+      context.push(RoutePaths.login);
+    }
+  }
+
   static void goToMySchedule(BuildContext context) {
     context.push(RoutePaths.mySchedule);
   }
@@ -96,6 +104,14 @@ class AppRoutes {
     );
 
     context.push(uri.toString());
+  }
+
+  static void goToRegister(BuildContext context, {bool replace = false}) {
+    if (replace) {
+      context.go(RoutePaths.register);
+    } else {
+      context.push(RoutePaths.register);
+    }
   }
 
   static void goToSchedule(BuildContext context) {

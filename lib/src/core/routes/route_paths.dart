@@ -17,9 +17,13 @@ class RoutePaths {
 
   static const disciplines = '/disciplines';
 
+  static const login = '/login';
+
   static const mySchedule = '/my-schedule';
 
   static const pdfViewer = '/pdf-viewer';
+
+  static const register = '/register';
 
   static const schedule = '/schedule';
 

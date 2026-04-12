@@ -17,9 +17,13 @@ class RouteNames {
 
   static const disciplines = 'disciplines';
 
+  static const login = 'login';
+
   static const mySchedule = 'my_schedule';
 
   static const pdfViewer = 'pdf_viewer';
+
+  static const register = 'register';
 
   static const schedule = 'schedule';
 

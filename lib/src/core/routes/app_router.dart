@@ -12,9 +12,11 @@ import 'package:academic_planner/src/screens/course_details/course_details_scree
 import 'package:academic_planner/src/screens/discipline_details/discipline_details_screen.dart';
 import 'package:academic_planner/src/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/screens/disciplines/disciplines_screen.dart';
+import 'package:academic_planner/src/screens/login/login_screen.dart';
 import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:academic_planner/src/screens/register/register_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/screens/splash/splash_screen.dart';
 import 'package:academic_planner/src/screens/teacher_details/teacher_details_screen.dart';
@@ -100,6 +102,11 @@ class AppRouter {
             builder: (context, state) => const DisciplinesScreen(),
           ),
           GoRoute(
+            name: RouteNames.login,
+            path: RoutePaths.login,
+            builder: (context, state) => const LoginScreen(),
+          ),
+          GoRoute(
             name: RouteNames.mySchedule,
             path: RoutePaths.mySchedule,
             builder: (context, state) => const MyScheduleScreen(),
@@ -115,6 +122,11 @@ class AppRouter {
                 title: query['title'] ?? '',
               );
             },
+          ),
+          GoRoute(
+            name: RouteNames.register,
+            path: RoutePaths.register,
+            builder: (context, state) => const RegisterScreen(),
           ),
           GoRoute(
             name: RouteNames.schedule,
