@@ -10,7 +10,7 @@ import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
-import 'package:academic_planner/src/core/theme/theme_controller.dart';
+import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 
 import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
@@ -27,7 +27,7 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final prefsService = SharedPreferencesService(prefs);
-  final themeController = ThemeController(prefsService);
+  final themeNotifier = ThemeNotifier(prefsService);
 
   final appDatabase = await AppDatabase.instance;
 
@@ -43,7 +43,7 @@ Future<void> main() async {
           create: (_) => NavigationNotifier(),
         ),
         Provider<SharedPreferencesService>(create: (_) => prefsService),
-        ChangeNotifierProvider<ThemeController>(create: (_) => themeController),
+        ChangeNotifierProvider<ThemeNotifier>(create: (_) => themeNotifier),
         ChangeNotifierProvider<UserDisciplinesNotifier>(
           create: (_) => UserDisciplinesNotifier(prefsService),
         ),

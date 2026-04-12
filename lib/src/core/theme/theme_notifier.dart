@@ -4,12 +4,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:academic_planner/src/core/shared_preferences_keys.dart';
 
-class ThemeController extends ChangeNotifier {
+class ThemeNotifier extends ChangeNotifier {
   final SharedPreferencesService _preferences;
 
   ThemeMode _themeMode = ThemeMode.system;
 
-  ThemeController(this._preferences) {
+  ThemeNotifier(this._preferences) {
     _loadTheme();
 
     SchedulerBinding.instance.platformDispatcher.onPlatformBrightnessChanged =

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/theme/theme_controller.dart';
+import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/screens/settings/widgets/settings_profile_header_widget.dart';
@@ -34,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen>
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final themeController = Provider.of<ThemeController>(context);
+    final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -108,7 +108,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
-                  _getThemeLabel(themeController.themeMode),
+                  _getThemeLabel(themeNotifier.themeMode),
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w800,
@@ -138,14 +138,14 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   void _showThemeBottomSheet(BuildContext context) {
-    final themeController = context.read<ThemeController>();
+    final themeNotifier = context.read<ThemeNotifier>();
 
     ModalBottomSheetWidget.show(
       context: context,
       child: ThemeSelectorModalWidget(
-        currentMode: themeController.themeMode,
+        currentMode: themeNotifier.themeMode,
         onModeSelected: (mode) {
-          themeController.setThemeMode(mode);
+          themeNotifier.setThemeMode(mode);
           Navigator.pop(context);
         },
       ),
