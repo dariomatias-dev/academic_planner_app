@@ -31,6 +31,14 @@ class AppValidators {
     return null;
   }
 
+  static String? compare(String? value, String? target, {String? message}) {
+    if (value != target) {
+      return message ?? "Os campos não coincidem";
+    }
+
+    return null;
+  }
+
   static String? url(String? value, {String? message}) {
     if (value == null || value.trim().isEmpty) return null;
 
