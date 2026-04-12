@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
@@ -73,15 +73,15 @@ class _ActivityFormLinkDialogWidgetState
             InputWidget(
               controller: _textController,
               hint: "Texto para exibir (ex: Documentação)",
-              validator: AppValidators.required,
+              validator: Validators.required,
             ),
             const SizedBox(height: 16.0),
             InputWidget(
               controller: _urlController,
               hint: "Endereço URL (ex: https://...)",
-              validator: AppValidators.multiple([
-                AppValidators.required,
-                AppValidators.url,
+              validator: Validators.multiple([
+                Validators.required,
+                Validators.url,
               ]),
             ),
             const SizedBox(height: 32.0),

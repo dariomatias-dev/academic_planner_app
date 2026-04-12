@@ -61,7 +61,8 @@ class _SettingsScreenState extends State<SettingsScreen>
               icon: Icons.list_alt_rounded,
               title: "Disciplinas do Curso",
               onTap: () {
-                AppRoutes.goToDisciplines(context);
+                AppRoutes.goToLogin(context);
+                // AppRoutes.goToDisciplines(context);
               },
             ),
             _buildSettingsTile(

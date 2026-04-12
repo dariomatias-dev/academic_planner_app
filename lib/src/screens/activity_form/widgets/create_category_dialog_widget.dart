@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
@@ -51,7 +51,7 @@ class _CreateCategoryDialogWidgetState
               hint: "Nome da categoria",
               style: InputStyle.secondary,
               validator: (value) {
-                return AppValidators.required(
+                return Validators.required(
                   value,
                   message: "O nome da categoria é obrigatório",
                 );

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
 
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
@@ -433,7 +433,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
                     hint: "O que deve ser feito?",
                     isRequired: true,
                     validator: (value) {
-                      return AppValidators.required(
+                      return Validators.required(
                         value?.trim(),
                         message: "O título é obrigatório",
                       );

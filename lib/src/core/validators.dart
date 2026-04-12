@@ -1,4 +1,4 @@
-class AppValidators {
+class Validators {
   static String? Function(String? value) multiple(
     List<String? Function(String? value)> validators,
   ) {

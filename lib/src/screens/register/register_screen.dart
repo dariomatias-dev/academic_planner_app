@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/register_model.dart';
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 InputWidget(
                   controller: _nameController,
                   hint: "Seu nome completo",
-                  validator: (value) => AppValidators.required(value),
+                  validator: (value) => Validators.required(value),
                   prefixIcon: Icon(
                     Icons.person_outline_rounded,
                     color: colorScheme.primary,
@@ -124,9 +124,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
-                  validator: AppValidators.multiple([
-                    AppValidators.required,
-                    AppValidators.email,
+                  validator: Validators.multiple([
+                    Validators.required,
+                    Validators.email,
                   ]),
                   prefixIcon: Icon(
                     Icons.email_outlined,
@@ -139,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 PasswordInputWidget(
                   controller: _passwordController,
                   hint: "Mínimo 8 caracteres",
-                  validator: AppValidators.required,
+                  validator: Validators.required,
                 ),
                 const SizedBox(height: 20.0),
                 _buildLabel(context, "CONFIRMAR SENHA"),
@@ -147,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   controller: _confirmPasswordController,
                   hint: "Repita sua senha",
                   validator: (value) {
-                    return AppValidators.compare(
+                    return Validators.compare(
                       value,
                       _passwordController.text,
                       message: "As senhas não conferem",

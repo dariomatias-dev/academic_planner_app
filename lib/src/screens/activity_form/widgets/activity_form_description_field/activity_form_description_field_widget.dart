@@ -3,7 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/screens/activity_form/activity_form_screen.dart';
 import 'package:academic_planner/src/screens/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
@@ -37,14 +37,13 @@ class _ActivityFormDescriptionFieldWidgetState
   }
 
   void _onTextChange() {
+    if (!mounted || _fieldState == null) return;
 
-      if (!mounted || _fieldState == null) return;
+    final plainText = widget.controller.document.toPlainText().trim();
 
-      final plainText = widget.controller.document.toPlainText().trim();
-
-      if (_fieldState!.value != plainText) {
-        _fieldState!.didChange(plainText);
-      }
+    if (_fieldState!.value != plainText) {
+      _fieldState!.didChange(plainText);
+    }
   }
 
   @override
@@ -108,7 +107,7 @@ class _ActivityFormDescriptionFieldWidgetState
     return FormField<String>(
       initialValue: widget.controller.document.toPlainText().trim(),
       validator: (validator) {
-        return AppValidators.required(
+        return Validators.required(
           validator,
           message: "A descrição é obrigatória",
         );

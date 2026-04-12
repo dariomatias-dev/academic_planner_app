@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_validators.dart';
+import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/auth/login_model.dart';
@@ -107,9 +107,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
-                  validator: AppValidators.multiple([
-                    AppValidators.required,
-                    AppValidators.email,
+                  validator: Validators.multiple([
+                    Validators.required,
+                    Validators.email,
                   ]),
                   prefixIcon: Icon(
                     Icons.email_outlined,
@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 PasswordInputWidget(
                   controller: _passwordController,
                   validator: (value) {
-                    return AppValidators.required(
+                    return Validators.required(
                       value,
                       message: "A senha é obrigatória",
                     );
