@@ -7,6 +7,7 @@ import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class ConfirmationDialogWidget extends StatelessWidget {
   final IconData? icon;
+  final Color? iconColor;
   final String title;
   final String message;
   final bool vertical;
@@ -18,6 +19,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
   const ConfirmationDialogWidget({
     super.key,
     this.icon,
+    this.iconColor,
     required this.title,
     required this.message,
     this.vertical = false,
@@ -59,6 +61,7 @@ class ConfirmationDialogWidget extends StatelessWidget {
       title: title,
       message: message,
       icon: icon,
+      iconColor: iconColor,
       actions: vertical
           ? Column(mainAxisSize: MainAxisSize.min, children: children.reverse())
           : Row(mainAxisSize: MainAxisSize.min, children: children),
