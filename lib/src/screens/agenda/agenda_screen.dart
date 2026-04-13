@@ -9,9 +9,10 @@ import 'package:academic_planner/src/core/constants/mock_activities.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
+import 'package:academic_planner/src/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
+
 import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class AgendaScreen extends StatefulWidget {
@@ -27,13 +28,6 @@ class _AgendaScreenState extends State<AgendaScreen> {
   DateTime _displayDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
 
-  @override
-  void dispose() {
-    _calendarController.dispose();
-
-    super.dispose();
-  }
-
   void _onViewChanged(ViewChangedDetails details) {
     if (details.visibleDates.isNotEmpty) {
       final midDate = details.visibleDates[details.visibleDates.length ~/ 2];
@@ -44,6 +38,13 @@ class _AgendaScreenState extends State<AgendaScreen> {
         });
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _calendarController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -88,7 +89,7 @@ class _AgendaScreenState extends State<AgendaScreen> {
             minChildSize: 0.38,
             maxChildSize: 0.90,
             builder: (context, scrollController) {
-              return _DraggableAgendaSheet(
+              return DraggableAgendaSheetWidget(
                 selectedDate: _selectedDate,
                 entries: entries,
                 scrollController: scrollController,
@@ -228,337 +229,6 @@ class _CalendarView extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DraggableAgendaSheet extends StatelessWidget {
-  final DateTime selectedDate;
-  final List<AgendaEntryModel> entries;
-  final ScrollController scrollController;
-
-  const _DraggableAgendaSheet({
-    required this.selectedDate,
-    required this.entries,
-    required this.scrollController,
-  });
-
-  String _getRelativeDateText() {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final selected = DateTime(
-      selectedDate.year,
-      selectedDate.month,
-      selectedDate.day,
-    );
-    final difference = selected.difference(today).inDays;
-
-    if (difference == 0) return "Hoje";
-    if (difference == 1) return "Amanhã";
-    if (difference == -1) return "Ontem";
-    if (difference > 0) return "Em $difference dias";
-
-    return "Há ${difference.abs()} dias";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final theme = Theme.of(context);
-
-    final dailyEntries = entries.filter((e) {
-      return e.startTime.year == selectedDate.year &&
-          e.startTime.month == selectedDate.month &&
-          e.startTime.day == selectedDate.day;
-    });
-
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(40.0)),
-      child: Container(
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.black.withAlpha(30),
-              blurRadius: 40.0,
-              offset: const Offset(0.0, -10.0),
-            ),
-          ],
-          border: Border.all(
-            color: theme.dividerTheme.color ?? AppColors.transparent,
-            width: 1.0,
-          ),
-        ),
-        child: ListView.builder(
-          controller: scrollController,
-          padding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 40.0),
-          itemCount: dailyEntries.isEmpty ? 2 : dailyEntries.length + 1,
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Column(
-                children: <Widget>[
-                  _SheetHeader(
-                    date: selectedDate,
-                    relativeText: _getRelativeDateText(),
-                    count: dailyEntries.length,
-                  ),
-                  const SizedBox(height: 8.0),
-                ],
-              );
-            }
-
-            if (dailyEntries.isEmpty) {
-              return const EmptyStateWidget(
-                icon: Icons.event_available_rounded,
-                title: "Tudo limpo por aqui!",
-                description: "Nenhum compromisso agendado.",
-                isCentered: true,
-              );
-            }
-
-            return _AgendaEntryCardWidget(
-              index: index,
-              entry: dailyEntries[index - 1],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
-
-class _SheetHeader extends StatelessWidget {
-  final DateTime date;
-  final String relativeText;
-  final int count;
-
-  const _SheetHeader({
-    required this.date,
-    required this.relativeText,
-    required this.count,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      children: <Widget>[
-        Container(
-          width: 48.0,
-          height: 5.0,
-          margin: const EdgeInsets.only(bottom: 32.0),
-          decoration: BoxDecoration(
-            color: colorScheme.onSurface.withAlpha(20),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  DateFormat('dd MMMM', 'pt_BR').format(date),
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.w800,
-                    color: colorScheme.onSurface,
-                  ),
-                ),
-                Text(
-                  relativeText,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w700,
-                    color: colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.all(14.0),
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withAlpha(15),
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Text(
-                count.toString(),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w900,
-                  color: colorScheme.primary,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 32.0),
-      ],
-    );
-  }
-}
-
-class _AgendaEntryCardWidget extends StatelessWidget {
-  final int index;
-  final AgendaEntryModel entry;
-
-  const _AgendaEntryCardWidget({required this.index, required this.entry});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20.0),
-        height: 130.0,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.centerRight,
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28.0),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                      color: colorScheme.onSurface.withAlpha(15),
-                      blurRadius: 24.0,
-                      offset: const Offset(0.0, 8.0),
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(28.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0,
-                      vertical: 20.0,
-                    ),
-                    decoration: BoxDecoration(
-                      color: colorScheme.surface,
-                      border: Border.all(
-                        color: entry.color.withAlpha(14),
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          width: 4.0,
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                            color: entry.color,
-                            borderRadius: BorderRadius.circular(2.0),
-                          ),
-                        ),
-                        const SizedBox(width: 20.0),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                entry.typeLabel.toUpperCase(),
-                                style: GoogleFonts.plusJakartaSans(
-                                  color: entry.color,
-                                  fontSize: 11.0,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.0,
-                                ),
-                              ),
-                              const SizedBox(height: 2.0),
-                              Text(
-                                entry.title,
-                                style: GoogleFonts.plusJakartaSans(
-                                  color: colorScheme.onSurface,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.2,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 8.0),
-                              Row(
-                                children: <Widget>[
-                                  Icon(
-                                    entry.icon,
-                                    size: 14.0,
-                                    color: colorScheme.onSurface.withAlpha(120),
-                                  ),
-                                  const SizedBox(width: 6.0),
-                                  Text(
-                                    entry.subtitle,
-                                    style: GoogleFonts.plusJakartaSans(
-                                      color: colorScheme.onSurface.withAlpha(
-                                        160,
-                                      ),
-                                      fontSize: 12.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  if (!entry.isAllDay) ...<Widget>[
-                                    const SizedBox(width: 16.0),
-                                    Icon(
-                                      Icons.schedule_rounded,
-                                      size: 16.0,
-                                      color: colorScheme.onSurface.withAlpha(
-                                        120,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 6.0),
-                                    Text(
-                                      DateFormat(
-                                        'HH:mm',
-                                      ).format(entry.startTime),
-                                      style: GoogleFonts.plusJakartaSans(
-                                        color: colorScheme.onSurface.withAlpha(
-                                          160,
-                                        ),
-                                        fontSize: 12.0,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: colorScheme.onSurface.withAlpha(80),
-                          size: 16.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 40.0,
-              bottom: -10.0,
-              child: Text(
-                index.toString().padLeft(2, '0'),
-                style: GoogleFonts.plusJakartaSans(
-                  color: entry.color.withAlpha(18),
-                  fontSize: 60.0,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );
