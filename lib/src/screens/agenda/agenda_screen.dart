@@ -11,6 +11,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class AgendaScreen extends StatefulWidget {
@@ -309,7 +310,12 @@ class _DraggableAgendaSheet extends StatelessWidget {
             }
 
             if (dailyEntries.isEmpty) {
-              return const _EmptyState();
+              return const EmptyStateWidget(
+                icon: Icons.event_available_rounded,
+                title: "Tudo limpo por aqui!",
+                description: "Nenhum compromisso agendado.",
+                isCentered: true,
+              );
             }
 
             return _AgendaEntryCardWidget(
@@ -550,54 +556,6 @@ class _AgendaEntryCardWidget extends StatelessWidget {
                   fontSize: 60.0,
                   fontWeight: FontWeight.w900,
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  const _EmptyState();
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 60.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              padding: const EdgeInsets.all(28.0),
-              decoration: BoxDecoration(
-                color: colorScheme.onSurface.withAlpha(5),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.event_available_rounded,
-                size: 54.0,
-                color: colorScheme.onSurface.withAlpha(15),
-              ),
-            ),
-            const SizedBox(height: 24.0),
-            Text(
-              "Tudo limpo por aqui!",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface.withAlpha(140),
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0,
-              ),
-            ),
-            Text(
-              "Nenhum compromisso agendado.",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface.withAlpha(80),
-                fontWeight: FontWeight.w500,
-                fontSize: 14.0,
               ),
             ),
           ],
