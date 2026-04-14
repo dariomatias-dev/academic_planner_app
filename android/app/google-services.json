@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1015951109422",
+    "project_id": "academic-planner-app-9487c",
+    "storage_bucket": "academic-planner-app-9487c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015951109422:android:861e394d24180e7d139ebf",
+        "android_client_info": {
+          "package_name": "br.com.dariomatias.academic_planner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnGsyj8zZ5hMHShOWtG3IIWvncFyvxifA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
