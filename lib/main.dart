@@ -17,6 +17,8 @@ import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
 
+import 'package:academic_planner/src/features/auth/di/auth_injection.dart';
+
 import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
 import 'package:academic_planner/src/notifiers/activity_notifier.dart';
 import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
@@ -54,6 +56,7 @@ Future<void> main() async {
         Provider<ActivityController>(
           create: (_) => ActivityController(activityNotifier),
         ),
+        ...authInjection,
       ],
       child: const AppWidget(),
     ),
