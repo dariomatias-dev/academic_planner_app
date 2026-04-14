@@ -18,7 +18,7 @@ import 'package:academic_planner/src/screens/login/login_screen.dart';
 import 'package:academic_planner/src/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/screens/pdf_viewer/pdf_viewer_screen.dart';
-import 'package:academic_planner/src/screens/register/register_screen.dart';
+import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
 import 'package:academic_planner/src/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/screens/splash/splash_screen.dart';
 import 'package:academic_planner/src/screens/teacher_details/teacher_details_screen.dart';
