@@ -17,7 +17,7 @@ import 'package:academic_planner/src/features/activities/widgets/activities_metr
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
   final int disciplineId;

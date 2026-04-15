@@ -31,7 +31,7 @@ import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityFormScreen extends ConsumerStatefulWidget {

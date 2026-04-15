@@ -16,7 +16,7 @@ import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class AgendaScreen extends ConsumerStatefulWidget {
   const AgendaScreen({super.key});

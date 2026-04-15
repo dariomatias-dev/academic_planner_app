@@ -18,9 +18,9 @@ import 'package:academic_planner/src/features/activity_details/widgets/activity_
 import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends ConsumerStatefulWidget {

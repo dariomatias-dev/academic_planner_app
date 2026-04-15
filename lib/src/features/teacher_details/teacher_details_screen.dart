@@ -7,9 +7,9 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/shared/models/teacher_model.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class TeacherDetailsScreen extends StatefulWidget {
   final int teacherId;

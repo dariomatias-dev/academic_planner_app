@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class DisciplineListModalWidget extends StatelessWidget {
   final List<DisciplineModel> disciplines;

@@ -13,7 +13,7 @@ import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

@@ -11,7 +11,7 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_item_widget.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class MyDisciplinesScreen extends ConsumerStatefulWidget {

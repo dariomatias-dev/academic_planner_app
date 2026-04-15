@@ -7,7 +7,7 @@ import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sh
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_header_widget.dart';
 
 import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
-import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class DraggableAgendaSheetWidget extends StatelessWidget {
   final DateTime selectedDate;
