@@ -2,7 +2,7 @@ import 'package:academic_planner/src/features/auth/providers/auth_providers.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/features/auth/domain/auth_repository.dart';
+import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthNotifier extends AsyncNotifier<User?> {
   late final AuthRepository _repository;

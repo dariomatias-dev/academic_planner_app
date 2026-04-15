@@ -1,14 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/features/auth/data/auth_service.dart';
-import 'package:academic_planner/src/features/auth/domain/auth_repository.dart';
-import 'package:academic_planner/src/features/auth/domain/auth_repository_impl.dart';
-import 'package:academic_planner/src/features/auth/presentation/auth_notifier.dart';
+import 'package:academic_planner/src/core/providers/firebase_providers.dart';
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  return FirebaseAuth.instance;
-});
+import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
+import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:academic_planner/src/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:academic_planner/src/features/auth/presentation/auth_notifier.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);

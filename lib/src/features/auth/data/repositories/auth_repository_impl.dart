@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:academic_planner/src/features/auth/data/auth_service.dart';
-import 'package:academic_planner/src/features/auth/domain/auth_repository.dart';
+import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
+import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._service);
