@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
 
-import 'package:academic_planner/src/screens/activities/activities_screen.dart';
-import 'package:academic_planner/src/screens/home/home_screen.dart';
-import 'package:academic_planner/src/screens/my_disciplines/my_disciplines_screen.dart';
-import 'package:academic_planner/src/screens/settings/settings_screen.dart';
+import 'package:academic_planner/src/features/activities/activities_screen.dart';
+import 'package:academic_planner/src/features/home/home_screen.dart';
+import 'package:academic_planner/src/features/my_disciplines/my_disciplines_screen.dart';
+import 'package:academic_planner/src/features/settings/settings_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 
