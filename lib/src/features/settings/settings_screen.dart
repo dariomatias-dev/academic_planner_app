@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
+import 'package:academic_planner/src/core/providers/theme_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/theme/theme_notifier.dart';
 
 import 'package:academic_planner/src/features/settings/widgets/logout_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/settings_profile_header_widget.dart';
@@ -17,14 +17,14 @@ import 'package:academic_planner/src/shared/widgets/buttons/notification_button_
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
+  ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>
+class _SettingsScreenState extends ConsumerState<SettingsScreen>
     with AutomaticKeepAliveClientMixin {
   bool _notificationsEnabled = true;
 
@@ -32,12 +32,12 @@ class _SettingsScreenState extends State<SettingsScreen>
   bool get wantKeepAlive => true;
 
   void _showThemeBottomSheet(BuildContext context) {
-    final themeNotifier = context.read<ThemeNotifier>();
+    final themeNotifier = ref.read(themeNotifierProvider.notifier);
 
     ModalBottomSheetWidget.show(
       context: context,
       child: ThemeSelectorModalWidget(
-        currentMode: themeNotifier.themeMode,
+        currentMode: ref.read(themeNotifierProvider),
         onModeSelected: (mode) {
           themeNotifier.setThemeMode(mode);
           Navigator.pop(context);
@@ -52,7 +52,8 @@ class _SettingsScreenState extends State<SettingsScreen>
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final themeNotifier = Provider.of<ThemeNotifier>(context);
+
+    final themeState = ref.watch(themeNotifierProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -132,7 +133,7 @@ class _SettingsScreenState extends State<SettingsScreen>
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Text(
-                  themeNotifier.themeMode.label,
+                  themeState.label,
                   style: GoogleFonts.plusJakartaSans(
                     fontSize: 12.0,
                     fontWeight: FontWeight.w800,

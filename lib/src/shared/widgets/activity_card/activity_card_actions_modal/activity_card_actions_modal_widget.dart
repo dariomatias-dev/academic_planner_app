@@ -1,30 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-import 'package:academic_planner/src/controllers/activity_controller.dart';
-
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
 
-class ActivityCardActionsModalWidget extends StatefulWidget {
+class ActivityCardActionsModalWidget extends ConsumerStatefulWidget {
   final ActivityModel activity;
 
   const ActivityCardActionsModalWidget({super.key, required this.activity});
 
   @override
-  State<ActivityCardActionsModalWidget> createState() =>
+  ConsumerState<ActivityCardActionsModalWidget> createState() =>
       _ActivityCardActionsModalWidgetState();
 }
 
 class _ActivityCardActionsModalWidgetState
-    extends State<ActivityCardActionsModalWidget> {
+    extends ConsumerState<ActivityCardActionsModalWidget> {
   Future<void> _markAsCompleted(BuildContext context) async {
-    final controller = context.read<ActivityController>();
+    final controller = ref.read(activityControllerProvider);
 
     final updated = widget.activity.copyWith(status: ActivityStatus.completed);
 
@@ -33,7 +32,6 @@ class _ActivityCardActionsModalWidgetState
     result.when(
       onSuccess: (_) {
         Fluttertoast.showToast(msg: "Atividade concluída!");
-
         Navigator.pop(context);
       },
       onFailure: (failure) {
@@ -119,7 +117,11 @@ class _ActivityCardActionsModalWidgetState
           label: "Excluir atividade",
           color: colorScheme.error,
           onTap: () {
-            handleActivityDeletion(context: context, activity: widget.activity);
+            handleActivityDeletion(
+              context: context,
+              ref: ref,
+              activity: widget.activity,
+            );
           },
         ),
         const SizedBox(height: 8.0),

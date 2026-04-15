@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
+import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
@@ -14,16 +14,17 @@ import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_c
 import 'package:academic_planner/src/shared/widgets/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
-class MyDisciplinesScreen extends StatefulWidget {
+class MyDisciplinesScreen extends ConsumerStatefulWidget {
   const MyDisciplinesScreen({super.key, this.showBackButton});
 
   final bool? showBackButton;
 
   @override
-  State<MyDisciplinesScreen> createState() => _MyDisciplinesScreenState();
+  ConsumerState<MyDisciplinesScreen> createState() =>
+      _MyDisciplinesScreenState();
 }
 
-class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
+class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -32,10 +33,10 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final userDisciplinesNotifier = context.watch<UserDisciplinesNotifier>();
+    final userDisciplines = ref.watch(userDisciplinesNotifierProvider);
 
     final enrolledDisciplines = adsDisciplines.filter((discipline) {
-      return userDisciplinesNotifier.selectedIds.contains(discipline.id);
+      return userDisciplines.contains(discipline.id);
     });
 
     return Scaffold(
@@ -51,7 +52,7 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
             },
             style: IconButtonStyle.primary,
           ),
-          NotificationButtonWidget(),
+          const NotificationButtonWidget(),
         ],
       ),
       floatingActionButton: Padding(
@@ -64,7 +65,7 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
         ),
       ),
       body: enrolledDisciplines.isEmpty
-          ? Padding(
+          ? const Padding(
               padding: EdgeInsets.only(bottom: 100.0),
               child: EmptyStateWidget(
                 icon: Icons.auto_stories_rounded,
@@ -72,9 +73,7 @@ class _MyDisciplinesScreenState extends State<MyDisciplinesScreen>
                 description:
                     "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
                 actionLabel: "Configurar",
-                onActionPressed: () {
-                  AppRoutes.goToDisciplineSelection(context);
-                },
+                onActionPressed: null,
               ),
             )
           : ListView.builder(

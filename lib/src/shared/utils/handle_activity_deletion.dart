@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/controllers/activity_controller.dart';
-
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
@@ -12,22 +11,21 @@ import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_re
 
 Future<bool> handleActivityDeletion({
   required BuildContext context,
+  required WidgetRef ref,
   required ActivityModel activity,
 }) async {
   bool success = false;
 
   Future<void> delete() async {
-    if (!context.mounted) return;
+    final controller = ref.read(activityControllerProvider);
 
-    final result = await context.read<ActivityController>().removeActivity(
-      activity.id,
-    );
-
-    if (!context.mounted) return;
+    final result = await controller.removeActivity(activity.id);
 
     await result.whenAsync(
       onSuccess: (_) async {
         success = true;
+
+        if (!context.mounted) return;
 
         await ActivityRemovalSuccessDialogWidget.show(context);
 
@@ -36,6 +34,8 @@ Future<bool> handleActivityDeletion({
         Navigator.pop(context);
       },
       onFailure: (failure) async {
+        if (!context.mounted) return;
+
         await ActivityRemovalFailureDialogWidget.show(
           context,
           onRetry: delete,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'package:academic_planner/src/controllers/activity_controller.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
+import 'package:academic_planner/src/core/providers/activity_filter_provider.dart';
 
-import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
+import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
 import 'package:academic_planner/src/features/activities/widgets/activities_date_indicator_widget.dart';
 import 'package:academic_planner/src/features/activities/widgets/activities_filter_modal_widget.dart';
@@ -21,36 +21,31 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
-class ActivitiesScreenWidget extends StatefulWidget {
+class ActivitiesScreenWidget extends ConsumerStatefulWidget {
   const ActivitiesScreenWidget({super.key});
 
   @override
-  State<ActivitiesScreenWidget> createState() => _ActivitiesScreenWidgetState();
+  ConsumerState<ActivitiesScreenWidget> createState() =>
+      _ActivitiesScreenWidgetState();
 }
 
-class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
+class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  late final _tabController = TabController(length: 4, vsync: this);
+  late final TabController _tabController = TabController(
+    length: 4,
+    vsync: this,
+  );
 
   final _searchController = TextEditingController();
-
-  late ActivityController _activityController;
-  late Future _activitiesFuture;
 
   String _searchQuery = "";
 
   @override
   bool get wantKeepAlive => true;
 
-  void _loadActivities() {
-    setState(() {
-      _activitiesFuture = _activityController.getActivities();
-    });
-  }
-
   List<ActivityModel> _getFilteredTasks({
     required List<ActivityModel> activities,
-    required ActivityFilterNotifier filter,
+    required ActivityFilter filter,
   }) {
     final filtered = activities.filter((task) {
       final matchesSearch =
@@ -58,7 +53,7 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
           task.description.toLowerCase().contains(_searchQuery);
 
       final matchesStatus =
-          filter.filter.status == null || filter.filter.status == task.status;
+          filter.status == null || filter.status == task.status;
 
       return matchesSearch && matchesStatus;
     });
@@ -74,8 +69,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     return filtered;
   }
 
-  void _syncTabWithFilter(ActivityFilterNotifier filter) {
-    final status = filter.filter.status;
+  void _syncTabWithFilter(ActivityFilter filter) {
+    final status = filter.status;
 
     int targetIndex = 0;
 
@@ -94,15 +89,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    _activityController = context.read<ActivityController>();
-    _activitiesFuture = _activityController.getActivities();
-
-    _activityController.notifier.removeListener(_loadActivities);
-    _activityController.notifier.addListener(_loadActivities);
+  void _loadActivities() {
+    ref.read(activityControllerProvider).getActivities();
   }
 
   @override
@@ -114,14 +102,14 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
         _searchQuery = _searchController.text.toLowerCase();
       });
     });
+
+    Future.microtask(_loadActivities);
   }
 
   @override
   void dispose() {
-    _activityController.notifier.removeListener(_loadActivities);
     _tabController.dispose();
     _searchController.dispose();
-
     super.dispose();
   }
 
@@ -132,10 +120,11 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final filter = context.watch<ActivityFilterNotifier>();
+    final activitiesAsync = ref.watch(activityNotifierProvider);
+    final filterState = ref.watch(activityFilterNotifierProvider);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _syncTabWithFilter(filter);
+      _syncTabWithFilter(filterState);
     });
 
     return Scaffold(
@@ -163,25 +152,11 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
           icon: Icons.add_rounded,
         ),
       ),
-      body: FutureBuilder(
-        future: _activitiesFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final result = snapshot.data;
-
-          final activities =
-              result?.fold(
-                onSuccess: (list) => list,
-                onFailure: (_) => <ActivityModel>[],
-              ) ??
-              <ActivityModel>[];
-
+      body: activitiesAsync.when(
+        data: (activities) {
           final filteredTasks = _getFilteredTasks(
             activities: activities,
-            filter: filter,
+            filter: filterState,
           );
 
           final activeTasks = filteredTasks.filter(
@@ -194,10 +169,11 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
             (task) => task.status == ActivityStatus.completed,
           );
 
-          final otherTasks = filteredTasks.filter((task) {
-            return task.status == ActivityStatus.draft ||
-                task.status == ActivityStatus.canceled;
-          });
+          final otherTasks = filteredTasks.filter(
+            (task) =>
+                task.status == ActivityStatus.draft ||
+                task.status == ActivityStatus.canceled,
+          );
 
           return Column(
             children: <Widget>[
@@ -259,6 +235,8 @@ class _ActivitiesScreenWidgetState extends State<ActivitiesScreenWidget>
             ],
           );
         },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => const Center(child: Text("Erro ao carregar")),
       ),
     );
   }

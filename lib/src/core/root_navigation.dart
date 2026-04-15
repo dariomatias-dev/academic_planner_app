@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
+import 'package:academic_planner/src/core/providers/navigation_provider.dart';
 
 import 'package:academic_planner/src/features/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/home/home_screen.dart';
@@ -10,16 +10,15 @@ import 'package:academic_planner/src/features/settings/settings_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 
-class RootNavigation extends StatefulWidget {
+class RootNavigation extends ConsumerStatefulWidget {
   const RootNavigation({super.key});
 
   @override
-  State<RootNavigation> createState() => _RootNavigationState();
+  ConsumerState<RootNavigation> createState() => _RootNavigationState();
 }
 
-class _RootNavigationState extends State<RootNavigation> {
+class _RootNavigationState extends ConsumerState<RootNavigation> {
   late final PageController _pageController;
-  late final NavigationNotifier _navigationNotifier;
 
   final _screens = <Widget>[
     const HomeScreen(),
@@ -28,9 +27,7 @@ class _RootNavigationState extends State<RootNavigation> {
     const SettingsScreen(),
   ];
 
-  void _handleNavigationChange() {
-    final index = _navigationNotifier.index;
-
+  void _handleNavigationChange(int index) {
     if (_pageController.hasClients && _pageController.page?.round() != index) {
       _pageController.animateToPage(
         index,
@@ -41,35 +38,35 @@ class _RootNavigationState extends State<RootNavigation> {
   }
 
   void _onPageChanged(int index) {
-    _navigationNotifier.setIndex(index);
+    ref.read(navigationNotifierProvider.notifier).setIndex(index);
   }
 
   void _onNavBarTap(int index) {
-    _navigationNotifier.setIndex(index);
+    ref.read(navigationNotifierProvider.notifier).setIndex(index);
   }
 
   @override
   void initState() {
     super.initState();
 
-    _navigationNotifier = context.read<NavigationNotifier>();
-
-    _pageController = PageController(initialPage: _navigationNotifier.index);
-
-    _navigationNotifier.addListener(_handleNavigationChange);
+    _pageController = PageController(
+      initialPage: ref.read(navigationNotifierProvider),
+    );
   }
 
   @override
   void dispose() {
-    _navigationNotifier.removeListener(_handleNavigationChange);
     _pageController.dispose();
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = context.watch<NavigationNotifier>().index;
+    final selectedIndex = ref.watch(navigationNotifierProvider);
+
+    ref.listen<int>(navigationNotifierProvider, (prev, next) {
+      _handleNavigationChange(next);
+    });
 
     return Scaffold(
       body: Stack(

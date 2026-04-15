@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';
@@ -15,7 +14,7 @@ import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
-class ActivityFormDisciplinePickerWidget extends StatefulWidget {
+class ActivityFormDisciplinePickerWidget extends ConsumerStatefulWidget {
   final DisciplineModel? selectedDiscipline;
   final bool isRequired;
   final String? Function(DisciplineModel?)? validator;
@@ -30,25 +29,24 @@ class ActivityFormDisciplinePickerWidget extends StatefulWidget {
   });
 
   @override
-  State<ActivityFormDisciplinePickerWidget> createState() =>
+  ConsumerState<ActivityFormDisciplinePickerWidget> createState() =>
       _ActivityFormDisciplinePickerWidgetState();
 }
 
 class _ActivityFormDisciplinePickerWidgetState
-    extends State<ActivityFormDisciplinePickerWidget> {
-  late final _focusNode = FocusNode();
+    extends ConsumerState<ActivityFormDisciplinePickerWidget> {
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-
+    _focusNode = FocusNode();
     _focusNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
     _focusNode.dispose();
-
     super.dispose();
   }
 
@@ -63,7 +61,6 @@ class _ActivityFormDisciplinePickerWidgetState
         if (widget.isRequired && widget.selectedDiscipline == null) {
           return "A disciplina é obrigatória";
         }
-
         return widget.validator?.call(value);
       },
       builder: (state) {
@@ -101,21 +98,26 @@ class _ActivityFormDisciplinePickerWidgetState
                   ModalBottomSheetWidget.show(
                     context: context,
                     title: "Minhas Disciplinas",
-                    child: DisciplineListModalWidget(
-                      selectedId: widget.selectedDiscipline?.id,
-                      disciplines: adsDisciplines.filter((d) {
-                        return context
-                            .read<UserDisciplinesNotifier>()
-                            .selectedIds
-                            .contains(d.id);
-                      }),
-                      emptyDescription:
-                          'Para vincular atividades, selecione as disciplinas cursadas na sua grade.',
-                      actionLabel: 'Configurar',
-                      onActionPressed: () {
-                        AppRoutes.goToDisciplineSelection(context);
+                    child: Consumer(
+                      builder: (context, ref, _) {
+                        final ids = ref.watch(userDisciplinesNotifierProvider);
+
+                        final disciplines = adsDisciplines.filter(
+                          (d) => ids.contains(d.id),
+                        );
+
+                        return DisciplineListModalWidget(
+                          selectedId: widget.selectedDiscipline?.id,
+                          disciplines: disciplines,
+                          emptyDescription:
+                              'Para vincular atividades, selecione as disciplinas cursadas na sua grade.',
+                          actionLabel: 'Configurar',
+                          onActionPressed: () {
+                            AppRoutes.goToDisciplineSelection(context);
+                          },
+                          onSelected: widget.onSelected,
+                        );
                       },
-                      onSelected: widget.onSelected,
                     ),
                   );
                 },

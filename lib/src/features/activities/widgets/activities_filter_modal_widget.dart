@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-
-import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
+import 'package:academic_planner/src/core/providers/activity_filter_provider.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
-class ActivitiesFilterModalWidget extends StatefulWidget {
+class ActivitiesFilterModalWidget extends ConsumerStatefulWidget {
   const ActivitiesFilterModalWidget({super.key});
 
   static Future<void> show(BuildContext context) {
@@ -25,12 +24,12 @@ class ActivitiesFilterModalWidget extends StatefulWidget {
   }
 
   @override
-  State<ActivitiesFilterModalWidget> createState() =>
+  ConsumerState<ActivitiesFilterModalWidget> createState() =>
       _ActivitiesFilterModalWidgetState();
 }
 
 class _ActivitiesFilterModalWidgetState
-    extends State<ActivitiesFilterModalWidget> {
+    extends ConsumerState<ActivitiesFilterModalWidget> {
   late int? _selectedDisciplineId;
   late DateTime? _startDate;
   late DateTime? _endDate;
@@ -44,11 +43,13 @@ class _ActivitiesFilterModalWidgetState
   }
 
   void _applyFilters() {
-    context.read<ActivityFilterNotifier>().update(
-      disciplineId: _selectedDisciplineId,
-      startDate: _startDate,
-      endDate: _endDate,
-    );
+    ref
+        .read(activityFilterNotifierProvider.notifier)
+        .update(
+          disciplineId: _selectedDisciplineId,
+          startDate: _startDate,
+          endDate: _endDate,
+        );
 
     Navigator.pop(context);
   }
@@ -57,7 +58,7 @@ class _ActivitiesFilterModalWidgetState
   void initState() {
     super.initState();
 
-    final currentFilter = context.read<ActivityFilterNotifier>().filter;
+    final currentFilter = ref.read(activityFilterNotifierProvider);
     _selectedDisciplineId = currentFilter.disciplineId;
     _startDate = currentFilter.startDate;
     _endDate = currentFilter.endDate;

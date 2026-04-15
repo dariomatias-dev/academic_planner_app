@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/activity_details/widgets/activity_details_description_widget.dart';
@@ -24,18 +23,17 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
-class ActivityDetailsScreen extends StatefulWidget {
+class ActivityDetailsScreen extends ConsumerStatefulWidget {
   final String activityId;
 
   const ActivityDetailsScreen({super.key, required this.activityId});
 
   @override
-  State<ActivityDetailsScreen> createState() => _ActivityDetailsScreenState();
+  ConsumerState<ActivityDetailsScreen> createState() =>
+      _ActivityDetailsScreenState();
 }
 
-class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
-  late final _controller = context.read<ActivityController>();
-
+class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
   ActivityModel? _activity;
   ActivityStatus? _originalStatus;
   ActivityStatus? _currentStatus;
@@ -46,7 +44,8 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   Future<void> _fetchActivity() async {
     setState(() => _isLoading = true);
 
-    final result = await _controller.getActivityById(widget.activityId);
+    final controller = ref.read(activityControllerProvider);
+    final result = await controller.getActivityById(widget.activityId);
 
     result.when(
       onSuccess: (activity) {
@@ -59,7 +58,6 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
       },
       onFailure: (failure) {
         setState(() => _isLoading = false);
-
         Fluttertoast.showToast(msg: "Erro ao carregar atividade");
       },
     );
@@ -68,9 +66,11 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   Future<void> _saveStatus() async {
     if (_activity == null || _currentStatus == null) return;
 
+    final controller = ref.read(activityControllerProvider);
+
     final updatedActivity = _activity!.copyWith(status: _currentStatus);
 
-    final result = await _controller.editActivity(updatedActivity);
+    final result = await controller.editActivity(updatedActivity);
 
     result.when(
       onSuccess: (_) {
@@ -91,7 +91,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
   void initState() {
     super.initState();
 
-    _fetchActivity();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchActivity());
   }
 
   @override
@@ -125,6 +125,7 @@ class _ActivityDetailsScreenState extends State<ActivityDetailsScreen> {
               onDelete: () async {
                 final result = await handleActivityDeletion(
                   context: context,
+                  ref: ref,
                   activity: _activity!,
                 );
 

@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
-
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 
-class ActivityFilterNotifier extends ChangeNotifier {
-  ActivityFilter _filter = const ActivityFilter();
-
-  ActivityFilter get filter => _filter;
+class ActivityFilterNotifier extends Notifier<ActivityFilter> {
+  @override
+  ActivityFilter build() {
+    return const ActivityFilter();
+  }
 
   void setFilter(ActivityFilter filter) {
-    _filter = filter;
-    notifyListeners();
+    state = filter;
   }
 
   void update({
@@ -21,19 +20,16 @@ class ActivityFilterNotifier extends ChangeNotifier {
     DateTime? endDate,
     ActivityStatus? status,
   }) {
-    _filter = _filter.copyWith(
+    state = state.copyWith(
       search: search,
       disciplineId: disciplineId,
       startDate: startDate,
       endDate: endDate,
       status: status,
     );
-
-    notifyListeners();
   }
 
   void clear() {
-    _filter = const ActivityFilter();
-    notifyListeners();
+    state = const ActivityFilter();
   }
 }

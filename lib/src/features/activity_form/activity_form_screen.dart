@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
-import 'package:provider/provider.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
 
@@ -13,6 +13,7 @@ import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activity_form/widgets/activity_form_date_picker_widget.dart';
@@ -33,7 +34,7 @@ import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
-class ActivityFormScreen extends StatefulWidget {
+class ActivityFormScreen extends ConsumerStatefulWidget {
   final String? activityId;
   final int? initialDisciplineId;
 
@@ -44,11 +45,11 @@ class ActivityFormScreen extends StatefulWidget {
   });
 
   @override
-  State<ActivityFormScreen> createState() => _ActivityFormScreenState();
+  ConsumerState<ActivityFormScreen> createState() => _ActivityFormScreenState();
 }
 
-class _ActivityFormScreenState extends State<ActivityFormScreen> {
-  late final _activityController = context.read<ActivityController>();
+class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
+  late final ActivityController _activityController;
   final _logger = Logger();
 
   final _formKey = GlobalKey<FormState>();
@@ -359,7 +360,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
   @override
   void initState() {
     super.initState();
-
+    _activityController = ref.read(activityControllerProvider);
     _descriptionController = QuillController.basic();
 
     _descriptionController.addListener(_updateChangeTracker);
@@ -413,7 +414,7 @@ class _ActivityFormScreenState extends State<ActivityFormScreen> {
         valueListenable: _isLoadingNotifier,
         builder: (context, isLoading, _) {
           if (isLoading) {
-            return LoadingStateWidget();
+            return const LoadingStateWidget();
           }
 
           return SingleChildScrollView(

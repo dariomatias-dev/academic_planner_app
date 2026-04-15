@@ -1,28 +1,30 @@
-import 'package:flutter/material.dart';
+import 'package:academic_planner/src/features/auth/providers/auth_providers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/features/auth/domain/auth_repository.dart';
 
-class AuthNotifier extends ChangeNotifier {
-  AuthNotifier(this._repository) {
-    _listenAuthState();
-  }
+class AuthNotifier extends AsyncNotifier<User?> {
+  late final AuthRepository _repository;
 
-  final AuthRepository _repository;
-
-  User? _user;
-  bool _isLoading = false;
   bool _isEmailVerified = false;
 
-  User? get user => _user;
-  bool get isLoading => _isLoading;
-  bool get isAuthenticated => _user != null && _isEmailVerified;
   bool get isEmailVerified => _isEmailVerified;
 
-  void _listenAuthState() {
-    _repository.authStateChanges().listen((user) async {
-      _user = user;
+  bool get isAuthenticated => state.value != null && _isEmailVerified;
 
+  @override
+  Future<User?> build() async {
+    _repository = ref.read(authRepositoryProvider);
+
+    final user = _repository.currentUser;
+
+    if (user != null) {
+      await user.reload();
+      _isEmailVerified = user.emailVerified;
+    }
+
+    _repository.authStateChanges().listen((user) async {
       if (user != null) {
         await user.reload();
         _isEmailVerified = user.emailVerified;
@@ -30,12 +32,14 @@ class AuthNotifier extends ChangeNotifier {
         _isEmailVerified = false;
       }
 
-      notifyListeners();
+      state = AsyncData(user);
     });
+
+    return user;
   }
 
   Future<void> signIn(String email, String password) async {
-    _setLoading(true);
+    state = const AsyncLoading();
 
     try {
       await _repository.signIn(email, password);
@@ -50,23 +54,25 @@ class AuthNotifier extends ChangeNotifier {
           throw Exception('Email não verificado');
         }
 
-        _user = user;
         _isEmailVerified = true;
+        state = AsyncData(user);
       }
-    } finally {
-      _setLoading(false);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
     }
-
-    notifyListeners();
   }
 
   Future<void> signUp(String email, String password) async {
-    _setLoading(true);
+    state = const AsyncLoading();
 
     try {
       await _repository.signUp(email, password);
-    } finally {
-      _setLoading(false);
+
+      state = const AsyncData(null);
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
     }
   }
 
@@ -84,24 +90,15 @@ class AuthNotifier extends ChangeNotifier {
     if (user != null) {
       await user.reload();
 
-      _user = user;
       _isEmailVerified = user.emailVerified;
-
-      notifyListeners();
+      state = AsyncData(user);
     }
   }
 
   Future<void> signOut() async {
     await _repository.signOut();
 
-    _user = null;
     _isEmailVerified = false;
-
-    notifyListeners();
-  }
-
-  void _setLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
+    state = const AsyncData(null);
   }
 }

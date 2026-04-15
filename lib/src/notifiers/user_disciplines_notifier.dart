@@ -1,41 +1,41 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/core/providers/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:academic_planner/src/core/shared_preferences_keys.dart';
 
-class UserDisciplinesNotifier extends ChangeNotifier {
-  final SharedPreferencesService _prefs;
+class UserDisciplinesNotifier extends Notifier<Set<int>> {
+  late final SharedPreferencesService _prefs;
 
-  Set<int> _selectedIds = {};
-  Set<int> get selectedIds => _selectedIds;
+  @override
+  Set<int> build() {
+    _prefs = ref.read(sharedPreferencesServiceProvider);
 
-  UserDisciplinesNotifier(this._prefs) {
-    _loadSelectedIds();
-  }
-
-  void _loadSelectedIds() {
     final storedIds = _prefs.getStringListOrNull(
       SharedPreferencesKeys.userDisciplinesKey,
     );
 
     if (storedIds != null) {
-      _selectedIds = storedIds.map(int.parse).toSet();
-      notifyListeners();
+      return storedIds.map(int.parse).toSet();
     }
+
+    return {};
   }
 
   Future<void> toggleDiscipline(int id) async {
-    if (_selectedIds.contains(id)) {
-      _selectedIds.remove(id);
+    final newSet = Set<int>.from(state);
+
+    if (newSet.contains(id)) {
+      newSet.remove(id);
     } else {
-      _selectedIds.add(id);
+      newSet.add(id);
     }
 
-    notifyListeners();
+    state = newSet;
 
     await _prefs.setStringList(
       SharedPreferencesKeys.userDisciplinesKey,
-      _selectedIds.map((id) => id.toString()).toList(),
+      newSet.map((id) => id.toString()).toList(),
     );
   }
 }

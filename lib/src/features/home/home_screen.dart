@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-
-import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/providers/activity_providers.dart';
+import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
+import 'package:academic_planner/src/core/providers/activity_filter_provider.dart';
+import 'package:academic_planner/src/core/providers/navigation_provider.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
-
-import 'package:academic_planner/src/notifiers/activity_filter_notifier.dart';
-import 'package:academic_planner/src/notifiers/navigation_notifier.dart';
-import 'package:academic_planner/src/notifiers/user_disciplines_notifier.dart';
 
 import 'package:academic_planner/src/features/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
@@ -22,17 +20,15 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
+class _HomeScreenState extends ConsumerState<HomeScreen>
     with AutomaticKeepAliveClientMixin {
-  late final _activityController = context.read<ActivityController>();
-
   @override
   bool get wantKeepAlive => true;
 
@@ -42,6 +38,9 @@ class _HomeScreenState extends State<HomeScreen>
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final activitiesAsync = ref.watch(activityNotifierProvider);
+    final userDisciplines = ref.watch(userDisciplinesNotifierProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -69,44 +68,34 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
           ),
-          ListenableBuilder(
-            listenable: _activityController.notifier,
-            builder: (context, _) {
-              return FutureBuilder(
-                future: _activityController.getActivities(),
-                builder: (context, snapshot) {
-                  final result = snapshot.data;
-                  final activities =
-                      result?.fold(
-                        onSuccess: (list) => list,
-                        onFailure: (_) => <ActivityModel>[],
-                      ) ??
-                      <ActivityModel>[];
-
-                  return ListView(
-                    padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-                    physics: const BouncingScrollPhysics(),
-                    children: <Widget>[
-                      _buildImpactfulHeader(context, activities.length),
-                      const SizedBox(height: 32.0),
-                      const HomeMainFocusCardWidget(),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 32.0),
-                        child: HomeQuickActionsRowWidget(),
-                      ),
-                      _buildSectionHeader(context, "Próximas Atividades"),
-                      const SizedBox(height: 20.0),
-                      if (snapshot.connectionState == ConnectionState.waiting)
-                        const Center(child: CircularProgressIndicator())
-                      else if (activities.isEmpty)
-                        _buildEmptyState(context)
-                      else
-                        ...activities
-                            .take(4)
-                            .map((task) => ActivityCardWidget(activity: task)),
-                    ],
-                  );
-                },
+          activitiesAsync.when(
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => const Center(child: Text("Erro ao carregar")),
+            data: (activities) {
+              return ListView(
+                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+                physics: const BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildImpactfulHeader(
+                    context,
+                    activities.length,
+                    userDisciplines.length,
+                  ),
+                  const SizedBox(height: 32.0),
+                  const HomeMainFocusCardWidget(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32.0),
+                    child: HomeQuickActionsRowWidget(),
+                  ),
+                  _buildSectionHeader(context, "Próximas Atividades"),
+                  const SizedBox(height: 20.0),
+                  if (activities.isEmpty)
+                    _buildEmptyState(context)
+                  else
+                    ...activities
+                        .take(4)
+                        .map((task) => ActivityCardWidget(activity: task)),
+                ],
               );
             },
           ),
@@ -115,7 +104,11 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  Widget _buildImpactfulHeader(BuildContext context, int activityCount) {
+  Widget _buildImpactfulHeader(
+    BuildContext context,
+    int activityCount,
+    int disciplineCount,
+  ) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -209,21 +202,11 @@ class _HomeScreenState extends State<HomeScreen>
                     label: "Atividades",
                     icon: Icons.auto_stories_rounded,
                   ),
-                  ListenableBuilder(
-                    listenable: context.read<UserDisciplinesNotifier>(),
-                    builder: (context, _) {
-                      final notifier = context.read<UserDisciplinesNotifier>();
-
-                      return _buildHeaderMetric(
-                        context,
-                        value: notifier.selectedIds.length.toString().padLeft(
-                          2,
-                          '0',
-                        ),
-                        label: "Disciplinas",
-                        icon: Icons.grid_view_rounded,
-                      );
-                    },
+                  _buildHeaderMetric(
+                    context,
+                    value: disciplineCount.toString().padLeft(2, '0'),
+                    label: "Disciplinas",
+                    icon: Icons.grid_view_rounded,
                   ),
                   _buildHeaderMetric(
                     context,
@@ -347,10 +330,10 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         ViewAllButtonWidget(
           onTap: () {
-            context.read<NavigationNotifier>().setIndex(2);
-            context.read<ActivityFilterNotifier>().setFilter(
-              ActivityFilter(status: ActivityStatus.inProgress),
-            );
+            ref.read(navigationNotifierProvider.notifier).setIndex(2);
+            ref
+                .read(activityFilterNotifierProvider.notifier)
+                .setFilter(ActivityFilter(status: ActivityStatus.inProgress));
           },
         ),
       ],
