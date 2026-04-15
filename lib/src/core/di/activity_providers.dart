@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
 
-import 'package:academic_planner/src/core/providers/database_provider.dart';
+import 'package:academic_planner/src/core/di/database_provider.dart';
 
 import 'package:academic_planner/src/data/datasource/activity_local_datasource.dart';
 import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';

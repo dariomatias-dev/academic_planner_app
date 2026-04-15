@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';

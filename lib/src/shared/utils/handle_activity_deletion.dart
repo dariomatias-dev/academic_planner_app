@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
+import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';

@@ -11,9 +11,9 @@ import 'package:academic_planner/src/controllers/activity_controller.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activity_form/widgets/activity_form_date_picker_widget.dart';

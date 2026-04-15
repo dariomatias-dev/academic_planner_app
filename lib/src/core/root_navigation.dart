@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/providers/navigation_provider.dart';
+import 'package:academic_planner/src/core/di/navigation_provider.dart';
 
 import 'package:academic_planner/src/features/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/home/home_screen.dart';

@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/di/theme_provider.dart';
 import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
-import 'package:academic_planner/src/core/providers/theme_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/settings/widgets/logout_confirmation_dialog_widget.dart';

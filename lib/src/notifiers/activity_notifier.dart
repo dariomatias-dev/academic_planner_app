@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
+import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';

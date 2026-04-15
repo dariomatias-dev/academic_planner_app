@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
-import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
-import 'package:academic_planner/src/core/providers/activity_filter_provider.dart';
-import 'package:academic_planner/src/core/providers/navigation_provider.dart';
+import 'package:academic_planner/src/core/di/activity_providers.dart';
+import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
+import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
+import 'package:academic_planner/src/core/di/navigation_provider.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 

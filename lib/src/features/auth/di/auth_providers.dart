@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/providers/firebase_providers.dart';
+import 'package:academic_planner/src/core/di/firebase_providers.dart';
 
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';

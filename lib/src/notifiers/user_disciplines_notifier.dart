@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/providers/shared_preferences_provider.dart';
+import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:academic_planner/src/core/shared_preferences_keys.dart';
 

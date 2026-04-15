@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/controllers/activity_controller.dart';
 
+import 'package:academic_planner/src/core/di/activity_providers.dart';
+import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
 
-import 'package:academic_planner/src/core/providers/navigation_provider.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 

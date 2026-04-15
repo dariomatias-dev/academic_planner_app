@@ -9,8 +9,8 @@ import 'package:academic_planner/firebase_options.dart';
 import 'package:academic_planner/src/app_widget.dart';
 
 import 'package:academic_planner/src/core/database/app_database.dart';
-import 'package:academic_planner/src/core/providers/database_provider.dart';
-import 'package:academic_planner/src/core/providers/shared_preferences_provider.dart';
+import 'package:academic_planner/src/core/di/database_provider.dart';
+import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

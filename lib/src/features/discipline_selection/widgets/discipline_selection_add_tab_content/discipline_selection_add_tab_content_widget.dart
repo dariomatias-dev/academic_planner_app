@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/providers/user_disciplines_provider.dart';
 
 import 'package:academic_planner/src/features/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
 

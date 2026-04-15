@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/providers/activity_providers.dart';
-import 'package:academic_planner/src/core/providers/activity_filter_provider.dart';
+import 'package:academic_planner/src/core/di/activity_providers.dart';
+import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
