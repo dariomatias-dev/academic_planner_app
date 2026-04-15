@@ -8,12 +8,13 @@ import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
 
 class PdfViewerScreen extends StatefulWidget {
-  final String url;
   final String title;
+  final String url;
 
-  const PdfViewerScreen({super.key, required this.url, required this.title});
+  const PdfViewerScreen({super.key, required this.title, required this.url});
 
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
@@ -40,6 +41,13 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       if (mounted) {
         setState(() => _showIndicator = false);
       }
+    });
+  }
+
+  void _handleRetry() {
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
     });
   }
 
@@ -79,38 +87,46 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           Expanded(
             child: Stack(
               children: <Widget>[
-                SfPdfViewer.network(
-                  widget.url,
-                  key: _pdfViewerKey,
-                  controller: _pdfViewerController,
-                  canShowPaginationDialog: false,
-                  canShowScrollHead: false,
-                  canShowPageLoadingIndicator: false,
-                  onDocumentLoaded: (details) {
-                    setState(() {
-                      _isLoading = false;
-                      _totalPages = details.document.pages.count;
-                    });
+                if (!_hasError)
+                  SfPdfViewer.network(
+                    widget.url,
+                    key: _pdfViewerKey,
+                    controller: _pdfViewerController,
+                    canShowPaginationDialog: false,
+                    canShowScrollHead: false,
+                    canShowPageLoadingIndicator: false,
+                    onDocumentLoaded: (details) {
+                      setState(() {
+                        _isLoading = false;
+                        _totalPages = details.document.pages.count;
+                      });
 
-                    _triggerIndicator();
-                  },
-                  onPageChanged: (details) {
-                    setState(() {
-                      _currentPage = details.newPageNumber;
-                    });
+                      _triggerIndicator();
+                    },
+                    onPageChanged: (details) {
+                      setState(() {
+                        _currentPage = details.newPageNumber;
+                      });
 
-                    _triggerIndicator();
-                  },
-                  onDocumentLoadFailed: (details) {
-                    setState(() {
-                      _isLoading = false;
-                      _hasError = true;
-                    });
-                  },
-                ),
+                      _triggerIndicator();
+                    },
+                    onDocumentLoadFailed: (details) {
+                      setState(() {
+                        _isLoading = false;
+                        _hasError = true;
+                      });
+                    },
+                  ),
                 if (_isLoading)
                   const LoadingStateWidget(message: 'Carregando documento...'),
-                if (_hasError) const PdfViewerErrorWidget(),
+                if (_hasError)
+                  ErrorStateWidget(
+                    title: "Falha ao carregar",
+                    description:
+                        "Não foi possível abrir o documento. Verifique sua conexão com a internet.",
+                    actionLabel: "Tentar novamente",
+                    onActionPressed: _handleRetry,
+                  ),
                 if (!_isLoading && !_hasError && _totalPages > 0)
                   Positioned(
                     bottom: 32.0,
@@ -156,40 +172,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PdfViewerErrorWidget extends StatelessWidget {
-  const PdfViewerErrorWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.error_outline_rounded,
-              color: colorScheme.error,
-              size: 48.0,
-            ),
-            const SizedBox(height: 16.0),
-            Text(
-              "Erro ao carregar arquivo",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface,
-                fontSize: 15.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
