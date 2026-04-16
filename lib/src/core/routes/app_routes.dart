@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:academic_planner/src/core/routes/route_paths.dart';
 
 class AppRoutes {
-  static void goRoot(BuildContext context) {
+  static void goToRoot(BuildContext context) {
     context.go(RoutePaths.root);
   }
 

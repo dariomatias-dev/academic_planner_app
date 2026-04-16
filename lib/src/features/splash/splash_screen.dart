@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await _loadAppData();
 
     if (mounted) {
-      AppRoutes.goRoot(context);
+      AppRoutes.goToRoot(context);
     }
   }
 
