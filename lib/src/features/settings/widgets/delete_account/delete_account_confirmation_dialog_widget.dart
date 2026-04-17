@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/features/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';
+
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
 
@@ -25,7 +27,11 @@ class DeleteAccountConfirmationDialogWidget extends StatelessWidget {
       iconColor: colorScheme.error,
       confirmLabel: "Continuar",
       confirmStyle: AppButtonStyle.destructiveSolid,
-      onConfirm: () {},
+      onConfirm: () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          FinalDeleteAccountConfirmationDialogWidget.show(context);
+        });
+      },
     );
   }
 }
