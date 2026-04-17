@@ -133,6 +133,22 @@ class AuthViewModel {
       _logger.i('signOut success');
     } catch (err, stackTrace) {
       _logger.e('signOut error', error: err, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteAccount() async {
+    try {
+      _logger.i('deleteAccount');
+
+      await authRepository.deleteAccount();
+
+      user = null;
+      isEmailVerified = false;
+
+      _logger.i('deleteAccount success');
+    } catch (err, stackTrace) {
+      _logger.e('deleteAccount error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }

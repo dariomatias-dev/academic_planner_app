@@ -61,6 +61,27 @@ class AuthNotifier extends AsyncNotifier<User?> {
     state = const AsyncData(null);
   }
 
+  Future<void> deleteAccount() async {
+    state = const AsyncLoading();
+
+    try {
+      final uid = viewModel.user?.uid;
+
+      if (uid == null) {
+        throw Exception('User not loaded');
+      }
+
+      await ref.read(userRepositoryProvider).delete(uid);
+      await viewModel.deleteAccount();
+
+      state = const AsyncData(null);
+    } catch (err, stackTrace) {
+      state = AsyncError(err, stackTrace);
+
+      rethrow;
+    }
+  }
+
   Future<void> reloadUser() async {
     await viewModel.reloadUser();
 
