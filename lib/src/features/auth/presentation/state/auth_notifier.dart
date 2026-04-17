@@ -3,15 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/state/auth_view_model.dart';
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
 
 class AuthNotifier extends AsyncNotifier<User?> {
   late final AuthViewModel viewModel;
 
   @override
   Future<User?> build() async {
-    final repository = ref.read(authRepositoryProvider);
+    final authRepository = ref.read(authRepositoryProvider);
+    final userRepository = ref.read(userRepositoryProvider);
 
-    viewModel = AuthViewModel(repository);
+    viewModel = AuthViewModel(
+      authRepository: authRepository,
+      userRepository: userRepository,
+    );
 
     await viewModel.loadUser();
 
@@ -24,10 +29,6 @@ class AuthNotifier extends AsyncNotifier<User?> {
     try {
       await viewModel.signIn(email, password);
 
-      if (viewModel.error != null) {
-        throw Exception(viewModel.error);
-      }
-
       state = AsyncData(viewModel.user);
     } catch (err, stackTrace) {
       state = AsyncError(err, stackTrace);
@@ -36,11 +37,11 @@ class AuthNotifier extends AsyncNotifier<User?> {
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     state = const AsyncLoading();
 
     try {
-      await viewModel.signUp(email, password);
+      await viewModel.signUp(email, password, name);
 
       state = const AsyncData(null);
     } catch (err, stackTrace) {
@@ -54,14 +55,15 @@ class AuthNotifier extends AsyncNotifier<User?> {
     await viewModel.sendEmailVerification();
   }
 
-  Future<void> reloadUser() async {
-    await viewModel.reloadUser();
-    state = AsyncData(viewModel.user);
-  }
-
   Future<void> signOut() async {
     await viewModel.signOut();
 
     state = const AsyncData(null);
+  }
+
+  Future<void> reloadUser() async {
+    await viewModel.reloadUser();
+
+    state = AsyncData(viewModel.user);
   }
 }

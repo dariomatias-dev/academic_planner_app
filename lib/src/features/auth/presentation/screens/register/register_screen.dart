@@ -37,14 +37,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final auth = ref.read(authNotifierProvider.notifier);
 
     try {
+      final name = _nameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
 
       _logger.i('Register attempt: $email');
 
-      await auth.signUp(email, password);
+      await auth.signUp(email, password, name);
 
-      _logger.i('User created: $email');
+      _logger.i('User and profile created: $email');
 
       await auth.sendEmailVerification();
 

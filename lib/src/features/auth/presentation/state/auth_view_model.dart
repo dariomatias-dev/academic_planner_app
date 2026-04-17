@@ -1,42 +1,61 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logger/logger.dart';
 
+import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:academic_planner/src/features/user/domain/repositories/user_repository.dart';
 
 class AuthViewModel {
-  final AuthRepository repository;
+  final AuthRepository authRepository;
+  final UserRepository userRepository;
+
+  final Logger _logger = Logger();
 
   User? user;
   String? error;
   bool isEmailVerified = false;
 
-  AuthViewModel(this.repository);
-
-  bool get isAuthenticated => user != null && isEmailVerified;
+  AuthViewModel({required this.authRepository, required this.userRepository});
 
   Future<void> loadUser() async {
-    final current = repository.currentUser;
+    try {
+      _logger.i('loadUser started');
 
-    if (current != null) {
-      await current.reload();
-      isEmailVerified = current.emailVerified;
+      final current = authRepository.currentUser;
+
+      if (current != null) {
+        await current.reload();
+
+        isEmailVerified = current.emailVerified;
+      }
+
+      user = current;
+
+      _logger.i('loadUser finished');
+    } catch (err, stackTrace) {
+      _logger.e('loadUser error', error: err, stackTrace: stackTrace);
+
+      rethrow;
     }
-
-    user = current;
   }
 
   Future<void> signIn(String email, String password) async {
     error = null;
 
     try {
-      await repository.signIn(email, password);
+      _logger.i('signIn started: $email');
 
-      final current = repository.currentUser;
+      await authRepository.signIn(email, password);
+
+      final current = authRepository.currentUser;
 
       if (current != null) {
         await current.reload();
 
         if (!current.emailVerified) {
-          await repository.signOut();
+          await authRepository.signOut();
+
+          _logger.w('Email not verified: $email');
 
           throw Exception('Email não verificado');
         }
@@ -44,49 +63,117 @@ class AuthViewModel {
         isEmailVerified = true;
         user = current;
       }
-    } catch (err) {
+
+      _logger.i('signIn success: $email');
+    } catch (err, stackTrace) {
       error = err.toString();
+
+      _logger.e('signIn error', error: err, stackTrace: stackTrace);
+
       rethrow;
     }
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String name) async {
     error = null;
 
     try {
-      await repository.signUp(email, password);
+      _logger.i('signUp started: $email');
+
+      final credential = await authRepository.signUp(email, password);
+
+      _logger.i('Firebase signUp success: $email');
+
+      final firebaseUser = credential.user;
+
+      if (firebaseUser != null) {
+        _logger.i('Creating Firestore user: ${firebaseUser.uid}');
+
+        final newUser = UserEntity(
+          id: firebaseUser.uid,
+          email: email,
+          name: name,
+          createdAt: DateTime.now(),
+          updatedAt: DateTime.now(),
+        );
+
+        await userRepository.create(newUser);
+
+        _logger.i('Firestore user created: ${firebaseUser.uid}');
+
+        await firebaseUser.sendEmailVerification();
+
+        _logger.i('Email verification sent: $email');
+      }
+
+      await authRepository.signOut();
 
       user = null;
-    } catch (err) {
+      isEmailVerified = false;
+
+      _logger.i('signUp completed and user signed out: $email');
+    } catch (err, stackTrace) {
       error = err.toString();
+
+      _logger.e('signUp error', error: err, stackTrace: stackTrace);
+
+      rethrow;
+    }
+  }
+
+  Future<void> signOut() async {
+    try {
+      _logger.i('signOut');
+
+      await authRepository.signOut();
+
+      user = null;
+      isEmailVerified = false;
+
+      _logger.i('signOut success');
+    } catch (err, stackTrace) {
+      _logger.e('signOut error', error: err, stackTrace: stackTrace);
+
+      rethrow;
+    }
+  }
+
+  Future<void> reloadUser() async {
+    try {
+      _logger.i('reloadUser');
+
+      final current = authRepository.currentUser;
+
+      if (current != null) {
+        await current.reload();
+
+        isEmailVerified = current.emailVerified;
+        user = current;
+      }
+
+      _logger.i('reloadUser success');
+    } catch (err, stackTrace) {
+      _logger.e('reloadUser error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
   }
 
   Future<void> sendEmailVerification() async {
-    final current = repository.currentUser;
+    try {
+      _logger.i('sendEmailVerification');
 
-    if (current != null && !current.emailVerified) {
-      await current.sendEmailVerification();
+      await authRepository.sendEmailVerification();
+
+      _logger.i('sendEmailVerification success');
+    } catch (err, stackTrace) {
+      _logger.e(
+        'sendEmailVerification error',
+        error: err,
+        stackTrace: stackTrace,
+      );
+
+      rethrow;
     }
-  }
-
-  Future<void> reloadUser() async {
-    final current = repository.currentUser;
-
-    if (current != null) {
-      await current.reload();
-
-      isEmailVerified = current.emailVerified;
-      user = current;
-    }
-  }
-
-  Future<void> signOut() async {
-    await repository.signOut();
-
-    user = null;
-    isEmailVerified = false;
   }
 }
