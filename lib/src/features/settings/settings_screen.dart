@@ -7,6 +7,7 @@ import 'package:academic_planner/src/core/di/theme_provider.dart';
 import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
+import 'package:academic_planner/src/features/settings/widgets/delete_account/delete_account_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/logout_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/settings_profile_header_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
@@ -52,7 +53,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
     final themeState = ref.watch(themeNotifierProvider);
 
     return Scaffold(
@@ -157,14 +157,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               onTap: () => AppRoutes.goToAbout(context),
             ),
             const SizedBox(height: 32.0),
+            _buildSectionTitle(context, "Sessão e Segurança"),
             _buildSettingsTile(
               context,
               icon: Icons.logout_rounded,
               title: "Sair da Conta",
+              onTap: () => LogoutConfirmationDialogWidget.show(context),
+            ),
+            _buildSettingsTile(
+              context,
+              icon: Icons.no_accounts_rounded,
+              title: "Excluir Conta",
               color: colorScheme.error,
-              onTap: () {
-                LogoutConfirmationDialogWidget.show(context);
-              },
+              onTap: () => DeleteAccountConfirmationDialogWidget.show(context),
             ),
           ],
         ),
