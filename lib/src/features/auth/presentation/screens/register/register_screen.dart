@@ -12,6 +12,7 @@ import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
@@ -179,11 +180,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
                   child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
                 ),
-                InputWidget(
+                PasswordInputWidget(
                   controller: _passwordController,
                   hint: "Mínimo 8 caracteres",
                   validator: Validators.required,
-                  obscureText: true,
                 ),
                 const SizedBox(height: 20.0),
                 const Padding(
@@ -193,10 +193,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     fontSize: 11.0,
                   ),
                 ),
-                InputWidget(
+                PasswordInputWidget(
                   controller: _confirmPasswordController,
                   hint: "Repita sua senha",
-                  obscureText: true,
                   validator: (value) {
                     return Validators.compare(
                       value,

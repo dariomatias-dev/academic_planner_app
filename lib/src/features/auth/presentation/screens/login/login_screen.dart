@@ -120,14 +120,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 48.0),
-
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
                   child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
                 ),
-
                 InputWidget(
                   controller: _emailController,
                   hint: "seu@email.com",
@@ -141,14 +138,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     size: 20.0,
                   ),
                 ),
-
                 const SizedBox(height: 24.0),
-
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
                   child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
                 ),
-
                 PasswordInputWidget(
                   controller: _passwordController,
                   validator: (value) {
@@ -158,7 +152,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     );
                   },
                 ),
-
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButtonWidget(
@@ -166,25 +159,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     text: 'Esqueceu sua senha?',
                   ),
                 ),
-
                 const SizedBox(height: 16.0),
-
                 ButtonWidget(
                   onPressed: _onLoginPressed,
                   label: "Entrar",
                   isFullWidth: true,
                 ),
-
                 const SizedBox(height: 32.0),
-
                 _buildDivider(context),
-
                 const SizedBox(height: 32.0),
-
                 _buildGoogleButton(context),
-
                 const SizedBox(height: 48.0),
-
                 Align(
                   alignment: Alignment.center,
                   child: Column(
