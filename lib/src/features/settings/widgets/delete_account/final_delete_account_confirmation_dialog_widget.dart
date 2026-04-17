@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
 
-class FinalDeleteAccountConfirmationDialogWidget extends StatelessWidget {
+class FinalDeleteAccountConfirmationDialogWidget extends ConsumerWidget {
   const FinalDeleteAccountConfirmationDialogWidget({super.key});
 
   static void show(BuildContext context) {
@@ -14,7 +19,7 @@ class FinalDeleteAccountConfirmationDialogWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ConfirmationDialogWidget(
@@ -26,7 +31,25 @@ class FinalDeleteAccountConfirmationDialogWidget extends StatelessWidget {
       confirmLabel: "Excluir Permanentemente",
       confirmStyle: AppButtonStyle.destructiveSolid,
       vertical: true,
-      onConfirm: () {},
+      onConfirm: () async {
+        try {
+          await ref.read(authNotifierProvider.notifier).deleteAccount();
+
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+
+          Fluttertoast.showToast(msg: "Sua conta foi excluída com sucesso");
+        } catch (_) {
+          if (context.mounted) {
+            ErrorDialogWidget.show(
+              context,
+              message:
+                  "Ocorreu um erro ao tentar excluir sua conta. Por favor, tente novamente mais tarde.",
+            );
+          }
+        }
+      },
     );
   }
 }
