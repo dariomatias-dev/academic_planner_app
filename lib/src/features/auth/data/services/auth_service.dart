@@ -38,6 +38,10 @@ class AuthService {
     return _firebaseAuth.signOut();
   }
 
+  Future<void> deleteAccount() async {
+    await _firebaseAuth.currentUser?.delete();
+  }
+
   Stream<User?> authStateChanges() {
     return _firebaseAuth.authStateChanges();
   }
