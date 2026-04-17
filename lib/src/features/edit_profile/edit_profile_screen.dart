@@ -1,27 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
+
+import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
-class EditProfileScreen extends StatefulWidget {
+class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
 
   @override
-  State<EditProfileScreen> createState() => _EditProfileScreenState();
+  ConsumerState<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
+class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
 
-  void _onSavePressed() {
-    if (_formKey.currentState?.validate() ?? false) {
+  bool _initialized = false;
+
+  void _initFields(UserEntity user) {
+    if (_initialized) return;
+
+    _nameController.text = user.name;
+    _emailController.text = user.email;
+    _initialized = true;
+  }
+
+  Future<void> _onSavePressed(UserEntity currentUser) async {
+    if (!(_formKey.currentState?.validate() ?? false)) return;
+
+    final updatedUser = UserEntity(
+      id: currentUser.id,
+      email: currentUser.email,
+      name: _nameController.text.trim(),
+      createdAt: currentUser.createdAt,
+      updatedAt: DateTime.now(),
+    );
+
+    try {
+      await ref.read(userNotifierProvider.notifier).updateProfile(updatedUser);
+
+      if (!mounted) return;
+
+      Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
       Navigator.pop(context);
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Erro ao atualizar perfil");
     }
   }
 
@@ -36,54 +70,70 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final userState = ref.watch(userNotifierProvider);
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidget(
-        title: 'Editar Perfil',
-        actions: <Widget>[
-          IconButtonWidget(
-            icon: Icons.check_rounded,
-            onPressed: _onSavePressed,
-            style: IconButtonStyle.primary,
-          ),
-        ],
+    return userState.when(
+      loading: () => const Scaffold(
+        body: LoadingStateWidget(message: "Carregando perfil..."),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(height: 16.0),
-              FormFieldLabelWidget(label: "Nome completo"),
-              InputWidget(
-                controller: _nameController,
-                hint: "Seu nome",
-                validator: Validators.required,
-                prefixIcon: Icon(
-                  Icons.person_outline_rounded,
-                  color: colorScheme.primary,
-                  size: 20.0,
-                ),
-              ),
-              const SizedBox(height: 24.0),
-              FormFieldLabelWidget(label: "E-mail"),
-              InputWidget(
-                controller: _emailController,
-                hint: "seu@email.com",
-                readOnly: true,
-                prefixIcon: Icon(
-                  Icons.email_outlined,
-                  color: colorScheme.primary,
-                  size: 20.0,
-                ),
+      error: (err, stack) => Scaffold(
+        appBar: const AppBarWidget(title: 'Editar Perfil'),
+        body: Center(child: Text('Erro ao carregar dados: $err')),
+      ),
+      data: (user) {
+        if (user == null) return const SizedBox.shrink();
+
+        _initFields(user);
+
+        return Scaffold(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          appBar: AppBarWidget(
+            title: 'Editar Perfil',
+            actions: <Widget>[
+              IconButtonWidget(
+                icon: Icons.check_rounded,
+                onPressed: () => _onSavePressed(user),
+                style: IconButtonStyle.primary,
               ),
             ],
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const SizedBox(height: 16.0),
+                  const FormFieldLabelWidget(label: "Nome completo"),
+                  InputWidget(
+                    controller: _nameController,
+                    hint: "Seu nome",
+                    validator: Validators.required,
+                    prefixIcon: Icon(
+                      Icons.person_outline_rounded,
+                      color: colorScheme.primary,
+                      size: 20.0,
+                    ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const FormFieldLabelWidget(label: "E-MAIL"),
+                  InputWidget(
+                    controller: _emailController,
+                    hint: "seu@email.com",
+                    readOnly: true,
+                    prefixIcon: Icon(
+                      Icons.email_outlined,
+                      color: colorScheme.primary,
+                      size: 20.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
