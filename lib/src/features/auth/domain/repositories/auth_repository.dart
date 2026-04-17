@@ -9,6 +9,8 @@ abstract class AuthRepository {
 
   Future<void> signOut();
 
+  Future<void> deleteAccount();
+
   Stream<User?> authStateChanges();
 
   Future<void> sendEmailVerification();

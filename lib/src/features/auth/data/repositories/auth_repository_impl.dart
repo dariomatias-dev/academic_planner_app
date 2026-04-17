@@ -27,6 +27,11 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> deleteAccount() {
+    return _service.deleteAccount();
+  }
+
+  @override
   Stream<User?> authStateChanges() {
     return _service.authStateChanges();
   }
