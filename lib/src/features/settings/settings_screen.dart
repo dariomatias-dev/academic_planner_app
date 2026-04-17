@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/di/theme_provider.dart';
 import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
@@ -10,6 +9,8 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/settings/widgets/delete_account/delete_account_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/logout_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/settings_profile_header_widget.dart';
+import 'package:academic_planner/src/features/settings/widgets/settings_section_widget.dart';
+import 'package:academic_planner/src/features/settings/widgets/settings_tile_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
 
 import 'package:academic_planner/src/shared/models/user_model.dart';
@@ -77,187 +78,120 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               ),
             ),
             const SizedBox(height: 32.0),
-            _buildSectionTitle(context, "Minha Conta"),
-            _buildSettingsTile(
-              context,
-              icon: Icons.person_outline_rounded,
-              title: "Editar Perfil",
-              onTap: () => AppRoutes.goToEditProfile(context),
-            ),
-            const SizedBox(height: 24.0),
-            _buildSectionTitle(context, "Informações do Curso"),
-            _buildSettingsTile(
-              context,
-              icon: Icons.list_alt_rounded,
-              title: "Disciplinas do Curso",
-              onTap: () => AppRoutes.goToDisciplines(context),
-            ),
-            _buildSettingsTile(
-              context,
-              icon: Icons.info_outline_rounded,
-              title: "Sobre o Curso",
-              onTap: () => AppRoutes.goToCourseDetails(context),
-            ),
-            const SizedBox(height: 24.0),
-            _buildSectionTitle(context, "Preferências"),
-            _buildSettingsTile(
-              context,
-              icon: Icons.notifications_active_rounded,
-              title: "Notificações",
-              onTap: () {
-                setState(() {
-                  _notificationsEnabled = !_notificationsEnabled;
-                });
-              },
-              trailing: SwitchWidget(
-                value: _notificationsEnabled,
-                onChanged: (value) {
-                  setState(() {
-                    _notificationsEnabled = value;
-                  });
-                },
-              ),
-            ),
-            _buildSettingsTile(
-              context,
-              icon: Icons.palette_rounded,
-              title: "Tema do Aplicativo",
-              onTap: () => _showThemeBottomSheet(context),
-              trailing: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 6.0,
-                ),
-                decoration: BoxDecoration(
-                  color: colorScheme.primary.withAlpha(15),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Text(
-                  themeState.label,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w800,
-                    color: colorScheme.primary,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 24.0),
-            _buildSectionTitle(context, "Suporte"),
-            _buildSettingsTile(
-              context,
-              icon: Icons.help_center_rounded,
-              title: "Central de Ajuda",
-              onTap: () {},
-            ),
-            _buildSettingsTile(
-              context,
-              icon: Icons.info_rounded,
-              title: "Sobre o Academic Planner",
-              onTap: () => AppRoutes.goToAbout(context),
-            ),
-            const SizedBox(height: 32.0),
-            _buildSectionTitle(context, "Sessão e Segurança"),
-            _buildSettingsTile(
-              context,
-              icon: Icons.logout_rounded,
-              title: "Sair da Conta",
-              onTap: () => LogoutConfirmationDialogWidget.show(context),
-            ),
-            _buildSettingsTile(
-              context,
-              icon: Icons.no_accounts_rounded,
-              title: "Excluir Conta",
-              color: colorScheme.error,
-              onTap: () => DeleteAccountConfirmationDialogWidget.show(context),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(4.0, 0.0, 0.0, 16.0),
-      child: Text(
-        title.toUpperCase(),
-        style: GoogleFonts.plusJakartaSans(
-          color: colorScheme.onSurface.withAlpha(100),
-          fontSize: 11.0,
-          fontWeight: FontWeight.w900,
-          letterSpacing: 1.5,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsTile(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    Widget? trailing,
-    VoidCallback? onTap,
-    Color? color,
-  }) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final effectiveColor = color ?? colorScheme.onSurface;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12.0),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(
-          color: theme.dividerTheme.color ?? AppColors.transparent,
-          width: 1.0,
-        ),
-      ),
-      child: Material(
-        color: AppColors.transparent,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(24.0),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
+            Column(
+              spacing: 36.0,
               children: <Widget>[
-                Container(
-                  width: 44.0,
-                  height: 44.0,
-                  decoration: BoxDecoration(
-                    color: (color ?? colorScheme.primary).withAlpha(15),
-                    borderRadius: BorderRadius.circular(14.0),
-                  ),
-                  child: Icon(
-                    icon,
-                    color: color ?? colorScheme.primary,
-                    size: 20.0,
+                SettingsSectionWidget(
+                  title: "Minha Conta",
+                  children: <Widget>[
+                    SettingsTileWidget(
+                      icon: Icons.person_outline_rounded,
+                      title: "Editar Perfil",
+                      onTap: () => AppRoutes.goToEditProfile(context),
+                    ),
+                  ],
+                ),
+                SettingsSectionWidget(
+                  title: "Informações do Curso",
+                  children: <Widget>[
+                    SettingsTileWidget(
+                      icon: Icons.list_alt_rounded,
+                      title: "Disciplinas do Curso",
+                      onTap: () => AppRoutes.goToDisciplines(context),
+                    ),
+                    SettingsTileWidget(
+                      icon: Icons.info_outline_rounded,
+                      title: "Sobre o Curso",
+                      onTap: () => AppRoutes.goToCourseDetails(context),
+                    ),
+                  ],
+                ),
+                SettingsSectionWidget(
+                  title: "Preferências",
+                  children: <Widget>[
+                    SettingsTileWidget(
+                      icon: Icons.notifications_active_rounded,
+                      title: "Notificações",
+                      onTap: () {
+                        setState(() {
+                          _notificationsEnabled = !_notificationsEnabled;
+                        });
+                      },
+                      trailing: SwitchWidget(
+                        value: _notificationsEnabled,
+                        onChanged: (value) {
+                          setState(() {
+                            _notificationsEnabled = value;
+                          });
+                        },
+                      ),
+                    ),
+                    SettingsTileWidget(
+                      icon: Icons.palette_rounded,
+                      title: "Tema do Aplicativo",
+                      onTap: () => _showThemeBottomSheet(context),
+                      trailing: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 6.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary.withAlpha(15),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Text(
+                          themeState.label,
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w800,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SettingsSectionWidget(
+                  title: "Suporte",
+                  children: <Widget>[
+                    SettingsTileWidget(
+                      icon: Icons.help_center_rounded,
+                      title: "Central de Ajuda",
+                      onTap: () {},
+                    ),
+                    SettingsTileWidget(
+                      icon: Icons.info_rounded,
+                      title: "Sobre o Academic Planner",
+                      onTap: () => AppRoutes.goToAbout(context),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: SettingsSectionWidget(
+                    title: "Sessão e Segurança",
+                    children: <Widget>[
+                      SettingsTileWidget(
+                        icon: Icons.logout_rounded,
+                        title: "Sair da Conta",
+                        onTap: () {
+                          LogoutConfirmationDialogWidget.show(context);
+                        },
+                      ),
+                      SettingsTileWidget(
+                        icon: Icons.no_accounts_rounded,
+                        title: "Excluir Conta",
+                        color: colorScheme.error,
+                        onTap: () {
+                          DeleteAccountConfirmationDialogWidget.show(context);
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: 16.0),
-                Expanded(
-                  child: Text(
-                    title,
-                    style: GoogleFonts.plusJakartaSans(
-                      color: effectiveColor,
-                      fontSize: 15.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                trailing ??
-                    Icon(
-                      Icons.chevron_right_rounded,
-                      color: colorScheme.onSurface.withAlpha(60),
-                      size: 22.0,
-                    ),
               ],
             ),
-          ),
+          ],
         ),
       ),
     );
