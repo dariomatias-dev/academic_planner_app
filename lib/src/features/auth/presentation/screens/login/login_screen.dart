@@ -47,6 +47,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       if (!mounted) return;
 
       Fluttertoast.showToast(msg: 'Login realizado com sucesso');
+
+      AppRoutes.goToRoot(context);
     } catch (err, stack) {
       _logger.e('Login error', error: err, stackTrace: stack);
 
@@ -84,7 +86,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const SizedBox(height: 64.0),
-
                 Center(
                   child: Column(
                     children: <Widget>[
