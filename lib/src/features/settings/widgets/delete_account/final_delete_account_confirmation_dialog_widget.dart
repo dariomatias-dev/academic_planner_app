@@ -36,7 +36,7 @@ class FinalDeleteAccountConfirmationDialogWidget extends ConsumerWidget {
           await ref.read(authNotifierProvider.notifier).deleteAccount();
 
           if (context.mounted) {
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           }
 
           Fluttertoast.showToast(msg: "Sua conta foi excluída com sucesso");

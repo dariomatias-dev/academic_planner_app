@@ -17,14 +17,14 @@ class ErrorDialogWidget extends StatelessWidget {
     this.onClose,
   });
 
-  static void show(
+  static Future<void> show(
     BuildContext context, {
     String? title,
     required String message,
     String? buttonLabel,
     VoidCallback? onClose,
-  }) {
-    showDialog(
+  }) async {
+    await showDialog(
       context: context,
       builder: (context) {
         return ErrorDialogWidget(
