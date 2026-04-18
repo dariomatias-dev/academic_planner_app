@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+
 import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
 
 class ActivityCardActionsModalWidget extends ConsumerStatefulWidget {
-  final ActivityModel activity;
+  final Activity activity;
 
   const ActivityCardActionsModalWidget({super.key, required this.activity});
 
@@ -23,11 +24,11 @@ class ActivityCardActionsModalWidget extends ConsumerStatefulWidget {
 class _ActivityCardActionsModalWidgetState
     extends ConsumerState<ActivityCardActionsModalWidget> {
   Future<void> _markAsCompleted(BuildContext context) async {
-    final controller = ref.read(activityControllerProvider);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     final updated = widget.activity.copyWith(status: ActivityStatus.completed);
 
-    final result = await controller.editActivity(updated);
+    final result = await activityNotifier.edit(updated);
 
     result.when(
       onSuccess: (_) {

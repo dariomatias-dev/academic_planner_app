@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/activities/widgets/activities_metric_card_widget.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class ActivitiesSummaryTabWidget extends StatelessWidget {
-  final List<ActivityModel> tasks;
+  final List<Activity> activities;
 
-  const ActivitiesSummaryTabWidget({super.key, required this.tasks});
+  const ActivitiesSummaryTabWidget({super.key, required this.activities});
 
-  bool _isUrgent(ActivityModel task) {
+  bool _isUrgent(Activity task) {
     if (task.dueDate == null || task.status == ActivityStatus.completed) {
       return false;
     }
@@ -28,11 +28,11 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final completed = tasks
+    final completed = activities
         .where((t) => t.status == ActivityStatus.completed)
         .length;
 
-    final pending = tasks
+    final pending = activities
         .where(
           (t) =>
               t.status == ActivityStatus.pending ||
@@ -40,8 +40,8 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
         )
         .length;
 
-    final urgent = tasks.where((t) => _isUrgent(t)).length;
-    final total = tasks.length;
+    final urgent = activities.where((t) => _isUrgent(t)).length;
+    final total = activities.length;
     final progress = total == 0 ? 0.0 : completed / total;
 
     return ListView(
@@ -187,7 +187,9 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20.0),
-        if (tasks.where((t) => t.status != ActivityStatus.completed).isEmpty)
+        if (activities
+            .where((t) => t.status != ActivityStatus.completed)
+            .isEmpty)
           EmptyStateWidget(
             icon: Icons.celebration_rounded,
             title: 'Sem atividades',
@@ -195,7 +197,7 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
             isCentered: false,
           )
         else
-          ...tasks
+          ...activities
               .where((t) => t.status != ActivityStatus.completed)
               .take(3)
               .map((task) => ActivityCardWidget(activity: task)),

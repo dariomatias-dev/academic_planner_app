@@ -6,14 +6,14 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
 import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
@@ -34,8 +34,8 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   bool _isLoading = true;
 
   Future<void> _fetchData() async {
-    final controller = ref.read(activityControllerProvider);
-    final result = await controller.getActivities();
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
+    final result = await activityNotifier.getAll();
 
     result.fold(
       onSuccess: (activities) {
@@ -56,7 +56,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   }
 
   List<AgendaEntryModel> _mapActivitiesToEntries(
-    List<ActivityModel> activities,
+    List<Activity> activities,
     ColorScheme colorScheme,
   ) {
     final entries = <AgendaEntryModel>[];
@@ -74,7 +74,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
             subtitle: discipline?.acronym ?? '',
             startTime: activity.dueDate!,
             endTime: activity.dueDate!.add(const Duration(hours: 1)),
-            color: activity.status?.color(colorScheme) ?? colorScheme.primary,
+            color: activity.status.color(colorScheme),
             type: AgendaEntryType.activity,
           ),
         );

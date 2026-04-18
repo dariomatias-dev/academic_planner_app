@@ -1,21 +1,19 @@
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/di/activity_providers.dart';
-import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
-import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
+import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/data/filters/activity_filter.dart';
-
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activity/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/user/di/user_providers.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -35,12 +33,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   bool get wantKeepAlive => true;
 
-  Future<({List<ActivityModel> activeTasks, int progress})>
-  _fetchHomeData() async {
-    final controller = ref.read(activityControllerProvider);
+  Future<({List<Activity> activeTasks, int progress})> _fetchHomeData() async {
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     final results = await Future.wait([
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: const ActivityFilter(
           statuses: <ActivityStatus>[
             ActivityStatus.pending,
@@ -48,17 +45,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ],
         ),
       ),
-      controller.countActivities(),
-      controller.countActivities(
+      activityNotifier.count(),
+      activityNotifier.count(
         filter: const ActivityFilter(
           statuses: <ActivityStatus>[ActivityStatus.completed],
         ),
       ),
     ]);
 
-    final activeTasks = (results[0] as Result<List<ActivityModel>>).fold(
+    final activeTasks = (results[0] as Result<List<Activity>>).fold(
       onSuccess: (value) => value,
-      onFailure: (_) => <ActivityModel>[],
+      onFailure: (_) => <Activity>[],
     );
 
     final totalCount = (results[1] as Result<int>).fold(
@@ -71,11 +68,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       onFailure: (_) => 0,
     );
 
-    final progress = totalCount == 0
+    final progressValue = totalCount == 0
         ? 0
         : ((completedCount / totalCount) * 100).toInt();
 
-    return (activeTasks: activeTasks, progress: progress);
+    return (activeTasks: activeTasks, progress: progressValue);
   }
 
   @override
@@ -94,7 +91,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         showBackButton: false,
         actions: <Widget>[NotificationButtonWidget()],
       ),
-      body: FutureBuilder(
+      body: FutureBuilder<({List<Activity> activeTasks, int progress})>(
         future: _fetchHomeData(),
         builder: (context, snapshot) {
           final data = snapshot.data;

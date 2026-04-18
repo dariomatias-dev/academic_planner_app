@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
+
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';

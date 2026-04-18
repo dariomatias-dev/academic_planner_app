@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 
-final mockActivities = <ActivityModel>[
-  ActivityModel(
+final mockActivities = <Activity>[
+  Activity(
     id: "1",
     title: "Protótipo High-Fi",
     description:
@@ -15,7 +15,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 14, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "2",
     title: "Configuração de Rotas",
     description:
@@ -27,7 +27,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "3",
     title: "Lista de Exercícios IA",
     description:
@@ -39,7 +39,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: "4",
     title: "Ideia de Feature",
     description:
@@ -50,7 +50,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "5",
     title: "Revisão de Código",
     description:
@@ -62,7 +62,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "6",
     title: "Leitura de Artigo",
     description:
@@ -74,7 +74,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: "7",
     title: "Entrega de Relatório",
     description:
@@ -86,7 +86,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 8, minute: 30)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "8",
     title: "Aula Gravada Flutter",
     description:
@@ -98,7 +98,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "9",
     title: "Refatorar Controller",
     description:
@@ -110,7 +110,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "10",
     title: "Planejamento da Semana",
     description:
@@ -121,7 +121,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "11",
     title: "Simulado de Prova",
     description:
@@ -133,7 +133,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "12",
     title: "Atualizar Documentação",
     description:
@@ -145,7 +145,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: "13",
     title: "Brainstorm de Ideias",
     description:
@@ -156,7 +156,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "14",
     title: "Correção de Bugs",
     description:
@@ -168,7 +168,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "15",
     title: "Entrega Cancelada",
     description:
@@ -180,7 +180,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: "16",
     title: "Pesquisa de Requisitos",
     description:
@@ -192,7 +192,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "17",
     title: "Estudo de Caso SQL",
     description:
@@ -204,7 +204,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "18",
     title: "Preparação para Pitch",
     description:
@@ -216,7 +216,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 19, minute: 30)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "19",
     title: "Rascunho de Algoritmo",
     description:
@@ -228,7 +228,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "20",
     title: "Finalizar Deploy",
     description:
@@ -240,7 +240,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: "21",
     title: "Seminário de Metodologias",
     description:
@@ -252,7 +252,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 10, minute: 0)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "22",
     title: "Resumo de Redes",
     description:
@@ -264,7 +264,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "23",
     title: "Configuração Firebase",
     description:
@@ -276,7 +276,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: "24",
     title: "Heurísticas de Nielsen",
     description:
@@ -288,7 +288,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "25",
     title: "Definição de Escopo",
     description:
@@ -300,7 +300,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 20, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "26",
     title: "Diagrama de Classes",
     description:
@@ -312,7 +312,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "27",
     title: "Simulado P1",
     description:
@@ -324,7 +324,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: "28",
     title: "Estado com BLoC",
     description:
@@ -336,7 +336,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "29",
     title: "Heurísticas Mobile",
     description:
@@ -348,7 +348,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 9, minute: 30)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "30",
     title: "Backlog do Produto",
     description:
@@ -360,7 +360,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "31",
     title: "Segurança de Dados",
     description:
@@ -372,7 +372,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "32",
     title: "Teste de Carga",
     description:
@@ -384,7 +384,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 15, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "33",
     title: "Design de Ícones",
     description:
@@ -395,7 +395,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "34",
     title: "Reunião de Feedback",
     description: '[{"insert":"Presencial no campus.\\n"}]',
@@ -406,7 +406,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 11, minute: 0)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "35",
     title: "Configuração de CI/CD",
     description:
@@ -418,7 +418,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: "36",
     title: "Estudo de UX Writing",
     description:
@@ -430,7 +430,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "37",
     title: "Mapeamento de Fluxo",
     description:
@@ -442,7 +442,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: "38",
     title: "Lógica de Predição",
     description:
@@ -453,7 +453,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: "39",
     title: "Auditoria de Código",
     description:
@@ -465,7 +465,7 @@ final mockActivities = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: "40",
     title: "Entrega de Portfolio",
     description:

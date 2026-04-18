@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/data/filters/activity_filter.dart';
-
 import 'package:academic_planner/src/features/activities/widgets/activities_metric_card_widget.dart';
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activity/domain/value_objects/activity_filter.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
@@ -31,18 +30,18 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
 
 class _DisciplineDetailsActivitiesTabWidgetState
     extends ConsumerState<DisciplineDetailsActivitiesTabWidget> {
-  late Future<List<Result<List<ActivityModel>>>> _dataFuture;
+  late Future<List<Result<List<Activity>>>> _dataFuture;
 
   void _loadData() {
-    final controller = ref.read(activityControllerProvider);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     final now = DateTime.now();
 
     _dataFuture = Future.wait([
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: ActivityFilter(disciplineId: widget.disciplineId),
       ),
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: ActivityFilter(
           disciplineId: widget.disciplineId,
           statuses: <ActivityStatus>[
@@ -51,13 +50,13 @@ class _DisciplineDetailsActivitiesTabWidgetState
           ],
         ),
       ),
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: ActivityFilter(
           disciplineId: widget.disciplineId,
           statuses: <ActivityStatus>[ActivityStatus.completed],
         ),
       ),
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: ActivityFilter(
           disciplineId: widget.disciplineId,
           endDate: now.add(const Duration(days: 3)),
@@ -70,7 +69,7 @@ class _DisciplineDetailsActivitiesTabWidgetState
     ]);
   }
 
-  List<ActivityModel> _unpack(Result<List<ActivityModel>> result) {
+  List<Activity> _unpack(Result<List<Activity>> result) {
     return result.fold(onSuccess: (data) => data, onFailure: (_) => []);
   }
 
@@ -86,7 +85,7 @@ class _DisciplineDetailsActivitiesTabWidgetState
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return FutureBuilder<List<Result<List<ActivityModel>>>>(
+    return FutureBuilder<List<Result<List<Activity>>>>(
       future: _dataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {

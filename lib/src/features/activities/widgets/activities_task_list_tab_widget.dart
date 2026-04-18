@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class ActivitiesTaskListTabWidget extends StatelessWidget {
-  final List<ActivityModel> tasks;
+  final List<Activity> activities;
   final String description;
   final String emptyMessage;
 
   const ActivitiesTaskListTabWidget({
     super.key,
-    required this.tasks,
+    required this.activities,
     required this.description,
     required this.emptyMessage,
   });
@@ -37,7 +38,7 @@ class ActivitiesTaskListTabWidget extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: tasks.isEmpty
+          child: activities.isEmpty
               ? EmptyStateWidget(
                   icon: Icons.inventory_2_outlined,
                   title: 'Sem atividades',
@@ -46,9 +47,9 @@ class ActivitiesTaskListTabWidget extends StatelessWidget {
               : ListView.builder(
                   padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 140.0),
                   physics: const BouncingScrollPhysics(),
-                  itemCount: tasks.length,
+                  itemCount: activities.length,
                   itemBuilder: (context, index) {
-                    return ActivityCardWidget(activity: tasks[index]);
+                    return ActivityCardWidget(activity: activities[index]);
                   },
                 ),
         ),

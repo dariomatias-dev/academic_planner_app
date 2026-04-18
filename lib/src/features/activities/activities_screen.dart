@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/di/activity_providers.dart';
-import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/data/filters/activity_filter.dart';
-
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activity/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/widgets/activities_date_indicator_widget.dart';
 import 'package:academic_planner/src/features/activities/widgets/activities_filter_modal_widget.dart';
 import 'package:academic_planner/src/features/activities/widgets/activities_summary_tab_widget.dart';
 import 'package:academic_planner/src/features/activities/widgets/activities_task_list_tab_widget.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
@@ -32,10 +30,7 @@ class ActivitiesScreenWidget extends ConsumerStatefulWidget {
 
 class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  late final TabController _tabController = TabController(
-    length: 4,
-    vsync: this,
-  );
+  late final _tabController = TabController(length: 4, vsync: this);
 
   final _searchController = TextEditingController();
 
@@ -70,21 +65,21 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     }
   }
 
-  List<ActivityModel> _unpackResult(Result<List<ActivityModel>> result) {
+  List<Activity> _unpackResult(Result<List<Activity>> result) {
     return result.fold(
       onSuccess: (value) => value,
-      onFailure: (_) => <ActivityModel>[],
+      onFailure: (_) => <Activity>[],
     );
   }
 
-  Future<List<Result<List<ActivityModel>>>> _fetchAllTabsData(
+  Future<List<Result<List<Activity>>>> _fetchAllTabsData(
     ActivityFilter filter,
   ) {
-    final controller = ref.read(activityControllerProvider);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     return Future.wait([
-      controller.getActivities(filter: filter),
-      controller.getActivities(
+      activityNotifier.getAll(filter: filter),
+      activityNotifier.getAll(
         filter: filter.copyWith(
           statuses: <ActivityStatus>[
             ActivityStatus.pending,
@@ -92,12 +87,12 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
           ],
         ),
       ),
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: filter.copyWith(
           statuses: <ActivityStatus>[ActivityStatus.completed],
         ),
       ),
-      controller.getActivities(
+      activityNotifier.getAll(
         filter: filter.copyWith(
           statuses: <ActivityStatus>[
             ActivityStatus.draft,
@@ -163,7 +158,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         children: <Widget>[
           _buildHeader(colorScheme),
           Expanded(
-            child: FutureBuilder<List<Result<List<ActivityModel>>>>(
+            child: FutureBuilder<List<Result<List<Activity>>>>(
               future: _fetchAllTabsData(filterState),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -187,21 +182,21 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                 return TabBarView(
                   controller: _tabController,
                   children: <Widget>[
-                    ActivitiesSummaryTabWidget(tasks: allTasks),
+                    ActivitiesSummaryTabWidget(activities: allTasks),
                     ActivitiesTaskListTabWidget(
-                      tasks: activeTasks,
+                      activities: activeTasks,
                       description: "Ativas",
                       emptyMessage:
                           "Foco total! Nenhuma tarefa ativa no momento.",
                     ),
                     ActivitiesTaskListTabWidget(
-                      tasks: completedTasks,
+                      activities: completedTasks,
                       description: "Concluídas",
                       emptyMessage:
                           "O histórico está vazio. Toque no + para começar.",
                     ),
                     ActivitiesTaskListTabWidget(
-                      tasks: otherTasks,
+                      activities: otherTasks,
                       description: "Outras",
                       emptyMessage: "Sem rascunhos ou tarefas canceladas.",
                     ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+
 import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_delete_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_removal_failure_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_removal_success_dialog_widget.dart';
@@ -12,16 +13,16 @@ import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_re
 Future<bool> handleActivityDeletion({
   required BuildContext context,
   required WidgetRef ref,
-  required ActivityModel activity,
+  required Activity activity,
 }) async {
   bool success = false;
 
   Future<void> delete() async {
-    final controller = ref.read(activityControllerProvider);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
-    final result = await controller.removeActivity(activity.id);
+    final result = await activityNotifier.delete(activity.id);
 
-    await result.whenAsync(
+    await result.fold(
       onSuccess: (_) async {
         success = true;
 
@@ -31,6 +32,7 @@ Future<bool> handleActivityDeletion({
 
         if (!context.mounted) return;
 
+        ref.invalidate(activityNotifierProvider);
         Navigator.pop(context);
       },
       onFailure: (failure) async {
@@ -47,7 +49,7 @@ Future<bool> handleActivityDeletion({
 
   await ActivityDeleteDialogWidget.show(
     context,
-    task: activity,
+    activity: activity,
     onDelete: delete,
   );
 

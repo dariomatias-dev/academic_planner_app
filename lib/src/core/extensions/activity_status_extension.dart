@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 
 extension ActivityStatusExtension on ActivityStatus {
   String get label {

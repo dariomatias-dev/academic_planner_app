@@ -1,6 +1,7 @@
-import 'package:academic_planner/src/data/repositories/activity/activity_repository_impl.dart';
 import 'package:academic_planner/src/data/seeds/activity/activity_seed_data.dart';
 import 'package:academic_planner/src/data/seeds/seed.dart';
+
+import 'package:academic_planner/src/features/activity/data/repositories/activity_repository_impl.dart';
 
 class ActivitySeed implements Seed {
   final ActivityRepositoryImpl repository;
@@ -13,7 +14,7 @@ class ActivitySeed implements Seed {
   @override
   Future<void> run() async {
     for (final activity in activitySeedData) {
-      await repository.addActivity(activity);
+      await repository.add(activity);
     }
   }
 }

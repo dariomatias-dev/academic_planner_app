@@ -5,18 +5,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
+import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activity_details/widgets/activity_details_description_widget.dart';
 import 'package:academic_planner/src/features/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/features/activity_details/widgets/activity_details_due_date_widget.dart';
 import 'package:academic_planner/src/features/activity_details/widgets/activity_details_menu_widget.dart';
 
 import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -34,20 +34,24 @@ class ActivityDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
-  ActivityModel? _activity;
+  Activity? _activity;
   ActivityStatus? _originalStatus;
   ActivityStatus? _currentStatus;
   bool _isLoading = true;
 
-  bool get _hasStatusChanged => _originalStatus != _currentStatus;
+  bool get _hasStatusChanged {
+    return _originalStatus != _currentStatus;
+  }
 
   Future<void> _fetchActivity() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _isLoading = true;
+    });
 
-    final controller = ref.read(activityControllerProvider);
-    final result = await controller.getActivityById(widget.activityId);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
+    final result = await activityNotifier.getById(widget.activityId);
 
-    result.when(
+    result.fold(
       onSuccess: (activity) {
         setState(() {
           _activity = activity;
@@ -58,6 +62,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
       },
       onFailure: (failure) {
         setState(() => _isLoading = false);
+
         Fluttertoast.showToast(msg: "Erro ao carregar atividade");
       },
     );
@@ -66,11 +71,11 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
   Future<void> _saveStatus() async {
     if (_activity == null || _currentStatus == null) return;
 
-    final controller = ref.read(activityControllerProvider);
+    final notifier = ref.read(activityNotifierProvider.notifier);
 
     final updatedActivity = _activity!.copyWith(status: _currentStatus);
 
-    final result = await controller.editActivity(updatedActivity);
+    final result = await notifier.edit(updatedActivity);
 
     result.when(
       onSuccess: (_) {
@@ -118,9 +123,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                   activityId: _activity!.id,
                 );
 
-                if (result ?? false) {
-                  _fetchActivity();
-                }
+                if (result ?? false) _fetchActivity();
               },
               onDelete: () async {
                 final result = await handleActivityDeletion(
@@ -140,7 +143,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
       body: Builder(
         builder: (context) {
           if (_isLoading) {
-            return LoadingStateWidget();
+            return const LoadingStateWidget();
           }
 
           if (_activity == null) {
@@ -154,9 +157,9 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
             );
           }
 
-          final discipline = adsDisciplines
-              .where((d) => d.id == _activity!.disciplineId)
-              .firstOrNull;
+          final discipline = adsDisciplines.where((d) {
+            return d.id == _activity!.disciplineId;
+          }).firstOrNull;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 40.0),
@@ -239,7 +242,11 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                       final isSelected = _currentStatus == status;
 
                       return SelectableChipWidget(
-                        onTap: () => setState(() => _currentStatus = status),
+                        onTap: () {
+                          setState(() {
+                            _currentStatus = status;
+                          });
+                        },
                         label: status.label,
                         isSelected: isSelected,
                       );

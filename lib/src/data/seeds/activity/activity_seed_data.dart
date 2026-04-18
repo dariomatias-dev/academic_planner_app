@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:uuid/uuid.dart';
 
-final activitySeedData = <ActivityModel>[
-  ActivityModel(
+import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+
+final activitySeedData = <Activity>[
+  Activity(
     id: Uuid().v7(),
     title: "Protótipo High-Fi",
     description:
@@ -16,7 +16,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 14, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Configuração de Rotas",
     description:
@@ -28,7 +28,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Lista de Exercícios IA",
     description:
@@ -40,7 +40,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Ideia de Feature",
     description:
@@ -51,7 +51,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Revisão de Código",
     description:
@@ -63,7 +63,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Leitura de Artigo",
     description:
@@ -75,7 +75,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Entrega de Relatório",
     description:
@@ -87,7 +87,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 8, minute: 30)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Aula Gravada Flutter",
     description:
@@ -99,7 +99,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Refatorar Controller",
     description:
@@ -111,7 +111,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Planejamento da Semana",
     description:
@@ -122,7 +122,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Simulado de Prova",
     description:
@@ -134,7 +134,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Atualizar Documentação",
     description:
@@ -146,7 +146,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Brainstorm de Ideias",
     description:
@@ -157,7 +157,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Correção de Bugs",
     description:
@@ -169,7 +169,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Entrega Cancelada",
     description:
@@ -181,7 +181,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Pesquisa de Requisitos",
     description:
@@ -193,7 +193,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Estudo de Caso SQL",
     description:
@@ -205,7 +205,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Preparação para Pitch",
     description:
@@ -217,7 +217,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 19, minute: 30)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Rascunho de Algoritmo",
     description:
@@ -229,7 +229,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Finalizar Deploy",
     description:
@@ -241,7 +241,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Seminário de Metodologias",
     description:
@@ -253,7 +253,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 10, minute: 0)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Resumo de Redes",
     description:
@@ -265,7 +265,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Configuração Firebase",
     description:
@@ -277,7 +277,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Heurísticas de Nielsen",
     description:
@@ -289,7 +289,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Definição de Escopo",
     description:
@@ -301,7 +301,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 20, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Diagrama de Classes",
     description:
@@ -313,7 +313,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Simulado P1",
     description:
@@ -325,7 +325,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.canceled,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Estado com BLoC",
     description:
@@ -337,7 +337,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Heurísticas Mobile",
     description:
@@ -349,7 +349,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 9, minute: 30)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Backlog do Produto",
     description:
@@ -361,7 +361,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Segurança de Dados",
     description:
@@ -373,7 +373,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Teste de Carga",
     description:
@@ -385,7 +385,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 15, minute: 0)],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Design de Ícones",
     description:
@@ -396,7 +396,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Reunião de Feedback",
     description: '[{"insert":"Presencial no campus.\\n"}]',
@@ -407,7 +407,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[const TimeOfDay(hour: 11, minute: 0)],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Configuração de CI/CD",
     description:
@@ -419,7 +419,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.completed,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Estudo de UX Writing",
     description:
@@ -431,7 +431,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Mapeamento de Fluxo",
     description:
@@ -443,7 +443,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.pending,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Lógica de Predição",
     description:
@@ -454,7 +454,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.draft,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Auditoria de Código",
     description:
@@ -466,7 +466,7 @@ final activitySeedData = <ActivityModel>[
     reminders: <TimeOfDay>[],
     status: ActivityStatus.inProgress,
   ),
-  ActivityModel(
+  Activity(
     id: Uuid().v7(),
     title: "Entrega de Portfolio",
     description:
