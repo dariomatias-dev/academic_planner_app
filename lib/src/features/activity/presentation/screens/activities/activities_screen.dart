@@ -7,10 +7,10 @@ import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activity/domain/value_objects/activity_filter.dart';
-import 'package:academic_planner/src/features/activities/widgets/activities_date_indicator_widget.dart';
-import 'package:academic_planner/src/features/activities/widgets/activities_filter_modal_widget.dart';
-import 'package:academic_planner/src/features/activities/widgets/activities_summary_tab_widget.dart';
-import 'package:academic_planner/src/features/activities/widgets/activities_task_list_tab_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_date_indicator_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_filter_modal_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_summary_tab_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_task_list_tab_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';

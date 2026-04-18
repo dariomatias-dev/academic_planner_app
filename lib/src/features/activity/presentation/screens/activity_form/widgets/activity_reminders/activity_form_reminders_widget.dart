@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/features/activity_form/widgets/activity_reminders/activity_form_reminder_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_reminders/activity_form_reminder_widget.dart';
 
 class ActivityFormRemindersWidget extends StatelessWidget {
   final List<TimeOfDay> reminders;

@@ -15,12 +15,12 @@ import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/activity_form_date_picker_widget.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/activity_form_discipline_picker_widget.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/create_category_dialog_widget.dart';
-import 'package:academic_planner/src/features/activity_form/widgets/create_tag_dialog_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_form_date_picker_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/create_category_dialog_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/create_tag_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';

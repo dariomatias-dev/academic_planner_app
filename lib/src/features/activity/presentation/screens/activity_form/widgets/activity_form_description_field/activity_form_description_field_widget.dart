@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_link_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';

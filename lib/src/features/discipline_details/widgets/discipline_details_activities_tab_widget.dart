@@ -6,10 +6,10 @@ import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/features/activities/widgets/activities_metric_card_widget.dart';
 import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activity/domain/value_objects/activity_filter.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_metric_card_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';

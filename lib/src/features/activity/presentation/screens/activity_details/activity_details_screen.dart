@@ -11,10 +11,10 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activity_details/widgets/activity_details_description_widget.dart';
-import 'package:academic_planner/src/features/activity_details/widgets/activity_details_discipline_widget.dart';
-import 'package:academic_planner/src/features/activity_details/widgets/activity_details_due_date_widget.dart';
-import 'package:academic_planner/src/features/activity_details/widgets/activity_details_menu_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_details/widgets/activity_details_description_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_details/widgets/activity_details_due_date_widget.dart';
+import 'package:academic_planner/src/features/activity/presentation/screens/activity_details/widgets/activity_details_menu_widget.dart';
 
 import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
