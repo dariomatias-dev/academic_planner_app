@@ -9,6 +9,8 @@ abstract class ActivityRepository {
 
   Future<Result<List<ActivityModel>>> getActivities({ActivityFilter? filter});
 
+  Future<Result<int>> countActivities({ActivityFilter? filter});
+
   Future<Result<ActivityModel?>> getActivityById(String id);
 
   Future<Result<void>> updateActivity(ActivityModel activity);

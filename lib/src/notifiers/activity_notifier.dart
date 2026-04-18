@@ -18,6 +18,10 @@ class ActivityNotifier extends AsyncNotifier<void> {
     return _repository.getActivities(filter: filter);
   }
 
+  Future<Result<int>> countActivities({ActivityFilter? filter}) {
+    return _repository.countActivities(filter: filter);
+  }
+
   Future<Result<ActivityModel?>> getActivityById(String id) {
     return _repository.getActivityById(id);
   }

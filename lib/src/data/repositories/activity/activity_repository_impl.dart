@@ -43,6 +43,17 @@ class ActivityRepositoryImpl implements ActivityRepository {
   }
 
   @override
+  Future<Result<int>> countActivities({ActivityFilter? filter}) async {
+    try {
+      final count = await datasource.count(filter: filter);
+
+      return Success(count);
+    } catch (err) {
+      return FailureResult(DatabaseFailure(err.toString()));
+    }
+  }
+
+  @override
   Future<Result<ActivityModel>> getActivityById(String id) async {
     try {
       final data = await datasource.getById(id);

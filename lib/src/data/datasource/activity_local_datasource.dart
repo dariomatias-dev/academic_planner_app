@@ -49,6 +49,33 @@ class ActivityLocalDataSource {
     );
   }
 
+  Future<int> count({ActivityFilter? filter}) async {
+    final whereClauses = <String>[];
+    final whereArgs = <dynamic>[];
+
+    if (filter != null) {
+      if (filter.disciplineId != null) {
+        whereClauses.add('disciplineId = ?');
+        whereArgs.add(filter.disciplineId);
+      }
+
+      final statuses = filter.statuses;
+      if (statuses != null && statuses.isNotEmpty) {
+        final placeholders = List.filled(statuses.length, '?').join(', ');
+        whereClauses.add('status IN ($placeholders)');
+        whereArgs.addAll(statuses.map((s) => s.name));
+      }
+    }
+
+    final result = await db.rawQuery('''
+    SELECT COUNT(*) as count
+    FROM ${ActivityTable.tableName}
+    ${whereClauses.isEmpty ? '' : 'WHERE ${whereClauses.join(' AND ')}'}
+    ''', whereArgs);
+
+    return Sqflite.firstIntValue(result) ?? 0;
+  }
+
   Future<Map<String, dynamic>?> getById(String id) async {
     final result = await db.query(
       ActivityTable.tableName,

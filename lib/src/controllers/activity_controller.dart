@@ -47,6 +47,10 @@ class ActivityController {
     return await notifier.getActivities(filter: filter);
   }
 
+  Future<Result<int>> countActivities({ActivityFilter? filter}) {
+    return notifier.countActivities(filter: filter);
+  }
+
   Future<Result<ActivityModel?>> getActivityById(String id) async {
     return await notifier.getActivityById(id);
   }
