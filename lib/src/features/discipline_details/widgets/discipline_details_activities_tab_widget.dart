@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/controllers/activity_controller.dart';
-
 import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
@@ -34,24 +31,54 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
 
 class _DisciplineDetailsActivitiesTabWidgetState
     extends ConsumerState<DisciplineDetailsActivitiesTabWidget> {
-  late final ActivityController _activityController;
+  late Future<List<Result<List<ActivityModel>>>> _dataFuture;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _activityController = ref.read(activityControllerProvider);
-  }
-
-  bool _isUrgent(ActivityModel activity) {
-    if (activity.dueDate == null ||
-        activity.status == ActivityStatus.completed) {
-      return false;
-    }
+  void _loadData() {
+    final controller = ref.read(activityControllerProvider);
 
     final now = DateTime.now();
-    final difference = activity.dueDate!.difference(now);
 
-    return difference.inDays <= 3;
+    _dataFuture = Future.wait([
+      controller.getActivities(
+        filter: ActivityFilter(disciplineId: widget.disciplineId),
+      ),
+      controller.getActivities(
+        filter: ActivityFilter(
+          disciplineId: widget.disciplineId,
+          statuses: <ActivityStatus>[
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
+        ),
+      ),
+      controller.getActivities(
+        filter: ActivityFilter(
+          disciplineId: widget.disciplineId,
+          statuses: <ActivityStatus>[ActivityStatus.completed],
+        ),
+      ),
+      controller.getActivities(
+        filter: ActivityFilter(
+          disciplineId: widget.disciplineId,
+          endDate: now.add(const Duration(days: 3)),
+          statuses: <ActivityStatus>[
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
+        ),
+      ),
+    ]);
+  }
+
+  List<ActivityModel> _unpack(Result<List<ActivityModel>> result) {
+    return result.fold(onSuccess: (data) => data, onFailure: (_) => []);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadData();
   }
 
   @override
@@ -59,25 +86,23 @@ class _DisciplineDetailsActivitiesTabWidgetState
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return FutureBuilder(
-      future: _activityController.getActivities(
-        filter: ActivityFilter(disciplineId: widget.disciplineId),
-      ),
+    return FutureBuilder<List<Result<List<ActivityModel>>>>(
+      future: _dataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        final result = snapshot.data;
+        if (snapshot.hasError || !snapshot.hasData) {
+          return const Center(child: Text("Erro ao carregar dados"));
+        }
 
-        final disciplineActivities =
-            result?.fold(
-              onSuccess: (list) => list,
-              onFailure: (_) => <ActivityModel>[],
-            ) ??
-            <ActivityModel>[];
+        final allActivity = _unpack(snapshot.data![0]);
+        final activeActivities = _unpack(snapshot.data![1]);
+        final completedActivities = _unpack(snapshot.data![2]);
+        final urgentActivities = _unpack(snapshot.data![3]);
 
-        if (disciplineActivities.isEmpty) {
+        if (allActivity.isEmpty) {
           return EmptyStateWidget(
             icon: Icons.assignment_outlined,
             title: "Sem atividades",
@@ -92,49 +117,16 @@ class _DisciplineDetailsActivitiesTabWidgetState
           );
         }
 
-        final completed = disciplineActivities
-            .where((t) => t.status == ActivityStatus.completed)
-            .length;
-
-        final active = disciplineActivities
-            .where(
-              (t) =>
-                  t.status == ActivityStatus.pending ||
-                  t.status == ActivityStatus.inProgress,
-            )
-            .length;
-
-        final urgentCount = disciplineActivities
-            .where((t) => _isUrgent(t))
-            .length;
-
-        final priorityList = disciplineActivities.filter(
-          (t) => t.status != ActivityStatus.completed,
-        );
-
-        priorityList.sort((a, b) {
-          if (a.dueDate == null) return 1;
-          if (b.dueDate == null) return -1;
-          return a.dueDate!.compareTo(b.dueDate!);
-        });
-
-        final sortedFullList = List<ActivityModel>.from(disciplineActivities);
-
-        sortedFullList.sort((a, b) {
-          if (a.dueDate == null) return 1;
-          if (b.dueDate == null) return -1;
-          return a.dueDate!.compareTo(b.dueDate!);
-        });
-
         return ListView(
           padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 100.0),
+          physics: const BouncingScrollPhysics(),
           children: <Widget>[
             Row(
               children: <Widget>[
                 Expanded(
                   child: ActivitiesMetricCardWidget(
                     label: "Ativas",
-                    value: active.toString(),
+                    value: activeActivities.length.toString(),
                     icon: Icons.bolt_rounded,
                     color: colorScheme.secondary,
                   ),
@@ -143,7 +135,7 @@ class _DisciplineDetailsActivitiesTabWidgetState
                 Expanded(
                   child: ActivitiesMetricCardWidget(
                     label: "Concluídas",
-                    value: completed.toString(),
+                    value: completedActivities.length.toString(),
                     icon: Icons.check_circle_rounded,
                     color: Colors.teal,
                   ),
@@ -175,7 +167,7 @@ class _DisciplineDetailsActivitiesTabWidgetState
                   ),
                   const Spacer(),
                   Text(
-                    urgentCount.toString(),
+                    urgentActivities.length.toString(),
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 20.0,
                       fontWeight: FontWeight.w900,
@@ -185,13 +177,13 @@ class _DisciplineDetailsActivitiesTabWidgetState
                 ],
               ),
             ),
-            if (priorityList.isNotEmpty) ...<Widget>[
+            if (activeActivities.isNotEmpty) ...<Widget>[
               const SizedBox(height: 40.0),
               const _SectionHeader(title: "Prioridade"),
               const SizedBox(height: 16.0),
-              ...priorityList
+              ...activeActivities
                   .take(3)
-                  .map((a) => ActivityCardWidget(activity: a)),
+                  .map((activity) => ActivityCardWidget(activity: activity)),
             ],
             const SizedBox(height: 40.0),
             _SectionHeader(
@@ -199,12 +191,16 @@ class _DisciplineDetailsActivitiesTabWidgetState
               action: ViewAllButtonWidget(
                 onTap: () {
                   Navigator.pop(context);
+                  Navigator.pop(context);
+
                   ref.read(navigationNotifierProvider.notifier).setIndex(2);
                 },
               ),
             ),
             const SizedBox(height: 16.0),
-            ...sortedFullList.map((a) => ActivityCardWidget(activity: a)),
+            ...allActivity.map(
+              (activity) => ActivityCardWidget(activity: activity),
+            ),
           ],
         );
       },
