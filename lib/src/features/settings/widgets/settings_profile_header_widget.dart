@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/shared/models/user_model.dart';
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
+import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
 
 class SettingsProfileHeaderWidget extends StatelessWidget {
-  final UserModel? user;
-
-  const SettingsProfileHeaderWidget({super.key, this.user});
+  const SettingsProfileHeaderWidget({super.key});
 
   static const _institutionLogoUrl =
       'https://cdn.brandfetch.io/id27nEqSG5/w/300/h/331/theme/dark/logo.png';
+
+  static const _staticCourse = "Análise e Desenvolvimento de Sistemas";
+  static const _staticCampus = "Esperança";
 
   TextStyle _textStyle(
     BuildContext context, {
@@ -56,13 +59,21 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: user == null
-          ? _buildLoginState(context)
-          : _buildProfileState(context),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final user = ref.watch(userNotifierProvider).value;
+
+          if (user == null) {
+            return _buildLoginState(context);
+          }
+
+          return _buildProfileState(context, user);
+        },
+      ),
     );
   }
 
-  Widget _buildProfileState(BuildContext context) {
+  Widget _buildProfileState(BuildContext context, UserEntity user) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
@@ -77,10 +88,10 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    if (user!.isVerified) _buildVerifiedBadge(context),
+                    _buildVerifiedBadge(context),
                     const SizedBox(height: 12.0),
                     Text(
-                      user!.name,
+                      user.name,
                       style: _textStyle(
                         context,
                         size: 26.0,
@@ -91,7 +102,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 4.0),
                     Text(
-                      user!.email,
+                      user.email,
                       style: _textStyle(
                         context,
                         color: colorScheme.onSurface.withAlpha(140),
@@ -193,31 +204,30 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
             ),
           ),
         ),
-        if (user?.isVerified ?? false)
-          Container(
-            height: 30.0,
-            width: 30.0,
-            decoration: BoxDecoration(
-              color: AppColors.emerald500,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Theme.of(context).colorScheme.surface,
-                width: 3.5,
+        Container(
+          height: 30.0,
+          width: 30.0,
+          decoration: BoxDecoration(
+            color: AppColors.emerald500,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Theme.of(context).colorScheme.surface,
+              width: 3.5,
+            ),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: AppColors.emerald500.withAlpha(60),
+                blurRadius: 10.0,
+                offset: const Offset(0.0, 4.0),
               ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: AppColors.emerald500.withAlpha(60),
-                  blurRadius: 10.0,
-                  offset: const Offset(0.0, 4.0),
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.verified_rounded,
-              size: 14.0,
-              color: Colors.white,
-            ),
+            ],
           ),
+          child: const Icon(
+            Icons.verified_rounded,
+            size: 14.0,
+            color: Colors.white,
+          ),
+        ),
       ],
     );
   }
@@ -297,7 +307,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  user!.course,
+                  _staticCourse,
                   style: _textStyle(
                     context,
                     size: 14.0,
@@ -308,7 +318,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "IFPB Campus ${user!.campus}",
+                  "IFPB Campus $_staticCampus",
                   style: _textStyle(
                     context,
                     color: AppColors.emerald600,

@@ -13,7 +13,6 @@ import 'package:academic_planner/src/features/settings/widgets/settings_section_
 import 'package:academic_planner/src/features/settings/widgets/settings_tile_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
 
-import 'package:academic_planner/src/shared/models/user_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
@@ -68,15 +67,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SettingsProfileHeaderWidget(
-              user: UserModel(
-                id: 'c92eb305-cefb-434a-bd46-fa6e14989047',
-                name: "John Doe",
-                email: "john.doe@ifpb.edu.br",
-                course: "Análise e Desenvolvimento de Sistemas",
-                campus: "Esperança",
-              ),
-            ),
+            SettingsProfileHeaderWidget(),
             const SizedBox(height: 32.0),
             Column(
               spacing: 36.0,
