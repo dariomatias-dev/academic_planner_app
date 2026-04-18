@@ -38,41 +38,8 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
 
   final _searchController = TextEditingController();
 
-  String _searchQuery = "";
-
   @override
   bool get wantKeepAlive => true;
-
-  List<ActivityModel> _getFilteredTasks({
-    required List<ActivityModel> activities,
-    required ActivityFilter filter,
-  }) {
-    final statuses = filter.statuses;
-    final search = _searchQuery.toLowerCase();
-
-    final filtered = activities.where((task) {
-      final matchesSearch =
-          task.title.toLowerCase().contains(search) ||
-          task.description.toLowerCase().contains(search);
-
-      final matchesStatus =
-          statuses == null ||
-          statuses.isEmpty ||
-          statuses.contains(task.status);
-
-      return matchesSearch && matchesStatus;
-    }).toList();
-
-    filtered.sort((a, b) {
-      if (a.dueDate == null && b.dueDate == null) return 0;
-      if (a.dueDate == null) return 1;
-      if (b.dueDate == null) return -1;
-
-      return a.dueDate!.compareTo(b.dueDate!);
-    });
-
-    return filtered;
-  }
 
   void _syncTabWithFilter(ActivityFilter filter) {
     final statuses = filter.statuses;
@@ -92,13 +59,13 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
       targetIndex = 3;
     }
 
-    if (_tabController.index != targetIndex) {
-      _tabController.animateTo(targetIndex);
-    }
+    _tabController.animateTo(targetIndex);
   }
 
   void _loadActivities() {
-    ref.read(activityControllerProvider).getActivities();
+    final filter = ref.read(activityFilterNotifierProvider);
+
+    ref.read(activityControllerProvider).getActivities(filter: filter);
   }
 
   @override
@@ -106,9 +73,11 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     super.initState();
 
     _searchController.addListener(() {
-      setState(() {
-        _searchQuery = _searchController.text.toLowerCase();
-      });
+      final currentFilter = ref.read(activityFilterNotifierProvider);
+
+      ref
+          .read(activityFilterNotifierProvider.notifier)
+          .setFilter(currentFilter.copyWith(search: _searchController.text));
     });
 
     Future.microtask(_loadActivities);
@@ -118,6 +87,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
   void dispose() {
     _tabController.dispose();
     _searchController.dispose();
+
     super.dispose();
   }
 
@@ -129,10 +99,10 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     final colorScheme = theme.colorScheme;
 
     final activitiesAsync = ref.watch(activityNotifierProvider);
-    final filterState = ref.watch(activityFilterNotifierProvider);
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _syncTabWithFilter(filterState);
+    ref.listen(activityFilterNotifierProvider, (previous, next) {
+      _loadActivities();
+      _syncTabWithFilter(next);
     });
 
     return Scaffold(
@@ -162,22 +132,17 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
       ),
       body: activitiesAsync.when(
         data: (activities) {
-          final filteredTasks = _getFilteredTasks(
-            activities: activities,
-            filter: filterState,
-          );
-
-          final activeTasks = filteredTasks.filter(
+          final activeTasks = activities.filter(
             (task) =>
                 task.status == ActivityStatus.pending ||
                 task.status == ActivityStatus.inProgress,
           );
 
-          final completedTasks = filteredTasks.filter(
+          final completedTasks = activities.filter(
             (task) => task.status == ActivityStatus.completed,
           );
 
-          final otherTasks = filteredTasks.filter(
+          final otherTasks = activities.filter(
             (task) =>
                 task.status == ActivityStatus.draft ||
                 task.status == ActivityStatus.canceled,
@@ -218,7 +183,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                 child: TabBarView(
                   controller: _tabController,
                   children: <Widget>[
-                    ActivitiesSummaryTabWidget(tasks: filteredTasks),
+                    ActivitiesSummaryTabWidget(tasks: activities),
                     ActivitiesTaskListTabWidget(
                       tasks: activeTasks,
                       description: "Ativas",
