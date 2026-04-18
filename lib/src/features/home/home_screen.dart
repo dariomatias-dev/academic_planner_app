@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,26 +48,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           ],
         ),
       ),
-      controller.getActivities(),
-      controller.getActivities(
+      controller.countActivities(),
+      controller.countActivities(
         filter: const ActivityFilter(
           statuses: <ActivityStatus>[ActivityStatus.completed],
         ),
       ),
     ]);
 
-    final activeTasks = results[0].fold(
+    final activeTasks = (results[0] as Result<List<ActivityModel>>).fold(
       onSuccess: (value) => value,
       onFailure: (_) => <ActivityModel>[],
     );
 
-    final totalCount = results[1].fold(
-      onSuccess: (value) => value.length,
+    final totalCount = (results[1] as Result<int>).fold(
+      onSuccess: (value) => value,
       onFailure: (_) => 0,
     );
 
-    final completedCount = results[2].fold(
-      onSuccess: (value) => value.length,
+    final completedCount = (results[2] as Result<int>).fold(
+      onSuccess: (value) => value,
       onFailure: (_) => 0,
     );
 
