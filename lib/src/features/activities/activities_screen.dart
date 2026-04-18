@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/di/activity_providers.dart';
 import 'package:academic_planner/src/core/di/activity_filter_provider.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
@@ -19,6 +20,7 @@ import 'package:academic_planner/src/shared/widgets/buttons/notification_button_
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class ActivitiesScreenWidget extends ConsumerStatefulWidget {
   const ActivitiesScreenWidget({super.key});
@@ -40,6 +42,14 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
   @override
   bool get wantKeepAlive => true;
 
+  void _onSearchChanged() {
+    final currentFilter = ref.read(activityFilterNotifierProvider);
+
+    ref
+        .read(activityFilterNotifierProvider.notifier)
+        .setFilter(currentFilter.copyWith(search: _searchController.text));
+  }
+
   void _syncTabWithFilter(ActivityFilter filter) {
     final statuses = filter.statuses;
     if (statuses == null || statuses.isEmpty) return;
@@ -60,17 +70,49 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     }
   }
 
+  List<ActivityModel> _unpackResult(Result<List<ActivityModel>> result) {
+    return result.fold(
+      onSuccess: (value) => value,
+      onFailure: (_) => <ActivityModel>[],
+    );
+  }
+
+  Future<List<Result<List<ActivityModel>>>> _fetchAllTabsData(
+    ActivityFilter filter,
+  ) {
+    final controller = ref.read(activityControllerProvider);
+
+    return Future.wait([
+      controller.getActivities(filter: filter),
+      controller.getActivities(
+        filter: filter.copyWith(
+          statuses: <ActivityStatus>[
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
+        ),
+      ),
+      controller.getActivities(
+        filter: filter.copyWith(
+          statuses: <ActivityStatus>[ActivityStatus.completed],
+        ),
+      ),
+      controller.getActivities(
+        filter: filter.copyWith(
+          statuses: <ActivityStatus>[
+            ActivityStatus.draft,
+            ActivityStatus.canceled,
+          ],
+        ),
+      ),
+    ]);
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _searchController.addListener(() {
-      final currentFilter = ref.read(activityFilterNotifierProvider);
-
-      ref
-          .read(activityFilterNotifierProvider.notifier)
-          .setFilter(currentFilter.copyWith(search: _searchController.text));
-    });
+    _searchController.addListener(_onSearchChanged);
   }
 
   @override
@@ -91,11 +133,10 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
 
     ref.watch(activityNotifierProvider);
 
-    ref.listen(activityFilterNotifierProvider, (_, next) {
-      _syncTabWithFilter(next);
-    });
-
-    final controller = ref.read(activityControllerProvider);
+    ref.listen(
+      activityFilterNotifierProvider,
+      (_, next) => _syncTabWithFilter(next),
+    );
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -114,88 +155,36 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButtonWidget(
           heroTag: null,
-          onPressed: () async => await AppRoutes.goToActivityForm(context),
+          onPressed: () => AppRoutes.goToActivityForm(context),
           icon: Icons.add_rounded,
         ),
       ),
-      body: FutureBuilder(
-        future: Future.wait([
-          controller.getActivities(filter: filterState),
-          controller.getActivities(
-            filter: filterState.copyWith(
-              statuses: <ActivityStatus>[
-                ActivityStatus.pending,
-                ActivityStatus.inProgress,
-              ],
-            ),
-          ),
-          controller.getActivities(
-            filter: filterState.copyWith(
-              statuses: <ActivityStatus>[ActivityStatus.completed],
-            ),
-          ),
-          controller.getActivities(
-            filter: filterState.copyWith(
-              statuses: <ActivityStatus>[
-                ActivityStatus.draft,
-                ActivityStatus.canceled,
-              ],
-            ),
-          ),
-        ]),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: Column(
+        children: <Widget>[
+          _buildHeader(colorScheme),
+          Expanded(
+            child: FutureBuilder<List<Result<List<ActivityModel>>>>(
+              future: _fetchAllTabsData(filterState),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const LoadingStateWidget();
+                }
 
-          final results = snapshot.data ?? [];
+                if (snapshot.hasError || !snapshot.hasData) {
+                  return ErrorStateWidget(
+                    description: "Não foi possível carregar suas atividades.",
+                    actionLabel: "Tentar novamente",
+                    onActionPressed: () => setState(() {}),
+                  );
+                }
 
-          List<ActivityModel> unpack(int index) {
-            if (results.length <= index) return <ActivityModel>[];
-            return results[index].fold(
-              onSuccess: (value) => value,
-              onFailure: (_) => <ActivityModel>[],
-            );
-          }
+                final results = snapshot.data!;
+                final allTasks = _unpackResult(results[0]);
+                final activeTasks = _unpackResult(results[1]);
+                final completedTasks = _unpackResult(results[2]);
+                final otherTasks = _unpackResult(results[3]);
 
-          final allTasks = unpack(0);
-          final activeTasks = unpack(1);
-          final completedTasks = unpack(2);
-          final otherTasks = unpack(3);
-
-          return Column(
-            children: <Widget>[
-              Container(
-                color: colorScheme.surface,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const ActivitiesDateIndicatorWidget(),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                      child: InputWidget(
-                        controller: _searchController,
-                        hint: "Filtrar atividades...",
-                        prefixIcon: Icon(
-                          Icons.search_rounded,
-                          color: colorScheme.onSurface.withAlpha(100),
-                        ),
-                      ),
-                    ),
-                    TabBarWidget(
-                      controller: _tabController,
-                      tabs: const <Tab>[
-                        Tab(text: "Resumo"),
-                        Tab(text: "Ativas"),
-                        Tab(text: "Concluídas"),
-                        Tab(text: "Outras"),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: TabBarView(
+                return TabBarView(
                   controller: _tabController,
                   children: <Widget>[
                     ActivitiesSummaryTabWidget(tasks: allTasks),
@@ -217,12 +206,44 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                       emptyMessage: "Sem rascunhos ou tarefas canceladas.",
                     ),
                   ],
-                ),
+                );
+              },
+            ),
+          ),
+          const SizedBox(height: 52.0),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(ColorScheme colorScheme) {
+    return Container(
+      color: colorScheme.surface,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const ActivitiesDateIndicatorWidget(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+            child: InputWidget(
+              controller: _searchController,
+              hint: "Filtrar atividades...",
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: colorScheme.onSurface.withAlpha(100),
               ),
-              const SizedBox(height: 52.0),
+            ),
+          ),
+          TabBarWidget(
+            controller: _tabController,
+            tabs: const <Tab>[
+              Tab(text: "Resumo"),
+              Tab(text: "Ativas"),
+              Tab(text: "Concluídas"),
+              Tab(text: "Outras"),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
   }
