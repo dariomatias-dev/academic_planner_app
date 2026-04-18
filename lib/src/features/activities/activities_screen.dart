@@ -47,16 +47,21 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     required List<ActivityModel> activities,
     required ActivityFilter filter,
   }) {
-    final filtered = activities.filter((task) {
+    final statuses = filter.statuses;
+    final search = _searchQuery.toLowerCase();
+
+    final filtered = activities.where((task) {
       final matchesSearch =
-          task.title.toLowerCase().contains(_searchQuery) ||
-          task.description.toLowerCase().contains(_searchQuery);
+          task.title.toLowerCase().contains(search) ||
+          task.description.toLowerCase().contains(search);
 
       final matchesStatus =
-          filter.status == null || filter.status == task.status;
+          statuses == null ||
+          statuses.isEmpty ||
+          statuses.contains(task.status);
 
       return matchesSearch && matchesStatus;
-    });
+    }).toList();
 
     filtered.sort((a, b) {
       if (a.dueDate == null && b.dueDate == null) return 0;
@@ -70,17 +75,20 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
   }
 
   void _syncTabWithFilter(ActivityFilter filter) {
-    final status = filter.status;
+    final statuses = filter.statuses;
 
     int targetIndex = 0;
 
-    if (status == ActivityStatus.pending ||
-        status == ActivityStatus.inProgress) {
+    if (statuses != null &&
+        (statuses.contains(ActivityStatus.pending) ||
+            statuses.contains(ActivityStatus.inProgress))) {
       targetIndex = 1;
-    } else if (status == ActivityStatus.completed) {
+    } else if (statuses != null &&
+        statuses.contains(ActivityStatus.completed)) {
       targetIndex = 2;
-    } else if (status == ActivityStatus.draft ||
-        status == ActivityStatus.canceled) {
+    } else if (statuses != null &&
+        (statuses.contains(ActivityStatus.draft) ||
+            statuses.contains(ActivityStatus.canceled))) {
       targetIndex = 3;
     }
 

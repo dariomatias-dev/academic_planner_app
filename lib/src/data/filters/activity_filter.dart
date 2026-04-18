@@ -5,14 +5,14 @@ class ActivityFilter {
   final int? disciplineId;
   final DateTime? startDate;
   final DateTime? endDate;
-  final ActivityStatus? status;
+  final List<ActivityStatus>? statuses;
 
   const ActivityFilter({
     this.search,
     this.disciplineId,
     this.startDate,
     this.endDate,
-    this.status,
+    this.statuses,
   });
 
   ActivityFilter copyWith({
@@ -20,14 +20,14 @@ class ActivityFilter {
     int? disciplineId,
     DateTime? startDate,
     DateTime? endDate,
-    ActivityStatus? status,
+    List<ActivityStatus>? statuses,
   }) {
     return ActivityFilter(
       search: search ?? this.search,
       disciplineId: disciplineId ?? this.disciplineId,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
-      status: status ?? this.status,
+      statuses: statuses ?? this.statuses,
     );
   }
 }

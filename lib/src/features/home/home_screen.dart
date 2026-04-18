@@ -318,7 +318,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ref.read(navigationNotifierProvider.notifier).setIndex(2);
             ref
                 .read(activityFilterNotifierProvider.notifier)
-                .setFilter(ActivityFilter(status: ActivityStatus.inProgress));
+                .setFilter(
+                  ActivityFilter(
+                    statuses: <ActivityStatus>[ActivityStatus.inProgress],
+                  ),
+                );
           },
         ),
       ],

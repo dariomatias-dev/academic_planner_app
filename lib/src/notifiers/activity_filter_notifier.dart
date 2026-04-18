@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/data/filters/activity_filter.dart';
+
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 
 class ActivityFilterNotifier extends Notifier<ActivityFilter> {
@@ -18,14 +19,14 @@ class ActivityFilterNotifier extends Notifier<ActivityFilter> {
     int? disciplineId,
     DateTime? startDate,
     DateTime? endDate,
-    ActivityStatus? status,
+    List<ActivityStatus>? statuses,
   }) {
     state = state.copyWith(
       search: search,
       disciplineId: disciplineId,
       startDate: startDate,
       endDate: endDate,
-      status: status,
+      statuses: statuses,
     );
   }
 

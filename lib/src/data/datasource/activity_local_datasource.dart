@@ -19,9 +19,11 @@ class ActivityLocalDataSource {
         whereArgs.add(filter.disciplineId);
       }
 
-      if (filter.status != null) {
-        whereClauses.add('status = ?');
-        whereArgs.add(filter.status);
+      final statuses = filter.statuses;
+      if (statuses != null && statuses.isNotEmpty) {
+        final placeholders = List.filled(statuses.length, '?').join(', ');
+        whereClauses.add('status IN ($placeholders)');
+        whereArgs.addAll(statuses.map((s) => s.name));
       }
 
       if (filter.startDate != null) {
