@@ -12,6 +12,8 @@ import 'package:academic_planner/src/features/settings/widgets/settings_profile_
 import 'package:academic_planner/src/features/settings/widgets/settings_section_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/settings_tile_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
+import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
@@ -47,6 +49,125 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     );
   }
 
+  List<Widget> _buildSections(
+    ColorScheme colorScheme,
+    ThemeMode themeMode,
+    UserEntity? user,
+  ) {
+    return <Widget>[
+      if (user != null)
+        SettingsSectionWidget(
+          title: "Minha Conta",
+          children: <Widget>[
+            SettingsTileWidget(
+              icon: Icons.person_outline_rounded,
+              title: "Editar Perfil",
+              onTap: () => AppRoutes.goToEditProfile(context),
+            ),
+          ],
+        ),
+      SettingsSectionWidget(
+        title: "Informações do Curso",
+        children: <Widget>[
+          SettingsTileWidget(
+            icon: Icons.list_alt_rounded,
+            title: "Disciplinas do Curso",
+            onTap: () => AppRoutes.goToDisciplines(context),
+          ),
+          SettingsTileWidget(
+            icon: Icons.info_outline_rounded,
+            title: "Sobre o Curso",
+            onTap: () => AppRoutes.goToCourseDetails(context),
+          ),
+        ],
+      ),
+      SettingsSectionWidget(
+        title: "Preferências",
+        children: <Widget>[
+          SettingsTileWidget(
+            icon: Icons.notifications_active_rounded,
+            title: "Notificações",
+            onTap: () {
+              setState(() {
+                _notificationsEnabled = !_notificationsEnabled;
+              });
+            },
+            trailing: SwitchWidget(
+              value: _notificationsEnabled,
+              onChanged: (value) {
+                setState(() {
+                  _notificationsEnabled = value;
+                });
+              },
+            ),
+          ),
+          SettingsTileWidget(
+            icon: Icons.palette_rounded,
+            title: "Tema do Aplicativo",
+            onTap: () => _showThemeBottomSheet(context),
+            trailing: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12.0,
+                vertical: 6.0,
+              ),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withAlpha(15),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Text(
+                themeMode.label,
+                style: GoogleFonts.plusJakartaSans(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.primary,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      SettingsSectionWidget(
+        title: "Suporte",
+        children: <Widget>[
+          SettingsTileWidget(
+            icon: Icons.help_center_rounded,
+            title: "Central de Ajuda",
+            onTap: () {},
+          ),
+          SettingsTileWidget(
+            icon: Icons.info_rounded,
+            title: "Sobre o Academic Planner",
+            onTap: () => AppRoutes.goToAbout(context),
+          ),
+        ],
+      ),
+      if (user != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 20.0),
+          child: SettingsSectionWidget(
+            title: "Sessão e Segurança",
+            children: <Widget>[
+              SettingsTileWidget(
+                icon: Icons.logout_rounded,
+                title: "Sair da Conta",
+                onTap: () {
+                  LogoutConfirmationDialogWidget.show(context);
+                },
+              ),
+              SettingsTileWidget(
+                icon: Icons.no_accounts_rounded,
+                title: "Excluir Conta",
+                color: colorScheme.error,
+                onTap: () {
+                  DeleteAccountConfirmationDialogWidget.show(context);
+                },
+              ),
+            ],
+          ),
+        ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -54,12 +175,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final themeState = ref.watch(themeNotifierProvider);
+    final user = ref.watch(userNotifierProvider).value;
+
+    final sections = _buildSections(colorScheme, themeState, user);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(
         title: "Ajustes do App",
-        actions: <Widget>[NotificationButtonWidget()],
+        actions: [NotificationButtonWidget()],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 140.0),
@@ -67,121 +191,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SettingsProfileHeaderWidget(),
+            const SettingsProfileHeaderWidget(),
             const SizedBox(height: 32.0),
-            Column(
-              spacing: 36.0,
-              children: <Widget>[
-                SettingsSectionWidget(
-                  title: "Minha Conta",
-                  children: <Widget>[
-                    SettingsTileWidget(
-                      icon: Icons.person_outline_rounded,
-                      title: "Editar Perfil",
-                      onTap: () => AppRoutes.goToEditProfile(context),
-                    ),
-                  ],
-                ),
-                SettingsSectionWidget(
-                  title: "Informações do Curso",
-                  children: <Widget>[
-                    SettingsTileWidget(
-                      icon: Icons.list_alt_rounded,
-                      title: "Disciplinas do Curso",
-                      onTap: () => AppRoutes.goToDisciplines(context),
-                    ),
-                    SettingsTileWidget(
-                      icon: Icons.info_outline_rounded,
-                      title: "Sobre o Curso",
-                      onTap: () => AppRoutes.goToCourseDetails(context),
-                    ),
-                  ],
-                ),
-                SettingsSectionWidget(
-                  title: "Preferências",
-                  children: <Widget>[
-                    SettingsTileWidget(
-                      icon: Icons.notifications_active_rounded,
-                      title: "Notificações",
-                      onTap: () {
-                        setState(() {
-                          _notificationsEnabled = !_notificationsEnabled;
-                        });
-                      },
-                      trailing: SwitchWidget(
-                        value: _notificationsEnabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _notificationsEnabled = value;
-                          });
-                        },
-                      ),
-                    ),
-                    SettingsTileWidget(
-                      icon: Icons.palette_rounded,
-                      title: "Tema do Aplicativo",
-                      onTap: () => _showThemeBottomSheet(context),
-                      trailing: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0,
-                          vertical: 6.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: colorScheme.primary.withAlpha(15),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Text(
-                          themeState.label,
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w800,
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SettingsSectionWidget(
-                  title: "Suporte",
-                  children: <Widget>[
-                    SettingsTileWidget(
-                      icon: Icons.help_center_rounded,
-                      title: "Central de Ajuda",
-                      onTap: () {},
-                    ),
-                    SettingsTileWidget(
-                      icon: Icons.info_rounded,
-                      title: "Sobre o Academic Planner",
-                      onTap: () => AppRoutes.goToAbout(context),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: SettingsSectionWidget(
-                    title: "Sessão e Segurança",
-                    children: <Widget>[
-                      SettingsTileWidget(
-                        icon: Icons.logout_rounded,
-                        title: "Sair da Conta",
-                        onTap: () {
-                          LogoutConfirmationDialogWidget.show(context);
-                        },
-                      ),
-                      SettingsTileWidget(
-                        icon: Icons.no_accounts_rounded,
-                        title: "Excluir Conta",
-                        color: colorScheme.error,
-                        onTap: () {
-                          DeleteAccountConfirmationDialogWidget.show(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            Column(spacing: 36.0, children: sections),
           ],
         ),
       ),
