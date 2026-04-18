@@ -33,12 +33,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   bool get wantKeepAlive => true;
 
+  Future<List<ActivityModel>> _fetchHomeActivities() async {
+    final controller = ref.read(activityControllerProvider);
+
+    final result = await controller.getActivities(
+      filter: const ActivityFilter(
+        statuses: <ActivityStatus>[
+          ActivityStatus.pending,
+          ActivityStatus.inProgress,
+        ],
+      ),
+    );
+
+    return result.fold(
+      onSuccess: (activities) => activities,
+      onFailure: (_) => <ActivityModel>[],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    ref.watch(activityNotifierProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -66,56 +86,55 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
           ),
-          ListView(
-            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-            physics: const BouncingScrollPhysics(),
-            children: <Widget>[
-              _buildImpactfulHeader(context),
-              const SizedBox(height: 32.0),
-              const HomeMainFocusCardWidget(),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 32.0),
-                child: HomeQuickActionsRowWidget(),
-              ),
-              _buildSectionHeader(context, "Próximas Atividades"),
-              const SizedBox(height: 20.0),
-              Consumer(
-                builder: (context, ref, child) {
-                  final activitiesAsync = ref.watch(activityNotifierProvider);
+          FutureBuilder<List<ActivityModel>>(
+            future: _fetchHomeActivities(),
+            builder: (context, snapshot) {
+              final activities = snapshot.data ?? <ActivityModel>[];
+              final isLoading =
+                  snapshot.connectionState == ConnectionState.waiting;
 
-                  return activitiesAsync.when(
-                    loading: () {
-                      return const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(20.0),
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    },
-                    error: (e, _) {
-                      return const Center(child: Text("Erro ao carregar"));
-                    },
-                    data: (activities) {
-                      if (activities.isEmpty) return _buildEmptyState(context);
-
-                      return Column(
-                        children: activities
-                            .take(4)
-                            .map((task) => ActivityCardWidget(activity: task))
-                            .toList(),
-                      );
-                    },
-                  );
-                },
-              ),
-            ],
+              return ListView(
+                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+                physics: const BouncingScrollPhysics(),
+                children: <Widget>[
+                  _buildImpactfulHeader(context, activities.length),
+                  const SizedBox(height: 32.0),
+                  const HomeMainFocusCardWidget(),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32.0),
+                    child: HomeQuickActionsRowWidget(),
+                  ),
+                  _buildSectionHeader(context, "Próximas Atividades"),
+                  const SizedBox(height: 20.0),
+                  if (isLoading)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  else if (activities.isEmpty)
+                    _buildEmptyState(context)
+                  else
+                    Column(
+                      children: activities
+                          .take(4)
+                          .map(
+                            (activity) =>
+                                ActivityCardWidget(activity: activity),
+                          )
+                          .toList(),
+                    ),
+                ],
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  Widget _buildImpactfulHeader(BuildContext context) {
+  Widget _buildImpactfulHeader(BuildContext context, int activeCount) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -206,18 +225,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Consumer(
-                builder: (context, ref, child) {
-                  final count =
-                      ref.watch(activityNotifierProvider).value?.length ?? 0;
-
-                  return _buildHeaderMetric(
-                    context,
-                    value: count.toString().padLeft(2, '0'),
-                    label: "Atividades",
-                    icon: Icons.auto_stories_rounded,
-                  );
-                },
+              _buildHeaderMetric(
+                context,
+                value: activeCount.toString().padLeft(2, '0'),
+                label: "Ativas",
+                icon: Icons.bolt_rounded,
               ),
               Consumer(
                 builder: (context, ref, child) {
@@ -319,8 +331,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
             ref
                 .read(activityFilterNotifierProvider.notifier)
                 .setFilter(
-                  ActivityFilter(
-                    statuses: <ActivityStatus>[ActivityStatus.inProgress],
+                  const ActivityFilter(
+                    statuses: <ActivityStatus>[
+                      ActivityStatus.pending,
+                      ActivityStatus.inProgress,
+                    ],
                   ),
                 );
           },

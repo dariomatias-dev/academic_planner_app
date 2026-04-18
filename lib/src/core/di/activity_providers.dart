@@ -9,8 +9,6 @@ import 'package:academic_planner/src/data/repositories/activity/activity_reposit
 
 import 'package:academic_planner/src/notifiers/activity_notifier.dart';
 
-import 'package:academic_planner/src/shared/models/activity_model.dart';
-
 final activityLocalDataSourceProvider = Provider<ActivityLocalDataSource>((
   ref,
 ) {
@@ -25,10 +23,9 @@ final activityRepositoryProvider = Provider<ActivityRepositoryImpl>((ref) {
   return ActivityRepositoryImpl(ds);
 });
 
-final activityNotifierProvider =
-    AsyncNotifierProvider<ActivityNotifier, List<ActivityModel>>(
-      ActivityNotifier.new,
-    );
+final activityNotifierProvider = AsyncNotifierProvider<ActivityNotifier, void>(
+  ActivityNotifier.new,
+);
 
 final activityControllerProvider = Provider<ActivityController>((ref) {
   final notifier = ref.read(activityNotifierProvider.notifier);
