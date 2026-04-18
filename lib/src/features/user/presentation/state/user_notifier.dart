@@ -12,15 +12,28 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
 
   @override
   Future<UserEntity?> build() async {
-    final repository = ref.read(userRepositoryProvider);
-    final authRepository = ref.read(authRepositoryProvider);
+    final userRepository = ref.read(userRepositoryProvider);
 
-    viewModel = UserViewModel(repository);
+    viewModel = UserViewModel(userRepository);
 
-    final currentUser = authRepository.currentUser;
+    ref.listen(authNotifierProvider, (prev, next) {
+      next.whenData((firebaseUser) async {
+        if (firebaseUser != null) {
+          state = const AsyncLoading();
 
-    if (currentUser != null) {
-      await viewModel.loadUser(currentUser.uid);
+          await viewModel.loadUser(firebaseUser.uid);
+
+          state = AsyncData(viewModel.user);
+        } else {
+          state = const AsyncData(null);
+        }
+      });
+    });
+
+    final firebaseUser = ref.read(authNotifierProvider).value;
+
+    if (firebaseUser != null) {
+      await viewModel.loadUser(firebaseUser.uid);
 
       return viewModel.user;
     }
@@ -41,7 +54,8 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
   }
 
   Future<void> deleteAccount() async {
-    final currentUser = viewModel.user;
+    final currentUser = state.value;
+
     if (currentUser == null) return;
 
     state = const AsyncLoading();
@@ -56,13 +70,14 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
   }
 
   Future<void> refresh() async {
-    final currentUser = ref.read(authRepositoryProvider).currentUser;
-    if (currentUser == null) return;
+    final firebaseUser = ref.read(authNotifierProvider).value;
+
+    if (firebaseUser == null) return;
 
     state = const AsyncLoading();
 
     try {
-      await viewModel.loadUser(currentUser.uid);
+      await viewModel.loadUser(firebaseUser.uid);
 
       state = AsyncData(viewModel.user);
     } catch (err, stack) {
