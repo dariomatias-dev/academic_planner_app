@@ -12,6 +12,7 @@ import 'package:academic_planner/src/data/filters/activity_filter.dart';
 
 import 'package:academic_planner/src/features/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
@@ -131,14 +132,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         color: colorScheme.onSurface,
                       ),
                     ),
-                    Text(
-                      "John Doe",
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.w900,
-                        color: colorScheme.onSurface,
-                        letterSpacing: -1.0,
-                      ),
+                    Consumer(
+                      builder: (context, ref, child) {
+                        final user = ref.watch(userNotifierProvider).value;
+
+                        return Text(
+                          user?.name ?? 'Estudante',
+                          style: GoogleFonts.plusJakartaSans(
+                            fontSize: 28.0,
+                            fontWeight: FontWeight.w900,
+                            color: colorScheme.onSurface,
+                            letterSpacing: -1.0,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
