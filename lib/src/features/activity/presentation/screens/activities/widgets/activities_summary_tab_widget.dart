@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activity/presentation/screens/activities/widgets/activities_metric_card_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/shared/widgets/metric_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class ActivitiesSummaryTabWidget extends StatelessWidget {
@@ -146,7 +146,7 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
         Row(
           children: <Widget>[
             Expanded(
-              child: ActivitiesMetricCardWidget(
+              child: MetricCardWidget(
                 label: "Ativas",
                 value: pending.toString(),
                 icon: Icons.bolt_rounded,
@@ -155,7 +155,7 @@ class ActivitiesSummaryTabWidget extends StatelessWidget {
             ),
             const SizedBox(width: 16.0),
             Expanded(
-              child: ActivitiesMetricCardWidget(
+              child: MetricCardWidget(
                 label: "Concluídas",
                 value: completed.toString(),
                 icon: Icons.check_circle_rounded,

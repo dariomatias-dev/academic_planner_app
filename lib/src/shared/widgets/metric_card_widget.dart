@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ActivitiesMetricCardWidget extends StatelessWidget {
+class MetricCardWidget extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
   final Color color;
 
-  const ActivitiesMetricCardWidget({
+  const MetricCardWidget({
     super.key,
     required this.label,
     required this.value,
