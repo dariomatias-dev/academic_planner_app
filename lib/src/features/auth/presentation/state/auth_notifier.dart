@@ -29,7 +29,13 @@ class AuthNotifier extends AsyncNotifier<User?> {
     try {
       await viewModel.signIn(email, password);
 
-      state = AsyncData(viewModel.user);
+      final firebaseUser = ref.read(authRepositoryProvider).currentUser;
+
+      if (firebaseUser != null) {
+        await firebaseUser.reload();
+      }
+
+      state = AsyncData(firebaseUser);
     } catch (err, stackTrace) {
       state = AsyncError(err, stackTrace);
 
