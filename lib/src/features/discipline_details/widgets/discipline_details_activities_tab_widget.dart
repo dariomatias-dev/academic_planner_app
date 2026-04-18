@@ -14,7 +14,7 @@ import 'package:academic_planner/src/features/activities/widgets/activities_metr
 import 'package:academic_planner/src/shared/models/activity_model.dart';
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
   final int disciplineId;
@@ -90,11 +90,13 @@ class _DisciplineDetailsActivitiesTabWidgetState
       future: _dataFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const LoadingStateWidget(message: 'Obtendo atividades...');
         }
 
         if (snapshot.hasError || !snapshot.hasData) {
-          return const Center(child: Text("Erro ao carregar dados"));
+          return const ErrorStateWidget(
+            description: 'Erro ao obter as atividades da disciplina',
+          );
         }
 
         final allActivity = _unpack(snapshot.data![0]);
