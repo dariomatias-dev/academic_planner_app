@@ -20,6 +20,7 @@ import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -33,22 +34,47 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   bool get wantKeepAlive => true;
 
-  Future<List<ActivityModel>> _fetchHomeActivities() async {
+  Future<({List<ActivityModel> activeTasks, int progress})>
+  _fetchHomeData() async {
     final controller = ref.read(activityControllerProvider);
 
-    final result = await controller.getActivities(
-      filter: const ActivityFilter(
-        statuses: <ActivityStatus>[
-          ActivityStatus.pending,
-          ActivityStatus.inProgress,
-        ],
+    final results = await Future.wait([
+      controller.getActivities(
+        filter: const ActivityFilter(
+          statuses: <ActivityStatus>[
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
+        ),
       ),
-    );
+      controller.getActivities(),
+      controller.getActivities(
+        filter: const ActivityFilter(
+          statuses: <ActivityStatus>[ActivityStatus.completed],
+        ),
+      ),
+    ]);
 
-    return result.fold(
-      onSuccess: (activities) => activities,
+    final activeTasks = results[0].fold(
+      onSuccess: (value) => value,
       onFailure: (_) => <ActivityModel>[],
     );
+
+    final totalCount = results[1].fold(
+      onSuccess: (value) => value.length,
+      onFailure: (_) => 0,
+    );
+
+    final completedCount = results[2].fold(
+      onSuccess: (value) => value.length,
+      onFailure: (_) => 0,
+    );
+
+    final progress = totalCount == 0
+        ? 0
+        : ((completedCount / totalCount) * 100).toInt();
+
+    return (activeTasks: activeTasks, progress: progress);
   }
 
   @override
@@ -67,205 +93,245 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         showBackButton: false,
         actions: <Widget>[NotificationButtonWidget()],
       ),
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: -120.0,
-            right: -80.0,
-            child: Container(
-              width: 300.0,
-              height: 300.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: <Color>[
-                    colorScheme.primary.withAlpha(25),
-                    colorScheme.primary.withAlpha(0),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          FutureBuilder<List<ActivityModel>>(
-            future: _fetchHomeActivities(),
-            builder: (context, snapshot) {
-              final activities = snapshot.data ?? <ActivityModel>[];
-              final isLoading =
-                  snapshot.connectionState == ConnectionState.waiting;
+      body: FutureBuilder(
+        future: _fetchHomeData(),
+        builder: (context, snapshot) {
+          final data = snapshot.data;
+          final isLoading = snapshot.connectionState == ConnectionState.waiting;
 
-              return ListView(
-                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-                physics: const BouncingScrollPhysics(),
-                children: <Widget>[
-                  _buildImpactfulHeader(context, activities.length),
-                  const SizedBox(height: 32.0),
-                  const HomeMainFocusCardWidget(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32.0),
-                    child: HomeQuickActionsRowWidget(),
-                  ),
-                  _buildSectionHeader(context, "Próximas Atividades"),
-                  const SizedBox(height: 20.0),
-                  if (isLoading)
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  else if (activities.isEmpty)
-                    _buildEmptyState(context)
-                  else
-                    Column(
-                      children: activities
-                          .take(4)
-                          .map(
-                            (activity) =>
-                                ActivityCardWidget(activity: activity),
-                          )
-                          .toList(),
-                    ),
-                ],
-              );
-            },
+          return ListView(
+            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+            physics: const BouncingScrollPhysics(),
+            children: <Widget>[
+              const _HomeHeaderSection(),
+              const SizedBox(height: 32.0),
+              _buildMetricsBar(
+                colorScheme,
+                data?.activeTasks.length ?? 0,
+                data?.progress ?? 0,
+              ),
+              const SizedBox(height: 32.0),
+              const HomeMainFocusCardWidget(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.0),
+                child: HomeQuickActionsRowWidget(),
+              ),
+              const _HomeSectionHeader(),
+              const SizedBox(height: 20.0),
+              if (isLoading)
+                const LoadingStateWidget()
+              else if (data == null || data.activeTasks.isEmpty)
+                const _EmptyActivitiesState()
+              else
+                ...data.activeTasks
+                    .take(4)
+                    .map((task) => ActivityCardWidget(activity: task)),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildMetricsBar(
+    ColorScheme colorScheme,
+    int activeCount,
+    int progress,
+  ) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(32.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(10),
+            blurRadius: 30.0,
+            offset: const Offset(0.0, 15.0),
+          ),
+        ],
+        border: Border.all(
+          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _HeaderMetric(
+            value: activeCount.toString().padLeft(2, '0'),
+            label: "Ativas",
+            icon: Icons.bolt_rounded,
+          ),
+          const _DisciplinesMetric(),
+          _HeaderMetric(
+            value: "$progress%",
+            label: "Progresso",
+            icon: Icons.donut_large_rounded,
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildImpactfulHeader(BuildContext context, int activeCount) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+class _HomeHeaderSection extends StatelessWidget {
+  const _HomeHeaderSection();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Text(
-                      "Olá, ",
-                      style: GoogleFonts.plusJakartaSans(
-                        fontSize: 28.0,
-                        fontWeight: FontWeight.w400,
-                        color: colorScheme.onSurface,
-                      ),
-                    ),
-                    Consumer(
-                      builder: (context, ref, child) {
-                        final user = ref.watch(userNotifierProvider).value;
-
-                        return Text(
-                          user?.name.split(' ').first ?? 'Estudante',
-                          style: GoogleFonts.plusJakartaSans(
-                            fontSize: 28.0,
-                            fontWeight: FontWeight.w900,
-                            color: colorScheme.onSurface,
-                            letterSpacing: -1.0,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-                Text(
-                  DateUtilsHelper.formatWeekdayDate(DateTime.now()),
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.primary,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              width: 56.0,
-              height: 56.0,
-              decoration: BoxDecoration(
-                color: colorScheme.primary.withAlpha(20),
-                borderRadius: BorderRadius.circular(18.0),
-                border: Border.all(
-                  color: colorScheme.primary.withAlpha(40),
-                  width: 2.0,
-                ),
-              ),
-              child: Icon(
-                Icons.person_rounded,
+            const _WelcomeUserText(),
+            Text(
+              DateUtilsHelper.formatWeekdayDate(DateTime.now()),
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
                 color: colorScheme.primary,
-                size: 30.0,
+                letterSpacing: 0.5,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 32.0),
         Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(24.0),
+          width: 56.0,
+          height: 56.0,
           decoration: BoxDecoration(
-            color: colorScheme.surface,
-            borderRadius: BorderRadius.circular(32.0),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: Colors.black.withAlpha(10),
-                blurRadius: 30.0,
-                offset: const Offset(0.0, 15.0),
-              ),
-            ],
+            color: colorScheme.primary.withAlpha(20),
+            borderRadius: BorderRadius.circular(18.0),
             border: Border.all(
-              color: theme.dividerTheme.color ?? AppColors.transparent,
+              color: colorScheme.primary.withAlpha(40),
+              width: 2.0,
             ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              _buildHeaderMetric(
-                context,
-                value: activeCount.toString().padLeft(2, '0'),
-                label: "Ativas",
-                icon: Icons.bolt_rounded,
-              ),
-              Consumer(
-                builder: (context, ref, child) {
-                  final count = ref
-                      .watch(userDisciplinesNotifierProvider)
-                      .length;
-
-                  return _buildHeaderMetric(
-                    context,
-                    value: count.toString().padLeft(2, '0'),
-                    label: "Disciplinas",
-                    icon: Icons.grid_view_rounded,
-                  );
-                },
-              ),
-              _buildHeaderMetric(
-                context,
-                value: "9.2",
-                label: "IRA Geral",
-                icon: Icons.stars_rounded,
-                isLast: true,
-              ),
-            ],
+          child: Icon(
+            Icons.person_rounded,
+            color: colorScheme.primary,
+            size: 30.0,
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildHeaderMetric(
-    BuildContext context, {
-    required String value,
-    required String label,
-    required IconData icon,
-    bool isLast = false,
-  }) {
+class _HomeSectionHeader extends ConsumerWidget {
+  const _HomeSectionHeader();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      children: <Widget>[
+        Container(
+          width: 4.0,
+          height: 20.0,
+          decoration: BoxDecoration(
+            color: colorScheme.primary,
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+        ),
+        const SizedBox(width: 12.0),
+        Expanded(
+          child: Text(
+            "Próximas Atividades",
+            style: GoogleFonts.plusJakartaSans(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w800,
+              color: colorScheme.onSurface,
+              letterSpacing: -0.5,
+            ),
+          ),
+        ),
+        ViewAllButtonWidget(
+          onTap: () {
+            ref.read(navigationNotifierProvider.notifier).setIndex(2);
+
+            ref
+                .read(activityFilterNotifierProvider.notifier)
+                .setFilter(
+                  const ActivityFilter(
+                    statuses: <ActivityStatus>[
+                      ActivityStatus.pending,
+                      ActivityStatus.inProgress,
+                    ],
+                  ),
+                );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _WelcomeUserText extends ConsumerWidget {
+  const _WelcomeUserText();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final user = ref.watch(userNotifierProvider).value;
+
+    return Row(
+      children: <Widget>[
+        Text(
+          "Olá, ",
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 28.0,
+            fontWeight: FontWeight.w400,
+            color: colorScheme.onSurface,
+          ),
+        ),
+        Text(
+          user?.name.split(' ').first ?? 'Estudante',
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 28.0,
+            fontWeight: FontWeight.w900,
+            color: colorScheme.onSurface,
+            letterSpacing: -1.0,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DisciplinesMetric extends ConsumerWidget {
+  const _DisciplinesMetric();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(userDisciplinesNotifierProvider).length;
+
+    return _HeaderMetric(
+      value: count.toString().padLeft(2, '0'),
+      label: "Disciplinas",
+      icon: Icons.grid_view_rounded,
+    );
+  }
+}
+
+class _HeaderMetric extends StatelessWidget {
+  final String value;
+  final String label;
+  final IconData icon;
+
+  const _HeaderMetric({
+    required this.value,
+    required this.label,
+    required this.icon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
@@ -298,53 +364,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ],
     );
   }
+}
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
-    final colorScheme = Theme.of(context).colorScheme;
+class _EmptyActivitiesState extends StatelessWidget {
+  const _EmptyActivitiesState();
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: 4.0,
-          height: 20.0,
-          decoration: BoxDecoration(
-            color: colorScheme.primary,
-            borderRadius: BorderRadius.circular(2.0),
-          ),
-        ),
-        const SizedBox(width: 12.0),
-        Expanded(
-          child: Text(
-            title,
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w800,
-              color: colorScheme.onSurface,
-              letterSpacing: -0.5,
-            ),
-          ),
-        ),
-        ViewAllButtonWidget(
-          onTap: () {
-            ref.read(navigationNotifierProvider.notifier).setIndex(2);
-            ref
-                .read(activityFilterNotifierProvider.notifier)
-                .setFilter(
-                  const ActivityFilter(
-                    statuses: <ActivityStatus>[
-                      ActivityStatus.pending,
-                      ActivityStatus.inProgress,
-                    ],
-                  ),
-                );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEmptyState(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Container(
