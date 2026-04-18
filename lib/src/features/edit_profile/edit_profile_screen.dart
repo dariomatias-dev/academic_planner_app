@@ -11,7 +11,7 @@ import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -73,15 +73,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final userState = ref.watch(userNotifierProvider);
 
     return userState.when(
-      loading: () => const Scaffold(
-        body: LoadingStateWidget(message: "Carregando perfil..."),
-      ),
-      error: (err, stack) => Scaffold(
-        appBar: const AppBarWidget(title: 'Editar Perfil'),
-        body: Center(child: Text('Erro ao carregar dados: $err')),
-      ),
+      loading: () {
+        return const Scaffold(
+          appBar: AppBarWidget(title: 'Editar Perfil'),
+          body: LoadingStateWidget(message: "Carregando perfil..."),
+        );
+      },
+      error: (err, stack) {
+        return Scaffold(
+          appBar: const AppBarWidget(title: 'Editar Perfil'),
+          body: ErrorStateWidget(description: 'Erro ao carregar dados: $err'),
+        );
+      },
       data: (user) {
-        if (user == null) return const SizedBox.shrink();
+        if (user == null) {
+          return const SizedBox.shrink();
+        }
 
         _initFields(user);
 
@@ -120,7 +127,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   const FormFieldLabelWidget(label: "E-MAIL"),
                   InputWidget(
                     controller: _emailController,
-                    hint: "seu@email.com",
+                    hint: "email@gmail.com",
                     readOnly: true,
                     prefixIcon: Icon(
                       Icons.email_outlined,
