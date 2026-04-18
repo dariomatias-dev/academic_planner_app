@@ -1,16 +1,22 @@
+import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-class SplashScreen extends StatefulWidget {
+import 'package:academic_planner/src/features/user/di/user_providers.dart';
+
+import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
+
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   double _opacity = 0.0;
   double _scale = 0.8;
   double _yOffset = 20.0;
@@ -35,7 +41,26 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  Future<void> _loadAppData() async {}
+  Future<void> _loadAppData() async {
+    try {
+      await ref.read(authNotifierProvider.future);
+
+      await ref.read(userNotifierProvider.future);
+
+      if (mounted) {
+        AppRoutes.goToRoot(context);
+      }
+    } catch (err) {
+      if (mounted) {
+        await ErrorDialogWidget.show(
+          context,
+          message:
+              "Não foi possível sincronizar seus dados. Verifique sua conexão e tente novamente.",
+          onClose: _initializeResources,
+        );
+      }
+    }
+  }
 
   @override
   void initState() {
