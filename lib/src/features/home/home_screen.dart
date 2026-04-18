@@ -40,9 +40,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    final activitiesAsync = ref.watch(activityNotifierProvider);
-    final userDisciplines = ref.watch(userDisciplinesNotifierProvider);
-
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(
@@ -69,47 +66,56 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               ),
             ),
           ),
-          activitiesAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => const Center(child: Text("Erro ao carregar")),
-            data: (activities) {
-              return ListView(
-                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-                physics: const BouncingScrollPhysics(),
-                children: <Widget>[
-                  _buildImpactfulHeader(
-                    context,
-                    activities.length,
-                    userDisciplines.length,
-                  ),
-                  const SizedBox(height: 32.0),
-                  const HomeMainFocusCardWidget(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 32.0),
-                    child: HomeQuickActionsRowWidget(),
-                  ),
-                  _buildSectionHeader(context, "Próximas Atividades"),
-                  const SizedBox(height: 20.0),
-                  if (activities.isEmpty)
-                    _buildEmptyState(context)
-                  else
-                    ...activities
-                        .take(4)
-                        .map((task) => ActivityCardWidget(activity: task)),
-                ],
-              );
-            },
+          ListView(
+            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+            physics: const BouncingScrollPhysics(),
+            children: <Widget>[
+              _buildImpactfulHeader(context),
+              const SizedBox(height: 32.0),
+              const HomeMainFocusCardWidget(),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 32.0),
+                child: HomeQuickActionsRowWidget(),
+              ),
+              _buildSectionHeader(context, "Próximas Atividades"),
+              const SizedBox(height: 20.0),
+              Consumer(
+                builder: (context, ref, child) {
+                  final activitiesAsync = ref.watch(activityNotifierProvider);
+
+                  return activitiesAsync.when(
+                    loading: () {
+                      return const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    },
+                    error: (e, _) {
+                      return const Center(child: Text("Erro ao carregar"));
+                    },
+                    data: (activities) {
+                      if (activities.isEmpty) return _buildEmptyState(context);
+
+                      return Column(
+                        children: activities
+                            .take(4)
+                            .map((task) => ActivityCardWidget(activity: task))
+                            .toList(),
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _buildImpactfulHeader(
-    BuildContext context,
-    int activityCount,
-    int disciplineCount,
-  ) {
+  Widget _buildImpactfulHeader(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -137,7 +143,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                         final user = ref.watch(userNotifierProvider).value;
 
                         return Text(
-                          user?.name ?? 'Estudante',
+                          user?.name.split(' ').first ?? 'Estudante',
                           style: GoogleFonts.plusJakartaSans(
                             fontSize: 28.0,
                             fontWeight: FontWeight.w900,
@@ -149,7 +155,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     ),
                   ],
                 ),
-                const SizedBox(height: 4.0),
                 Text(
                   DateUtilsHelper.formatWeekdayDate(DateTime.now()),
                   style: GoogleFonts.plusJakartaSans(
@@ -198,63 +203,42 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               color: theme.dividerTheme.color ?? AppColors.transparent,
             ),
           ),
-          child: Column(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  _buildHeaderMetric(
+              Consumer(
+                builder: (context, ref, child) {
+                  final count =
+                      ref.watch(activityNotifierProvider).value?.length ?? 0;
+
+                  return _buildHeaderMetric(
                     context,
-                    value: activityCount.toString().padLeft(2, '0'),
+                    value: count.toString().padLeft(2, '0'),
                     label: "Atividades",
                     icon: Icons.auto_stories_rounded,
-                  ),
-                  _buildHeaderMetric(
+                  );
+                },
+              ),
+              Consumer(
+                builder: (context, ref, child) {
+                  final count = ref
+                      .watch(userDisciplinesNotifierProvider)
+                      .length;
+
+                  return _buildHeaderMetric(
                     context,
-                    value: disciplineCount.toString().padLeft(2, '0'),
+                    value: count.toString().padLeft(2, '0'),
                     label: "Disciplinas",
                     icon: Icons.grid_view_rounded,
-                  ),
-                  _buildHeaderMetric(
-                    context,
-                    value: "9.2",
-                    label: "IRA Geral",
-                    icon: Icons.stars_rounded,
-                    isLast: true,
-                  ),
-                ],
+                  );
+                },
               ),
-              const SizedBox(height: 24.0),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12.0),
-                child: LinearProgressIndicator(
-                  value: 0.72,
-                  minHeight: 8.0,
-                  backgroundColor: colorScheme.onSurface.withAlpha(15),
-                  color: colorScheme.primary,
-                ),
-              ),
-              const SizedBox(height: 12.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "Progresso do Semestre",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.onSurface.withAlpha(140),
-                    ),
-                  ),
-                  Text(
-                    "72%",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w900,
-                      color: colorScheme.primary,
-                    ),
-                  ),
-                ],
+              _buildHeaderMetric(
+                context,
+                value: "9.2",
+                label: "IRA Geral",
+                icon: Icons.stars_rounded,
+                isLast: true,
               ),
             ],
           ),
@@ -272,40 +256,34 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Expanded(
-      child: Row(
-        children: <Widget>[
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Icon(icon, size: 14.0, color: colorScheme.primary),
-                  const SizedBox(width: 6.0),
-                  Text(
-                    value,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w900,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(icon, size: 14.0, color: colorScheme.primary),
+            const SizedBox(width: 6.0),
+            Text(
+              value,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w900,
+                color: colorScheme.onSurface,
               ),
-              Text(
-                label.toUpperCase(),
-                style: GoogleFonts.plusJakartaSans(
-                  fontSize: 10.0,
-                  fontWeight: FontWeight.w800,
-                  color: colorScheme.onSurface.withAlpha(100),
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ],
+            ),
+          ],
+        ),
+        Text(
+          label.toUpperCase(),
+          style: GoogleFonts.plusJakartaSans(
+            fontSize: 10.0,
+            fontWeight: FontWeight.w800,
+            color: colorScheme.onSurface.withAlpha(100),
+            letterSpacing: 0.5,
           ),
-          if (!isLast) const Spacer(),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
