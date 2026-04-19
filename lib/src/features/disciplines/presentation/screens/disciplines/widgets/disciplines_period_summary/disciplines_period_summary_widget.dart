@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/features/disciplines/widgets/disciplines_period_summary/disciplines_summary_item_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_summary/disciplines_summary_item_widget.dart';
 
 class DisciplinesPeriodSummaryWidget extends StatelessWidget {
   const DisciplinesPeriodSummaryWidget({

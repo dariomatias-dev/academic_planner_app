@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/features/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/features/disciplines/widgets/disciplines_period_chip_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
 
 class DisciplineSelectionPeriodSelectorWidget extends StatelessWidget {
   final TabController controller;

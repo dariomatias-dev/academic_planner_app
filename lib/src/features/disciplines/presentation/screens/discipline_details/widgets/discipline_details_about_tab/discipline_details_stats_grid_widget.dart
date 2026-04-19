@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_stat_card_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_stat_card_widget.dart';
 
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 

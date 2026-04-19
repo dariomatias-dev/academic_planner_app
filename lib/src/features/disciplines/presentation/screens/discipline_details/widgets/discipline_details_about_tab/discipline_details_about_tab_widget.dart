@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
 
 import 'package:academic_planner/src/shared/models/discipline_model.dart';
 

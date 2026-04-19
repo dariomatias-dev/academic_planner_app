@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
 
 class DisciplineDetailsSchedulesWidget extends StatelessWidget {
   final int disciplineId;

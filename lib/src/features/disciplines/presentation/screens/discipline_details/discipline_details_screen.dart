@@ -4,11 +4,11 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_empty_state_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_header_widget.dart';
-import 'package:academic_planner/src/features/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_header_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
