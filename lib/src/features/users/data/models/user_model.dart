@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   UserModel({

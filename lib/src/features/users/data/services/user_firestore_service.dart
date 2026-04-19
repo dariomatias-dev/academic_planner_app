@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:academic_planner/src/features/user/data/models/user_model.dart';
+import 'package:academic_planner/src/features/users/data/models/user_model.dart';
 
 class UserFirestoreService {
   UserFirestoreService(this._firestore);

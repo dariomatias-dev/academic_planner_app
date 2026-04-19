@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/user/di/user_providers.dart';
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 class SettingsProfileHeaderWidget extends StatelessWidget {
   const SettingsProfileHeaderWidget({super.key});

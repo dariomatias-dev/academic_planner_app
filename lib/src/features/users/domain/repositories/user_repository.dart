@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 abstract class UserRepository {
   Future<void> create(UserEntity user);

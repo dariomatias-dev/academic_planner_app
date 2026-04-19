@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/user/di/user_providers.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
 

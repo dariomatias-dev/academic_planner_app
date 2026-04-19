@@ -12,8 +12,8 @@ import 'package:academic_planner/src/features/settings/widgets/settings_profile_
 import 'package:academic_planner/src/features/settings/widgets/settings_section_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/settings_tile_widget.dart';
 import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
-import 'package:academic_planner/src/features/user/di/user_providers.dart';
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';

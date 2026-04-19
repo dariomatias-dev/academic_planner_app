@@ -4,8 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
-import 'package:academic_planner/src/features/user/di/user_providers.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';

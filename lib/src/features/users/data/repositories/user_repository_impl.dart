@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/user/data/models/user_model.dart';
-import 'package:academic_planner/src/features/user/data/services/user_firestore_service.dart';
-import 'package:academic_planner/src/features/user/domain/entities/user_entity.dart';
-import 'package:academic_planner/src/features/user/domain/repositories/user_repository.dart';
+import 'package:academic_planner/src/features/users/data/models/user_model.dart';
+import 'package:academic_planner/src/features/users/data/services/user_firestore_service.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
   final UserFirestoreService _service;
