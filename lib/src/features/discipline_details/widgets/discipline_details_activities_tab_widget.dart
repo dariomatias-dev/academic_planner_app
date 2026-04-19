@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
@@ -15,7 +15,7 @@ import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widg
 import 'package:academic_planner/src/shared/widgets/metric_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
-class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
+class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
   final int disciplineId;
 
   const DisciplineDetailsActivitiesTabWidget({
@@ -23,27 +23,17 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerStatefulWidget {
     required this.disciplineId,
   });
 
-  @override
-  ConsumerState<DisciplineDetailsActivitiesTabWidget> createState() =>
-      _DisciplineDetailsActivitiesTabWidgetState();
-}
-
-class _DisciplineDetailsActivitiesTabWidgetState
-    extends ConsumerState<DisciplineDetailsActivitiesTabWidget> {
-  late Future<List<Result<List<Activity>>>> _dataFuture;
-
-  void _loadData() {
+  Future<List<List<Activity>>> _loadActivities(WidgetRef ref) async {
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
-
     final now = DateTime.now();
 
-    _dataFuture = Future.wait([
+    final results = await Future.wait([
       activityNotifier.getAll(
-        filter: ActivityFilter(disciplineId: widget.disciplineId),
+        filter: ActivityFilter(disciplineId: disciplineId),
       ),
       activityNotifier.getAll(
         filter: ActivityFilter(
-          disciplineId: widget.disciplineId,
+          disciplineId: disciplineId,
           statuses: <ActivityStatus>[
             ActivityStatus.pending,
             ActivityStatus.inProgress,
@@ -52,13 +42,13 @@ class _DisciplineDetailsActivitiesTabWidgetState
       ),
       activityNotifier.getAll(
         filter: ActivityFilter(
-          disciplineId: widget.disciplineId,
+          disciplineId: disciplineId,
           statuses: <ActivityStatus>[ActivityStatus.completed],
         ),
       ),
       activityNotifier.getAll(
         filter: ActivityFilter(
-          disciplineId: widget.disciplineId,
+          disciplineId: disciplineId,
           endDate: now.add(const Duration(days: 3)),
           statuses: <ActivityStatus>[
             ActivityStatus.pending,
@@ -67,26 +57,21 @@ class _DisciplineDetailsActivitiesTabWidgetState
         ),
       ),
     ]);
-  }
 
-  List<Activity> _unpack(Result<List<Activity>> result) {
-    return result.fold(onSuccess: (data) => data, onFailure: (_) => []);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _loadData();
+    return results.builder((r, index) {
+      return r.fold(onSuccess: (data) => data, onFailure: (_) => <Activity>[]);
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(activityNotifierProvider);
+
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return FutureBuilder<List<Result<List<Activity>>>>(
-      future: _dataFuture,
+    return FutureBuilder<List<List<Activity>>>(
+      future: _loadActivities(ref),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingStateWidget(message: 'Obtendo atividades...');
@@ -98,10 +83,11 @@ class _DisciplineDetailsActivitiesTabWidgetState
           );
         }
 
-        final allActivity = _unpack(snapshot.data![0]);
-        final activeActivities = _unpack(snapshot.data![1]);
-        final completedActivities = _unpack(snapshot.data![2]);
-        final urgentActivities = _unpack(snapshot.data![3]);
+        final data = snapshot.data!;
+        final allActivity = data[0];
+        final activeActivities = data[1];
+        final completedActivities = data[2];
+        final urgentActivities = data[3];
 
         if (allActivity.isEmpty) {
           return EmptyStateWidget(
@@ -110,10 +96,7 @@ class _DisciplineDetailsActivitiesTabWidgetState
             description: "Nenhuma atividade criada para esta disciplina.",
             actionLabel: "Criar Atividade",
             onActionPressed: () {
-              AppRoutes.goToActivityForm(
-                context,
-                disciplineId: widget.disciplineId,
-              );
+              AppRoutes.goToActivityForm(context, disciplineId: disciplineId);
             },
           );
         }
@@ -193,7 +176,6 @@ class _DisciplineDetailsActivitiesTabWidgetState
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
-
                   ref.read(navigationNotifierProvider.notifier).setIndex(2);
                 },
               ),
