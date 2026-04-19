@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
-import 'package:academic_planner/src/core/di/user_disciplines_provider.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
+import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
