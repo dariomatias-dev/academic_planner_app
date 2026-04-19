@@ -6,7 +6,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_actions_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';

@@ -9,8 +9,8 @@ import 'package:academic_planner/src/data/seeds/activity/activity_seed.dart';
 import 'package:academic_planner/src/data/seeds/seed.dart';
 import 'package:academic_planner/src/data/seeds/seed_runner.dart';
 
-import 'package:academic_planner/src/features/activity/data/data_source/activity_local_datasource.dart';
-import 'package:academic_planner/src/features/activity/data/repositories/activity_repository_impl.dart';
+import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
+import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

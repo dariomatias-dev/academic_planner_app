@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/result/failure.dart';
 
-import 'package:academic_planner/src/features/activity/di/activity_providers.dart';
-import 'package:academic_planner/src/features/activity/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
 import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_delete_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/activity_dialogs/activity_removal_failure_dialog_widget.dart';

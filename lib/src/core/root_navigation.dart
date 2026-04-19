@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
 
-import 'package:academic_planner/src/features/activity/presentation/screens/activities/activities_screen.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/home/home_screen.dart';
 import 'package:academic_planner/src/features/my_disciplines/my_disciplines_screen.dart';
 import 'package:academic_planner/src/features/settings/settings_screen.dart';
