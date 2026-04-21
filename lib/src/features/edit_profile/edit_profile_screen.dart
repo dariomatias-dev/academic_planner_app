@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -25,6 +27,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  UserRole? _selectedRole;
 
   bool _initialized = false;
 
@@ -33,6 +36,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
     _nameController.text = user.name;
     _emailController.text = user.email;
+    _selectedRole = user.role;
     _initialized = true;
   }
 
@@ -43,7 +47,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       id: currentUser.id,
       email: currentUser.email,
       name: _nameController.text.trim(),
-      role: currentUser.role,
+      role: _selectedRole ?? currentUser.role,
       createdAt: currentUser.createdAt,
       updatedAt: DateTime.now(),
     );
@@ -74,22 +78,16 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final userState = ref.watch(userNotifierProvider);
 
     return userState.when(
-      loading: () {
-        return const Scaffold(
-          appBar: AppBarWidget(title: 'Editar Perfil'),
-          body: LoadingStateWidget(message: "Carregando perfil..."),
-        );
-      },
-      error: (err, stack) {
-        return Scaffold(
-          appBar: const AppBarWidget(title: 'Editar Perfil'),
-          body: ErrorStateWidget(description: 'Erro ao carregar dados: $err'),
-        );
-      },
+      loading: () => const Scaffold(
+        appBar: AppBarWidget(title: 'Editar Perfil'),
+        body: LoadingStateWidget(message: "Carregando perfil..."),
+      ),
+      error: (err, stack) => Scaffold(
+        appBar: const AppBarWidget(title: 'Editar Perfil'),
+        body: ErrorStateWidget(description: 'Erro ao carregar dados: $err'),
+      ),
       data: (user) {
-        if (user == null) {
-          return const SizedBox.shrink();
-        }
+        if (user == null) return const SizedBox.shrink();
 
         _initFields(user);
 
@@ -135,6 +133,23 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       color: colorScheme.primary,
                       size: 20.0,
                     ),
+                  ),
+                  const SizedBox(height: 24.0),
+                  const FormFieldLabelWidget(label: "CARGO"),
+                  DropdownFieldWidget<UserRole>(
+                    value: _selectedRole,
+                    onChanged: (role) => setState(() => _selectedRole = role),
+                    prefixIcon: Icon(
+                      Icons.badge_outlined,
+                      color: colorScheme.primary,
+                      size: 20.0,
+                    ),
+                    items: UserRole.values.builder((role, index) {
+                      return DropdownMenuItem(
+                        value: role,
+                        child: Text(role.label.toUpperCase()),
+                      );
+                    }),
                   ),
                 ],
               ),
