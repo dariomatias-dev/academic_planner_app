@@ -8,7 +8,7 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_header_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_mural_tab_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_mural_tab/discipline_details_mural_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
