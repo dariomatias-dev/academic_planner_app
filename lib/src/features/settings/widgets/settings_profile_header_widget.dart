@@ -11,9 +11,6 @@ import 'package:academic_planner/src/features/users/domain/entities/user_entity.
 class SettingsProfileHeaderWidget extends StatelessWidget {
   const SettingsProfileHeaderWidget({super.key});
 
-  static const _institutionLogoUrl =
-      'https://cdn.brandfetch.io/id27nEqSG5/w/300/h/331/theme/dark/logo.png';
-
   static const _staticCourse = "Análise e Desenvolvimento de Sistemas";
   static const _staticCampus = "Esperança";
 
@@ -267,8 +264,8 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
           BoxShadow(color: Colors.black.withAlpha(5), blurRadius: 10.0),
         ],
       ),
-      child: Image.network(
-        _institutionLogoUrl,
+      child: Image.asset(
+        'assets/icons/ifpb_icon.png',
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
           return const Icon(
