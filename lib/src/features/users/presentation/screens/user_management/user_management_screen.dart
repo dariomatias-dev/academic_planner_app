@@ -1,100 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
-class UserManagementScreen extends StatefulWidget {
+class UserManagementScreen extends ConsumerStatefulWidget {
   const UserManagementScreen({super.key});
 
   @override
-  State<UserManagementScreen> createState() => _UserManagementScreenState();
+  ConsumerState<UserManagementScreen> createState() =>
+      _UserManagementScreenState();
 }
 
-class _UserManagementScreenState extends State<UserManagementScreen> {
-  UserRole? _selectedRole;
-  final TextEditingController _searchController = TextEditingController();
-
-  final _mockUsers = <UserEntity>[
-    UserEntity(
-      id: '1',
-      name: 'Dr. Valderi Reis',
-      email: 'valderi.reis@ifpb.edu.br',
-      role: UserRole.admin,
-      createdAt: DateTime(2023, 5, 12),
-      updatedAt: DateTime.now(),
-    ),
-    UserEntity(
-      id: '2',
-      name: 'Msc. Maria Oliveira',
-      email: 'maria.oliveira@ifpb.edu.br',
-      role: UserRole.teacher,
-      createdAt: DateTime(2023, 8, 20),
-      updatedAt: DateTime.now(),
-    ),
-    UserEntity(
-      id: '3',
-      name: 'Lucas Silva Souza',
-      email: 'lucas.souza@academico.ifpb.edu.br',
-      role: UserRole.student,
-      createdAt: DateTime(2024, 2, 10),
-      updatedAt: DateTime.now(),
-    ),
-    UserEntity(
-      id: '4',
-      name: 'Ana Beatriz Cavalcanti',
-      email: 'ana.beatriz@academico.ifpb.edu.br',
-      role: UserRole.student,
-      createdAt: DateTime(2024, 2, 11),
-      updatedAt: DateTime.now(),
-    ),
-  ];
+class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
+  final _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
-    final filteredUsers = _mockUsers.filter((user) {
-      final matchesRole = _selectedRole == null || user.role == _selectedRole;
-      final matchesSearch =
-          user.name.toLowerCase().contains(
-            _searchController.text.toLowerCase(),
-          ) ||
-          user.email.toLowerCase().contains(
-            _searchController.text.toLowerCase(),
-          );
-
-      return matchesRole && matchesSearch;
-    });
+    final usersAsync = ref.watch(usersProvider);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBarWidget(title: "Usuários"),
+      appBar: const AppBarWidget(title: "Usuários"),
       body: Column(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
             child: Column(
               children: <Widget>[
-                _buildSearchBar(colorScheme),
+                _buildSearchBar(ref, colorScheme),
                 const SizedBox(height: 16.0),
-                _buildFilterChips(colorScheme),
+                _buildFilterChips(ref, colorScheme),
               ],
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 100.0),
-              physics: const BouncingScrollPhysics(),
-              itemCount: filteredUsers.length,
-              itemBuilder: (context, index) {
-                return UserCardWidget(user: filteredUsers[index]);
+            child: usersAsync.when(
+              loading: () {
+                return const LoadingStateWidget(
+                  message: "Buscando usuários...",
+                );
+              },
+              error: (err, _) {
+                return ErrorStateWidget(description: err.toString());
+              },
+              data: (users) {
+                if (users.isEmpty) {
+                  return const EmptyStateWidget(
+                    icon: Icons.people_outline_rounded,
+                    title: "Nenhum usuário",
+                    description: "A busca não retornou resultados.",
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () => ref.refresh(usersProvider.future),
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 100.0),
+                    physics: const AlwaysScrollableScrollPhysics(
+                      parent: BouncingScrollPhysics(),
+                    ),
+                    itemCount: users.length,
+                    itemBuilder: (context, index) {
+                      return UserCardWidget(user: users[index]);
+                    },
+                  ),
+                );
               },
             ),
           ),
@@ -103,7 +84,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     );
   }
 
-  Widget _buildSearchBar(ColorScheme colorScheme) {
+  Widget _buildSearchBar(WidgetRef ref, ColorScheme colorScheme) {
     return Container(
       decoration: BoxDecoration(
         color: colorScheme.surface,
@@ -116,49 +97,49 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           ),
         ],
       ),
-      child: TextField(
+      child: InputWidget(
         controller: _searchController,
-        onChanged: (value) => setState(() {}),
-        style: GoogleFonts.plusJakartaSans(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w600,
-        ),
-        decoration: InputDecoration(
-          hintText: "Pesquisar por nome ou e-mail...",
-          hintStyle: GoogleFonts.plusJakartaSans(
-            color: colorScheme.onSurface.withAlpha(100),
-            fontSize: 14.0,
-            fontWeight: FontWeight.w500,
-          ),
-          prefixIcon: Icon(Icons.search_rounded, color: colorScheme.primary),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 15.0),
-        ),
+        onSubmitted: (value) {
+          ref.read(userFilterProvider.notifier).setQuery(value.trim());
+        },
+        hint: 'Pressione enter para buscar...',
+        prefixIcon: Icon(Icons.search_rounded),
       ),
     );
   }
 
-  Widget _buildFilterChips(ColorScheme colorScheme) {
+  Widget _buildFilterChips(WidgetRef ref, ColorScheme colorScheme) {
+    final filter = ref.watch(userFilterProvider);
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Row(
         children: <Widget>[
-          _buildChip("Todos", null),
-          _buildChip("Admins", UserRole.admin),
-          _buildChip("Professores", UserRole.teacher),
-          _buildChip("Alunos", UserRole.student),
+          _buildChip(ref, "Todos", null, filter.role == null, colorScheme),
+          ...UserRole.values.map(
+            (role) => _buildChip(
+              ref,
+              role.label,
+              role,
+              filter.role == role,
+              colorScheme,
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildChip(String label, UserRole? role) {
-    final isSelected = _selectedRole == role;
-    final colorScheme = Theme.of(context).colorScheme;
-
+  Widget _buildChip(
+    WidgetRef ref,
+    String label,
+    UserRole? role,
+    bool isSelected,
+    ColorScheme colorScheme,
+  ) {
     return GestureDetector(
-      onTap: () => setState(() => _selectedRole = role),
+      onTap: () => ref.read(userFilterProvider.notifier).setRole(role),
       child: Container(
         margin: const EdgeInsets.only(right: 8.0),
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
