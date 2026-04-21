@@ -17,6 +17,7 @@ class InputWidget extends StatelessWidget {
     this.style = InputStyle.primary,
     this.obscureText = false,
     this.readOnly = false,
+    this.onSubmitted,
   });
 
   final TextEditingController controller;
@@ -28,9 +29,10 @@ class InputWidget extends StatelessWidget {
   final InputStyle style;
   final bool obscureText;
   final bool readOnly;
+  final void Function(String value)? onSubmitted;
 
-  static const double _radius = 16.0;
-  static const EdgeInsets _contentPadding = EdgeInsets.all(16.0);
+  static const _radius = 16.0;
+  static const _contentPadding = EdgeInsets.all(16.0);
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class InputWidget extends StatelessWidget {
       obscureText: obscureText,
       readOnly: readOnly,
       validator: validator,
+      onFieldSubmitted: onSubmitted,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: _textStyle(colors).copyWith(
         color: readOnly ? colors.onSurface.withAlpha(140) : colors.onSurface,
