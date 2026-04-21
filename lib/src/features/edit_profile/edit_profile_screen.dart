@@ -43,6 +43,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       id: currentUser.id,
       email: currentUser.email,
       name: _nameController.text.trim(),
+      role: currentUser.role,
       createdAt: currentUser.createdAt,
       updatedAt: DateTime.now(),
     );

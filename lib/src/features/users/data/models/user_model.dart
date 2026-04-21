@@ -9,6 +9,7 @@ class UserModel extends UserEntity {
     required super.name,
     required super.createdAt,
     required super.updatedAt,
+    required super.role,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -19,6 +20,7 @@ class UserModel extends UserEntity {
       id: map['id'] ?? '',
       email: map['email'] ?? '',
       name: map['name'] ?? '',
+      role: _roleFromString(map['role']),
       createdAt: created is Timestamp ? created.toDate() : DateTime.now(),
       updatedAt: updated is Timestamp ? updated.toDate() : DateTime.now(),
     );
@@ -29,8 +31,20 @@ class UserModel extends UserEntity {
       'id': id,
       'email': email,
       'name': name,
+      'role': role.name,
       'created_at': Timestamp.fromDate(createdAt),
       'updated_at': Timestamp.fromDate(updatedAt),
     };
+  }
+
+  static UserRole _roleFromString(dynamic value) {
+    switch (value) {
+      case 'admin':
+        return UserRole.admin;
+      case 'teacher':
+        return UserRole.teacher;
+      default:
+        return UserRole.student;
+    }
   }
 }
