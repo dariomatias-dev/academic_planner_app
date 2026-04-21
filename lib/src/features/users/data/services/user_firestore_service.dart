@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+
 import 'package:academic_planner/src/features/users/data/models/user_model.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 class UserFirestoreService {
   UserFirestoreService(this._firestore);
@@ -11,6 +14,26 @@ class UserFirestoreService {
 
   Future<void> saveUser(UserModel user) async {
     await _usersRef.doc(user.id).set(user.toMap());
+  }
+
+  Future<List<UserModel>> getUsers({String? query, UserRole? role}) async {
+    Query firestoreQuery = _usersRef;
+
+    if (role != null) {
+      firestoreQuery = firestoreQuery.where('role', isEqualTo: role.name);
+    }
+
+    if (query != null && query.isNotEmpty) {
+      firestoreQuery = firestoreQuery.orderBy('name').startAt([query]).endAt([
+        '$query\uf8ff',
+      ]);
+    }
+
+    final snapshot = await firestoreQuery.get();
+
+    return snapshot.docs.builder((doc, index) {
+      return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+    });
   }
 
   Future<DocumentSnapshot> getUserDoc(String uid) async {
