@@ -73,48 +73,49 @@ A árvore abaixo detalha a organização completa do diretório `lib/src/`, serv
 ```text
 lib/
 └── src/
-    ├── core/                         # Funcionalidades globais e transversais
-    │   ├── constants/                # Valores imutáveis
-    │   ├── database/                 # Persistência SQLite
-    │   │   ├── migrations/           # Evolução do esquema do banco
-    │   │   ├── tables/               # Definições de tabelas
-    │   │   └── app_database.dart     # Configuração central do DB
-    │   ├── di/                       # Injeção de Dependência
-    │   ├── extensions/               # Extensões de classes (Dart/Flutter)
-    │   ├── result/                   # Padrão de retorno funcional
-    │   │   ├── failure.dart          # Tipagem de erros
-    │   │   └── result.dart           # Wrapper Success/Failure
-    │   ├── routes/                   # Gestão de Navegação (GoRouter)
-    │   │   ├── app_router.dart
-    │   │   ├── app_routes.dart
-    │   │   ├── route_names.dart
-    │   │   └── route_paths.dart
-    │   ├── services/                 # Serviços de infraestrutura
-    │   ├── theme/                    # Design System e Tematização
-    │   │   ├── app_theme.dart
-    │   │   └── theme_notifier.dart
-    │   ├── app_colors.dart           # Cores
-    │   ├── root_navigation.dart      # Widget raiz de controle
-    │   ├── shared_preferences_keys.dart
-    │   └── validators.dart           # Validações de negócio
+    ├── core/                            # Funcionalidades globais e transversais
+    │   ├── constants/                   # Valores imutáveis
+    │   ├── database/                    # Persistência SQLite
+    │   │   ├── migrations/              # Migrações do esquema do banco de dados
+    │   │   ├── tables/                  # Definições de tabelas
+    │   │   └── app_database.dart        # Configuração central do banco de dados
+    │   ├── di/                          # Injeção de Dependência
+    │   ├── extensions/                  # Extensões de classes (Dart/Flutter)
+    │   ├── result/                      # Padrão de retorno funcional
+    │   │   ├── failure.dart             # Definição dos tipos de erro (Failure)
+    │   │   └── result.dart              # Wrapper para sucesso (Success) e falha (Failure)
+    │   ├── routes/                      # Configuração e abstração de navegação (GoRouter)
+    │   │   ├── app_router.dart          # Definição das rotas e árvore de navegação
+    │   │   ├── app_routes.dart          # Métodos utilitários para navegação
+    │   │   ├── route_names.dart         # Identificadores únicos das rotas
+    │   │   └── route_paths.dart         # Caminhos (URLs) das rotas
+    │   ├── services/                    # Serviços de infraestrutura
+    │   ├── theme/                       # Design System e Tematização
+    │   │   ├── app_theme.dart           # Configuração dos temas (claro/escuro)
+    │   │   └── theme_notifier.dart      # Gerenciamento de estado, controle e persistência do modo de tema
+    │   ├── app_colors.dart              # Definição de cores globais
+    │   ├── root_navigation.dart         # Widget raiz de navegação
+    │   ├── shared_preferences_keys.dart # Chaves de armazenamento local
+    │   └── validators.dart              # Validações reutilizáveis
     │
-    ├── features/                     # Módulos independentes por funcionalidade
-    │   └── <feature>/                # Ex: activity, auth, user
-    │       ├── data/                 # Implementação e Acesso a Dados
-    │       │   ├── models/           # DTOs e Serialização
-    │       │   ├── services/         # Data Sources (Local/Remote)
-    │       │   └── repositories/     # Implementação dos contratos
-    │       ├── domain/               # Regras de Negócio Puras
-    │       │   ├── entities/         # Objetos de domínio
-    │       │   └── repositories/     # Contratos de repositório
-    │       └── presentation/         # Camada de Usuário
-    │           ├── screens/          # Widgets de tela
-    │           ├── viewmodels/       # Componentes locais da feature
-    │           └── widgets/          # Lógica de estado e UI
+    ├── features/                        # Módulos independentes por funcionalidade
+    │   └── <feature>/                   # Ex: activities, auth, users
+    │       ├── data/                    # Implementação e acesso a dados
+    │       │   ├── models/              # DTOs e serialização
+    │       │   ├── services/            # Data sources (API, DB, etc.)
+    │       │   └── repositories/        # Implementação dos contratos do domínio
+    │       ├── domain/                  # Regras de negócio puras
+    │       │   ├── entities/            # Entidades do domínio
+    │       │   └── repositories/        # Contratos (interfaces)
+    │       └── presentation/            # Camada de UI
+    │           ├── screens/             # Telas da interface do usuário
+    │           ├── viewmodels/          # Estado e lógica de apresentação da UI
+    │           ├── providers/           # Provedores para gerenciamento de estado
+    │           └── widgets/             # Widgets específicos da funcionalidade
     │
-    └── shared/                       # Recursos globais de UI e Lógica
-        ├── utils/                    # Componentes atômicos (Botões, Cards)
-        └── widgets/                  # Helpers agnósticos ao domínio
+    └── shared/                          # Recursos globais reutilizáveis
+        ├── utils/                       # Funções utilitárias e helpers (sem UI)
+        └── widgets/                     # Widgets globais reutilizáveis (buttons, dialogs, etc.)
 ```
 
 #### 3. Camadas da Arquitetura (por Feature)
