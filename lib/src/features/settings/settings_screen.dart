@@ -81,6 +81,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
         ],
       ),
+      if (user != null && user.role == UserRole.admin)
+        SettingsSectionWidget(
+          title: "Administração",
+          children: <Widget>[
+            SettingsTileWidget(
+              icon: Icons.people_alt_rounded,
+              title: "Gerenciar Usuários",
+              onTap: () => AppRoutes.goToUserManagement(context),
+            ),
+          ],
+        ),
       SettingsSectionWidget(
         title: "Preferências",
         children: <Widget>[
