@@ -66,6 +66,19 @@ class DisciplineDetailsMuralTabWidget extends StatelessWidget {
           ],
         ),
       ),
+      Announcement(
+        id: '5',
+        title: 'Confirmação de Presença',
+        message: 'Você irá participar da apresentação final?',
+        type: AnnouncementType.poll,
+        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+        poll: AnnouncementPoll(
+          options: <AnnouncementPollOption>[
+            AnnouncementPollOption(text: 'Sim', votes: 10),
+            AnnouncementPollOption(text: 'Não', votes: 3),
+          ],
+        ),
+      ),
     ];
 
     return RefreshIndicator(
