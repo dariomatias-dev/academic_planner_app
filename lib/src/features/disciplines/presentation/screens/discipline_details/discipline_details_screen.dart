@@ -8,6 +8,7 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_header_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_mural_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -31,7 +32,7 @@ class DisciplineDetailsScreen extends StatefulWidget {
 class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
     with SingleTickerProviderStateMixin {
   late final _tabController = TabController(
-    length: 3,
+    length: 4,
     vsync: this,
     initialIndex: widget.initialTabIndex ?? 0,
   );
@@ -119,6 +120,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                   tabs: const <Tab>[
                     Tab(text: "Tarefas"),
                     Tab(text: "Anotações"),
+                    Tab(text: "Mural"),
                     Tab(text: "Sobre"),
                   ],
                 ),
@@ -137,6 +139,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               title: "Sem anotações",
               message: "Você ainda não criou anotações para esta matéria.",
             ),
+            DisciplineDetailsMuralTabWidget(),
             DisciplineDetailsAboutTabWidget(
               discipline: discipline,
               prerequisites: prerequisites,
