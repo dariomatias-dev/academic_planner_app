@@ -10,8 +10,13 @@ class AnnouncementPollOption {
 class AnnouncementPoll {
   final List<AnnouncementPollOption> options;
   final bool hasVoted;
+  final bool isMultiSelect;
 
-  AnnouncementPoll({required this.options, this.hasVoted = false});
+  AnnouncementPoll({
+    required this.options,
+    this.hasVoted = false,
+    this.isMultiSelect = false,
+  });
 }
 
 class Announcement {

@@ -24,22 +24,21 @@ class DisciplineDetailsMuralTabWidget extends StatelessWidget {
       ),
       Announcement(
         id: '3',
-        title: 'Enquete: Tema do Próximo Workshop',
+        title: 'Enquete: Preferência de Workshop',
         message:
-            'Selecione abaixo qual macro-tema você prefere para o desenvolvimento prático da próxima semana.',
+            'Selecione os temas que você tem interesse. Você pode marcar mais de uma opção.',
         type: AnnouncementType.poll,
         createdAt: DateTime.now().subtract(const Duration(hours: 4)),
         poll: AnnouncementPoll(
           hasVoted: false,
+          isMultiSelect: true,
           options: <AnnouncementPollOption>[
+            AnnouncementPollOption(text: 'Clean Architecture', votes: 12),
             AnnouncementPollOption(
-              text: 'Arquitetura de Microserviços',
-              votes: 12,
-            ),
-            AnnouncementPollOption(
-              text: 'Flutter Avançado & Performance',
+              text: 'Riverpod State Management',
               votes: 25,
             ),
+            AnnouncementPollOption(text: 'CI/CD com GitHub Actions', votes: 8),
           ],
         ),
       ),
