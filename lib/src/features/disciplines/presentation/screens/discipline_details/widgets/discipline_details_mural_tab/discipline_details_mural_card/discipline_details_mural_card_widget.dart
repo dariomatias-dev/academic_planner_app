@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import 'package:academic_planner/src/core/extensions/announcement_type_extension.dart';
+
 import 'package:academic_planner/src/features/disciplines/domain/entities/announcement.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_mural_tab/discipline_details_mural_card/discipline_details_mural_card_poll_widget.dart';
 
@@ -13,38 +15,11 @@ class DisciplineDetailsMuralCardWidget extends StatelessWidget {
     required this.announcement,
   });
 
-  Color _getTypeColor(ColorScheme colorScheme) {
-    return switch (announcement.type) {
-      AnnouncementType.info => colorScheme.primary,
-      AnnouncementType.reminder => colorScheme.secondary,
-      AnnouncementType.poll => Colors.teal,
-      AnnouncementType.alert => colorScheme.error,
-    };
-  }
-
-  IconData _getTypeIcon() {
-    return switch (announcement.type) {
-      AnnouncementType.info => Icons.info_outline_rounded,
-      AnnouncementType.reminder => Icons.event_note_rounded,
-      AnnouncementType.poll => Icons.how_to_vote_rounded,
-      AnnouncementType.alert => Icons.priority_high_rounded,
-    };
-  }
-
-  String _getTypeLabel() {
-    return switch (announcement.type) {
-      AnnouncementType.info => "INFORMATIVO",
-      AnnouncementType.reminder => "LEMBRETE",
-      AnnouncementType.poll => "ENQUETE",
-      AnnouncementType.alert => "ALERTA",
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final accentColor = _getTypeColor(colorScheme);
+    final accentColor = announcement.type.color(colorScheme);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 20.0),
@@ -86,10 +61,14 @@ class DisciplineDetailsMuralCardWidget extends StatelessWidget {
                       ),
                       child: Row(
                         children: <Widget>[
-                          Icon(_getTypeIcon(), size: 14.0, color: accentColor),
+                          Icon(
+                            announcement.type.icon,
+                            size: 14.0,
+                            color: accentColor,
+                          ),
                           const SizedBox(width: 8.0),
                           Text(
-                            _getTypeLabel(),
+                            announcement.type.label,
                             style: GoogleFonts.plusJakartaSans(
                               color: accentColor,
                               fontSize: 9.0,
