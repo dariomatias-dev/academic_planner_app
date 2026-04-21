@@ -13,7 +13,7 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/discipline_selection_screen.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/edit_profile/edit_profile_screen.dart';
-import 'package:academic_planner/src/features/forgot_password/forgot_password_screen.dart';
+import 'package:academic_planner/src/features/auth/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:academic_planner/src/features/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/features/not_found/not_found_screen.dart';
