@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -85,7 +86,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    _buildVerifiedBadge(context),
+                    _buildBadge(context),
                     const SizedBox(height: 12.0),
                     Text(
                       user.name,
@@ -229,7 +230,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildVerifiedBadge(BuildContext context) {
+  Widget _buildBadge(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       decoration: BoxDecoration(
@@ -237,15 +238,21 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0),
         border: Border.all(color: AppColors.emerald500.withAlpha(30)),
       ),
-      child: Text(
-        "CONTA VERIFICADA",
-        style: _textStyle(
-          context,
-          color: AppColors.emerald500,
-          size: 9.0,
-          weight: FontWeight.w900,
-          letterSpacing: 1.0,
-        ),
+      child: Consumer(
+        builder: (context, ref, child) {
+          final user = ref.watch(userNotifierProvider).value;
+
+          return Text(
+            user?.role.label.toUpperCase() ?? 'CONTA VERIFICADA',
+            style: _textStyle(
+              context,
+              color: AppColors.emerald500,
+              size: 9.0,
+              weight: FontWeight.w900,
+              letterSpacing: 1.0,
+            ),
+          );
+        },
       ),
     );
   }
