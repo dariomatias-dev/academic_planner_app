@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
@@ -190,35 +191,11 @@ class UserCardWidget extends StatelessWidget {
 
   const UserCardWidget({super.key, required this.user});
 
-  Color _getRoleColor(ColorScheme colorScheme) {
-    return switch (user.role) {
-      UserRole.admin => colorScheme.primary,
-      UserRole.teacher => Colors.teal,
-      UserRole.student => colorScheme.secondary,
-    };
-  }
-
-  String _getRoleLabel() {
-    return switch (user.role) {
-      UserRole.admin => "ADMINISTRADOR",
-      UserRole.teacher => "PROFESSOR",
-      UserRole.student => "ALUNO",
-    };
-  }
-
-  IconData _getRoleIcon() {
-    return switch (user.role) {
-      UserRole.admin => Icons.admin_panel_settings_rounded,
-      UserRole.teacher => Icons.school_rounded,
-      UserRole.student => Icons.person_rounded,
-    };
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final roleColor = _getRoleColor(colorScheme);
+    final roleColor = user.role.getColor(colorScheme);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16.0),
@@ -246,7 +223,7 @@ class UserCardWidget extends StatelessWidget {
               color: roleColor.withAlpha(20),
               borderRadius: BorderRadius.circular(18.0),
             ),
-            child: Icon(_getRoleIcon(), color: roleColor, size: 26.0),
+            child: Icon(user.role.icon, color: roleColor, size: 26.0),
           ),
           const SizedBox(width: 16.0),
           Expanded(
@@ -265,7 +242,7 @@ class UserCardWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(6.0),
                       ),
                       child: Text(
-                        _getRoleLabel(),
+                        user.role.label.toUpperCase(),
                         style: GoogleFonts.plusJakartaSans(
                           color: roleColor,
                           fontSize: 9.0,
