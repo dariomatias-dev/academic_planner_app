@@ -134,4 +134,8 @@ class AppRoutes {
 
     context.push(uri.toString());
   }
+
+  static void goToUserManagement(BuildContext context) {
+    context.push(RoutePaths.userManagement);
+  }
 }

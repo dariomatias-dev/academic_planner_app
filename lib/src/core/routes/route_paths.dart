@@ -34,4 +34,6 @@ class RoutePaths {
   static const splash = '/splash';
 
   static const teacherDetails = '/teacher-details';
+
+  static const userManagement = '/user-management';
 }

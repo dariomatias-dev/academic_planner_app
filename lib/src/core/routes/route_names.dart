@@ -34,4 +34,6 @@ class RouteNames {
   static const splash = 'splash';
 
   static const teacherDetails = 'teacher_details';
+
+  static const userManagement = 'user_management';
 }

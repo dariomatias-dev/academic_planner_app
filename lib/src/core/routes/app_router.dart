@@ -22,6 +22,7 @@ import 'package:academic_planner/src/features/auth/presentation/screens/register
 import 'package:academic_planner/src/features/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/features/splash/splash_screen.dart';
 import 'package:academic_planner/src/features/teacher_details/teacher_details_screen.dart';
+import 'package:academic_planner/src/features/users/presentation/screens/user_management/user_management_screen.dart';
 
 class AppRouter {
   static final router = GoRouter(
@@ -159,6 +160,11 @@ class AppRouter {
 
               return TeacherDetailsScreen(teacherId: teacherId);
             },
+          ),
+          GoRoute(
+            name: RouteNames.userManagement,
+            path: RoutePaths.userManagement,
+            builder: (context, state) => const UserManagementScreen(),
           ),
         ],
       ),
