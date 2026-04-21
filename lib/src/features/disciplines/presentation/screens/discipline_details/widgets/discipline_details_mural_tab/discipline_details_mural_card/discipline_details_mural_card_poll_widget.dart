@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/disciplines/domain/entities/announcement.dart';
 
-class DisciplineDetailsMuralCardPollWidget extends StatelessWidget {
+class DisciplineDetailsMuralCardPollWidget extends StatefulWidget {
   final AnnouncementPoll poll;
   final Color accentColor;
 
@@ -14,10 +14,39 @@ class DisciplineDetailsMuralCardPollWidget extends StatelessWidget {
   });
 
   @override
+  State<DisciplineDetailsMuralCardPollWidget> createState() =>
+      _DisciplineDetailsMuralCardPollWidgetState();
+}
+
+class _DisciplineDetailsMuralCardPollWidgetState
+    extends State<DisciplineDetailsMuralCardPollWidget> {
+  final _selectedOptions = <String>{};
+
+  void _handleOptionTap(String text) {
+    if (widget.poll.hasVoted) return;
+
+    setState(() {
+      if (widget.poll.isMultiSelect) {
+        if (_selectedOptions.contains(text)) {
+          _selectedOptions.remove(text);
+        } else {
+          _selectedOptions.add(text);
+        }
+      } else {
+        _selectedOptions.clear();
+        _selectedOptions.add(text);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final totalVotes = poll.options.fold<int>(0, (sum, opt) => sum + opt.votes);
+    final totalVotes = widget.poll.options.fold<int>(
+      0,
+      (sum, opt) => sum + opt.votes,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,42 +56,45 @@ class DisciplineDetailsMuralCardPollWidget extends StatelessWidget {
             Icon(
               Icons.bar_chart_rounded,
               size: 16.0,
-              color: accentColor.withAlpha(180),
+              color: widget.accentColor.withAlpha(180),
             ),
             const SizedBox(width: 8.0),
             Text(
-              poll.hasVoted ? "RESULTADOS PARCIAIS" : "VOTAÇÃO DISPONÍVEL",
+              widget.poll.hasVoted ? "RESULTADOS" : "VOTAÇÃO ABERTA",
               style: GoogleFonts.plusJakartaSans(
                 fontSize: 10.0,
                 fontWeight: FontWeight.w900,
-                color: accentColor.withAlpha(180),
+                color: widget.accentColor.withAlpha(180),
                 letterSpacing: 0.5,
               ),
             ),
           ],
         ),
         const SizedBox(height: 12.0),
-        ...poll.options.map((option) {
+        ...widget.poll.options.map((option) {
           final percentage = totalVotes > 0 ? (option.votes / totalVotes) : 0.0;
+          final isSelected = _selectedOptions.contains(option.text);
 
           return Container(
             margin: const EdgeInsets.only(bottom: 10.0),
             decoration: BoxDecoration(
-              color: poll.hasVoted
+              color: widget.poll.hasVoted
                   ? theme.scaffoldBackgroundColor
                   : colorScheme.surface,
               borderRadius: BorderRadius.circular(16.0),
               border: Border.all(
-                color: poll.hasVoted
+                color: widget.poll.hasVoted
                     ? Colors.transparent
-                    : colorScheme.onSurface.withAlpha(15),
+                    : (isSelected
+                          ? widget.accentColor
+                          : colorScheme.onSurface.withAlpha(15)),
               ),
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16.0),
               child: Stack(
                 children: <Widget>[
-                  if (poll.hasVoted)
+                  if (widget.poll.hasVoted)
                     FractionallySizedBox(
                       widthFactor: percentage,
                       child: Container(
@@ -70,47 +102,58 @@ class DisciplineDetailsMuralCardPollWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: <Color>[
-                              accentColor.withAlpha(60),
-                              accentColor.withAlpha(20),
+                              widget.accentColor.withAlpha(60),
+                              widget.accentColor.withAlpha(20),
                             ],
                           ),
                         ),
                       ),
                     ),
                   InkWell(
-                    onTap: poll.hasVoted ? null : () {},
+                    onTap: () => _handleOptionTap(option.text),
                     borderRadius: BorderRadius.circular(16.0),
                     child: Container(
                       height: 52.0,
                       padding: const EdgeInsets.symmetric(horizontal: 18.0),
                       child: Row(
                         children: <Widget>[
-                          if (!poll.hasVoted)
+                          if (!widget.poll.hasVoted) ...<Widget>[
                             Icon(
-                              Icons.radio_button_off_rounded,
+                              widget.poll.isMultiSelect
+                                  ? (isSelected
+                                        ? Icons.check_box_rounded
+                                        : Icons.check_box_outline_blank_rounded)
+                                  : (isSelected
+                                        ? Icons.radio_button_checked_rounded
+                                        : Icons.radio_button_off_rounded),
                               size: 20.0,
-                              color: accentColor.withAlpha(120),
+                              color: isSelected
+                                  ? widget.accentColor
+                                  : widget.accentColor.withAlpha(120),
                             ),
-                          if (!poll.hasVoted) const SizedBox(width: 12.0),
+                            const SizedBox(width: 12.0),
+                          ],
                           Expanded(
                             child: Text(
                               option.text,
                               style: GoogleFonts.plusJakartaSans(
-                                color: colorScheme.onSurface.withAlpha(220),
+                                color: colorScheme.onSurface.withAlpha(
+                                  (widget.poll.hasVoted || isSelected)
+                                      ? 255
+                                      : 140,
+                                ),
                                 fontSize: 13.5,
-                                fontWeight: poll.hasVoted
-                                    ? FontWeight.w800
-                                    : FontWeight.w600,
+                                fontWeight: FontWeight.w600,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          if (poll.hasVoted)
+                          if (widget.poll.hasVoted)
                             Text(
                               "${(percentage * 100).toInt()}%",
                               style: GoogleFonts.plusJakartaSans(
-                                color: accentColor,
+                                color: widget.accentColor,
                                 fontSize: 12.5,
                                 fontWeight: FontWeight.w900,
                               ),
