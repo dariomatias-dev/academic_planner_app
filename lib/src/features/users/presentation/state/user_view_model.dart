@@ -34,6 +34,26 @@ class UserViewModel {
     }
   }
 
+  Future<List<UserEntity>> listUsers({String? query, UserRole? role}) async {
+    error = null;
+
+    try {
+      _logger.i('listUsers started: role=$role, query=$query');
+
+      final result = await _repository.getAll(role: role, query: query);
+
+      _logger.i('listUsers success: ${result.length} users found');
+
+      return result;
+    } catch (err, stackTrace) {
+      error = err.toString();
+
+      _logger.e('listUsers error', error: err, stackTrace: stackTrace);
+
+      rethrow;
+    }
+  }
+
   Future<void> updateUser(UserEntity updatedUser) async {
     error = null;
 
