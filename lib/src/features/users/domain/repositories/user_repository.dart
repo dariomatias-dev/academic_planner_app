@@ -3,6 +3,8 @@ import 'package:academic_planner/src/features/users/domain/entities/user_entity.
 abstract class UserRepository {
   Future<void> create(UserEntity user);
 
+  Future<List<UserEntity>> getAll({String? query, UserRole? role});
+
   Future<UserEntity?> getById(String uid);
 
   Future<void> update(UserEntity user);

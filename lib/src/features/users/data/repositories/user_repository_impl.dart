@@ -23,6 +23,11 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
+  Future<List<UserEntity>> getAll({String? query, UserRole? role}) async {
+    return await _service.getUsers(query: query, role: role);
+  }
+
+  @override
   Future<UserEntity?> getById(String uid) async {
     final doc = await _service.getUserDoc(uid);
 
