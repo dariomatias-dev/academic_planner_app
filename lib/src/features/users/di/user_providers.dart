@@ -8,7 +8,7 @@ import 'package:academic_planner/src/features/users/domain/entities/user_entity.
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 import 'package:academic_planner/src/features/users/domain/value_objects/user_filter.dart';
 import 'package:academic_planner/src/features/users/presentation/providers/user_filter_notifier.dart';
-import 'package:academic_planner/src/features/users/presentation/state/user_notifier.dart';
+import 'package:academic_planner/src/features/users/presentation/providers/user_notifier.dart';
 import 'package:academic_planner/src/features/users/presentation/state/user_view_model.dart';
 
 final userFirestoreServiceProvider = Provider<UserFirestoreService>((ref) {
