@@ -49,9 +49,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
           _isLoading = false;
         });
       },
-      onFailure: (failure) {
-        setState(() => _isLoading = false);
-      },
+      onFailure: (failure) => setState(() => _isLoading = false),
     );
   }
 
@@ -59,62 +57,23 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
     List<Activity> activities,
     ColorScheme colorScheme,
   ) {
-    final entries = <AgendaEntryModel>[];
+    return activities.filter((a) => a.dueDate != null).builder((
+      activity,
+      index,
+    ) {
+      final discipline = adsDisciplines
+          .where((d) => d.id == activity.disciplineId)
+          .firstOrNull;
 
-    for (final activity in activities) {
-      if (activity.dueDate != null) {
-        final discipline = adsDisciplines
-            .where((d) => d.id == activity.disciplineId)
-            .firstOrNull;
-
-        entries.add(
-          AgendaEntryModel(
-            id: 'activity_${activity.id}',
-            title: activity.title,
-            subtitle: discipline?.acronym ?? '',
-            startTime: activity.dueDate!,
-            endTime: activity.dueDate!.add(const Duration(hours: 1)),
-            color: activity.status.color(colorScheme),
-            type: AgendaEntryType.activity,
-          ),
-        );
-      }
-    }
-
-    final now = DateTime.now();
-
-    entries.addAll(<AgendaEntryModel>[
-      AgendaEntryModel(
-        id: 'holiday_tiradentes',
-        title: "Tiradentes",
-        subtitle: "Feriado Nacional",
-        startTime: DateTime(now.year, 4, 21),
-        endTime: DateTime(now.year, 4, 21, 23, 59),
-        color: Colors.blueGrey,
-        isAllDay: true,
-        type: AgendaEntryType.holiday,
-      ),
-      AgendaEntryModel(
-        id: 'exam_p1',
-        title: "Prova Substitutiva P1",
-        subtitle: "Sistemas Operacionais",
-        startTime: now.add(const Duration(days: 3, hours: 10)),
-        endTime: now.add(const Duration(days: 3, hours: 12)),
-        color: Colors.deepOrange,
-        type: AgendaEntryType.exam,
-      ),
-      AgendaEntryModel(
-        id: 'event_hack',
-        title: "Hackathon IFPB",
-        subtitle: "Auditório Principal",
-        startTime: now.add(const Duration(days: 5, hours: 8)),
-        endTime: now.add(const Duration(days: 5, hours: 18)),
-        color: Colors.indigo,
-        type: AgendaEntryType.event,
-      ),
-    ]);
-
-    return entries;
+      return AgendaEntryModel(
+        id: activity.id,
+        title: activity.title,
+        subtitle: discipline?.acronym ?? '',
+        startTime: activity.dueDate!,
+        endTime: activity.dueDate!.add(const Duration(hours: 1)),
+        color: activity.status.color(colorScheme),
+      );
+    });
   }
 
   void _onViewChanged(ViewChangedDetails details) {
@@ -309,7 +268,7 @@ class _CalendarView extends StatelessWidget {
               if (details.date != null) onTap(details.date!);
             },
             dataSource: _AgendaDataSource(
-              entries.builder((e, index) => e.toAppointment()),
+              entries.builder((entry, index) => entry.toAppointment()),
             ),
             todayHighlightColor: colorScheme.primary,
             selectionDecoration: BoxDecoration(

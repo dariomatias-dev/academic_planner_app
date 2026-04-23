@@ -72,7 +72,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                entry.typeLabel.toUpperCase(),
+                                'Atividade',
                                 style: GoogleFonts.plusJakartaSans(
                                   color: entry.color,
                                   fontSize: 11.0,
@@ -96,7 +96,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                               Row(
                                 children: <Widget>[
                                   Icon(
-                                    entry.icon,
+                                    Icons.auto_stories_rounded,
                                     size: 14.0,
                                     color: colorScheme.onSurface.withAlpha(120),
                                   ),
