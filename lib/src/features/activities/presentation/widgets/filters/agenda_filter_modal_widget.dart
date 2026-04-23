@@ -51,11 +51,19 @@ class _AgendaFilterModalState extends ConsumerState<AgendaFilterModalWidget> {
     Navigator.pop(context);
   }
 
+  void _clearFilters() {
+    setState(() {
+      _selectedDisciplineId = null;
+    });
+
+    widget.onClear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FilterModalLayoutWidget(
       title: 'Filtros da Agenda',
-      onClear: widget.onClear,
+      onClear: _clearFilters,
       onApply: _applyFilters,
       children: <Widget>[
         DisciplineFilterSectionWidget(
