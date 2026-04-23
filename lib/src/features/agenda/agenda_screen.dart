@@ -13,7 +13,6 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
-import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
@@ -30,7 +29,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 
   DateTime _displayDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  final _entries = <AgendaEntryModel>[];
+  final _activities = <Activity>[];
   bool _isLoading = true;
 
   Future<void> _fetchData() async {
@@ -39,41 +38,16 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 
     result.fold(
       onSuccess: (activities) {
-        final colorScheme = Theme.of(context).colorScheme;
-
         setState(() {
-          _entries
+          _activities
             ..clear()
-            ..addAll(_mapActivitiesToEntries(activities, colorScheme));
+            ..addAll(activities.filter((a) => a.dueDate != null));
 
           _isLoading = false;
         });
       },
       onFailure: (failure) => setState(() => _isLoading = false),
     );
-  }
-
-  List<AgendaEntryModel> _mapActivitiesToEntries(
-    List<Activity> activities,
-    ColorScheme colorScheme,
-  ) {
-    return activities.filter((a) => a.dueDate != null).builder((
-      activity,
-      index,
-    ) {
-      final discipline = adsDisciplines
-          .where((d) => d.id == activity.disciplineId)
-          .firstOrNull;
-
-      return AgendaEntryModel(
-        id: activity.id,
-        title: activity.title,
-        subtitle: discipline?.acronym ?? '',
-        startTime: activity.dueDate!,
-        endTime: activity.dueDate!.add(const Duration(hours: 1)),
-        color: activity.status.color(colorScheme),
-      );
-    });
   }
 
   void _onViewChanged(ViewChangedDetails details) {
@@ -135,7 +109,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                       controller: _calendarController,
                       onViewChanged: _onViewChanged,
                       onTap: (date) => setState(() => _selectedDate = date),
-                      entries: _entries,
+                      activities: _activities,
                     ),
                   ],
                 ),
@@ -146,7 +120,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                   builder: (context, scrollController) {
                     return DraggableAgendaSheetWidget(
                       selectedDate: _selectedDate,
-                      entries: _entries,
+                      activities: _activities,
                       scrollController: scrollController,
                     );
                   },
@@ -225,13 +199,13 @@ class _CalendarView extends StatelessWidget {
   final CalendarController controller;
   final Function(ViewChangedDetails value) onViewChanged;
   final Function(DateTime value) onTap;
-  final List<AgendaEntryModel> entries;
+  final List<Activity> activities;
 
   const _CalendarView({
     required this.controller,
     required this.onViewChanged,
     required this.onTap,
-    required this.entries,
+    required this.activities,
   });
 
   @override
@@ -267,8 +241,21 @@ class _CalendarView extends StatelessWidget {
             onTap: (details) {
               if (details.date != null) onTap(details.date!);
             },
-            dataSource: _AgendaDataSource(
-              entries.builder((entry, index) => entry.toAppointment()),
+            dataSource: _ActivityDataSource(
+              activities.builder((activity, index) {
+                final discipline = adsDisciplines
+                    .where((d) => d.id == activity.disciplineId)
+                    .firstOrNull;
+
+                return Appointment(
+                  id: activity.id,
+                  startTime: activity.dueDate!,
+                  endTime: activity.dueDate!.add(const Duration(hours: 1)),
+                  subject: activity.title,
+                  notes: discipline?.acronym ?? '',
+                  color: activity.status.color(colorScheme),
+                );
+              }),
             ),
             todayHighlightColor: colorScheme.primary,
             selectionDecoration: BoxDecoration(
@@ -290,8 +277,8 @@ class _CalendarView extends StatelessWidget {
   }
 }
 
-class _AgendaDataSource extends CalendarDataSource {
-  _AgendaDataSource(List<Appointment> source) {
+class _ActivityDataSource extends CalendarDataSource {
+  _ActivityDataSource(List<Appointment> source) {
     appointments = source;
   }
 }

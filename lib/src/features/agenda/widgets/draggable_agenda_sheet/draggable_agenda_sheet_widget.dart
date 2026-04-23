@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_card_widget.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_header_widget.dart';
 
-import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 
 class DraggableAgendaSheetWidget extends StatelessWidget {
   final DateTime selectedDate;
-  final List<AgendaEntryModel> entries;
+  final List<Activity> activities;
   final ScrollController scrollController;
 
   const DraggableAgendaSheetWidget({
     super.key,
     required this.selectedDate,
-    required this.entries,
+    required this.activities,
     required this.scrollController,
   });
 
@@ -44,10 +44,13 @@ class DraggableAgendaSheetWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final theme = Theme.of(context);
 
-    final dailyEntries = entries.filter((e) {
-      return e.startTime.year == selectedDate.year &&
-          e.startTime.month == selectedDate.month &&
-          e.startTime.day == selectedDate.day;
+    final dailyActivities = activities.filter((activity) {
+      final date = activity.dueDate;
+      if (date == null) return false;
+
+      return date.year == selectedDate.year &&
+          date.month == selectedDate.month &&
+          date.day == selectedDate.day;
     });
 
     return ClipRRect(
@@ -70,7 +73,7 @@ class DraggableAgendaSheetWidget extends StatelessWidget {
         child: ListView.builder(
           controller: scrollController,
           padding: const EdgeInsets.fromLTRB(24.0, 18.0, 24.0, 40.0),
-          itemCount: dailyEntries.isEmpty ? 2 : dailyEntries.length + 1,
+          itemCount: dailyActivities.isEmpty ? 2 : dailyActivities.length + 1,
           itemBuilder: (context, index) {
             if (index == 0) {
               return Column(
@@ -78,25 +81,25 @@ class DraggableAgendaSheetWidget extends StatelessWidget {
                   DraggableAgendaSheetHeaderWidget(
                     date: selectedDate,
                     relativeText: _getRelativeDateText(),
-                    count: dailyEntries.length,
+                    count: dailyActivities.length,
                   ),
                   const SizedBox(height: 8.0),
                 ],
               );
             }
 
-            if (dailyEntries.isEmpty) {
+            if (dailyActivities.isEmpty) {
               return const EmptyStateWidget(
                 icon: Icons.event_available_rounded,
                 title: "Tudo limpo por aqui!",
-                description: "Nenhum compromisso agendado.",
+                description: "Nenhuma atividade para este dia.",
                 isCentered: true,
               );
             }
 
             return DraggableAgendaSheetCardWidget(
               index: index,
-              entry: dailyEntries[index - 1],
+              activity: dailyActivities[index - 1],
             );
           },
         ),

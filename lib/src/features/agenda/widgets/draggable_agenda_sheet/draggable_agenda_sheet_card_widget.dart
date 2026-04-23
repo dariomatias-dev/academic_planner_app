@@ -2,22 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/shared/models/agenda_entry_model.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
 class DraggableAgendaSheetCardWidget extends StatelessWidget {
   final int index;
-  final AgendaEntryModel entry;
+  final Activity activity;
 
   const DraggableAgendaSheetCardWidget({
     super.key,
     required this.index,
-    required this.entry,
+    required this.activity,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final statusColor = activity.status.color(colorScheme);
+
+    final discipline = adsDisciplines
+        .where((d) => d.id == activity.disciplineId)
+        .firstOrNull;
 
     return GestureDetector(
       onTap: () {},
@@ -51,7 +58,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: colorScheme.surface,
                       border: Border.all(
-                        color: entry.color.withAlpha(14),
+                        color: statusColor.withAlpha(14),
                         width: 1.0,
                       ),
                     ),
@@ -61,7 +68,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                           width: 4.0,
                           height: 40.0,
                           decoration: BoxDecoration(
-                            color: entry.color,
+                            color: statusColor,
                             borderRadius: BorderRadius.circular(2.0),
                           ),
                         ),
@@ -72,9 +79,9 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Atividade',
+                                'Atividade'.toUpperCase(),
                                 style: GoogleFonts.plusJakartaSans(
-                                  color: entry.color,
+                                  color: statusColor,
                                   fontSize: 11.0,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 1.0,
@@ -82,7 +89,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                               ),
                               const SizedBox(height: 2.0),
                               Text(
-                                entry.title,
+                                activity.title,
                                 style: GoogleFonts.plusJakartaSans(
                                   color: colorScheme.onSurface,
                                   fontSize: 16.0,
@@ -102,7 +109,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 6.0),
                                   Text(
-                                    entry.subtitle,
+                                    discipline?.acronym ?? 'Geral',
                                     style: GoogleFonts.plusJakartaSans(
                                       color: colorScheme.onSurface.withAlpha(
                                         160,
@@ -113,7 +120,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  if (!entry.isAllDay) ...<Widget>[
+                                  if (activity.dueDate != null) ...<Widget>[
                                     const SizedBox(width: 16.0),
                                     Icon(
                                       Icons.schedule_rounded,
@@ -126,7 +133,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                                     Text(
                                       DateFormat(
                                         'HH:mm',
-                                      ).format(entry.startTime),
+                                      ).format(activity.dueDate!),
                                       style: GoogleFonts.plusJakartaSans(
                                         color: colorScheme.onSurface.withAlpha(
                                           160,
@@ -158,7 +165,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
               child: Text(
                 index.toString().padLeft(2, '0'),
                 style: GoogleFonts.plusJakartaSans(
-                  color: entry.color.withAlpha(18),
+                  color: statusColor.withAlpha(18),
                   fontSize: 60.0,
                   fontWeight: FontWeight.w900,
                 ),
