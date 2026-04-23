@@ -88,7 +88,13 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: () => AgendaFilterModalWidget.show(context),
+            onPressed: () {
+              AgendaFilterModalWidget.show(
+                context,
+                onApply: (filter) {},
+                onClear: () {},
+              );
+            },
           ),
         ],
       ),
