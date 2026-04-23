@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
-class ActivityDto {
+class ActivityModel {
   final String id;
   final String title;
   final String description;
@@ -18,7 +18,7 @@ class ActivityDto {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  ActivityDto({
+  ActivityModel({
     required this.id,
     required this.title,
     required this.description,
@@ -50,8 +50,8 @@ class ActivityDto {
     );
   }
 
-  factory ActivityDto.fromEntity(Activity activity) {
-    return ActivityDto(
+  factory ActivityModel.fromEntity(Activity activity) {
+    return ActivityModel(
       id: activity.id,
       title: activity.title,
       description: activity.description,
@@ -67,8 +67,8 @@ class ActivityDto {
     );
   }
 
-  factory ActivityDto.fromMap(Map<String, dynamic> map) {
-    return ActivityDto(
+  factory ActivityModel.fromMap(Map<String, dynamic> map) {
+    return ActivityModel(
       id: map['id'],
       title: map['title'],
       description: map['description'],

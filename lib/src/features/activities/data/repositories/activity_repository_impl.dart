@@ -4,13 +4,13 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
-import 'package:academic_planner/src/features/activities/data/dtos/activity_dto.dart';
+import 'package:academic_planner/src/features/activities/data/models/activity_dto.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 
 List<Activity> _map(List<Map<String, dynamic>> data) {
-  return data.map((e) => ActivityDto.fromMap(e).toEntity()).toList();
+  return data.map((e) => ActivityModel.fromMap(e).toEntity()).toList();
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
@@ -21,7 +21,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future<Result<void>> add(Activity activity) async {
     try {
-      await datasource.insert(ActivityDto.fromEntity(activity).toMap());
+      await datasource.insert(ActivityModel.fromEntity(activity).toMap());
 
       return const Success(null);
     } catch (err) {
@@ -59,7 +59,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       if (data == null) return const Success(null);
 
-      return Success(ActivityDto.fromMap(data).toEntity());
+      return Success(ActivityModel.fromMap(data).toEntity());
     } catch (err) {
       return FailureResult(DatabaseFailure(err.toString()));
     }
@@ -70,7 +70,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
     try {
       await datasource.update(
         activity.id,
-        ActivityDto.fromEntity(activity).toMap(),
+        ActivityModel.fromEntity(activity).toMap(),
       );
 
       return const Success(null);
