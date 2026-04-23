@@ -11,6 +11,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -86,9 +87,8 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         title: "Minha Agenda",
         actions: <Widget>[
           IconButtonWidget(
-            icon: Icons.tune_rounded,
-            onPressed: () {},
-            style: IconButtonStyle.primary,
+            icon: Icons.filter_list,
+            onPressed: () => AgendaFilterModalWidget.show(context),
           ),
         ],
       ),
