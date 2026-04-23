@@ -11,6 +11,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
 import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
@@ -30,12 +31,19 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 
   DateTime _displayDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
+
+  ActivityFilter? _currentFilter;
+
   final _activities = <Activity>[];
   bool _isLoading = true;
 
-  Future<void> _fetchData() async {
+  Future<void> _fetchData({ActivityFilter? filter}) async {
+    setState(() {
+      _isLoading = true;
+    });
+
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
-    final result = await activityNotifier.getAll();
+    final result = await activityNotifier.getAll(filter: filter);
 
     result.fold(
       onSuccess: (activities) {
@@ -54,6 +62,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   void _onViewChanged(ViewChangedDetails details) {
     if (details.visibleDates.isNotEmpty) {
       final midDate = details.visibleDates[details.visibleDates.length ~/ 2];
+
       if (midDate.month != _displayDate.month ||
           midDate.year != _displayDate.year) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -61,6 +70,21 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         });
       }
     }
+  }
+
+  void _openFilterModal() {
+    AgendaFilterModalWidget.show(
+      context,
+      initialFilter: _currentFilter,
+      onApply: (filter) {
+        _currentFilter = filter;
+
+        _fetchData(filter: filter);
+      },
+      onClear: () {
+        _currentFilter = null;
+      },
+    );
   }
 
   @override
@@ -88,13 +112,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: () {
-              AgendaFilterModalWidget.show(
-                context,
-                onApply: (filter) {},
-                onClear: () {},
-              );
-            },
+            onPressed: _openFilterModal,
           ),
         ],
       ),
