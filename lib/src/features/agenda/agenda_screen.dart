@@ -34,28 +34,27 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 
   ActivityFilter? _currentFilter;
 
+  final _isLoadingNotifier = ValueNotifier(true);
+
   final _activities = <Activity>[];
-  bool _isLoading = true;
 
   Future<void> _fetchData({ActivityFilter? filter}) async {
-    setState(() {
-      _isLoading = true;
-    });
+    _isLoadingNotifier.value = true;
 
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
     final result = await activityNotifier.getAll(filter: filter);
 
     result.fold(
       onSuccess: (activities) {
-        setState(() {
-          _activities
-            ..clear()
-            ..addAll(activities.filter((a) => a.dueDate != null));
+        _activities
+          ..clear()
+          ..addAll(activities.filter((a) => a.dueDate != null));
 
-          _isLoading = false;
-        });
+        _isLoadingNotifier.value = false;
       },
-      onFailure: (failure) => setState(() => _isLoading = false),
+      onFailure: (_) {
+        _isLoadingNotifier.value = false;
+      },
     );
   }
 
@@ -116,41 +115,48 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
           ),
         ],
       ),
-      body: _isLoading
-          ? const LoadingStateWidget()
-          : Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    const SizedBox(height: 24.0),
-                    _AgendaHeader(
-                      displayDate: _displayDate,
-                      onBackward: () => _calendarController.backward?.call(),
-                      onForward: () => _calendarController.forward?.call(),
-                    ),
-                    const SizedBox(height: 16.0),
-                    _CalendarView(
-                      controller: _calendarController,
-                      onViewChanged: _onViewChanged,
-                      onTap: (date) => setState(() => _selectedDate = date),
-                      activities: _activities,
-                    ),
-                  ],
-                ),
-                DraggableScrollableSheet(
-                  initialChildSize: 0.38,
-                  minChildSize: 0.38,
-                  maxChildSize: 0.90,
-                  builder: (context, scrollController) {
-                    return DraggableAgendaSheetWidget(
-                      selectedDate: _selectedDate,
-                      activities: _activities,
-                      scrollController: scrollController,
-                    );
-                  },
-                ),
-              ],
-            ),
+      body: ValueListenableBuilder(
+        valueListenable: _isLoadingNotifier,
+        builder: (context, loading, _) {
+          if (loading) {
+            return const LoadingStateWidget();
+          }
+
+          return Stack(
+            children: <Widget>[
+              Column(
+                children: <Widget>[
+                  const SizedBox(height: 24.0),
+                  _AgendaHeader(
+                    displayDate: _displayDate,
+                    onBackward: () => _calendarController.backward?.call(),
+                    onForward: () => _calendarController.forward?.call(),
+                  ),
+                  const SizedBox(height: 16.0),
+                  _CalendarView(
+                    controller: _calendarController,
+                    onViewChanged: _onViewChanged,
+                    onTap: (date) => setState(() => _selectedDate = date),
+                    activities: _activities,
+                  ),
+                ],
+              ),
+              DraggableScrollableSheet(
+                initialChildSize: 0.38,
+                minChildSize: 0.38,
+                maxChildSize: 0.90,
+                builder: (context, scrollController) {
+                  return DraggableAgendaSheetWidget(
+                    selectedDate: _selectedDate,
+                    activities: _activities,
+                    scrollController: scrollController,
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
