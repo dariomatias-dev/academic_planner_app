@@ -36,11 +36,9 @@ class _ActivitiesFilterModalWidgetState
   late DateTime? _endDate;
 
   void _clearFilters() {
-    setState(() {
-      _selectedDisciplineId = null;
-      _startDate = null;
-      _endDate = null;
-    });
+    ref.read(activityFilterNotifierProvider.notifier).clear();
+
+    Navigator.pop(context);
   }
 
   void _applyFilters() {

@@ -140,7 +140,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         showBackButton: false,
         actions: <Widget>[
           IconButtonWidget(
-            icon: Icons.filter_alt_outlined,
+            icon: Icons.filter_list,
             onPressed: () => ActivitiesFilterModalWidget.show(context),
           ),
           const NotificationButtonWidget(),
