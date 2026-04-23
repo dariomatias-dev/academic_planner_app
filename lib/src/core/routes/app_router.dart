@@ -7,7 +7,7 @@ import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/features/about/about_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/activity_details_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/activity_form_screen.dart';
-import 'package:academic_planner/src/features/agenda/agenda_screen.dart';
+import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/agenda_screen.dart';
 import 'package:academic_planner/src/features/course_details/course_details_screen.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/discipline_details_screen.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/discipline_selection_screen.dart';

@@ -13,11 +13,11 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
-import 'package:academic_planner/src/features/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
+import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class AgendaScreen extends ConsumerStatefulWidget {
   const AgendaScreen({super.key});
@@ -35,11 +35,13 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   ActivityFilter? _currentFilter;
 
   final _isLoadingNotifier = ValueNotifier(true);
+  final _hasErrorNotifier = ValueNotifier(false);
 
   final _activities = <Activity>[];
 
   Future<void> _fetchData({ActivityFilter? filter}) async {
     _isLoadingNotifier.value = true;
+    _hasErrorNotifier.value = false;
 
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
     final result = await activityNotifier.getAll(filter: filter);
@@ -53,6 +55,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         _isLoadingNotifier.value = false;
       },
       onFailure: (_) {
+        _hasErrorNotifier.value = true;
         _isLoadingNotifier.value = false;
       },
     );
@@ -96,6 +99,8 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   @override
   void dispose() {
     _calendarController.dispose();
+    _isLoadingNotifier.dispose();
+    _hasErrorNotifier.dispose();
 
     super.dispose();
   }
@@ -122,38 +127,51 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
             return const LoadingStateWidget();
           }
 
-          return Stack(
-            children: <Widget>[
-              Column(
+          return ValueListenableBuilder(
+            valueListenable: _hasErrorNotifier,
+            builder: (context, hasError, _) {
+              if (hasError) {
+                return ErrorStateWidget(
+                  description: "Não foi possível carregar sua agenda.",
+                  actionLabel: "Tentar novamente",
+                  onActionPressed: () => _fetchData(filter: _currentFilter),
+                );
+              }
+
+              return Stack(
                 children: <Widget>[
-                  const SizedBox(height: 24.0),
-                  _AgendaHeader(
-                    displayDate: _displayDate,
-                    onBackward: () => _calendarController.backward?.call(),
-                    onForward: () => _calendarController.forward?.call(),
+                  Column(
+                    children: <Widget>[
+                      const SizedBox(height: 24.0),
+                      _AgendaHeader(
+                        displayDate: _displayDate,
+                        onBackward: () => _calendarController.backward?.call(),
+                        onForward: () => _calendarController.forward?.call(),
+                      ),
+                      const SizedBox(height: 16.0),
+                      _CalendarView(
+                        controller: _calendarController,
+                        onViewChanged: _onViewChanged,
+                        onTap: (date) => setState(() => _selectedDate = date),
+                        activities: _activities,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 16.0),
-                  _CalendarView(
-                    controller: _calendarController,
-                    onViewChanged: _onViewChanged,
-                    onTap: (date) => setState(() => _selectedDate = date),
-                    activities: _activities,
+                  DraggableScrollableSheet(
+                    initialChildSize: 0.38,
+                    minChildSize: 0.38,
+                    maxChildSize: 0.90,
+                    builder: (context, scrollController) {
+                      return DraggableAgendaSheetWidget(
+                        selectedDate: _selectedDate,
+                        activities: _activities,
+                        scrollController: scrollController,
+                      );
+                    },
                   ),
                 ],
-              ),
-              DraggableScrollableSheet(
-                initialChildSize: 0.38,
-                minChildSize: 0.38,
-                maxChildSize: 0.90,
-                builder: (context, scrollController) {
-                  return DraggableAgendaSheetWidget(
-                    selectedDate: _selectedDate,
-                    activities: _activities,
-                    scrollController: scrollController,
-                  );
-                },
-              ),
-            ],
+              );
+            },
           );
         },
       ),
