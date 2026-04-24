@@ -9,10 +9,9 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
+import 'package:academic_planner/src/features/calendar/di/calendar_provider.dart';
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -29,78 +28,37 @@ class AgendaScreen extends ConsumerStatefulWidget {
 class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   final _calendarController = CalendarController();
 
-  DateTime _displayDate = DateTime.now();
-  DateTime _selectedDate = DateTime.now();
-
-  ActivityFilter? _currentFilter;
-
-  final _isLoadingNotifier = ValueNotifier(true);
-  final _hasErrorNotifier = ValueNotifier(false);
-
-  final _activities = <Activity>[];
-
-  Future<void> _fetchData({ActivityFilter? filter}) async {
-    _isLoadingNotifier.value = true;
-    _hasErrorNotifier.value = false;
-
-    final activityNotifier = ref.read(activityNotifierProvider.notifier);
-    final result = await activityNotifier.getAll(filter: filter);
-
-    result.fold(
-      onSuccess: (activities) {
-        _activities
-          ..clear()
-          ..addAll(activities.filter((a) => a.dueDate != null));
-
-        _isLoadingNotifier.value = false;
-      },
-      onFailure: (_) {
-        _hasErrorNotifier.value = true;
-        _isLoadingNotifier.value = false;
-      },
-    );
-  }
-
   void _onViewChanged(ViewChangedDetails details) {
     if (details.visibleDates.isNotEmpty) {
       final midDate = details.visibleDates[details.visibleDates.length ~/ 2];
 
-      if (midDate.month != _displayDate.month ||
-          midDate.year != _displayDate.year) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) setState(() => _displayDate = midDate);
-        });
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.read(agendaNotifierProvider.notifier).updateDisplayDate(midDate);
+      });
     }
   }
 
   void _openFilterModal() {
-    AgendaFilterModalWidget.show(
-      context,
-      initialFilter: _currentFilter,
-      onApply: (filter) {
-        _currentFilter = filter;
+    final notifier = ref.read(agendaNotifierProvider.notifier);
+    final asyncState = ref.read(agendaNotifierProvider);
 
-        _fetchData(filter: filter);
-      },
-      onClear: () {
-        _currentFilter = null;
-      },
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => _fetchData());
+    asyncState.whenData((state) {
+      AgendaFilterModalWidget.show(
+        context,
+        initialFilter: state.filter,
+        onApply: (filter) {
+          notifier.fetchData(filter: filter);
+        },
+        onClear: () {
+          notifier.clearFilter();
+        },
+      );
+    });
   }
 
   @override
   void dispose() {
     _calendarController.dispose();
-    _isLoadingNotifier.dispose();
-    _hasErrorNotifier.dispose();
 
     super.dispose();
   }
@@ -108,6 +66,8 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final asyncState = ref.watch(agendaNotifierProvider);
+    final notifier = ref.read(agendaNotifierProvider.notifier);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -116,62 +76,62 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: _openFilterModal,
+            onPressed: () {
+              _openFilterModal();
+            },
           ),
         ],
       ),
-      body: ValueListenableBuilder(
-        valueListenable: _isLoadingNotifier,
-        builder: (context, loading, _) {
-          if (loading) {
-            return const LoadingStateWidget();
-          }
-
-          return ValueListenableBuilder(
-            valueListenable: _hasErrorNotifier,
-            builder: (context, hasError, _) {
-              if (hasError) {
-                return ErrorStateWidget(
-                  description: "Não foi possível carregar sua agenda.",
-                  actionLabel: "Tentar novamente",
-                  onActionPressed: () => _fetchData(filter: _currentFilter),
-                );
-              }
-
-              return Stack(
+      body: asyncState.when(
+        loading: () {
+          return const LoadingStateWidget();
+        },
+        error: (error, stackTrace) {
+          return ErrorStateWidget(
+            description: "Não foi possível carregar sua agenda.",
+            actionLabel: "Tentar novamente",
+            onActionPressed: notifier.fetchData,
+          );
+        },
+        data: (state) {
+          return Stack(
+            children: <Widget>[
+              Column(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      const SizedBox(height: 24.0),
-                      _AgendaHeader(
-                        displayDate: _displayDate,
-                        onBackward: () => _calendarController.backward?.call(),
-                        onForward: () => _calendarController.forward?.call(),
-                      ),
-                      const SizedBox(height: 16.0),
-                      _CalendarView(
-                        controller: _calendarController,
-                        onViewChanged: _onViewChanged,
-                        onTap: (date) => setState(() => _selectedDate = date),
-                        activities: _activities,
-                      ),
-                    ],
-                  ),
-                  DraggableScrollableSheet(
-                    initialChildSize: 0.38,
-                    minChildSize: 0.38,
-                    maxChildSize: 0.90,
-                    builder: (context, scrollController) {
-                      return DraggableAgendaSheetWidget(
-                        selectedDate: _selectedDate,
-                        activities: _activities,
-                        scrollController: scrollController,
-                      );
+                  const SizedBox(height: 24.0),
+                  _AgendaHeader(
+                    displayDate: state.displayDate,
+                    onBackward: () {
+                      _calendarController.backward?.call();
+                    },
+                    onForward: () {
+                      _calendarController.forward?.call();
                     },
                   ),
+                  const SizedBox(height: 16.0),
+                  _CalendarView(
+                    controller: _calendarController,
+                    onViewChanged: _onViewChanged,
+                    onTap: (date) {
+                      notifier.updateSelectedDate(date);
+                    },
+                    activities: state.activities,
+                  ),
                 ],
-              );
-            },
+              ),
+              DraggableScrollableSheet(
+                initialChildSize: 0.38,
+                minChildSize: 0.38,
+                maxChildSize: 0.90,
+                builder: (context, scrollController) {
+                  return DraggableAgendaSheetWidget(
+                    selectedDate: state.selectedDate,
+                    activities: state.activities,
+                    scrollController: scrollController,
+                  );
+                },
+              ),
+            ],
           );
         },
       ),
