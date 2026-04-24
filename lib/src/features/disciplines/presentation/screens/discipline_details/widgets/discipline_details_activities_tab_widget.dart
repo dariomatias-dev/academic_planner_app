@@ -10,7 +10,7 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/metric_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';

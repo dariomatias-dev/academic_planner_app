@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/metric_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 

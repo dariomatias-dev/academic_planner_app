@@ -8,8 +8,8 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
-import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
 
 class ActivityCardActionsModalWidget extends ConsumerStatefulWidget {
   final Activity activity;
@@ -118,7 +118,7 @@ class _ActivityCardActionsModalWidgetState
           label: "Excluir atividade",
           color: colorScheme.error,
           onTap: () {
-            handleActivityDeletion(
+            deleteActivityFlow(
               context: context,
               ref: ref,
               activity: widget.activity,

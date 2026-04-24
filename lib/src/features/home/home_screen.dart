@@ -14,7 +14,7 @@ import 'package:academic_planner/src/features/home/widgets/home_quick_actions_ro
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
-import 'package:academic_planner/src/shared/widgets/activity_card/activity_card_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';

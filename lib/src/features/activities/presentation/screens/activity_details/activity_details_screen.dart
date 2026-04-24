@@ -16,7 +16,7 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_due_date_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_menu_widget.dart';
 
-import 'package:academic_planner/src/shared/utils/handle_activity_deletion.dart';
+import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -126,7 +126,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 if (result ?? false) _fetchActivity();
               },
               onDelete: () async {
-                final result = await handleActivityDeletion(
+                final result = await deleteActivityFlow(
                   context: context,
                   ref: ref,
                   activity: _activity!,
