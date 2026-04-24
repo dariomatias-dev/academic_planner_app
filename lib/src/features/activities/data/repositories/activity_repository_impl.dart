@@ -4,7 +4,7 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
-import 'package:academic_planner/src/features/activities/data/models/activity_dto.dart';
+import 'package:academic_planner/src/features/activities/data/models/activity_model.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
