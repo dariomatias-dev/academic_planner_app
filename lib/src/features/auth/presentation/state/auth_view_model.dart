@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -13,7 +12,7 @@ class AuthViewModel {
 
   final Logger _logger = Logger();
 
-  User? user;
+  UserEntity? user;
   String? error;
   bool isEmailVerified = false;
 
@@ -29,9 +28,12 @@ class AuthViewModel {
         await current.reload();
 
         isEmailVerified = current.emailVerified;
-      }
 
-      user = current;
+        user = await userRepository.getById(current.uid);
+      } else {
+        user = null;
+        isEmailVerified = false;
+      }
 
       _logger.i('loadUser finished');
     } catch (err, stackTrace) {
@@ -63,7 +65,11 @@ class AuthViewModel {
         }
 
         isEmailVerified = true;
-        user = current;
+
+        user = await userRepository.getById(current.uid);
+      } else {
+        user = null;
+        isEmailVerified = false;
       }
 
       _logger.i('signIn success: ${entity.email}');
@@ -95,6 +101,7 @@ class AuthViewModel {
           id: firebaseUser.uid,
           email: entity.email,
           name: entity.name,
+          role: UserRole.student,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -166,7 +173,11 @@ class AuthViewModel {
         await current.reload();
 
         isEmailVerified = current.emailVerified;
-        user = current;
+
+        user = await userRepository.getById(current.uid);
+      } else {
+        user = null;
+        isEmailVerified = false;
       }
 
       _logger.i('reloadUser success');

@@ -21,7 +21,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
         if (firebaseUser != null) {
           state = const AsyncLoading();
 
-          await viewModel.loadUser(firebaseUser.uid);
+          await viewModel.loadUser(firebaseUser.id);
 
           state = AsyncData(viewModel.user);
         } else {
@@ -33,7 +33,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
     final firebaseUser = ref.read(authNotifierProvider).value;
 
     if (firebaseUser != null) {
-      await viewModel.loadUser(firebaseUser.uid);
+      await viewModel.loadUser(firebaseUser.id);
 
       return viewModel.user;
     }
@@ -77,7 +77,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
     state = const AsyncLoading();
 
     try {
-      await viewModel.loadUser(firebaseUser.uid);
+      await viewModel.loadUser(firebaseUser.id);
 
       state = AsyncData(viewModel.user);
     } catch (err, stack) {

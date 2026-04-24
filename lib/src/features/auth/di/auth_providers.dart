@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/firebase_providers.dart';
@@ -7,6 +6,7 @@ import 'package:academic_planner/src/features/auth/data/services/auth_service.da
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:academic_planner/src/features/auth/presentation/state/auth_notifier.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 final authServiceProvider = Provider<AuthService>((ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);
@@ -20,6 +20,8 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(service);
 });
 
-final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, User?>(() {
-  return AuthNotifier();
-});
+final authNotifierProvider = AsyncNotifierProvider<AuthNotifier, UserEntity?>(
+  () {
+    return AuthNotifier();
+  },
+);
