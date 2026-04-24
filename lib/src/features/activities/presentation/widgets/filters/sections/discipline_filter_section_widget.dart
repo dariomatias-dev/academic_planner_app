@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 
-import 'package:academic_planner/src/shared/widgets/discipline_list_modal_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 class DisciplineFilterSectionWidget extends StatelessWidget {

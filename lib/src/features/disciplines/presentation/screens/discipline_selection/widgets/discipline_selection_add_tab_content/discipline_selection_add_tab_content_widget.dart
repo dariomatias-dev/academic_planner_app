@@ -7,7 +7,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
 
-import 'package:academic_planner/src/shared/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 
 class DisciplineSelectionAddTabContentWidget extends ConsumerWidget {
   final List<int> periods;
