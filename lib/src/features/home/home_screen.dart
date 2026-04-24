@@ -10,7 +10,6 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
-import 'package:academic_planner/src/features/home/widgets/home_main_focus_card_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
@@ -108,8 +107,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 data?.activeTasks.length ?? 0,
                 data?.progress ?? 0,
               ),
-              const SizedBox(height: 32.0),
-              const HomeMainFocusCardWidget(),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 32.0),
                 child: HomeQuickActionsRowWidget(),
