@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/state/auth_view_model.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
@@ -23,11 +25,11 @@ class AuthNotifier extends AsyncNotifier<User?> {
     return viewModel.user;
   }
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> signIn(LoginEntity entity) async {
     state = const AsyncLoading();
 
     try {
-      await viewModel.signIn(email, password);
+      await viewModel.signIn(entity);
 
       final firebaseUser = ref.read(authRepositoryProvider).currentUser;
 
@@ -43,11 +45,11 @@ class AuthNotifier extends AsyncNotifier<User?> {
     }
   }
 
-  Future<void> signUp(String email, String password, String name) async {
+  Future<void> signUp(RegisterEntity entity) async {
     state = const AsyncLoading();
 
     try {
-      await viewModel.signUp(email, password, name);
+      await viewModel.signUp(entity);
 
       state = const AsyncData(null);
     } catch (err, stackTrace) {

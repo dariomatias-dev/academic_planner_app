@@ -8,6 +8,7 @@ import 'package:academic_planner/src/core/validators.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
@@ -43,7 +44,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
       _logger.i('Register attempt: $email');
 
-      await auth.signUp(email, password, name);
+      await auth.signUp(
+        RegisterEntity(name: name, email: email, password: password),
+      );
 
       _logger.i('User and profile created: $email');
 

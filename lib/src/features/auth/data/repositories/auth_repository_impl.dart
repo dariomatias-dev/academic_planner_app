@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:academic_planner/src/features/auth/data/models/login_model.dart';
+import 'package:academic_planner/src/features/auth/data/models/register_model.dart';
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -12,13 +16,17 @@ class AuthRepositoryImpl implements AuthRepository {
   User? get currentUser => _service.currentUser;
 
   @override
-  Future<UserCredential> signIn(String email, String password) {
-    return _service.signIn(email, password);
+  Future<UserCredential> signIn(LoginEntity entity) {
+    final model = LoginModel.fromEntity(entity);
+
+    return _service.signIn(model.email, model.password);
   }
 
   @override
-  Future<UserCredential> signUp(String email, String password) {
-    return _service.signUp(email, password);
+  Future<UserCredential> signUp(RegisterEntity entity) {
+    final model = RegisterModel.fromEntity(entity);
+
+    return _service.signUp(model.email, model.password);
   }
 
   @override

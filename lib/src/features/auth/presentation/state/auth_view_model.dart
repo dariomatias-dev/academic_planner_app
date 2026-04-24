@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
@@ -39,13 +41,13 @@ class AuthViewModel {
     }
   }
 
-  Future<void> signIn(String email, String password) async {
+  Future<void> signIn(LoginEntity entity) async {
     error = null;
 
     try {
-      _logger.i('signIn started: $email');
+      _logger.i('signIn started: ${entity.email}');
 
-      await authRepository.signIn(email, password);
+      await authRepository.signIn(entity);
 
       final current = authRepository.currentUser;
 
@@ -55,7 +57,7 @@ class AuthViewModel {
         if (!current.emailVerified) {
           await authRepository.signOut();
 
-          _logger.w('Email not verified: $email');
+          _logger.w('Email not verified: ${entity.email}');
 
           throw Exception('Email não verificado');
         }
@@ -64,7 +66,7 @@ class AuthViewModel {
         user = current;
       }
 
-      _logger.i('signIn success: $email');
+      _logger.i('signIn success: ${entity.email}');
     } catch (err, stackTrace) {
       error = err.toString();
 
@@ -74,15 +76,15 @@ class AuthViewModel {
     }
   }
 
-  Future<void> signUp(String email, String password, String name) async {
+  Future<void> signUp(RegisterEntity entity) async {
     error = null;
 
     try {
-      _logger.i('signUp started: $email');
+      _logger.i('signUp started: ${entity.email}');
 
-      final credential = await authRepository.signUp(email, password);
+      final credential = await authRepository.signUp(entity);
 
-      _logger.i('Firebase signUp success: $email');
+      _logger.i('Firebase signUp success: ${entity.email}');
 
       final firebaseUser = credential.user;
 
@@ -91,8 +93,8 @@ class AuthViewModel {
 
         final newUser = UserEntity(
           id: firebaseUser.uid,
-          email: email,
-          name: name,
+          email: entity.email,
+          name: entity.name,
           createdAt: DateTime.now(),
           updatedAt: DateTime.now(),
         );
@@ -103,7 +105,7 @@ class AuthViewModel {
 
         await firebaseUser.sendEmailVerification();
 
-        _logger.i('Email verification sent: $email');
+        _logger.i('Email verification sent: ${entity.email}');
       }
 
       await authRepository.signOut();
@@ -111,7 +113,7 @@ class AuthViewModel {
       user = null;
       isEmailVerified = false;
 
-      _logger.i('signUp completed and user signed out: $email');
+      _logger.i('signUp completed and user signed out: ${entity.email}');
     } catch (err, stackTrace) {
       error = err.toString();
 
