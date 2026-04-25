@@ -443,6 +443,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                   ActivityFormDescriptionFieldWidget(
                     controller: _descriptionController,
                   ),
+                  const SizedBox(height: 20.0),
                   const FormSectionTitleWidget(title: "Classificação"),
                   ValueListenableBuilder<DisciplineModel?>(
                     valueListenable: _disciplineNotifier,
@@ -520,6 +521,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                       );
                     },
                   ),
+                  const SizedBox(height: 20.0),
                   const FormSectionTitleWidget(title: "Prazos e Lembretes"),
                   ValueListenableBuilder<DateTime?>(
                     valueListenable: _dueDateNotifier,
@@ -557,6 +559,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                       );
                     },
                   ),
+                  const SizedBox(height: 20.0),
                   const FormSectionTitleWidget(title: "Anotações"),
                   InputWidget(
                     controller: _notesController,
