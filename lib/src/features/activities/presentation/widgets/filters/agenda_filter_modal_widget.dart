@@ -5,6 +5,8 @@ import 'package:academic_planner/src/features/activities/domain/value_objects/ac
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
 
+import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
+
 class AgendaFilterModalWidget extends ConsumerStatefulWidget {
   final VoidCallback onClear;
   final void Function(ActivityFilter filter) onApply;
@@ -23,17 +25,13 @@ class AgendaFilterModalWidget extends ConsumerStatefulWidget {
     required void Function(ActivityFilter filter) onApply,
     ActivityFilter? initialFilter,
   }) {
-    return showModalBottomSheet(
+    return ModalBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return AgendaFilterModalWidget(
-          onClear: onClear,
-          onApply: onApply,
-          initialFilter: initialFilter,
-        );
-      },
+      child: AgendaFilterModalWidget(
+        onClear: onClear,
+        onApply: onApply,
+        initialFilter: initialFilter,
+      ),
     );
   }
 
