@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
 class DraggableAgendaSheetCardWidget extends StatelessWidget {
@@ -27,7 +29,9 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
         .firstOrNull;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        AppRoutes.goToActivityDetails(context, activityId: activity.id);
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),
         height: 120.0,
