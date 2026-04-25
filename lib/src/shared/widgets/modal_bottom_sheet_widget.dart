@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 
 class ModalBottomSheetWidget extends StatelessWidget {
   final String? title;
@@ -14,11 +14,9 @@ class ModalBottomSheetWidget extends StatelessWidget {
     String? title,
     required Widget child,
   }) {
-    return showModalBottomSheet<T>(
+    return ModalBottomSheet.show<T>(
       context: context,
-      backgroundColor: AppColors.transparent,
-      isScrollControlled: true,
-      builder: (context) => ModalBottomSheetWidget(title: title, child: child),
+      child: ModalBottomSheetWidget(title: title, child: child),
     );
   }
 
