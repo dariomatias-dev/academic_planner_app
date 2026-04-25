@@ -14,6 +14,14 @@ class AgendaNotifier extends AsyncNotifier<AgendaState> {
   FutureOr<AgendaState> build() async {
     _viewModel = AgendaViewModel();
 
+    ref.listen(activityNotifierProvider, (_, _) {
+      if (state is! AsyncLoading) {
+        Future.microtask(() {
+          fetchData(filter: state.value?.filter);
+        });
+      }
+    });
+
     return _fetchInitialData();
   }
 
