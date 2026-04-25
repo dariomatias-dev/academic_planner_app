@@ -76,9 +76,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: () {
-              _openFilterModal();
-            },
+            onPressed: _openFilterModal,
           ),
         ],
       ),
@@ -101,28 +99,22 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                   const SizedBox(height: 24.0),
                   _AgendaHeader(
                     displayDate: state.displayDate,
-                    onBackward: () {
-                      _calendarController.backward?.call();
-                    },
-                    onForward: () {
-                      _calendarController.forward?.call();
-                    },
+                    onBackward: () => _calendarController.backward?.call(),
+                    onForward: () => _calendarController.forward?.call(),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 24.0),
                   _CalendarView(
                     controller: _calendarController,
                     onViewChanged: _onViewChanged,
-                    onTap: (date) {
-                      notifier.updateSelectedDate(date);
-                    },
+                    onTap: (date) => notifier.updateSelectedDate(date),
                     activities: state.activities,
                   ),
                 ],
               ),
               DraggableScrollableSheet(
-                initialChildSize: 0.38,
-                minChildSize: 0.38,
-                maxChildSize: 0.90,
+                initialChildSize: 0.34,
+                minChildSize: 0.34,
+                maxChildSize: 0.9,
                 builder: (context, scrollController) {
                   return DraggableAgendaSheetWidget(
                     selectedDate: state.selectedDate,
@@ -220,62 +212,91 @@ class _CalendarView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    const borderRadiusValue = 28.0;
 
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 320.0),
+        margin: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 300.0),
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          borderRadius: BorderRadius.circular(32.0),
+          borderRadius: BorderRadius.circular(borderRadiusValue),
           border: Border.all(
             color: theme.dividerTheme.color ?? AppColors.transparent,
             width: 1.0,
           ),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: colorScheme.onSurface.withAlpha(15),
-              blurRadius: 30.0,
-              offset: const Offset(0.0, 10.0),
+              color: colorScheme.onSurface.withAlpha(12),
+              blurRadius: 40.0,
+              offset: const Offset(0.0, 12.0),
             ),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(32.0),
-          child: SfCalendar(
-            controller: controller,
-            view: CalendarView.month,
-            headerHeight: 0.0,
-            onViewChanged: onViewChanged,
-            onTap: (details) {
-              if (details.date != null) onTap(details.date!);
-            },
-            dataSource: _ActivityDataSource(
-              activities.builder((activity, index) {
-                final discipline = adsDisciplines
-                    .where((d) => d.id == activity.disciplineId)
-                    .firstOrNull;
+          borderRadius: BorderRadius.circular(borderRadiusValue),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 6.0),
+            child: SfCalendar(
+              controller: controller,
+              view: CalendarView.month,
+              headerHeight: 0.0,
+              cellBorderColor: Colors.transparent,
+              onViewChanged: onViewChanged,
+              onTap: (details) {
+                if (details.date != null) onTap(details.date!);
+              },
+              dataSource: _ActivityDataSource(
+                activities.builder((activity, index) {
+                  final discipline = adsDisciplines
+                      .where((d) => d.id == activity.disciplineId)
+                      .firstOrNull;
 
-                return Appointment(
-                  id: activity.id,
-                  startTime: activity.dueDate!,
-                  endTime: activity.dueDate!.add(const Duration(hours: 1)),
-                  subject: activity.title,
-                  notes: discipline?.acronym ?? '',
-                  color: activity.status.color(colorScheme),
-                );
-              }),
-            ),
-            todayHighlightColor: colorScheme.primary,
-            selectionDecoration: BoxDecoration(
-              color: colorScheme.primary.withAlpha(15),
-              borderRadius: BorderRadius.circular(12.0),
-              border: Border.all(color: colorScheme.primary, width: 2.0),
-            ),
-            monthViewSettings: const MonthViewSettings(
-              dayFormat: 'EEE',
-              appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
-              monthCellStyle: MonthCellStyle(
-                textStyle: TextStyle(fontWeight: FontWeight.w600),
+                  return Appointment(
+                    id: activity.id,
+                    startTime: activity.dueDate!,
+                    endTime: activity.dueDate!.add(const Duration(hours: 1)),
+                    subject: activity.title,
+                    notes: discipline?.acronym ?? '',
+                    color: activity.status.color(colorScheme),
+                  );
+                }),
+              ),
+              todayHighlightColor: colorScheme.primary,
+              todayTextStyle: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.w900,
+                fontSize: 14.0,
+                color: colorScheme.onPrimary,
+              ),
+              selectionDecoration: BoxDecoration(
+                color: colorScheme.primary.withAlpha(20),
+                borderRadius: BorderRadius.circular(12.0),
+                border: Border.all(color: colorScheme.primary, width: 2.0),
+              ),
+              viewHeaderStyle: ViewHeaderStyle(
+                dayTextStyle: GoogleFonts.plusJakartaSans(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w800,
+                  color: colorScheme.primary.withAlpha(180),
+                ),
+              ),
+              monthViewSettings: MonthViewSettings(
+                dayFormat: 'EEE',
+                appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
+                monthCellStyle: MonthCellStyle(
+                  textStyle: GoogleFonts.plusJakartaSans(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 14.0,
+                    color: colorScheme.onSurface,
+                  ),
+                  trailingDatesTextStyle: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface.withAlpha(60),
+                    fontSize: 13.0,
+                  ),
+                  leadingDatesTextStyle: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface.withAlpha(60),
+                    fontSize: 13.0,
+                  ),
+                ),
               ),
             ),
           ),
