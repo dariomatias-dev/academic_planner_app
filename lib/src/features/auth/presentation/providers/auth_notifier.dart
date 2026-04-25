@@ -17,7 +17,26 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       userRepository: ref.read(userRepositoryProvider),
     );
 
-    return null;
+    final current = viewModel.authRepository.currentUser;
+
+    if (current == null) {
+      return null;
+    }
+
+    await current.reload();
+
+    if (!current.emailVerified) {
+      await viewModel.authRepository.signOut();
+
+      return null;
+    }
+
+    final user = await viewModel.userRepository.getById(current.uid);
+
+    viewModel.user = user;
+    viewModel.isEmailVerified = true;
+
+    return user;
   }
 
   Future<void> signIn(LoginEntity entity) async {
