@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
@@ -35,30 +36,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     final auth = ref.read(authNotifierProvider.notifier);
 
-    try {
-      _logger.i('Login attempt: ${_emailController.text.trim()}');
+    _logger.i('Login attempt: ${_emailController.text.trim()}');
 
-      await auth.signIn(
-        LoginEntity(
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim(),
-        ),
-      );
-
-      _logger.i('Login success: ${_emailController.text.trim()}');
-
-      if (!mounted) return;
-
-      Fluttertoast.showToast(msg: 'Login realizado com sucesso');
-
-      AppRoutes.goToRoot(context);
-    } catch (err, stack) {
-      _logger.e('Login error', error: err, stackTrace: stack);
-
-      if (!mounted) return;
-
-      Fluttertoast.showToast(msg: err.toString());
-    }
+    await auth.signIn(
+      LoginEntity(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      ),
+    );
   }
 
   @override
@@ -71,6 +56,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.whenOrNull(
+        data: (user) {
+          if (!mounted) return;
+
+          if (user != null) {
+            _logger.i('Login success: ${_emailController.text.trim()}');
+
+            Fluttertoast.showToast(msg: 'Login realizado com sucesso');
+
+            AppRoutes.goToRoot(context);
+          } else {
+            Fluttertoast.showToast(msg: 'Usuário não encontrado');
+          }
+        },
+        error: (err, _) {
+          if (!mounted) return;
+
+          final message = err is Failure ? err.message : err.toString();
+
+          _logger.e('Login error', error: err);
+
+          Fluttertoast.showToast(msg: message);
+        },
+      );
+    });
+
     final authState = ref.watch(authNotifierProvider);
     final colorScheme = Theme.of(context).colorScheme;
 
