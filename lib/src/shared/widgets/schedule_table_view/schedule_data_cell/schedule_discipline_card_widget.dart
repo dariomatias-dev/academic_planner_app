@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/models/schedule_entry.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 

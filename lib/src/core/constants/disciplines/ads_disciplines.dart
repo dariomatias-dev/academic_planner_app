@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines_
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines_sixth.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines_third.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 
 final adsDisciplines = <DisciplineModel>[
   ...adsDisciplinesFirst,

@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 
 final adsDisciplinesSecond = <DisciplineModel>[
   DisciplineModel(

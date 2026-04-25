@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 
 class DisciplineDetailsRequirementExpandableTileWidget extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/constants/teachers.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 
 class DisciplineCardWidget extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/shared/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 
 class ActivityDetailsDisciplineWidget extends StatelessWidget {
   final DisciplineModel discipline;
