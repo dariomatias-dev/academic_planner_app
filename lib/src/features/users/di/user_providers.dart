@@ -9,7 +9,7 @@ import 'package:academic_planner/src/features/users/domain/repositories/user_rep
 import 'package:academic_planner/src/features/users/domain/value_objects/user_filter.dart';
 import 'package:academic_planner/src/features/users/presentation/providers/user_filter_notifier.dart';
 import 'package:academic_planner/src/features/users/presentation/providers/user_notifier.dart';
-import 'package:academic_planner/src/features/users/presentation/state/user_view_model.dart';
+import 'package:academic_planner/src/features/users/presentation/view_models/user_view_model.dart';
 
 final userFirestoreServiceProvider = Provider<UserFirestoreService>((ref) {
   final firestore = ref.watch(firestoreProvider);
