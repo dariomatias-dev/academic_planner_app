@@ -6,17 +6,15 @@ import 'package:academic_planner/src/features/activities/presentation/widgets/fi
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/date_range_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
 
+import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
+
 class ActivitiesFilterModalWidget extends ConsumerStatefulWidget {
   const ActivitiesFilterModalWidget({super.key});
 
   static Future<void> show(BuildContext context) {
-    return showModalBottomSheet(
+    return ModalBottomSheet.show(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) {
-        return const ActivitiesFilterModalWidget();
-      },
+      child: const ActivitiesFilterModalWidget(),
     );
   }
 
@@ -25,7 +23,8 @@ class ActivitiesFilterModalWidget extends ConsumerStatefulWidget {
       _ActivitiesFilterModalWidgetState();
 }
 
-class _ActivitiesFilterModalWidgetState extends ConsumerState<ActivitiesFilterModalWidget> {
+class _ActivitiesFilterModalWidgetState
+    extends ConsumerState<ActivitiesFilterModalWidget> {
   late int? _selectedDisciplineId;
   late DateTime? _startDate;
   late DateTime? _endDate;
