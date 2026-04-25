@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
@@ -37,43 +38,15 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     final auth = ref.read(authNotifierProvider.notifier);
 
-    try {
-      final name = _nameController.text.trim();
-      final email = _emailController.text.trim();
-      final password = _passwordController.text.trim();
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-      _logger.i('Register attempt: $email');
+    _logger.i('Register attempt: $email');
 
-      await auth.signUp(
-        RegisterEntity(name: name, email: email, password: password),
-      );
-
-      _logger.i('User and profile created: $email');
-
-      await auth.sendEmailVerification();
-
-      _logger.i('Verification email sent: $email');
-
-      await auth.signOut();
-
-      _logger.i('User signed out after registration');
-
-      if (!mounted) return;
-
-      Fluttertoast.showToast(
-        msg: 'Conta criada! Verifique seu email antes de fazer login.',
-      );
-
-      if (!mounted) return;
-
-      AppRoutes.goToLogin(context, replace: true);
-    } catch (err, stack) {
-      _logger.e('Register error', error: err, stackTrace: stack);
-
-      if (!mounted) return;
-
-      Fluttertoast.showToast(msg: err.toString());
-    }
+    await auth.register(
+      RegisterEntity(name: name, email: email, password: password),
+    );
   }
 
   @override
@@ -88,6 +61,29 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(authNotifierProvider, (previous, next) {
+      next.whenOrNull(
+        data: (_) {
+          if (!mounted) return;
+
+          Fluttertoast.showToast(
+            msg: 'Conta criada! Verifique seu email antes de fazer login.',
+          );
+
+          AppRoutes.goToLogin(context, replace: true);
+        },
+        error: (err, _) {
+          if (!mounted) return;
+
+          final message = err is Failure ? err.message : err.toString();
+
+          _logger.e('Register error', error: err);
+
+          Fluttertoast.showToast(msg: message);
+        },
+      );
+    });
+
     final colorScheme = Theme.of(context).colorScheme;
     final auth = ref.watch(authNotifierProvider);
 
