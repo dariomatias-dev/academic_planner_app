@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/core/app_colors.dart';
+
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
 extension ActivityStatusExtension on ActivityStatus {
@@ -15,11 +17,11 @@ extension ActivityStatusExtension on ActivityStatus {
 
   Color color(ColorScheme colorScheme) {
     return switch (this) {
-      ActivityStatus.completed => Colors.teal,
-      ActivityStatus.inProgress => colorScheme.secondary,
-      ActivityStatus.canceled => colorScheme.error,
-      ActivityStatus.draft => colorScheme.onSurface.withAlpha(120),
-      ActivityStatus.pending => colorScheme.onSurface.withAlpha(100),
+      ActivityStatus.completed => AppColors.emerald900,
+      ActivityStatus.inProgress => AppColors.emerald400,
+      ActivityStatus.pending => AppColors.slate700,
+      ActivityStatus.canceled => AppColors.red600,
+      ActivityStatus.draft => AppColors.slate300,
     };
   }
 }
