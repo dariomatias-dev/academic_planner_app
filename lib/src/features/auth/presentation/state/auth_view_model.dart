@@ -1,4 +1,5 @@
-import 'package:logger/logger.dart';
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
@@ -6,203 +7,211 @@ import 'package:academic_planner/src/features/auth/domain/entities/register_enti
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
+import 'package:academic_planner/src/shared/utils/app_logger.dart';
+
 class AuthViewModel {
   final AuthRepository authRepository;
   final UserRepository userRepository;
 
-  final Logger _logger = Logger();
-
   UserEntity? user;
-  String? error;
   bool isEmailVerified = false;
 
   AuthViewModel({required this.authRepository, required this.userRepository});
 
-  Future<void> loadUser() async {
-    try {
-      _logger.i('loadUser started');
+  Future<Result<void>> signIn(LoginEntity entity) async {
+    AppLogger.info('signIn started: ${entity.email}');
 
-      final current = authRepository.currentUser;
+    final result = await authRepository.signIn(entity);
 
-      if (current != null) {
-        await current.reload();
+    return result.fold(
+      onSuccess: (_) async {
+        try {
+          final current = authRepository.currentUser;
 
-        isEmailVerified = current.emailVerified;
+          if (current != null) {
+            await current.reload();
 
-        user = await userRepository.getById(current.uid);
-      } else {
-        user = null;
-        isEmailVerified = false;
-      }
+            if (!current.emailVerified) {
+              await authRepository.signOut();
 
-      _logger.i('loadUser finished');
-    } catch (err, stackTrace) {
-      _logger.e('loadUser error', error: err, stackTrace: stackTrace);
+              AppLogger.warning('Email not verified: ${entity.email}');
 
-      rethrow;
-    }
+              return FailureResult(AuthFailure('Email não verificado'));
+            }
+
+            isEmailVerified = true;
+
+            user = await userRepository.getById(current.uid);
+
+            AppLogger.info('signIn success: ${entity.email}');
+          } else {
+            AppLogger.warning('signIn: currentUser is null');
+          }
+
+          return const Success(null);
+        } catch (err, stack) {
+          AppLogger.error('signIn processing error', err, stack);
+
+          return FailureResult(UnknownFailure('Erro ao processar login', err));
+        }
+      },
+      onFailure: (f) {
+        AppLogger.warning('signIn failed: ${f.message}');
+        return FailureResult(f);
+      },
+    );
   }
 
-  Future<void> signIn(LoginEntity entity) async {
-    error = null;
+  Future<Result<void>> signUp(RegisterEntity entity) async {
+    AppLogger.info('signUp started: ${entity.email}');
 
-    try {
-      _logger.i('signIn started: ${entity.email}');
+    final result = await authRepository.signUp(entity);
 
-      await authRepository.signIn(entity);
+    return result.fold(
+      onSuccess: (credential) async {
+        try {
+          final firebaseUser = credential.user;
 
-      final current = authRepository.currentUser;
+          if (firebaseUser != null) {
+            final newUser = UserEntity(
+              id: firebaseUser.uid,
+              email: entity.email,
+              name: entity.name,
+              role: UserRole.student,
+              createdAt: DateTime.now(),
+              updatedAt: DateTime.now(),
+            );
 
-      if (current != null) {
-        await current.reload();
+            await userRepository.create(newUser);
+            await firebaseUser.sendEmailVerification();
 
-        if (!current.emailVerified) {
+            AppLogger.info(
+              'User created and verification sent: ${entity.email}',
+            );
+          } else {
+            AppLogger.warning('signUp: firebaseUser is null');
+          }
+
           await authRepository.signOut();
 
-          _logger.w('Email not verified: ${entity.email}');
+          user = null;
+          isEmailVerified = false;
 
-          throw Exception('Email não verificado');
+          AppLogger.info('signUp completed: ${entity.email}');
+
+          return const Success(null);
+        } catch (err, stack) {
+          AppLogger.error('signUp processing error', err, stack);
+
+          return FailureResult(
+            UnknownFailure('Erro ao processar cadastro', err),
+          );
         }
-
-        isEmailVerified = true;
-
-        user = await userRepository.getById(current.uid);
-      } else {
-        user = null;
-        isEmailVerified = false;
-      }
-
-      _logger.i('signIn success: ${entity.email}');
-    } catch (err, stackTrace) {
-      error = err.toString();
-
-      _logger.e('signIn error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+      },
+      onFailure: (f) {
+        AppLogger.warning('signUp failed: ${f.message}');
+        return FailureResult(f);
+      },
+    );
   }
 
-  Future<void> signUp(RegisterEntity entity) async {
-    error = null;
+  Future<Result<void>> signOut() async {
+    AppLogger.info('signOut started');
 
-    try {
-      _logger.i('signUp started: ${entity.email}');
+    final result = await authRepository.signOut();
 
-      final credential = await authRepository.signUp(entity);
+    return result.fold(
+      onSuccess: (_) {
+        user = null;
+        isEmailVerified = false;
 
-      _logger.i('Firebase signUp success: ${entity.email}');
+        AppLogger.info('signOut success');
 
-      final firebaseUser = credential.user;
+        return const Success(null);
+      },
+      onFailure: (f) {
+        AppLogger.warning('signOut failed: ${f.message}');
+        return FailureResult(f);
+      },
+    );
+  }
 
-      if (firebaseUser != null) {
-        _logger.i('Creating Firestore user: ${firebaseUser.uid}');
+  Future<Result<void>> deleteAccount() async {
+    AppLogger.info('deleteAccount started');
 
-        final newUser = UserEntity(
-          id: firebaseUser.uid,
-          email: entity.email,
-          name: entity.name,
-          role: UserRole.student,
-          createdAt: DateTime.now(),
-          updatedAt: DateTime.now(),
+    final result = await authRepository.deleteAccount();
+
+    return result.fold(
+      onSuccess: (_) {
+        user = null;
+        isEmailVerified = false;
+
+        AppLogger.info('deleteAccount success');
+
+        return const Success(null);
+      },
+      onFailure: (f) {
+        AppLogger.warning('deleteAccount failed: ${f.message}');
+        return FailureResult(f);
+      },
+    );
+  }
+
+  Future<Result<void>> sendEmailVerification() async {
+    AppLogger.info('sendEmailVerification started');
+
+    final result = await authRepository.sendEmailVerification();
+
+    result.when(
+      onSuccess: (_) {
+        AppLogger.info('sendEmailVerification success');
+      },
+      onFailure: (f) {
+        AppLogger.warning('sendEmailVerification failed: ${f.message}');
+      },
+    );
+
+    return result;
+  }
+
+  Future<Result<void>> registerFlow(RegisterEntity entity) async {
+    AppLogger.info('registerFlow started: ${entity.email}');
+
+    final signUpResult = await signUp(entity);
+
+    return signUpResult.fold(
+      onSuccess: (_) async {
+        final verifyResult = await sendEmailVerification();
+
+        return verifyResult.fold(
+          onSuccess: (_) async {
+            final signOutResult = await signOut();
+
+            return signOutResult.fold(
+              onSuccess: (_) {
+                AppLogger.info('registerFlow success: ${entity.email}');
+
+                return const Success(null);
+              },
+              onFailure: (f) {
+                AppLogger.warning('registerFlow signOut failed: ${f.message}');
+
+                return FailureResult(f);
+              },
+            );
+          },
+          onFailure: (f) {
+            AppLogger.warning('registerFlow verification failed: ${f.message}');
+
+            return FailureResult(f);
+          },
         );
+      },
+      onFailure: (f) {
+        AppLogger.warning('registerFlow signUp failed: ${f.message}');
 
-        await userRepository.create(newUser);
-
-        _logger.i('Firestore user created: ${firebaseUser.uid}');
-
-        await firebaseUser.sendEmailVerification();
-
-        _logger.i('Email verification sent: ${entity.email}');
-      }
-
-      await authRepository.signOut();
-
-      user = null;
-      isEmailVerified = false;
-
-      _logger.i('signUp completed and user signed out: ${entity.email}');
-    } catch (err, stackTrace) {
-      error = err.toString();
-
-      _logger.e('signUp error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
-  }
-
-  Future<void> signOut() async {
-    try {
-      _logger.i('signOut');
-
-      await authRepository.signOut();
-
-      user = null;
-      isEmailVerified = false;
-
-      _logger.i('signOut success');
-    } catch (err, stackTrace) {
-      _logger.e('signOut error', error: err, stackTrace: stackTrace);
-      rethrow;
-    }
-  }
-
-  Future<void> deleteAccount() async {
-    try {
-      _logger.i('deleteAccount');
-
-      await authRepository.deleteAccount();
-
-      user = null;
-      isEmailVerified = false;
-
-      _logger.i('deleteAccount success');
-    } catch (err, stackTrace) {
-      _logger.e('deleteAccount error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
-  }
-
-  Future<void> reloadUser() async {
-    try {
-      _logger.i('reloadUser');
-
-      final current = authRepository.currentUser;
-
-      if (current != null) {
-        await current.reload();
-
-        isEmailVerified = current.emailVerified;
-
-        user = await userRepository.getById(current.uid);
-      } else {
-        user = null;
-        isEmailVerified = false;
-      }
-
-      _logger.i('reloadUser success');
-    } catch (err, stackTrace) {
-      _logger.e('reloadUser error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
-  }
-
-  Future<void> sendEmailVerification() async {
-    try {
-      _logger.i('sendEmailVerification');
-
-      await authRepository.sendEmailVerification();
-
-      _logger.i('sendEmailVerification success');
-    } catch (err, stackTrace) {
-      _logger.e(
-        'sendEmailVerification error',
-        error: err,
-        stackTrace: stackTrace,
-      );
-
-      rethrow;
-    }
+        return FailureResult(f);
+      },
+    );
   }
 }

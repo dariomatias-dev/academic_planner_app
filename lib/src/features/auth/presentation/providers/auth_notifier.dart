@@ -17,65 +17,69 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       userRepository: ref.read(userRepositoryProvider),
     );
 
-    await viewModel.loadUser();
-
-    return viewModel.user;
+    return null;
   }
 
   Future<void> signIn(LoginEntity entity) async {
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() async {
-      await viewModel.signIn(entity);
-      return viewModel.user;
-    });
+    final result = await viewModel.signIn(entity);
+
+    state = result.fold(
+      onSuccess: (_) => AsyncData(viewModel.user),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
+  }
+
+  Future<void> register(RegisterEntity entity) async {
+    state = const AsyncLoading();
+
+    final result = await viewModel.registerFlow(entity);
+
+    state = result.fold(
+      onSuccess: (_) => const AsyncData(null),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   Future<void> signUp(RegisterEntity entity) async {
     state = const AsyncLoading();
 
-    await AsyncValue.guard(() async {
-      await viewModel.signUp(entity);
-    });
+    final result = await viewModel.signUp(entity);
 
-    state = const AsyncData(null);
-  }
-
-  Future<void> sendEmailVerification() async {
-    await viewModel.sendEmailVerification();
+    state = result.fold(
+      onSuccess: (_) => const AsyncData(null),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   Future<void> signOut() async {
-    await viewModel.signOut();
+    final result = await viewModel.signOut();
 
-    state = const AsyncData(null);
+    state = result.fold(
+      onSuccess: (_) => const AsyncData(null),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   Future<void> deleteAccount() async {
-    final current = state.value;
-
-    if (current == null) {
-      state = AsyncError('User not loaded', StackTrace.current);
-
-      return;
-    }
-
     state = const AsyncLoading();
 
-    await AsyncValue.guard(() async {
-      await viewModel.deleteAccount();
-    });
+    final result = await viewModel.deleteAccount();
 
-    state = const AsyncData(null);
+    state = result.fold(
+      onSuccess: (_) => const AsyncData(null),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
-  Future<void> reloadUser() async {
-    state = const AsyncLoading();
+  Future<void> sendEmailVerification() async {
+    final result = await viewModel.sendEmailVerification();
 
-    state = await AsyncValue.guard(() async {
-      await viewModel.reloadUser();
-
-      return viewModel.user;
-    });
+    result.when(
+      onFailure: (f) {
+        state = AsyncError(f, StackTrace.current);
+      },
+    );
   }
 }

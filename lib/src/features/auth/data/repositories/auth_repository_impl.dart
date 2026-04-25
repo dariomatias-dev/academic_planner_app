@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/result/exception_mapper.dart';
+
 import 'package:academic_planner/src/features/auth/data/models/login_model.dart';
 import 'package:academic_planner/src/features/auth/data/models/register_model.dart';
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
@@ -16,41 +19,77 @@ class AuthRepositoryImpl implements AuthRepository {
   User? get currentUser => _service.currentUser;
 
   @override
-  Future<UserCredential> signIn(LoginEntity entity) {
-    final model = LoginModel.fromEntity(entity);
+  Future<Result<UserCredential>> signIn(LoginEntity entity) async {
+    try {
+      final model = LoginModel.fromEntity(entity);
 
-    return _service.signIn(model.email, model.password);
+      final credential = await _service.signIn(model.email, model.password);
+
+      return Success(credential);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
   }
 
   @override
-  Future<UserCredential> signUp(RegisterEntity entity) {
-    final model = RegisterModel.fromEntity(entity);
+  Future<Result<UserCredential>> signUp(RegisterEntity entity) async {
+    try {
+      final model = RegisterModel.fromEntity(entity);
 
-    return _service.signUp(model.email, model.password);
+      final credential = await _service.signUp(model.email, model.password);
+
+      return Success(credential);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
   }
 
   @override
-  Future<void> signOut() {
-    return _service.signOut();
+  Future<Result<void>> signOut() async {
+    try {
+      await _service.signOut();
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
   }
 
   @override
-  Future<void> deleteAccount() {
-    return _service.deleteAccount();
+  Future<Result<void>> deleteAccount() async {
+    try {
+      await _service.deleteAccount();
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
+  }
+
+  @override
+  Future<Result<void>> sendEmailVerification() async {
+    try {
+      await _service.sendEmailVerification();
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
+  }
+
+  @override
+  Future<Result<void>> reloadUser() async {
+    try {
+      await _service.reloadUser();
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(ExceptionMapper.map(err));
+    }
   }
 
   @override
   Stream<User?> authStateChanges() {
     return _service.authStateChanges();
-  }
-
-  @override
-  Future<void> sendEmailVerification() {
-    return _service.sendEmailVerification();
-  }
-
-  @override
-  Future<void> reloadUser() {
-    return _service.reloadUser();
   }
 }
