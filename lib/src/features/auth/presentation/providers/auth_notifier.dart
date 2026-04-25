@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
-import 'package:academic_planner/src/features/auth/presentation/state/auth_view_model.dart';
+import 'package:academic_planner/src/features/auth/presentation/view_models/auth_view_model.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
