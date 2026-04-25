@@ -17,14 +17,17 @@ class MetricCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
 
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(24.0),
-        border: Border.all(color: colorScheme.outlineVariant.withAlpha(100)),
+
+        border: Border.all(
+          color: theme.dividerTheme.color ?? Colors.transparent,
+        ),
       ),
       child: Row(
         children: <Widget>[
@@ -45,7 +48,7 @@ class MetricCardWidget extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 18.0,
                   fontWeight: FontWeight.w800,
-                  color: colorScheme.onSurface,
+                  color: theme.colorScheme.onSurface,
                 ),
               ),
               Text(
@@ -53,7 +56,7 @@ class MetricCardWidget extends StatelessWidget {
                 style: GoogleFonts.plusJakartaSans(
                   fontSize: 11.0,
                   fontWeight: FontWeight.w600,
-                  color: colorScheme.onSurface.withAlpha(140),
+                  color: theme.colorScheme.onSurface.withAlpha(140),
                 ),
               ),
             ],
