@@ -1,112 +1,116 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
-import 'package:academic_planner/src/shared/utils/app_logger.dart';
-
 class ActivityViewModel {
   final ActivityRepository repository;
+  final LoggerService _logger;
 
-  ActivityViewModel(this.repository);
+  ActivityViewModel(this.repository, this._logger);
 
   Future<Result<void>> create(Activity activity) async {
-    AppLogger.info('createActivity started: ${activity.title}');
+    _logger.info('createActivity started: ${activity.title}');
 
     try {
       final result = await repository.add(activity);
 
-      AppLogger.info('createActivity success: ${activity.title}');
+      _logger.info('createActivity success: ${activity.title}');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('createActivity error', err, stackTrace);
+      _logger.error('createActivity error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
   }
 
   Future<Result<List<Activity>>> getAll({ActivityFilter? filter}) async {
-    AppLogger.info('getActivities started');
+    _logger.info('getActivities started');
 
     try {
       final result = await repository.getAll(filter: filter);
 
-      AppLogger.info('getActivities success');
+      _logger.info('getActivities success');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('getActivities error', err, stackTrace);
+      _logger.error('getActivities error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
   }
 
   Future<Result<int>> count({ActivityFilter? filter}) async {
-    AppLogger.info('countActivities started');
+    _logger.info('countActivities started');
 
     try {
       final result = await repository.count(filter: filter);
 
-      AppLogger.info('countActivities success');
+      _logger.info('countActivities success');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('countActivities error', err, stackTrace);
+      _logger.error(
+        'countActivities error',
+        error: err,
+        stackTrace: stackTrace,
+      );
 
       rethrow;
     }
   }
 
   Future<Result<Activity?>> getById(String id) async {
-    AppLogger.info('getById started: $id');
+    _logger.info('getById started: $id');
 
     try {
       final result = await repository.getById(id);
 
-      AppLogger.info('getById success: $id');
+      _logger.info('getById success: $id');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('getById error', err, stackTrace);
+      _logger.error('getById error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
   }
 
   Future<Result<void>> update(Activity activity) async {
-    AppLogger.info('update started: ${activity.id}');
+    _logger.info('update started: ${activity.id}');
 
     try {
       final updated = activity.copyWith(updatedAt: DateTime.now());
 
       final result = await repository.update(updated);
 
-      AppLogger.info('update success: ${activity.id}');
+      _logger.info('update success: ${activity.id}');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('update error', err, stackTrace);
+      _logger.error('update error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
   }
 
   Future<Result<void>> delete(String id) async {
-    AppLogger.info('delete started: $id');
+    _logger.info('delete started: $id');
 
     try {
       final result = await repository.delete(id);
 
-      AppLogger.info('delete success: $id');
+      _logger.info('delete success: $id');
 
       return result;
     } catch (err, stackTrace) {
-      AppLogger.error('delete error', err, stackTrace);
+      _logger.error('delete error', error: err, stackTrace: stackTrace);
 
       rethrow;
     }
@@ -125,7 +129,7 @@ class ActivityViewModel {
   }) {
     final now = DateTime.now();
 
-    AppLogger.info('createNew activity: $title');
+    _logger.info('createNew activity: $title');
 
     return Activity(
       id: const Uuid().v7(),

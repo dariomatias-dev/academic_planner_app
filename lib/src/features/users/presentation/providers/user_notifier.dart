@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
+
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -14,7 +16,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
   Future<UserEntity?> build() async {
     final userRepository = ref.read(userRepositoryProvider);
 
-    viewModel = UserViewModel(userRepository);
+    viewModel = UserViewModel(userRepository, ref.read(loggerProvider));
 
     ref.listen(authNotifierProvider, (prev, next) {
       next.whenData((firebaseUser) async {

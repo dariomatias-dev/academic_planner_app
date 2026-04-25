@@ -1,5 +1,6 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
@@ -7,19 +8,22 @@ import 'package:academic_planner/src/features/auth/domain/entities/register_enti
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
-import 'package:academic_planner/src/shared/utils/app_logger.dart';
-
 class AuthViewModel {
   final AuthRepository authRepository;
   final UserRepository userRepository;
+  final LoggerService _logger;
 
   UserEntity? user;
   bool isEmailVerified = false;
 
-  AuthViewModel({required this.authRepository, required this.userRepository});
+  AuthViewModel({
+    required this.authRepository,
+    required this.userRepository,
+    required LoggerService logger,
+  }) : _logger = logger;
 
   Future<Result<void>> signIn(LoginEntity entity) async {
-    AppLogger.info('signIn started: ${entity.email}');
+    _logger.info('signIn started: ${entity.email}');
 
     final result = await authRepository.signIn(entity);
 
@@ -34,7 +38,7 @@ class AuthViewModel {
             if (!current.emailVerified) {
               await authRepository.signOut();
 
-              AppLogger.warning('Email not verified: ${entity.email}');
+              _logger.warning('Email not verified: ${entity.email}');
 
               return FailureResult(AuthFailure('Email não verificado'));
             }
@@ -43,27 +47,32 @@ class AuthViewModel {
 
             user = await userRepository.getById(current.uid);
 
-            AppLogger.info('signIn success: ${entity.email}');
+            _logger.info('signIn success: ${entity.email}');
           } else {
-            AppLogger.warning('signIn: currentUser is null');
+            _logger.warning('signIn: currentUser is null');
           }
 
           return const Success(null);
         } catch (err, stack) {
-          AppLogger.error('signIn processing error', err, stack);
+          _logger.error(
+            'signIn processing error',
+            error: err,
+            stackTrace: stack,
+          );
 
           return FailureResult(UnknownFailure('Erro ao processar login', err));
         }
       },
       onFailure: (f) {
-        AppLogger.warning('signIn failed: ${f.message}');
+        _logger.warning('signIn failed: ${f.message}');
+
         return FailureResult(f);
       },
     );
   }
 
   Future<Result<void>> signUp(RegisterEntity entity) async {
-    AppLogger.info('signUp started: ${entity.email}');
+    _logger.info('signUp started: ${entity.email}');
 
     final result = await authRepository.signUp(entity);
 
@@ -85,11 +94,9 @@ class AuthViewModel {
             await userRepository.create(newUser);
             await firebaseUser.sendEmailVerification();
 
-            AppLogger.info(
-              'User created and verification sent: ${entity.email}',
-            );
+            _logger.info('User created and verification sent: ${entity.email}');
           } else {
-            AppLogger.warning('signUp: firebaseUser is null');
+            _logger.warning('signUp: firebaseUser is null');
           }
 
           await authRepository.signOut();
@@ -97,11 +104,15 @@ class AuthViewModel {
           user = null;
           isEmailVerified = false;
 
-          AppLogger.info('signUp completed: ${entity.email}');
+          _logger.info('signUp completed: ${entity.email}');
 
           return const Success(null);
         } catch (err, stack) {
-          AppLogger.error('signUp processing error', err, stack);
+          _logger.error(
+            'signUp processing error',
+            error: err,
+            stackTrace: stack,
+          );
 
           return FailureResult(
             UnknownFailure('Erro ao processar cadastro', err),
@@ -109,14 +120,15 @@ class AuthViewModel {
         }
       },
       onFailure: (f) {
-        AppLogger.warning('signUp failed: ${f.message}');
+        _logger.warning('signUp failed: ${f.message}');
+
         return FailureResult(f);
       },
     );
   }
 
   Future<Result<void>> signOut() async {
-    AppLogger.info('signOut started');
+    _logger.info('signOut started');
 
     final result = await authRepository.signOut();
 
@@ -125,19 +137,19 @@ class AuthViewModel {
         user = null;
         isEmailVerified = false;
 
-        AppLogger.info('signOut success');
+        _logger.info('signOut success');
 
         return const Success(null);
       },
       onFailure: (f) {
-        AppLogger.warning('signOut failed: ${f.message}');
+        _logger.warning('signOut failed: ${f.message}');
         return FailureResult(f);
       },
     );
   }
 
   Future<Result<void>> deleteAccount() async {
-    AppLogger.info('deleteAccount started');
+    _logger.info('deleteAccount started');
 
     final result = await authRepository.deleteAccount();
 
@@ -146,28 +158,29 @@ class AuthViewModel {
         user = null;
         isEmailVerified = false;
 
-        AppLogger.info('deleteAccount success');
+        _logger.info('deleteAccount success');
 
         return const Success(null);
       },
       onFailure: (f) {
-        AppLogger.warning('deleteAccount failed: ${f.message}');
+        _logger.warning('deleteAccount failed: ${f.message}');
+
         return FailureResult(f);
       },
     );
   }
 
   Future<Result<void>> sendEmailVerification() async {
-    AppLogger.info('sendEmailVerification started');
+    _logger.info('sendEmailVerification started');
 
     final result = await authRepository.sendEmailVerification();
 
     result.when(
       onSuccess: (_) {
-        AppLogger.info('sendEmailVerification success');
+        _logger.info('sendEmailVerification success');
       },
       onFailure: (f) {
-        AppLogger.warning('sendEmailVerification failed: ${f.message}');
+        _logger.warning('sendEmailVerification failed: ${f.message}');
       },
     );
 
@@ -175,7 +188,7 @@ class AuthViewModel {
   }
 
   Future<Result<void>> registerFlow(RegisterEntity entity) async {
-    AppLogger.info('registerFlow started: ${entity.email}');
+    _logger.info('registerFlow started: ${entity.email}');
 
     final signUpResult = await signUp(entity);
 
@@ -189,26 +202,26 @@ class AuthViewModel {
 
             return signOutResult.fold(
               onSuccess: (_) {
-                AppLogger.info('registerFlow success: ${entity.email}');
+                _logger.info('registerFlow success: ${entity.email}');
 
                 return const Success(null);
               },
               onFailure: (f) {
-                AppLogger.warning('registerFlow signOut failed: ${f.message}');
+                _logger.warning('registerFlow signOut failed: ${f.message}');
 
                 return FailureResult(f);
               },
             );
           },
           onFailure: (f) {
-            AppLogger.warning('registerFlow verification failed: ${f.message}');
+            _logger.warning('registerFlow verification failed: ${f.message}');
 
             return FailureResult(f);
           },
         );
       },
       onFailure: (f) {
-        AppLogger.warning('registerFlow signUp failed: ${f.message}');
+        _logger.warning('registerFlow signUp failed: ${f.message}');
 
         return FailureResult(f);
       },

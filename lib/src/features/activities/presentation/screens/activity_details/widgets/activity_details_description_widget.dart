@@ -1,11 +1,15 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 
-class ActivityDetailsDescriptionWidget extends StatefulWidget {
+class ActivityDetailsDescriptionWidget extends ConsumerStatefulWidget {
   final String description;
 
   const ActivityDetailsDescriptionWidget({
@@ -14,12 +18,12 @@ class ActivityDetailsDescriptionWidget extends StatefulWidget {
   });
 
   @override
-  State<ActivityDetailsDescriptionWidget> createState() =>
+  ConsumerState<ActivityDetailsDescriptionWidget> createState() =>
       _ActivityDetailsDescriptionWidgetState();
 }
 
 class _ActivityDetailsDescriptionWidgetState
-    extends State<ActivityDetailsDescriptionWidget> {
+    extends ConsumerState<ActivityDetailsDescriptionWidget> {
   late QuillController _quillController;
 
   @override
@@ -35,6 +39,7 @@ class _ActivityDetailsDescriptionWidgetState
       );
     } else {
       final doc = Document()..insert(0, widget.description);
+
       _quillController = QuillController(
         document: doc,
         selection: const TextSelection.collapsed(offset: 0),
@@ -85,7 +90,7 @@ class _ActivityDetailsDescriptionWidgetState
         padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          openUrl(context, url);
+          openUrl(context, url, logger: ref.read(loggerProvider));
         },
       ),
     );

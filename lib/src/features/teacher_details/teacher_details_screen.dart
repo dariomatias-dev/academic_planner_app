@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 
 import 'package:academic_planner/src/shared/models/teacher_model.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
@@ -11,16 +13,17 @@ import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.da
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
-class TeacherDetailsScreen extends StatefulWidget {
+class TeacherDetailsScreen extends ConsumerStatefulWidget {
   final int teacherId;
 
   const TeacherDetailsScreen({super.key, required this.teacherId});
 
   @override
-  State<TeacherDetailsScreen> createState() => _TeacherDetailsScreenState();
+  ConsumerState<TeacherDetailsScreen> createState() =>
+      _TeacherDetailsScreenState();
 }
 
-class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
+class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
   TeacherModel? _teacher;
   bool _isLoading = true;
 
@@ -92,7 +95,11 @@ class _TeacherDetailsScreenState extends State<TeacherDetailsScreen> {
           IconButtonWidget(
             icon: Icons.link_rounded,
             onPressed: () {
-              openUrl(context, _teacher!.lattes);
+              openUrl(
+                context,
+                _teacher!.lattes,
+                logger: ref.read(loggerProvider),
+              );
             },
           ),
         ],

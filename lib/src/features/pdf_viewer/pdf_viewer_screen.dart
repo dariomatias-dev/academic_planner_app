@@ -1,8 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -10,20 +13,19 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
 
-class PdfViewerScreen extends StatefulWidget {
+class PdfViewerScreen extends ConsumerStatefulWidget {
   final String title;
   final String url;
 
   const PdfViewerScreen({super.key, required this.title, required this.url});
 
   @override
-  State<PdfViewerScreen> createState() => _PdfViewerScreenState();
+  ConsumerState<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
-class _PdfViewerScreenState extends State<PdfViewerScreen> {
-  final GlobalKey<SfPdfViewerState> _pdfViewerKey =
-      GlobalKey<SfPdfViewerState>();
-  final PdfViewerController _pdfViewerController = PdfViewerController();
+class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
+  final _pdfViewerKey = GlobalKey<SfPdfViewerState>();
+  final _pdfViewerController = PdfViewerController();
 
   bool _isLoading = true;
   bool _hasError = false;
@@ -71,7 +73,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
           IconButtonWidget(
             icon: Icons.open_in_new_rounded,
             onPressed: () {
-              openUrl(context, widget.url);
+              openUrl(context, widget.url, logger: ref.read(loggerProvider));
             },
             style: IconButtonStyle.neutral,
           ),

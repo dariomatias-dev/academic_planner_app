@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logger/logger.dart';
 
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
@@ -25,13 +25,13 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  late final _logger = ref.read(loggerProvider);
+
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
-  final _logger = Logger();
 
   Future<void> _onRegisterPressed() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
@@ -42,7 +42,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    _logger.i('Register attempt: $email');
+    _logger.info('Register attempt: $email');
 
     await auth.register(
       RegisterEntity(name: name, email: email, password: password),
@@ -77,7 +77,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
           final message = err is Failure ? err.message : err.toString();
 
-          _logger.e('Register error', error: err);
+          _logger.error('Register error', error: err);
 
           Fluttertoast.showToast(msg: message);
         },

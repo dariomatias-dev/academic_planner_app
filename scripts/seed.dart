@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/database/app_database.dart';
+import 'package:academic_planner/src/core/logging/logger_service_impl.dart';
 
 import 'package:academic_planner/src/data/seeds/activity/activity_seed.dart';
 import 'package:academic_planner/src/data/seeds/seed.dart';
@@ -15,7 +16,7 @@ import 'package:academic_planner/src/features/activities/data/repositories/activ
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final logger = Logger();
+  final logger = LoggerServiceImpl(Logger());
 
   final db = await AppDatabase.instance;
 
@@ -29,17 +30,21 @@ Future<void> main() async {
   );
 
   try {
-    logger.i('Starting seed process...');
+    logger.info('Starting seed process...');
 
     await runner.run();
 
-    logger.i('Seed completed successfully');
+    logger.info('Seed completed successfully');
   } catch (err, stackTrace) {
-    logger.e('Error while running seed', error: err, stackTrace: stackTrace);
+    logger.error(
+      'Error while running seed',
+      error: err,
+      stackTrace: stackTrace,
+    );
   } finally {
     await db.close();
 
-    logger.i('Shutting down process...');
+    logger.info('Shutting down process...');
 
     exit(0);
   }

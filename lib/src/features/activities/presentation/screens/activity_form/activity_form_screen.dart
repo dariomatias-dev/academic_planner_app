@@ -5,11 +5,11 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
@@ -46,9 +46,9 @@ class ActivityFormScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
-  final _formKey = GlobalKey<FormState>();
+  late final _logger = ref.read(loggerProvider);
 
-  final _logger = Logger();
+  final _formKey = GlobalKey<FormState>();
 
   final _titleController = TextEditingController();
   final _notesController = TextEditingController();
@@ -312,7 +312,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
           _unfocus();
         } catch (err, stackTrace) {
-          _logger.e(
+          _logger.error(
             'Failed to parse description',
             error: err,
             stackTrace: stackTrace,

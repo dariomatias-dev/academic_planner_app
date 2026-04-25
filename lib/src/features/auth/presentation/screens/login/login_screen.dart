@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logger/logger.dart';
 
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
@@ -25,18 +25,18 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  late final _logger = ref.read(loggerProvider);
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  final _logger = Logger();
 
   Future<void> _onLoginPressed() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
 
     final auth = ref.read(authNotifierProvider.notifier);
 
-    _logger.i('Login attempt: ${_emailController.text.trim()}');
+    _logger.info('Login attempt: ${_emailController.text.trim()}');
 
     await auth.signIn(
       LoginEntity(
@@ -62,7 +62,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           if (!mounted) return;
 
           if (user != null) {
-            _logger.i('Login success: ${_emailController.text.trim()}');
+            _logger.info('Login success: ${_emailController.text.trim()}');
 
             Fluttertoast.showToast(msg: 'Login realizado com sucesso');
 
@@ -76,7 +76,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
           final message = err is Failure ? err.message : err.toString();
 
-          _logger.e('Login error', error: err);
+          _logger.error('Login error', error: err);
 
           Fluttertoast.showToast(msg: message);
         },
