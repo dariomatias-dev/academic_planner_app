@@ -27,32 +27,41 @@ class AuthViewModel {
 
     final result = await authRepository.signIn(entity);
 
-    return result.fold(
+    return await result.foldAsync(
       onSuccess: (_) async {
         try {
           final current = authRepository.currentUser;
 
-          if (current != null) {
-            await current.reload();
-
-            if (!current.emailVerified) {
-              await authRepository.signOut();
-
-              _logger.warning('Email not verified: ${entity.email}');
-
-              return FailureResult(AuthFailure('Email não verificado'));
-            }
-
-            isEmailVerified = true;
-
-            user = await userRepository.getById(current.uid);
-
-            _logger.info('signIn success: ${entity.email}');
-          } else {
+          if (current == null) {
             _logger.warning('signIn: currentUser is null');
+
+            return const Success(null);
           }
 
-          return const Success(null);
+          await current.reload();
+
+          if (!current.emailVerified) {
+            await authRepository.signOut();
+
+            _logger.warning('Email not verified: ${entity.email}');
+
+            return const FailureResult(AuthFailure('Email não verificado'));
+          }
+
+          isEmailVerified = true;
+
+          final userResult = await userRepository.getById(current.uid);
+
+          return userResult.fold(
+            onSuccess: (userData) {
+              user = userData;
+
+              _logger.info('signIn success: ${entity.email}');
+
+              return const Success(null);
+            },
+            onFailure: (f) => FailureResult(f),
+          );
         } catch (err, stack) {
           _logger.error(
             'signIn processing error',
@@ -63,7 +72,7 @@ class AuthViewModel {
           return FailureResult(UnknownFailure('Erro ao processar login', err));
         }
       },
-      onFailure: (f) {
+      onFailure: (f) async {
         _logger.warning('signIn failed: ${f.message}');
 
         return FailureResult(f);

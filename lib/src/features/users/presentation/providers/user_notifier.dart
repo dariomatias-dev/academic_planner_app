@@ -19,25 +19,32 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
     viewModel = UserViewModel(userRepository, ref.read(loggerProvider));
 
     ref.listen(authNotifierProvider, (prev, next) {
-      next.whenData((firebaseUser) async {
-        if (firebaseUser != null) {
-          state = const AsyncLoading();
+      next.when(
+        data: (firebaseUser) async {
+          if (firebaseUser != null) {
+            state = const AsyncLoading();
 
-          await viewModel.loadUser(firebaseUser.id);
+            final result = await userRepository.getById(firebaseUser.id);
 
-          state = AsyncData(viewModel.user);
-        } else {
-          state = const AsyncData(null);
-        }
-      });
+            state = result.fold(
+              onSuccess: (user) => AsyncData(user),
+              onFailure: (f) => AsyncError(f, StackTrace.current),
+            );
+          } else {
+            state = const AsyncData(null);
+          }
+        },
+        error: (err, stack) => state = AsyncError(err, stack),
+        loading: () => state = const AsyncLoading(),
+      );
     });
 
-    final firebaseUser = ref.read(authNotifierProvider).value;
+    final authState = ref.read(authNotifierProvider);
 
-    if (firebaseUser != null) {
-      await viewModel.loadUser(firebaseUser.id);
+    if (authState.hasValue && authState.value != null) {
+      final result = await userRepository.getById(authState.value!.id);
 
-      return viewModel.user;
+      return result.fold(onSuccess: (user) => user, onFailure: (f) => throw f);
     }
 
     return null;
@@ -46,13 +53,12 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
   Future<void> updateProfile(UserEntity updatedUser) async {
     state = const AsyncLoading();
 
-    try {
-      await viewModel.updateUser(updatedUser);
+    final result = await ref.read(userRepositoryProvider).update(updatedUser);
 
-      state = AsyncData(viewModel.user);
-    } catch (err, stack) {
-      state = AsyncError(err, stack);
-    }
+    state = result.fold(
+      onSuccess: (_) => AsyncData(updatedUser),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   Future<void> deleteAccount() async {
@@ -62,28 +68,30 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
 
     state = const AsyncLoading();
 
-    try {
-      await viewModel.deleteUser(currentUser.id);
+    final result = await ref
+        .read(userRepositoryProvider)
+        .delete(currentUser.id);
 
-      state = const AsyncData(null);
-    } catch (err, stack) {
-      state = AsyncError(err, stack);
-    }
+    state = result.fold(
+      onSuccess: (_) => const AsyncData(null),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   Future<void> refresh() async {
-    final firebaseUser = ref.read(authNotifierProvider).value;
+    final authState = ref.read(authNotifierProvider);
 
-    if (firebaseUser == null) return;
+    if (!authState.hasValue || authState.value == null) return;
 
     state = const AsyncLoading();
 
-    try {
-      await viewModel.loadUser(firebaseUser.id);
+    final result = await ref
+        .read(userRepositoryProvider)
+        .getById(authState.value!.id);
 
-      state = AsyncData(viewModel.user);
-    } catch (err, stack) {
-      state = AsyncError(err, stack);
-    }
+    state = result.fold(
+      onSuccess: (user) => AsyncData(user),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 }

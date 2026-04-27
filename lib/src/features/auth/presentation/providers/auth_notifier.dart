@@ -22,9 +22,7 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
 
     final current = viewModel.authRepository.currentUser;
 
-    if (current == null) {
-      return null;
-    }
+    if (current == null) return null;
 
     await current.reload();
 
@@ -34,12 +32,19 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       return null;
     }
 
-    final user = await viewModel.userRepository.getById(current.uid);
+    final result = await viewModel.userRepository.getById(current.uid);
 
-    viewModel.user = user;
-    viewModel.isEmailVerified = true;
+    return result.fold(
+      onSuccess: (user) {
+        viewModel.user = user;
+        viewModel.isEmailVerified = true;
 
-    return user;
+        return user;
+      },
+      onFailure: (failure) {
+        throw failure;
+      },
+    );
   }
 
   Future<void> signIn(LoginEntity entity) async {

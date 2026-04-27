@@ -1,13 +1,15 @@
+import 'package:academic_planner/src/core/result/result.dart';
+
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 abstract class UserRepository {
-  Future<void> create(UserEntity user);
+  Future<Result<void>> create(UserEntity user);
 
-  Future<List<UserEntity>> getAll({String? query, UserRole? role});
+  Future<Result<List<UserEntity>>> getAll({String? query, UserRole? role});
 
-  Future<UserEntity?> getById(String uid);
+  Future<Result<UserEntity?>> getById(String uid);
 
-  Future<void> update(UserEntity user);
+  Future<Result<void>> update(UserEntity user);
 
-  Future<void> delete(String uid);
+  Future<Result<void>> delete(String uid);
 }
