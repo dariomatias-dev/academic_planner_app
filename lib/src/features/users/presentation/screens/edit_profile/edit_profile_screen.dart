@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -52,16 +53,26 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       updatedAt: DateTime.now(),
     );
 
-    try {
-      await ref.read(userNotifierProvider.notifier).updateProfile(updatedUser);
+    await ref.read(userNotifierProvider.notifier).updateProfile(updatedUser);
 
-      if (!mounted) return;
+    final state = ref.read(userNotifierProvider);
 
-      Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
-      Navigator.pop(context);
-    } catch (e) {
-      Fluttertoast.showToast(msg: "Erro ao atualizar perfil");
+    if (state.hasError) {
+      final error = state.error;
+      final message = error is Failure
+          ? error.message
+          : "Erro ao atualizar perfil";
+
+      Fluttertoast.showToast(msg: message);
+
+      return;
     }
+
+    if (!mounted) return;
+
+    Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
+
+    Navigator.pop(context);
   }
 
   @override
@@ -74,25 +85,35 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final userState = ref.watch(userNotifierProvider);
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return userState.when(
-      loading: () => const Scaffold(
-        appBar: AppBarWidget(title: 'Editar Perfil'),
-        body: LoadingStateWidget(message: "Carregando perfil..."),
-      ),
-      error: (err, stack) => Scaffold(
-        appBar: const AppBarWidget(title: 'Editar Perfil'),
-        body: ErrorStateWidget(description: 'Erro ao carregar dados: $err'),
-      ),
+      loading: () {
+        return const Scaffold(
+          appBar: AppBarWidget(title: 'Editar Perfil'),
+          body: LoadingStateWidget(message: "Processando..."),
+        );
+      },
+      error: (err, stack) {
+        return Scaffold(
+          appBar: const AppBarWidget(title: 'Editar Perfil'),
+          body: ErrorStateWidget(
+            description: err is Failure
+                ? err.message
+                : 'Erro ao carregar dados',
+            actionLabel: 'Recarregar',
+            onActionPressed: ref.read(userNotifierProvider.notifier).refresh,
+          ),
+        );
+      },
       data: (user) {
         if (user == null) return const SizedBox.shrink();
 
         _initFields(user);
 
         return Scaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBarWidget(
             title: 'Editar Perfil',
             actions: <Widget>[
@@ -111,7 +132,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   const SizedBox(height: 16.0),
-                  const FormFieldLabelWidget(label: "Nome completo"),
+                  const FormFieldLabelWidget(label: "NOME COMPLETO"),
                   InputWidget(
                     controller: _nameController,
                     hint: "Seu nome",
