@@ -81,17 +81,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
         ],
       ),
-      if (user != null && user.role == UserRole.admin)
-        SettingsSectionWidget(
-          title: "Administração",
-          children: <Widget>[
-            SettingsTileWidget(
-              icon: Icons.people_alt_rounded,
-              title: "Gerenciar Usuários",
-              onTap: () => AppRoutes.goToUserManagement(context),
-            ),
-          ],
-        ),
       SettingsSectionWidget(
         title: "Preferências",
         children: <Widget>[
@@ -140,11 +129,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       SettingsSectionWidget(
         title: "Suporte",
         children: <Widget>[
-          SettingsTileWidget(
-            icon: Icons.help_center_rounded,
-            title: "Central de Ajuda",
-            onTap: () {},
-          ),
           SettingsTileWidget(
             icon: Icons.info_rounded,
             title: "Sobre o Academic Planner",
