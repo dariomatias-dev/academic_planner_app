@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 import 'package:academic_planner/src/core/database/tables/activity_table.dart';
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
@@ -9,9 +10,9 @@ class ActivityLocalDataSource {
 
   ActivityLocalDataSource(this.db);
 
-  (String?, List<dynamic>?) _buildWhere(ActivityFilter? filter) {
+  (String? where, List<Object?>? args) _buildWhere(ActivityFilter? filter) {
     final whereClauses = <String>[];
-    final whereArgs = <dynamic>[];
+    final whereArgs = <Object?>[];
 
     if (filter != null) {
       if (filter.disciplineId != null) {
@@ -55,14 +56,25 @@ class ActivityLocalDataSource {
     await db.insert(ActivityTable.tableName, data);
   }
 
-  Future<List<Map<String, dynamic>>> getAll({ActivityFilter? filter}) async {
-    final (where, args) = _buildWhere(filter);
+  Future<List<Map<String, dynamic>>> getAll({
+    ActivityFilter? filter,
+    Pagination? pagination,
+  }) async {
+    final (String? where, List<Object?>? args) = _buildWhere(filter);
 
-    return db.query(ActivityTable.tableName, where: where, whereArgs: args);
+    return await db.query(
+      ActivityTable.tableName,
+      where: where,
+      whereArgs: args,
+      limit: pagination?.pageSize,
+      offset: pagination != null
+          ? (pagination.page * pagination.pageSize)
+          : null,
+    );
   }
 
   Future<int> count({ActivityFilter? filter}) async {
-    final (where, args) = _buildWhere(filter);
+    final (String? where, List<Object?>? args) = _buildWhere(filter);
 
     final result = await db.rawQuery('''
       SELECT COUNT(*) as count
