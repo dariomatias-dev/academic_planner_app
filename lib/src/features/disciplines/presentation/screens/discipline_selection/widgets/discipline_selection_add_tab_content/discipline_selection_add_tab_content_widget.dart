@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/core/constants/day_names.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/conflict_alert_dialog_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
-
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 
-class DisciplineSelectionAddTabContentWidget extends ConsumerWidget {
+class DisciplineSelectionAddTabContentWidget extends ConsumerStatefulWidget {
   final List<int> periods;
   final TabController periodController;
 
@@ -20,12 +23,75 @@ class DisciplineSelectionAddTabContentWidget extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.watch(userDisciplinesNotifierProvider);
+  ConsumerState<DisciplineSelectionAddTabContentWidget> createState() =>
+      _DisciplineSelectionAddTabContentWidgetState();
+}
+
+class _DisciplineSelectionAddTabContentWidgetState
+    extends ConsumerState<DisciplineSelectionAddTabContentWidget> {
+  void _onSelect(bool isSelected, DisciplineModel discipline) {
+    if (isSelected) {
+      ref
+          .read(userDisciplinesNotifierProvider.notifier)
+          .toggleDiscipline(discipline.id);
+    } else {
+      final conflictDetails = _getConflictDetails(discipline.id);
+
+      if (conflictDetails != null) {
+        ConflictAlertDialogWidget.show(
+          context,
+          targetDisciplineName: discipline.name,
+          conflictDetails: conflictDetails,
+        );
+      } else {
+        ref
+            .read(userDisciplinesNotifierProvider.notifier)
+            .toggleDiscipline(discipline.id);
+      }
+    }
+  }
+
+  String? _getConflictDetails(int disciplineId) {
+    final selectedIds = ref.read(userDisciplinesNotifierProvider).toList();
+
+    final newSchedules = schedules.filter(
+      (s) => s.disciplineId == disciplineId,
+    );
+    final currentSchedules = schedules.filter(
+      (s) => selectedIds.contains(s.disciplineId),
+    );
+
+    final conflicts = <String>[];
+
+    for (final newSlot in newSchedules) {
+      for (final existingSlot in currentSchedules) {
+        if (newSlot.day == existingSlot.day &&
+            newSlot.time == existingSlot.time) {
+          final conflictingDiscipline = adsDisciplines.firstWhere(
+            (d) => d.id == existingSlot.disciplineId,
+          );
+
+          final dayLabel = dayNames[newSlot.day - 1];
+
+          conflicts.add(
+            "• $dayLabel às ${newSlot.time}: ${conflictingDiscipline.name}",
+          );
+        }
+      }
+    }
+
+    if (conflicts.isEmpty) return null;
+
+    return conflicts.toSet().join("\n");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final selectedIds = ref.watch(userDisciplinesNotifierProvider);
 
     return TabBarView(
-      controller: periodController,
-      children: periods.builder((period, index) {
+      controller: widget.periodController,
+      children: widget.periods.builder((period, index) {
         final periodDisciplines = adsDisciplines.filter(
           (d) => d.period == period,
         );
@@ -35,17 +101,13 @@ class DisciplineSelectionAddTabContentWidget extends ConsumerWidget {
           itemCount: periodDisciplines.length,
           itemBuilder: (context, index) {
             final discipline = periodDisciplines[index];
-            final isSelected = notifier.contains(discipline.id);
+            final isSelected = selectedIds.contains(discipline.id);
 
             return DisciplineCardWidget(
               index: index + 1,
               discipline: discipline,
               opacity: isSelected ? 1.0 : 0.4,
-              onTap: () {
-                ref
-                    .read(userDisciplinesNotifierProvider.notifier)
-                    .toggleDiscipline(discipline.id);
-              },
+              onTap: () => _onSelect(isSelected, discipline),
               trailing: DisciplineSelectionCheckIconWidget(
                 isSelected: isSelected,
               ),
