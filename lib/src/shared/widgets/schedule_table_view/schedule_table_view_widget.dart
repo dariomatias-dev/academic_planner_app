@@ -1,3 +1,5 @@
+import 'package:academic_planner/src/core/constants/day_names.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,14 +11,6 @@ import 'package:academic_planner/src/shared/models/schedule_entry.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_data_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_header_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_time_cell_widget.dart';
-
-final _days = <String>[
-  "Segunda-feira",
-  "Terça-feira",
-  "Quarta-feira",
-  "Quinta-feira",
-  "Sexta-feira",
-];
 
 class ScheduleTableViewWidget extends StatelessWidget {
   final GlobalKey repaintKey;
@@ -68,7 +62,9 @@ class ScheduleTableViewWidget extends StatelessWidget {
                   decoration: BoxDecoration(color: colorScheme.surface),
                   children: <Widget>[
                     ScheduleHeaderCellWidget(text: "HORA"),
-                    ..._days.map((day) => ScheduleHeaderCellWidget(text: day)),
+                    ...dayNames.builder((dayName, index) {
+                      return ScheduleHeaderCellWidget(text: dayName);
+                    }),
                   ],
                 ),
                 ...timeSlots.map((slot) {
