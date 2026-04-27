@@ -7,7 +7,7 @@ class ErrorStateWidget extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
-  final String? actionLabel;
+  final String actionLabel;
   final VoidCallback? onActionPressed;
   final bool isCentered;
 
@@ -16,7 +16,7 @@ class ErrorStateWidget extends StatelessWidget {
     this.icon = Icons.error_outline_rounded,
     this.title = "Ops! Algo deu errado",
     required this.description,
-    this.actionLabel,
+    this.actionLabel = 'Tentar novamente',
     this.onActionPressed,
     this.isCentered = true,
   });
@@ -81,11 +81,11 @@ class ErrorStateWidget extends StatelessWidget {
               height: 1.6,
             ),
           ),
-          if (actionLabel != null && onActionPressed != null) ...<Widget>[
+          if (onActionPressed != null) ...<Widget>[
             const SizedBox(height: 40.0),
             ButtonWidget(
               onPressed: onActionPressed!,
-              label: actionLabel!,
+              label: actionLabel,
               isFullWidth: true,
             ),
           ],
