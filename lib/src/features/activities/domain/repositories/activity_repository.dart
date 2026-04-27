@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
@@ -6,7 +7,10 @@ import 'package:academic_planner/src/features/activities/domain/value_objects/ac
 abstract class ActivityRepository {
   Future<Result<void>> add(Activity activity);
 
-  Future<Result<List<Activity>>> getAll({ActivityFilter? filter});
+  Future<Result<List<Activity>>> getAll({
+    ActivityFilter? filter,
+    Pagination? pagination,
+  });
 
   Future<Result<int>> count({ActivityFilter? filter});
 
