@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
@@ -31,11 +31,17 @@ class ActivityViewModel {
     }
   }
 
-  Future<Result<List<Activity>>> getAll({ActivityFilter? filter}) async {
+  Future<Result<List<Activity>>> getAll({
+    ActivityFilter? filter,
+    Pagination? pagination,
+  }) async {
     _logger.info('getActivities started');
 
     try {
-      final result = await repository.getAll(filter: filter, pagination: Pagination());
+      final result = await repository.getAll(
+        filter: filter,
+        pagination: pagination,
+      );
 
       _logger.info('getActivities success');
 

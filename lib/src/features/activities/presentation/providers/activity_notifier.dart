@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
 
@@ -30,8 +31,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
     return result;
   }
 
-  Future<Result<List<Activity>>> getAll({ActivityFilter? filter}) {
-    return _viewModel.getAll(filter: filter);
+  Future<Result<List<Activity>>> getAll({
+    ActivityFilter? filter,
+    Pagination? pagination,
+  }) {
+    return _viewModel.getAll(filter: filter, pagination: pagination);
   }
 
   Future<Result<int>> count({ActivityFilter? filter}) {
