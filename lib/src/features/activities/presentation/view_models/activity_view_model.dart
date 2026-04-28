@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -34,7 +35,7 @@ class ActivityViewModel {
     _logger.info('getActivities started');
 
     try {
-      final result = await repository.getAll(filter: filter);
+      final result = await repository.getAll(filter: filter, pagination: Pagination());
 
       _logger.info('getActivities success');
 

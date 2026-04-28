@@ -66,9 +66,9 @@ class ActivityLocalDataSource {
       ActivityTable.tableName,
       where: where,
       whereArgs: args,
-      limit: pagination?.pageSize,
+      limit: pagination?.limit,
       offset: pagination != null
-          ? (pagination.page * pagination.pageSize)
+          ? (pagination.page * pagination.limit)
           : null,
     );
   }
