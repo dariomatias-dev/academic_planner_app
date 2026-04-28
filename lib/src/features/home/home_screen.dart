@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/di/navigation_provider.dart';
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
@@ -32,18 +33,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   @override
   bool get wantKeepAlive => true;
 
-  Future<({List<Activity> activeTasks, int progress})> _fetchHomeData() async {
+  Future<({List<Activity> recentActivities, int activeCount, int progress})>
+  _fetchHomeData() async {
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
+
+    const activeFilter = ActivityFilter(
+      statuses: <ActivityStatus>[
+        ActivityStatus.pending,
+        ActivityStatus.inProgress,
+      ],
+    );
 
     final results = await Future.wait([
       activityNotifier.getAll(
-        filter: const ActivityFilter(
-          statuses: <ActivityStatus>[
-            ActivityStatus.pending,
-            ActivityStatus.inProgress,
-          ],
-        ),
+        filter: activeFilter,
+        pagination: const Pagination(limit: 4),
       ),
+      activityNotifier.count(filter: activeFilter),
       activityNotifier.count(),
       activityNotifier.count(
         filter: const ActivityFilter(
@@ -52,17 +58,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     ]);
 
-    final activeTasks = (results[0] as Result<List<Activity>>).fold(
+    final recentActivities = (results[0] as Result<List<Activity>>).fold(
       onSuccess: (value) => value,
       onFailure: (_) => <Activity>[],
     );
 
-    final totalCount = (results[1] as Result<int>).fold(
+    final activeCount = (results[1] as Result<int>).fold(
       onSuccess: (value) => value,
       onFailure: (_) => 0,
     );
 
-    final completedCount = (results[2] as Result<int>).fold(
+    final totalCount = (results[2] as Result<int>).fold(
+      onSuccess: (value) => value,
+      onFailure: (_) => 0,
+    );
+
+    final completedCount = (results[3] as Result<int>).fold(
       onSuccess: (value) => value,
       onFailure: (_) => 0,
     );
@@ -71,7 +82,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ? 0
         : ((completedCount / totalCount) * 100).toInt();
 
-    return (activeTasks: activeTasks, progress: progressValue);
+    return (
+      recentActivities: recentActivities,
+      activeCount: activeCount,
+      progress: progressValue,
+    );
   }
 
   @override
@@ -89,40 +104,44 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         showBackButton: false,
         actions: <Widget>[NotificationButtonWidget()],
       ),
-      body: FutureBuilder<({List<Activity> activeTasks, int progress})>(
-        future: _fetchHomeData(),
-        builder: (context, snapshot) {
-          final data = snapshot.data;
-          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+      body:
+          FutureBuilder<
+            ({List<Activity> recentActivities, int activeCount, int progress})
+          >(
+            future: _fetchHomeData(),
+            builder: (context, snapshot) {
+              final data = snapshot.data;
+              final isLoading =
+                  snapshot.connectionState == ConnectionState.waiting;
 
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
-            physics: const BouncingScrollPhysics(),
-            children: <Widget>[
-              const _HomeHeaderSection(),
-              const SizedBox(height: 32.0),
-              HomeMetricsBarWidget(
-                activeCount: data?.activeTasks.length ?? 0,
-                progress: data?.progress ?? 0,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 32.0),
-                child: HomeQuickActionsRowWidget(),
-              ),
-              const _HomeSectionHeader(),
-              const SizedBox(height: 20.0),
-              if (isLoading)
-                const LoadingStateWidget()
-              else if (data == null || data.activeTasks.isEmpty)
-                const HomeActivitiesEmptyStateWidget()
-              else
-                ...data.activeTasks
-                    .take(4)
-                    .map((task) => ActivityCardWidget(activity: task)),
-            ],
-          );
-        },
-      ),
+              return ListView(
+                padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
+                physics: const BouncingScrollPhysics(),
+                children: <Widget>[
+                  const _HomeHeaderSection(),
+                  const SizedBox(height: 32.0),
+                  HomeMetricsBarWidget(
+                    activeCount: data?.activeCount ?? 0,
+                    progress: data?.progress ?? 0,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 32.0),
+                    child: HomeQuickActionsRowWidget(),
+                  ),
+                  const _HomeSectionHeader(),
+                  const SizedBox(height: 20.0),
+                  if (isLoading)
+                    const LoadingStateWidget()
+                  else if (data == null || data.recentActivities.isEmpty)
+                    const HomeActivitiesEmptyStateWidget()
+                  else
+                    ...data.recentActivities.map(
+                      (activity) => ActivityCardWidget(activity: activity),
+                    ),
+                ],
+              );
+            },
+          ),
     );
   }
 }
