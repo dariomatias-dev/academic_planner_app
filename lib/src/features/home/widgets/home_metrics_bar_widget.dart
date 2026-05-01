@@ -4,22 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 
+import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 
-class HomeMetricsBarWidget extends StatelessWidget {
-  final int activeCount;
-  final int progress;
-
-  const HomeMetricsBarWidget({
-    super.key,
-    required this.activeCount,
-    required this.progress,
-  });
+class HomeMetricsBarWidget extends ConsumerWidget {
+  const HomeMetricsBarWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+
+    final statsAsync = ref.watch(activityStatsNotifierProvider);
 
     return Container(
       width: double.infinity,
@@ -41,16 +37,38 @@ class HomeMetricsBarWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _HeaderMetric(
-            value: activeCount.toString().padLeft(2, '0'),
-            label: "Ativas",
-            icon: Icons.bolt_rounded,
+          statsAsync.when(
+            loading: () {
+              return const _HeaderMetricLoading(label: "Ativas");
+            },
+            error: (_, _) {
+              return const _HeaderMetricError(label: "Ativas");
+            },
+            data: (stats) {
+              return _HeaderMetric(
+                value: stats.active.toString().padLeft(2, '0'),
+                label: "Ativas",
+                icon: Icons.bolt_rounded,
+              );
+            },
           ),
           const _DisciplinesMetric(),
-          _HeaderMetric(
-            value: "$progress%",
-            label: "Progresso",
-            icon: Icons.donut_large_rounded,
+          statsAsync.when(
+            loading: () {
+              return const _HeaderMetricLoading(label: "Progresso");
+            },
+            error: (_, _) {
+              return const _HeaderMetricError(label: "Progresso");
+            },
+            data: (stats) {
+              final progressPercent = (stats.progress * 100).toInt();
+
+              return _HeaderMetric(
+                value: "$progressPercent%",
+                label: "Progresso",
+                icon: Icons.donut_large_rounded,
+              );
+            },
           ),
         ],
       ),
@@ -110,6 +128,66 @@ class _HeaderMetric extends StatelessWidget {
           label.toUpperCase(),
           style: GoogleFonts.plusJakartaSans(
             color: colorScheme.onSurface.withAlpha(100),
+            fontSize: 10.0,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HeaderMetricLoading extends StatelessWidget {
+  final String label;
+
+  const _HeaderMetricLoading({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const SizedBox(
+          height: 20.0,
+          width: 20.0,
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+        const SizedBox(height: 4.0),
+        Text(
+          label.toUpperCase(),
+          style: GoogleFonts.plusJakartaSans(
+            color: colorScheme.onSurface.withAlpha(100),
+            fontSize: 10.0,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 0.5,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HeaderMetricError extends StatelessWidget {
+  final String label;
+
+  const _HeaderMetricError({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Icon(Icons.error_outline_rounded, size: 18.0, color: colorScheme.error),
+        const SizedBox(height: 4.0),
+        Text(
+          label.toUpperCase(),
+          style: GoogleFonts.plusJakartaSans(
+            color: colorScheme.error.withAlpha(180),
             fontSize: 10.0,
             fontWeight: FontWeight.w800,
             letterSpacing: 0.5,

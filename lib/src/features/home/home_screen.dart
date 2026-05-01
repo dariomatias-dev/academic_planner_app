@@ -120,10 +120,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 children: <Widget>[
                   const _HomeHeaderSection(),
                   const SizedBox(height: 32.0),
-                  HomeMetricsBarWidget(
-                    activeCount: data?.activeCount ?? 0,
-                    progress: data?.progress ?? 0,
-                  ),
+                  HomeMetricsBarWidget(),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 32.0),
                     child: HomeQuickActionsRowWidget(),
