@@ -15,11 +15,11 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/users/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
-import 'package:academic_planner/src/features/my_schedule/my_schedule_screen.dart';
+import 'package:academic_planner/src/features/schedule/presentation/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/features/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
-import 'package:academic_planner/src/features/schedule/schedule_screen.dart';
+import 'package:academic_planner/src/features/schedule/presentation/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/features/splash/splash_screen.dart';
 import 'package:academic_planner/src/features/teacher_details/teacher_details_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/user_management/user_management_screen.dart';
