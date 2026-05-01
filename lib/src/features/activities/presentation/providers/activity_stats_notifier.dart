@@ -50,8 +50,6 @@ class ActivityStatsNotifier extends AsyncNotifier<ActivityStats> {
 
     final progress = total == 0 ? 0.0 : completed / total;
 
-    // throw Exception('Erro simulado');
-
     return ActivityStats(
       total: total,
       active: active,
