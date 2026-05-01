@@ -40,6 +40,16 @@ class ActivityLocalDataSource {
         whereArgs.add(filter.endDate!.toIso8601String());
       }
 
+      if (filter.dueAfter != null) {
+        whereClauses.add('dueDate >= ?');
+        whereArgs.add(filter.dueAfter!.toIso8601String());
+      }
+
+      if (filter.dueBefore != null) {
+        whereClauses.add('dueDate <= ?');
+        whereArgs.add(filter.dueBefore!.toIso8601String());
+      }
+
       if (filter.search != null && filter.search!.isNotEmpty) {
         whereClauses.add('title LIKE ?');
         whereArgs.add('%${filter.search}%');
@@ -67,9 +77,7 @@ class ActivityLocalDataSource {
       where: where,
       whereArgs: args,
       limit: pagination?.limit,
-      offset: pagination != null
-          ? (pagination.page * pagination.limit)
-          : null,
+      offset: pagination != null ? (pagination.page * pagination.limit) : null,
     );
   }
 
