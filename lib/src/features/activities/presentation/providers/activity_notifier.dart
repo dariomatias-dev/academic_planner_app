@@ -25,7 +25,7 @@ class ActivityNotifier extends AsyncNotifier<void> {
     final result = await _viewModel.create(activity);
 
     if (result is Success) {
-      ref.invalidateSelf();
+      ref.read(activityStatsNotifierProvider.notifier).refresh();
     }
 
     return result;
@@ -50,7 +50,7 @@ class ActivityNotifier extends AsyncNotifier<void> {
     final result = await _viewModel.update(activity);
 
     if (result is Success) {
-      ref.invalidateSelf();
+      ref.read(activityStatsNotifierProvider.notifier).refresh();
     }
 
     return result;
@@ -60,7 +60,7 @@ class ActivityNotifier extends AsyncNotifier<void> {
     final result = await _viewModel.delete(id);
 
     if (result is Success) {
-      ref.invalidateSelf();
+      ref.read(activityStatsNotifierProvider.notifier).refresh();
     }
 
     return result;
