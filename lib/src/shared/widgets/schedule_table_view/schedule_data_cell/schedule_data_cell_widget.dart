@@ -1,7 +1,7 @@
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/models/schedule_entry.dart';
+import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_empty_status_widget.dart';
 import 'package:flutter/material.dart';

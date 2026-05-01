@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/models/schedule_entry.dart';
+import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
 
 enum SlotType { classTime, morningBreak, lunchBreak, afternoonBreak }
 
