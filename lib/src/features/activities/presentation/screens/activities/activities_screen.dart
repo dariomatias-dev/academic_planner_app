@@ -78,7 +78,15 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     return Future.wait([
-      activityNotifier.getAll(filter: filter),
+      activityNotifier.getAll(
+        filter: filter.copyWith(
+          statuses: <ActivityStatus>[
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
+          dueAfter: DateTime.now(),
+        ),
+      ),
       activityNotifier.getAll(
         filter: filter.copyWith(
           statuses: <ActivityStatus>[

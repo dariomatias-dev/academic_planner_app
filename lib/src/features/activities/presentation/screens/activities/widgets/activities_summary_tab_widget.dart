@@ -193,9 +193,7 @@ class ActivitiesSummaryTabWidget extends ConsumerWidget {
           ],
         ),
         const SizedBox(height: 20.0),
-        if (activities.where((t) {
-          return t.status != ActivityStatus.completed;
-        }).isEmpty)
+        if (activities.isEmpty)
           const EmptyStateWidget(
             icon: Icons.celebration_rounded,
             title: 'Sem atividades',
@@ -203,14 +201,9 @@ class ActivitiesSummaryTabWidget extends ConsumerWidget {
             isCentered: false,
           )
         else
-          ...activities
-              .where((t) {
-                return t.status != ActivityStatus.completed;
-              })
-              .take(3)
-              .map((task) {
-                return ActivityCardWidget(activity: task);
-              }),
+          ...activities.map((task) {
+            return ActivityCardWidget(activity: task);
+          }),
       ],
     );
   }
