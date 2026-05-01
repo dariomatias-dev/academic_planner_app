@@ -5,6 +5,8 @@ class ActivityFilter {
   final int? disciplineId;
   final DateTime? startDate;
   final DateTime? endDate;
+  final DateTime? dueBefore;
+  final DateTime? dueAfter;
   final List<ActivityStatus>? statuses;
 
   const ActivityFilter({
@@ -12,6 +14,8 @@ class ActivityFilter {
     this.disciplineId,
     this.startDate,
     this.endDate,
+    this.dueBefore,
+    this.dueAfter,
     this.statuses,
   });
 
@@ -20,6 +24,8 @@ class ActivityFilter {
     int? disciplineId,
     DateTime? startDate,
     DateTime? endDate,
+    DateTime? dueBefore,
+    DateTime? dueAfter,
     List<ActivityStatus>? statuses,
   }) {
     return ActivityFilter(
@@ -27,6 +33,8 @@ class ActivityFilter {
       disciplineId: disciplineId ?? this.disciplineId,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
+      dueBefore: dueBefore ?? this.dueBefore,
+      dueAfter: dueAfter ?? this.dueAfter,
       statuses: statuses ?? this.statuses,
     );
   }
