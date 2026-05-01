@@ -165,9 +165,9 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
               const SizedBox(height: 40.0),
               const _SectionHeader(title: "Prioridade"),
               const SizedBox(height: 16.0),
-              ...activeActivities
-                  .take(3)
-                  .map((activity) => ActivityCardWidget(activity: activity)),
+              ...activeActivities.map(
+                (activity) => ActivityCardWidget(activity: activity),
+              ),
             ],
             const SizedBox(height: 40.0),
             _SectionHeader(
