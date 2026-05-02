@@ -15,6 +15,52 @@ import 'package:academic_planner/src/features/activities/presentation/widgets/ac
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
+final disciplineActivitiesProvider =
+    FutureProvider.family<List<List<Activity>>, int>((ref, disciplineId) async {
+      ref.watch(activityNotifierProvider);
+
+      final activityNotifier = ref.read(activityNotifierProvider.notifier);
+      final now = DateTime.now();
+
+      final results = await Future.wait([
+        activityNotifier.getAll(
+          filter: ActivityFilter(disciplineId: disciplineId),
+        ),
+        activityNotifier.getAll(
+          filter: ActivityFilter(
+            disciplineId: disciplineId,
+            statuses: <ActivityStatus>[
+              ActivityStatus.pending,
+              ActivityStatus.inProgress,
+            ],
+          ),
+        ),
+        activityNotifier.getAll(
+          filter: ActivityFilter(
+            disciplineId: disciplineId,
+            statuses: <ActivityStatus>[ActivityStatus.completed],
+          ),
+        ),
+        activityNotifier.getAll(
+          filter: ActivityFilter(
+            disciplineId: disciplineId,
+            endDate: now.add(const Duration(days: 3)),
+            statuses: <ActivityStatus>[
+              ActivityStatus.pending,
+              ActivityStatus.inProgress,
+            ],
+          ),
+        ),
+      ]);
+
+      return results.builder((r, index) {
+        return r.fold(
+          onSuccess: (data) => data,
+          onFailure: (_) => <Activity>[],
+        );
+      });
+    });
+
 class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
   final int disciplineId;
 
@@ -23,59 +69,25 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
     required this.disciplineId,
   });
 
-  Future<List<List<Activity>>> _loadActivities(WidgetRef ref) async {
-    final activityNotifier = ref.read(activityNotifierProvider.notifier);
-    final now = DateTime.now();
-
-    final results = await Future.wait([
-      activityNotifier.getAll(
-        filter: ActivityFilter(disciplineId: disciplineId),
-      ),
-      activityNotifier.getAll(
-        filter: ActivityFilter(
-          disciplineId: disciplineId,
-          statuses: [ActivityStatus.pending, ActivityStatus.inProgress],
-        ),
-      ),
-      activityNotifier.getAll(
-        filter: ActivityFilter(
-          disciplineId: disciplineId,
-          statuses: [ActivityStatus.completed],
-        ),
-      ),
-      activityNotifier.getAll(
-        filter: ActivityFilter(
-          disciplineId: disciplineId,
-          endDate: now.add(const Duration(days: 3)),
-          statuses: [ActivityStatus.pending, ActivityStatus.inProgress],
-        ),
-      ),
-    ]);
-
-    return results.builder((r, index) {
-      return r.fold(onSuccess: (data) => data, onFailure: (_) => <Activity>[]);
-    });
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(activityNotifierProvider);
+    ref.listen(activityNotifierProvider, (_, _) {
+      ref.invalidate(disciplineActivitiesProvider(disciplineId));
+    });
+
+    final asyncData = ref.watch(disciplineActivitiesProvider(disciplineId));
     final theme = Theme.of(context);
 
-    return FutureBuilder<List<List<Activity>>>(
-      future: _loadActivities(ref),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingStateWidget(message: 'Obtendo atividades...');
-        }
-
-        if (snapshot.hasError || !snapshot.hasData) {
-          return const ErrorStateWidget(
-            description: 'Erro ao obter as atividades',
-          );
-        }
-
-        final data = snapshot.data!;
+    return asyncData.when(
+      loading: () {
+        return const LoadingStateWidget(message: 'Obtendo atividades...');
+      },
+      error: (_, _) {
+        return const ErrorStateWidget(
+          description: 'Erro ao obter as atividades',
+        );
+      },
+      data: (data) {
         final all = data[0];
         final active = data[1];
         final completed = data[2];
@@ -87,14 +99,13 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
             title: "Sem atividades",
             description: "Nenhuma atividade criada para esta disciplina.",
             actionLabel: "Criar Atividade",
-            onActionPressed: () =>
-                AppRoutes.goToActivityForm(context, disciplineId: disciplineId),
+            onActionPressed: () {
+              AppRoutes.goToActivityForm(context, disciplineId: disciplineId);
+            },
           );
         }
 
-        final double progress = all.isEmpty
-            ? 0.0
-            : completed.length / all.length;
+        final progress = all.isEmpty ? 0.0 : completed.length / all.length;
 
         return ListView(
           padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 100.0),
@@ -154,6 +165,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pop(context);
+
                   ref.read(navigationNotifierProvider.notifier).setIndex(2);
                 },
               ),
