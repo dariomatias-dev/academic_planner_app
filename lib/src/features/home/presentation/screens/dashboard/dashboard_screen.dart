@@ -10,8 +10,8 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-import 'package:academic_planner/src/features/home/widgets/home_metrics_bar_widget.dart';
-import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
+import 'package:academic_planner/src/features/home/presentation/screens/dashboard/widgets/dashboard_metrics_bar_widget.dart';
+import 'package:academic_planner/src/features/home/presentation/screens/dashboard/widgets/dashboard_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
@@ -20,14 +20,14 @@ import 'package:academic_planner/src/shared/widgets/buttons/notification_button_
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+class DashboardScreen extends ConsumerStatefulWidget {
+  const DashboardScreen({super.key});
 
   @override
-  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen>
+class _DashboardScreenState extends ConsumerState<DashboardScreen>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -119,10 +119,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                 children: <Widget>[
                   const _HomeHeaderSection(),
                   const SizedBox(height: 32.0),
-                  HomeMetricsBarWidget(),
+                  DashboardMetricsBarWidget(),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 32.0),
-                    child: HomeQuickActionsRowWidget(),
+                    child: DashboardQuickActionsRowWidget(),
                   ),
                   const _HomeSectionHeader(),
                   const SizedBox(height: 20.0),

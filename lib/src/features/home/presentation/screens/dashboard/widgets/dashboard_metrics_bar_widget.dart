@@ -7,8 +7,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 
-class HomeMetricsBarWidget extends ConsumerWidget {
-  const HomeMetricsBarWidget({super.key});
+class DashboardMetricsBarWidget extends ConsumerWidget {
+  const DashboardMetricsBarWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
