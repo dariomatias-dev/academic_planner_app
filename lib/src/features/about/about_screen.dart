@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:academic_planner/src/core/di/app_version_provider.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -278,7 +281,21 @@ class AboutScreen extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          _infoRow(context, "Versão Instalada", "1.0.0", false),
+          Consumer(
+            builder: (context, ref, child) {
+              final appVersion = ref.watch(appVersionProvider);
+
+              return _infoRow(
+                context,
+                "Versão Instalada",
+                appVersion.maybeWhen(
+                  data: (version) => version,
+                  orElse: () => "•.•.•",
+                ),
+                false,
+              );
+            },
+          ),
           _infoRow(context, "Plataforma Principal", "Android OS", false),
           _infoRow(context, "Tecnologia Base", "Flutter", true),
         ],
