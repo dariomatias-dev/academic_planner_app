@@ -22,7 +22,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
   }
 
   Future<Result<void>> add(Activity activity) async {
+    state = const AsyncLoading();
+
     final result = await _viewModel.create(activity);
+
+    state = const AsyncData(null);
 
     if (result is Success) {
       ref.read(activityStatsNotifierProvider.notifier).refresh();
@@ -47,7 +51,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
   }
 
   Future<Result<void>> edit(Activity activity) async {
+    state = const AsyncLoading();
+
     final result = await _viewModel.update(activity);
+
+    state = const AsyncData(null);
 
     if (result is Success) {
       ref.read(activityStatsNotifierProvider.notifier).refresh();
@@ -57,7 +65,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
   }
 
   Future<Result<void>> delete(String id) async {
+    state = const AsyncLoading();
+
     final result = await _viewModel.delete(id);
+
+    state = const AsyncData(null);
 
     if (result is Success) {
       ref.read(activityStatsNotifierProvider.notifier).refresh();
