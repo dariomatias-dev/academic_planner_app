@@ -12,6 +12,7 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
@@ -60,7 +61,6 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
 
     final discipline = adsDisciplines.firstWhere(
       (discipline) => discipline.id == widget.disciplineId,
@@ -78,7 +78,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(),
       floatingActionButton: _showFab
-          ? FloatingActionButton(
+          ? FloatingActionButtonWidget(
               onPressed: () {
                 switch (_tabController.index) {
                   case 0:
@@ -91,15 +91,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                     break;
                 }
               },
-              backgroundColor: colorScheme.primary,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.0),
-              ),
-              child: Icon(
-                Icons.add_rounded,
-                color: colorScheme.onPrimary,
-                size: 32.0,
-              ),
+              icon: Icons.add_rounded,
             )
           : null,
       body: NestedScrollView(
