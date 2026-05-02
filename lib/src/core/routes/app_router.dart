@@ -21,7 +21,7 @@ import 'package:academic_planner/src/features/pdf_viewer/pdf_viewer_screen.dart'
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/features/splash/splash_screen.dart';
-import 'package:academic_planner/src/features/teacher_details/teacher_details_screen.dart';
+import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/teacher_details_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/user_management/user_management_screen.dart';
 
 class AppRouter {

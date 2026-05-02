@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/constants/teachers.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_stat_card_widget.dart';

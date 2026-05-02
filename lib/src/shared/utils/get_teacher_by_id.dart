@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
 
 final defaultTeacher = TeacherModel(
   id: 0,

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/constants/teachers.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
 
-import 'package:academic_planner/src/shared/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
