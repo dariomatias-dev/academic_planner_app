@@ -51,7 +51,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "",
+        title: "Disciplinas",
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
@@ -64,30 +64,15 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
         children: <Widget>[
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 20.0),
+            padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 20.0),
             decoration: BoxDecoration(color: colorScheme.surface),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Disciplinas",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface,
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -1.0,
-                  ),
-                ),
-                const SizedBox(height: 4.0),
-                Text(
-                  "Análise e Desenvolvimento de Sistemas",
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface.withAlpha(160),
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+            child: Text(
+              "Análise e Desenvolvimento de Sistemas",
+              style: GoogleFonts.plusJakartaSans(
+                color: colorScheme.onSurface.withAlpha(160),
+                fontSize: 14.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           PeriodsTabBarWidget(controller: tabController, periods: periods),
