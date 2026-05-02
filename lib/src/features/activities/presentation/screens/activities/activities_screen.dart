@@ -20,15 +20,15 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
 
-class ActivitiesScreenWidget extends ConsumerStatefulWidget {
-  const ActivitiesScreenWidget({super.key});
+class ActivitiesScreen extends ConsumerStatefulWidget {
+  const ActivitiesScreen({super.key});
 
   @override
-  ConsumerState<ActivitiesScreenWidget> createState() =>
+  ConsumerState<ActivitiesScreen> createState() =>
       _ActivitiesScreenWidgetState();
 }
 
-class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
+class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
     with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   late final _tabController = TabController(length: 4, vsync: this);
 

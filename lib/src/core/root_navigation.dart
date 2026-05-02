@@ -23,7 +23,7 @@ class _RootNavigationState extends ConsumerState<RootNavigation> {
   final _screens = <Widget>[
     const HomeScreen(),
     const MyDisciplinesScreen(showBackButton: false),
-    const ActivitiesScreenWidget(),
+    const ActivitiesScreen(),
     const SettingsScreen(),
   ];
 
