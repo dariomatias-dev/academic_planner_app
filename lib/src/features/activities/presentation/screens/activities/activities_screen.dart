@@ -145,7 +145,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Ativas",
+                  description: "Atividades Planejadas e em Execução",
                   emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
                   filter: filterState.copyWith(
                     statuses: <ActivityStatus>[
@@ -156,7 +156,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Concluídas",
+                  description: "Histórico de Atividades Finalizadas",
                   emptyMessage:
                       "O histórico está vazio. Toque no + para começar.",
                   filter: filterState.copyWith(
@@ -165,7 +165,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Outras",
+                  description: "Atividades em Rascunho ou Descontinuadas",
                   emptyMessage: "Sem rascunhos ou tarefas canceladas.",
                   filter: filterState.copyWith(
                     statuses: <ActivityStatus>[
