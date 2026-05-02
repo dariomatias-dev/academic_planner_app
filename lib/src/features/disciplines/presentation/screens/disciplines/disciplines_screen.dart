@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
@@ -95,7 +95,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                   itemCount: periodDisciplines.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return DisciplinesPeriodSummaryWidget(
+                      return DisciplinesSummaryWidget(
                         count: periodDisciplines.length,
                         workload: totalWorkload,
                       );

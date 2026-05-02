@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_summary/disciplines_summary_item_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_item_widget.dart';
 
-class DisciplinesPeriodSummaryWidget extends StatelessWidget {
-  const DisciplinesPeriodSummaryWidget({
+class DisciplinesSummaryWidget extends StatelessWidget {
+  const DisciplinesSummaryWidget({
     super.key,
     required this.count,
     required this.workload,
@@ -16,7 +16,6 @@ class DisciplinesPeriodSummaryWidget extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface,

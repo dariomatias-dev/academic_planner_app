@@ -5,7 +5,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_summary/disciplines_period_summary_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
 
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
@@ -51,7 +51,7 @@ class DisciplineSelectionMyGradeTabWidget extends ConsumerWidget {
         if (index == 0) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 24.0),
-            child: DisciplinesPeriodSummaryWidget(
+            child: DisciplinesSummaryWidget(
               count: selected.length,
               workload: totalWorkload,
             ),
