@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
@@ -18,7 +19,6 @@ import 'package:academic_planner/src/shared/widgets/buttons/notification_button_
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 class ActivitiesScreenWidget extends ConsumerStatefulWidget {
   const ActivitiesScreenWidget({super.key});
@@ -45,6 +45,15 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         .setFilter(currentFilter.copyWith(search: _searchController.text));
   }
 
+  Future<Result<List<Activity>>> _fetchActivities({
+    required ActivityFilter filter,
+    required Pagination pagination,
+  }) {
+    return ref
+        .read(activityNotifierProvider.notifier)
+        .getAll(filter: filter, pagination: pagination);
+  }
+
   void _syncTabWithFilter(ActivityFilter filter) {
     final statuses = filter.statuses;
     if (statuses == null || statuses.isEmpty) return;
@@ -63,52 +72,6 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     if (_tabController.index != targetIndex) {
       _tabController.animateTo(targetIndex);
     }
-  }
-
-  List<Activity> _unpackResult(Result<List<Activity>> result) {
-    return result.fold(
-      onSuccess: (value) => value,
-      onFailure: (_) => <Activity>[],
-    );
-  }
-
-  Future<List<Result<List<Activity>>>> _fetchAllTabsData(
-    ActivityFilter filter,
-  ) {
-    final activityNotifier = ref.read(activityNotifierProvider.notifier);
-
-    return Future.wait([
-      activityNotifier.getAll(
-        filter: filter.copyWith(
-          statuses: <ActivityStatus>[
-            ActivityStatus.pending,
-            ActivityStatus.inProgress,
-          ],
-          dueAfter: DateTime.now(),
-        ),
-      ),
-      activityNotifier.getAll(
-        filter: filter.copyWith(
-          statuses: <ActivityStatus>[
-            ActivityStatus.pending,
-            ActivityStatus.inProgress,
-          ],
-        ),
-      ),
-      activityNotifier.getAll(
-        filter: filter.copyWith(
-          statuses: <ActivityStatus>[ActivityStatus.completed],
-        ),
-      ),
-      activityNotifier.getAll(
-        filter: filter.copyWith(
-          statuses: <ActivityStatus>[
-            ActivityStatus.draft,
-            ActivityStatus.canceled,
-          ],
-        ),
-      ),
-    ]);
   }
 
   @override
@@ -134,8 +97,6 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
     final colorScheme = theme.colorScheme;
     final filterState = ref.watch(activityFilterNotifierProvider);
 
-    ref.watch(activityNotifierProvider);
-
     ref.listen(
       activityFilterNotifierProvider,
       (_, next) => _syncTabWithFilter(next),
@@ -149,7 +110,9 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         actions: <Widget>[
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: () => ActivitiesFilterModalWidget.show(context),
+            onPressed: () {
+              ActivitiesFilterModalWidget.show(context);
+            },
           ),
           const NotificationButtonWidget(),
         ],
@@ -158,7 +121,9 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButtonWidget(
           heroTag: null,
-          onPressed: () => AppRoutes.goToActivityForm(context),
+          onPressed: () {
+            AppRoutes.goToActivityForm(context);
+          },
           icon: Icons.add_rounded,
         ),
       ),
@@ -166,51 +131,51 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreenWidget>
         children: <Widget>[
           _buildHeader(colorScheme),
           Expanded(
-            child: FutureBuilder<List<Result<List<Activity>>>>(
-              future: _fetchAllTabsData(filterState),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingStateWidget();
-                }
-
-                if (snapshot.hasError || !snapshot.hasData) {
-                  return ErrorStateWidget(
-                    description: "Não foi possível carregar suas atividades.",
-                    actionLabel: "Tentar novamente",
-                    onActionPressed: () => setState(() {}),
-                  );
-                }
-
-                final results = snapshot.data!;
-                final allTasks = _unpackResult(results[0]);
-                final activeTasks = _unpackResult(results[1]);
-                final completedTasks = _unpackResult(results[2]);
-                final otherTasks = _unpackResult(results[3]);
-
-                return TabBarView(
-                  controller: _tabController,
-                  children: <Widget>[
-                    ActivitiesSummaryTabWidget(activities: allTasks),
-                    ActivitiesTaskListTabWidget(
-                      activities: activeTasks,
-                      description: "Ativas",
-                      emptyMessage:
-                          "Foco total! Nenhuma tarefa ativa no momento.",
-                    ),
-                    ActivitiesTaskListTabWidget(
-                      activities: completedTasks,
-                      description: "Concluídas",
-                      emptyMessage:
-                          "O histórico está vazio. Toque no + para começar.",
-                    ),
-                    ActivitiesTaskListTabWidget(
-                      activities: otherTasks,
-                      description: "Outras",
-                      emptyMessage: "Sem rascunhos ou tarefas canceladas.",
-                    ),
-                  ],
-                );
-              },
+            child: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                ActivitiesSummaryTabWidget(
+                  filter: filterState.copyWith(
+                    statuses: <ActivityStatus>[
+                      ActivityStatus.pending,
+                      ActivityStatus.inProgress,
+                    ],
+                    dueAfter: DateTime.now(),
+                  ),
+                  onFetch: _fetchActivities,
+                ),
+                ActivitiesTaskListTabWidget(
+                  description: "Ativas",
+                  emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
+                  filter: filterState.copyWith(
+                    statuses: <ActivityStatus>[
+                      ActivityStatus.pending,
+                      ActivityStatus.inProgress,
+                    ],
+                  ),
+                  onFetch: _fetchActivities,
+                ),
+                ActivitiesTaskListTabWidget(
+                  description: "Concluídas",
+                  emptyMessage:
+                      "O histórico está vazio. Toque no + para começar.",
+                  filter: filterState.copyWith(
+                    statuses: <ActivityStatus>[ActivityStatus.completed],
+                  ),
+                  onFetch: _fetchActivities,
+                ),
+                ActivitiesTaskListTabWidget(
+                  description: "Outras",
+                  emptyMessage: "Sem rascunhos ou tarefas canceladas.",
+                  filter: filterState.copyWith(
+                    statuses: <ActivityStatus>[
+                      ActivityStatus.draft,
+                      ActivityStatus.canceled,
+                    ],
+                  ),
+                  onFetch: _fetchActivities,
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 52.0),
