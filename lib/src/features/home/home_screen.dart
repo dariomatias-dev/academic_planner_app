@@ -10,7 +10,6 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-import 'package:academic_planner/src/features/home/widgets/home_activities_empty_state_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_metrics_bar_widget.dart';
 import 'package:academic_planner/src/features/home/widgets/home_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
@@ -130,7 +129,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                   if (isLoading)
                     const LoadingStateWidget()
                   else if (data == null || data.recentActivities.isEmpty)
-                    const HomeActivitiesEmptyStateWidget()
+                    const EmptyStateWidget(
+                      icon: Icons.done_all_rounded,
+                      title: "Tudo organizado!",
+                      description:
+                          "Você não possui atividades pendentes no momento.",
+                      isCentered: false,
+                    )
                   else
                     ...data.recentActivities.map(
                       (activity) => ActivityCardWidget(activity: activity),
