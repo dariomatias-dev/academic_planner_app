@@ -6,6 +6,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
@@ -38,6 +39,11 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
     final enrolledDisciplines = adsDisciplines.filter((discipline) {
       return userDisciplines.contains(discipline.id);
     });
+
+    final totalWorkload = enrolledDisciplines.fold(
+      0,
+      (sum, item) => sum + item.workload,
+    );
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -78,11 +84,23 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
             )
           : ListView.builder(
               padding: const EdgeInsets.fromLTRB(24.0, 20.0, 24.0, 190.0),
-              itemCount: enrolledDisciplines.length,
+              itemCount: enrolledDisciplines.length + 1,
               itemBuilder: (context, index) {
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 20.0),
+                    child: DisciplinesSummaryWidget(
+                      count: enrolledDisciplines.length,
+                      workload: totalWorkload,
+                    ),
+                  );
+                }
+
+                final discipline = enrolledDisciplines[index - 1];
+
                 return DisciplineCardItemWidget(
-                  index: index + 1,
-                  discipline: enrolledDisciplines[index],
+                  index: index,
+                  discipline: discipline,
                 );
               },
             ),
