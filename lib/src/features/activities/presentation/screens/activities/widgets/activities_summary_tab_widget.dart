@@ -164,7 +164,11 @@ class _ActivitiesSummaryTabWidgetState
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ActivitiesTotalBadgeWidget(state: AsyncData(1)),
+              ActivitiesTotalBadgeWidget(
+                title: "Minhas Atividades",
+                subtitle: "Total acumulado",
+                state: AsyncData(1),
+              ),
               Row(
                 children: <Widget>[
                   Expanded(

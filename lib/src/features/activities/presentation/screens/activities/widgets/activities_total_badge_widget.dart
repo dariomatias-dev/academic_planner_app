@@ -3,8 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesTotalBadgeWidget extends StatelessWidget {
   final AsyncValue<int> state;
+  final String title;
+  final String subtitle;
 
-  const ActivitiesTotalBadgeWidget({super.key, required this.state});
+  const ActivitiesTotalBadgeWidget({
+    super.key,
+    required this.state,
+    required this.title,
+    required this.subtitle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class ActivitiesTotalBadgeWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Minhas Atividades",
+                  title,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                     color: theme.colorScheme.onSurface,
@@ -29,7 +36,7 @@ class ActivitiesTotalBadgeWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 2.0),
                 Text(
-                  "Total acumulado",
+                  subtitle,
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w700,
