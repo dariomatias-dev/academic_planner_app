@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
@@ -8,6 +7,7 @@ import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_total_badge_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
@@ -153,8 +153,6 @@ class _ActivitiesTaskListTabWidgetState
   Widget build(BuildContext context) {
     super.build(context);
 
-    final colorScheme = Theme.of(context).colorScheme;
-
     ref.listen(activityNotifierProvider, (_, _) => _fetchInitial());
 
     if (_isLoading) return const LoadingStateWidget();
@@ -171,15 +169,11 @@ class _ActivitiesTaskListTabWidgetState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 8.0),
-          child: Text(
-            widget.description.toUpperCase(),
-            style: GoogleFonts.plusJakartaSans(
-              color: colorScheme.primary.withAlpha(180),
-              fontSize: 10.0,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.0,
-            ),
+          padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
+          child: ActivitiesTotalBadgeWidget(
+            title: "Atividades",
+            subtitle: widget.description,
+            state: AsyncValue.data(_activities.length),
           ),
         ),
         Expanded(
