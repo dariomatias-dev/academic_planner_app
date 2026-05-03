@@ -1,3 +1,4 @@
+import 'package:academic_planner/src/features/activities/presentation/providers/activity_count_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -153,6 +154,8 @@ class _ActivitiesTaskListTabWidgetState
   Widget build(BuildContext context) {
     super.build(context);
 
+    final countAsync = ref.watch(activityCountProvider(widget.filter));
+
     ref.listen(activityNotifierProvider, (_, _) => _fetchInitial());
 
     if (_isLoading) return const LoadingStateWidget();
@@ -173,7 +176,7 @@ class _ActivitiesTaskListTabWidgetState
           child: ActivitiesTotalBadgeWidget(
             title: "Atividades",
             subtitle: widget.description,
-            state: AsyncValue.data(_activities.length),
+            state: countAsync,
           ),
         ),
         Expanded(
