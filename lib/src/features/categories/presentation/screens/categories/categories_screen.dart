@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
+import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
@@ -17,17 +20,9 @@ class CategoriesScreen extends ConsumerStatefulWidget {
 }
 
 class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
-  final _categories = <String>[
-    "Estudo",
-    "Leitura",
-    "Projeto",
-    "Prova",
-    "Trabalho",
-  ];
-
-  void _showCategoryDialog({String? oldCategory, int? index}) {
-    final controller = TextEditingController(text: oldCategory);
-    final isEditing = oldCategory != null;
+  void _showCategoryDialog({CategoryModel? category, int? index}) {
+    final controller = TextEditingController(text: category?.name);
+    final isEditing = category != null;
 
     showDialog(
       context: context,
@@ -59,17 +54,22 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                     child: ButtonWidget(
                       label: "Salvar",
                       style: AppButtonStyle.primary,
-                      onPressed: () {
-                        if (controller.text.trim().isNotEmpty) {
-                          setState(() {
-                            if (isEditing) {
-                              _categories[index!] = controller.text.trim();
-                            } else {
-                              _categories.add(controller.text.trim());
-                            }
-                          });
+                      onPressed: () async {
+                        final name = controller.text.trim();
+                        if (name.isNotEmpty) {
+                          final notifier = ref.read(
+                            categoriesProvider.notifier,
+                          );
 
-                          Navigator.pop(context);
+                          if (isEditing) {
+                            await notifier.update(index!, name);
+                          } else {
+                            await notifier.add(name);
+                          }
+
+                          if (context.mounted) {
+                            Navigator.pop(context);
+                          }
                         }
                       },
                     ),
@@ -107,10 +107,12 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                 child: ButtonWidget(
                   label: "Excluir",
                   style: AppButtonStyle.destructiveSolid,
-                  onPressed: () {
-                    setState(() => _categories.removeAt(index));
+                  onPressed: () async {
+                    await ref.read(categoriesProvider.notifier).remove(index);
 
-                    Navigator.pop(context);
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
                   },
                 ),
               ),
@@ -124,6 +126,8 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
+    final categories = ref.watch(categoriesProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -139,9 +143,9 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
-        itemCount: _categories.length,
+        itemCount: categories.length,
         itemBuilder: (context, index) {
-          final category = _categories[index];
+          final category = categories[index];
 
           return Container(
             margin: const EdgeInsets.only(bottom: 16.0),
@@ -172,7 +176,7 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
-                    category,
+                    category.name,
                     style: GoogleFonts.plusJakartaSans(
                       fontWeight: FontWeight.w800,
                       fontSize: 16.0,
@@ -183,12 +187,8 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                 Row(
                   children: <Widget>[
                     IconButton(
-                      onPressed: () {
-                        _showCategoryDialog(
-                          oldCategory: category,
-                          index: index,
-                        );
-                      },
+                      onPressed: () =>
+                          _showCategoryDialog(category: category, index: index),
                       icon: Icon(
                         Icons.edit_outlined,
                         size: 20.0,
@@ -196,9 +196,7 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        _confirmDelete(index);
-                      },
+                      onPressed: () => _confirmDelete(index),
                       icon: Icon(
                         Icons.delete_outline_rounded,
                         size: 20.0,
