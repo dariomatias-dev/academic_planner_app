@@ -39,20 +39,10 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   }
 
   void _openFilterModal() {
-    final notifier = ref.read(agendaNotifierProvider.notifier);
     final asyncState = ref.read(agendaNotifierProvider);
 
     asyncState.whenData((state) {
-      AgendaFilterModalWidget.show(
-        context,
-        initialFilter: state.filter,
-        onApply: (filter) {
-          notifier.fetchData(filter: filter);
-        },
-        onClear: () {
-          notifier.clearFilter();
-        },
-      );
+      AgendaFilterModalWidget.show(context, initialFilter: state.filter);
     });
   }
 

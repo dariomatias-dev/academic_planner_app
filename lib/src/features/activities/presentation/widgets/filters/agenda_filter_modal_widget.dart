@@ -4,34 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
+import 'package:academic_planner/src/features/calendar/di/calendar_provider.dart';
 
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 
 class AgendaFilterModalWidget extends ConsumerStatefulWidget {
-  final VoidCallback onClear;
-  final void Function(ActivityFilter filter) onApply;
   final ActivityFilter? initialFilter;
 
-  const AgendaFilterModalWidget({
-    super.key,
-    required this.onClear,
-    required this.onApply,
-    this.initialFilter,
-  });
+  const AgendaFilterModalWidget({super.key, this.initialFilter});
 
   static Future<void> show(
     BuildContext context, {
-    required VoidCallback onClear,
-    required void Function(ActivityFilter filter) onApply,
     ActivityFilter? initialFilter,
   }) {
     return ModalBottomSheet.show(
       context: context,
-      child: AgendaFilterModalWidget(
-        onClear: onClear,
-        onApply: onApply,
-        initialFilter: initialFilter,
-      ),
+      child: AgendaFilterModalWidget(initialFilter: initialFilter),
     );
   }
 
@@ -44,7 +32,9 @@ class _AgendaFilterModalState extends ConsumerState<AgendaFilterModalWidget> {
   late int? _selectedDisciplineId = widget.initialFilter?.disciplineId;
 
   void _applyFilters() {
-    widget.onApply(ActivityFilter(disciplineId: _selectedDisciplineId));
+    final filter = ActivityFilter(disciplineId: _selectedDisciplineId);
+
+    ref.read(agendaNotifierProvider.notifier).fetchData(filter: filter);
 
     Navigator.pop(context);
   }
@@ -53,8 +43,6 @@ class _AgendaFilterModalState extends ConsumerState<AgendaFilterModalWidget> {
     setState(() {
       _selectedDisciplineId = null;
     });
-
-    widget.onClear();
   }
 
   @override
