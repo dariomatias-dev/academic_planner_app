@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/date_range_filter_section_widget.dart';
@@ -29,22 +30,24 @@ class _ActivitiesFilterModalWidgetState
   late DateTime? _startDate;
   late DateTime? _endDate;
 
-  void _clearFilters() {
-    ref.read(activityFilterNotifierProvider.notifier).clear();
+  void _applyFilters() {
+    final filter = ActivityFilter(
+      disciplineId: _selectedDisciplineId,
+      startDate: _startDate,
+      endDate: _endDate,
+    );
+
+    ref.read(activityFilterNotifierProvider.notifier).setFilter(filter);
 
     Navigator.pop(context);
   }
 
-  void _applyFilters() {
-    ref
-        .read(activityFilterNotifierProvider.notifier)
-        .update(
-          disciplineId: _selectedDisciplineId,
-          startDate: _startDate,
-          endDate: _endDate,
-        );
-
-    Navigator.pop(context);
+  void _clearFilters() {
+    setState(() {
+      _selectedDisciplineId = null;
+      _startDate = null;
+      _endDate = null;
+    });
   }
 
   @override
