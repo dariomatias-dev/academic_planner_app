@@ -28,8 +28,4 @@ class ActivityFilterNotifier extends Notifier<ActivityFilter> {
       statuses: statuses,
     );
   }
-
-  void clear() {
-    state = const ActivityFilter();
-  }
 }
