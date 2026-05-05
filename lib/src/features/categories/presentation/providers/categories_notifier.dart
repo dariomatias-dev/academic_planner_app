@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
-import 'package:academic_planner/src/features/categories/di/categories_provider.sdart';
+import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/presentation/view_models/categories_view_model.dart';
 
 class CategoriesNotifier extends Notifier<List<CategoryModel>> {
