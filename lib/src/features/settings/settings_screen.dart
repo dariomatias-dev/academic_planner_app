@@ -82,6 +82,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         ],
       ),
       SettingsSectionWidget(
+        title: "Organização",
+        children: <Widget>[
+          SettingsTileWidget(
+            icon: Icons.category_rounded,
+            title: "Categorias",
+            onTap: () => AppRoutes.goToCategories(context),
+          ),
+        ],
+      ),
+      SettingsSectionWidget(
         title: "Preferências",
         children: <Widget>[
           SettingsTileWidget(
