@@ -85,7 +85,7 @@ class AppRouter {
           ),
           GoRoute(
             name: RouteNames.disciplineDetails,
-            path: '${RoutePaths.disciplineDetails}/:disciplineId',
+            path: RoutePaths.disciplineDetails,
             builder: (context, state) {
               final disciplineId =
                   int.tryParse(state.pathParameters['disciplineId'] ?? '0') ??
@@ -159,7 +159,7 @@ class AppRouter {
           ),
           GoRoute(
             name: RouteNames.teacherDetails,
-            path: '${RoutePaths.teacherDetails}/:teacherId',
+            path: RoutePaths.teacherDetails,
             builder: (context, state) {
               final teacherId =
                   int.tryParse(state.pathParameters['teacherId'] ?? '0') ?? 0;

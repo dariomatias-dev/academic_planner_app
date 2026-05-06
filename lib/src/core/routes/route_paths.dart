@@ -13,13 +13,13 @@ class RoutePaths {
 
   static const courseDetails = '/course-details';
 
-  static const disciplineDetails = '/discipline-details';
+  static const disciplineDetails = '/discipline-details/:disciplineId';
 
   static const disciplineSelection = '/discipline-selection';
 
   static const disciplines = '/disciplines';
 
-  static const editProfile = '/edit-rofile';
+  static const editProfile = '/edit-profile';
 
   static const forgotPassword = '/forgot-password';
 
@@ -35,7 +35,7 @@ class RoutePaths {
 
   static const splash = '/splash';
 
-  static const teacherDetails = '/teacher-details';
+  static const teacherDetails = '/teacher-details/:teacherId';
 
   static const userManagement = '/user-management';
 }

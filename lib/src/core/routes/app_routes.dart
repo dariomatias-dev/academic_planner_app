@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:academic_planner/src/core/routes/route_paths.dart';
+import 'package:academic_planner/src/core/routes/route_names.dart';
 
 class AppRoutes {
   static void goToRoot(BuildContext context) {
-    context.go(RoutePaths.root);
+    context.goNamed(RouteNames.root);
   }
 
   static void goToAbout(BuildContext context) {
-    context.push(RoutePaths.about);
+    context.pushNamed(RouteNames.about);
   }
 
   static void goToActivityDetails(
     BuildContext context, {
     required String activityId,
   }) {
-    final queryParameters = <String, String>{};
-    queryParameters['activityId'] = activityId;
-
-    final uri = Uri(
-      path: RoutePaths.activityDetails,
-      queryParameters: queryParameters,
+    context.pushNamed(
+      RouteNames.activityDetails,
+      queryParameters: <String, String>{'activityId': activityId},
     );
-
-    context.push(uri.toString());
   }
 
   static Future<bool?> goToActivityForm(
@@ -32,36 +27,27 @@ class AppRoutes {
     String? activityId,
     int? disciplineId,
   }) async {
-    final queryParameters = <String, String>{};
-
-    if (activityId != null) {
-      queryParameters['activityId'] = activityId;
-    }
-
-    if (disciplineId != null) {
-      queryParameters['disciplineId'] = disciplineId.toString();
-    }
-
-    final uri = Uri(
-      path: RoutePaths.activityForm,
-      queryParameters: queryParameters,
+    final result = await context.pushNamed(
+      RouteNames.activityForm,
+      queryParameters: <String, String>{
+        'activityId': ?activityId,
+        if (disciplineId != null) 'disciplineId': disciplineId.toString(),
+      },
     );
-
-    final result = await context.push(uri.toString());
 
     return result as bool?;
   }
 
   static void goToAgenda(BuildContext context) {
-    context.push(RoutePaths.agenda);
+    context.pushNamed(RouteNames.agenda);
   }
 
   static void goToCategories(BuildContext context) {
-    context.push(RoutePaths.categories);
+    context.pushNamed(RouteNames.categories);
   }
 
   static void goToCourseDetails(BuildContext context) {
-    context.push(RoutePaths.courseDetails);
+    context.pushNamed(RouteNames.courseDetails);
   }
 
   static void goToDisciplineDetails(
@@ -69,40 +55,39 @@ class AppRoutes {
     required int disciplineId,
     int? tab,
   }) {
-    final uri = Uri(
-      path: '${RoutePaths.disciplineDetails}/$disciplineId',
-      queryParameters: {if (tab != null) 'tab': tab.toString()},
+    context.pushNamed(
+      RouteNames.disciplineDetails,
+      pathParameters: <String, String>{'disciplineId': disciplineId.toString()},
+      queryParameters: <String, String>{if (tab != null) 'tab': tab.toString()},
     );
-
-    context.push(uri.toString());
   }
 
   static void goToDisciplineSelection(BuildContext context) {
-    context.push(RoutePaths.disciplineSelection);
+    context.pushNamed(RouteNames.disciplineSelection);
   }
 
   static void goToDisciplines(BuildContext context) {
-    context.push(RoutePaths.disciplines);
+    context.pushNamed(RouteNames.disciplines);
   }
 
   static void goToEditProfile(BuildContext context) {
-    context.push(RoutePaths.editProfile);
+    context.pushNamed(RouteNames.editProfile);
   }
 
   static void goToForgotPassword(BuildContext context) {
-    context.push(RoutePaths.forgotPassword);
+    context.pushNamed(RouteNames.forgotPassword);
   }
 
   static void goToLogin(BuildContext context, {bool replace = false}) {
     if (replace) {
-      context.go(RoutePaths.login);
+      context.goNamed(RouteNames.login);
     } else {
-      context.push(RoutePaths.login);
+      context.pushNamed(RouteNames.login);
     }
   }
 
   static void goToMySchedule(BuildContext context) {
-    context.push(RoutePaths.mySchedule);
+    context.pushNamed(RouteNames.mySchedule);
   }
 
   static void goToPdfViewer(
@@ -110,36 +95,35 @@ class AppRoutes {
     required String url,
     required String title,
   }) {
-    final uri = Uri(
-      path: RoutePaths.pdfViewer,
-      queryParameters: {'url': url, 'title': title},
+    context.pushNamed(
+      RouteNames.pdfViewer,
+      queryParameters: <String, String>{'url': url, 'title': title},
     );
-
-    context.push(uri.toString());
   }
 
   static void goToRegister(BuildContext context, {bool replace = false}) {
     if (replace) {
-      context.go(RoutePaths.register);
+      context.goNamed(RouteNames.register);
     } else {
-      context.push(RoutePaths.register);
+      context.pushNamed(RouteNames.register);
     }
   }
 
   static void goToSchedule(BuildContext context) {
-    context.push(RoutePaths.schedule);
+    context.pushNamed(RouteNames.schedule);
   }
 
   static void goToTeacherDetails(
     BuildContext context, {
     required int teacherId,
   }) {
-    final uri = Uri(path: '${RoutePaths.teacherDetails}/$teacherId');
-
-    context.push(uri.toString());
+    context.pushNamed(
+      RouteNames.teacherDetails,
+      pathParameters: <String, String>{'teacherId': teacherId.toString()},
+    );
   }
 
   static void goToUserManagement(BuildContext context) {
-    context.push(RoutePaths.userManagement);
+    context.pushNamed(RouteNames.userManagement);
   }
 }
