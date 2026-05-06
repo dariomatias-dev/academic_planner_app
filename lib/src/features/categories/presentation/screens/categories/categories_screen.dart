@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
@@ -61,15 +62,20 @@ class _CategoriesScreenState extends ConsumerState<CategoriesScreen> {
                             categoriesProvider.notifier,
                           );
 
-                          if (isEditing) {
-                            await notifier.update(index!, name);
-                          } else {
-                            await notifier.add(name);
-                          }
+                          final result = isEditing
+                              ? await notifier.update(index!, name)
+                              : await notifier.add(name);
 
-                          if (context.mounted) {
-                            Navigator.pop(context);
-                          }
+                          result.when(
+                            onSuccess: (_) {
+                              if (context.mounted) {
+                                Navigator.pop(context);
+                              }
+                            },
+                            onFailure: (failure) {
+                              Fluttertoast.showToast(msg: failure.message);
+                            },
+                          );
                         }
                       },
                     ),
