@@ -19,10 +19,11 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/create_category_dialog_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/create_tag_dialog_widget.dart';
-
+import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
@@ -58,12 +59,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
   final _dueDateNotifier = ValueNotifier<DateTime?>(null);
   final _statusNotifier = ValueNotifier<ActivityStatus>(ActivityStatus.draft);
   final _categoryNotifier = ValueNotifier<String?>(null);
-  final _categoriesNotifier = ValueNotifier<List<String>>(<String>[
-    "Estudo",
-    "Leitura",
-    "Projeto",
-    "Prova",
-  ]);
+
   final _tagsNotifier = ValueNotifier<List<String>>(<String>[]);
   final _availableTagsNotifier = ValueNotifier<List<String>>(<String>[
     "Urgente",
@@ -141,23 +137,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
   void _showCreateCategoryDialog() {
     _unfocus();
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CreateCategoryDialogWidget(
-          onCategoryAdded: (categoryName) {
-            _categoriesNotifier.value = <String>[
-              ..._categoriesNotifier.value,
-              categoryName,
-            ];
-
-            _categoryNotifier.value = categoryName;
-
-            _updateChangeTracker();
-          },
-        );
-      },
-    );
+    CategoryFormDialogWidget.show(context);
   }
 
   void _showCreateTagDialog() {
@@ -339,14 +319,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
         _availableTagsNotifier.value = newAvailableTags;
 
-        if (activity.category != null &&
-            !_categoriesNotifier.value.contains(activity.category)) {
-          _categoriesNotifier.value = <String>[
-            ..._categoriesNotifier.value,
-            activity.category!,
-          ];
-        }
-
         _updateChangeTracker();
       },
       onFailure: (failure) {
@@ -378,7 +350,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
     _dueDateNotifier.dispose();
     _statusNotifier.dispose();
     _categoryNotifier.dispose();
-    _categoriesNotifier.dispose();
     _tagsNotifier.dispose();
     _availableTagsNotifier.dispose();
     _remindersNotifier.dispose();
@@ -474,14 +445,17 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                     },
                   ),
                   const SizedBox(height: 20.0),
-                  ValueListenableBuilder<List<String>>(
-                    valueListenable: _categoriesNotifier,
-                    builder: (context, categories, child) {
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final categories = ref.watch(categoriesNotifierProvider);
+
                       return ValueListenableBuilder<String?>(
                         valueListenable: _categoryNotifier,
                         builder: (context, selectedCategory, child) {
                           return ActivityFormCategorySelectorWidget(
-                            categories: categories,
+                            categories: categories.builder(
+                              (category, index) => category.name,
+                            ),
                             selectedCategory: selectedCategory,
                             onSelect: (value) {
                               _categoryNotifier.value = value;
