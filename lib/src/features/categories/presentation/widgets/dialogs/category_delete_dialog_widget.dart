@@ -21,7 +21,7 @@ class CategoryDeleteDialogWidget extends ConsumerWidget {
   }
 
   Future<void> _handleDelete(BuildContext context, WidgetRef ref) async {
-    await ref.read(categoriesProvider.notifier).remove(index);
+    await ref.read(categoriesNotifierProvider.notifier).remove(index);
 
     if (context.mounted) {
       Navigator.pop(context);

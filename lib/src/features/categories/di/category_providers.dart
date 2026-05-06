@@ -13,7 +13,7 @@ final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
   return CategoryRepositoryImpl(prefs);
 });
 
-final categoriesProvider =
+final categoriesNotifierProvider =
     NotifierProvider<CategoriesNotifier, List<CategoryModel>>(() {
       return CategoriesNotifier();
     });

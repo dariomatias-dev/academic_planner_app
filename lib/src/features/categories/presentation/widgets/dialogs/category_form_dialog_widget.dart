@@ -44,7 +44,7 @@ class _CategoryFormDialogWidgetState
     if (name.isEmpty) return;
 
     final isEditing = widget.category != null;
-    final notifier = ref.read(categoriesProvider.notifier);
+    final notifier = ref.read(categoriesNotifierProvider.notifier);
 
     final result = isEditing
         ? await notifier.update(widget.index!, name)
