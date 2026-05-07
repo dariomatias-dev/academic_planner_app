@@ -22,6 +22,7 @@ import 'package:academic_planner/src/features/pdf_viewer/pdf_viewer_screen.dart'
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/features/splash/splash_screen.dart';
+import 'package:academic_planner/src/features/tags/presentation/screens/tags/tags_screen.dart';
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/teacher_details_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/user_management/user_management_screen.dart';
 
@@ -156,6 +157,11 @@ class AppRouter {
             name: RouteNames.splash,
             path: RoutePaths.splash,
             builder: (context, state) => const SplashScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.tags,
+            path: RoutePaths.tags,
+            builder: (context, state) => const TagsScreen(),
           ),
           GoRoute(
             name: RouteNames.teacherDetails,

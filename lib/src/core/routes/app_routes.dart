@@ -113,6 +113,10 @@ class AppRoutes {
     context.pushNamed(RouteNames.schedule);
   }
 
+  static void goToTags(BuildContext context) {
+    context.pushNamed(RouteNames.tags);
+  }
+
   static void goToTeacherDetails(
     BuildContext context, {
     required int teacherId,
