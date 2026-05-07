@@ -43,6 +43,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         currentMode: ref.read(themeNotifierProvider),
         onModeSelected: (mode) {
           themeNotifier.setThemeMode(mode);
+
           Navigator.pop(context);
         },
       ),
@@ -88,6 +89,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             icon: Icons.category_rounded,
             title: "Categorias",
             onTap: () => AppRoutes.goToCategories(context),
+          ),
+          SettingsTileWidget(
+            icon: Icons.category_rounded,
+            title: "Tags",
+            onTap: () => AppRoutes.goToTags(context),
           ),
         ],
       ),
