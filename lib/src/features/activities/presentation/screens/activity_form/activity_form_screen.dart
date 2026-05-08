@@ -19,10 +19,11 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/create_tag_dialog_widget.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
+import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_form_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
@@ -61,12 +62,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
   final _categoryNotifier = ValueNotifier<String?>(null);
 
   final _tagsNotifier = ValueNotifier<List<String>>(<String>[]);
-  final _availableTagsNotifier = ValueNotifier<List<String>>(<String>[
-    "Urgente",
-    "Teórica",
-    "Prática",
-    "Grupo",
-  ]);
   final _remindersNotifier = ValueNotifier<List<TimeOfDay>>(<TimeOfDay>[]);
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _canSaveNotifier = ValueNotifier<bool>(false);
@@ -143,23 +138,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
   void _showCreateTagDialog() {
     _unfocus();
 
-    showDialog(
-      context: context,
-      builder: (context) {
-        return CreateTagDialogWidget(
-          onTagAdded: (tagName) {
-            _availableTagsNotifier.value = <String>[
-              ..._availableTagsNotifier.value,
-              tagName,
-            ];
-
-            _tagsNotifier.value = <String>[..._tagsNotifier.value, tagName];
-
-            _updateChangeTracker();
-          },
-        );
-      },
-    );
+    TagFormDialogWidget.show(context);
   }
 
   Future<void> _selectDate() async {
@@ -308,17 +287,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
         _tagsNotifier.value = List<String>.from(activity.tags);
         _remindersNotifier.value = List<TimeOfDay>.from(activity.reminders);
 
-        final newAvailableTags = List<String>.from(
-          _availableTagsNotifier.value,
-        );
-        for (final tag in activity.tags) {
-          if (!newAvailableTags.contains(tag)) {
-            newAvailableTags.add(tag);
-          }
-        }
-
-        _availableTagsNotifier.value = newAvailableTags;
-
         _updateChangeTracker();
       },
       onFailure: (failure) {
@@ -351,7 +319,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
     _statusNotifier.dispose();
     _categoryNotifier.dispose();
     _tagsNotifier.dispose();
-    _availableTagsNotifier.dispose();
     _remindersNotifier.dispose();
     _isLoadingNotifier.dispose();
     _canSaveNotifier.dispose();
@@ -469,14 +436,17 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                     },
                   ),
                   const SizedBox(height: 20.0),
-                  ValueListenableBuilder<List<String>>(
-                    valueListenable: _availableTagsNotifier,
-                    builder: (context, available, child) {
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final availableTags = ref.watch(tagNotifierProvider);
+
                       return ValueListenableBuilder<List<String>>(
                         valueListenable: _tagsNotifier,
                         builder: (context, selected, child) {
                           return ActivityFormTagSelectorWidget(
-                            availableTags: available,
+                            availableTags: availableTags.builder(
+                              (tag, index) => tag.name,
+                            ),
                             selectedTags: selected,
                             onToggle: (tag, value) {
                               final current = List<String>.from(
