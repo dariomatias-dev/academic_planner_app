@@ -6,8 +6,8 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_empty_state_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_header_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_notes_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -124,11 +124,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
             DisciplineDetailsActivitiesTabWidget(
               disciplineId: widget.disciplineId,
             ),
-            const DisciplineDetailsEmptyStateWidget(
-              icon: Icons.edit_note_rounded,
-              title: "Sem anotações",
-              message: "Você ainda não criou anotações para esta matéria.",
-            ),
+            DisciplineDetailsNotesTabWidget(disciplineId: widget.disciplineId),
             DisciplineDetailsAboutTabWidget(
               discipline: discipline,
               prerequisites: prerequisites,
