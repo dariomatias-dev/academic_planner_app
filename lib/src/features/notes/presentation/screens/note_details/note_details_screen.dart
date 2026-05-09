@@ -3,18 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
 
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_menu_widget.dart';
@@ -44,15 +43,7 @@ class NoteDetailsScreen extends ConsumerWidget {
     WidgetRef ref,
     Note note,
   ) async {
-    final result = await ref
-        .read(noteNotifierProvider.notifier)
-        .delete(note.id);
-
-    if (result is Success && context.mounted) {
-      Navigator.pop(context);
-
-      Fluttertoast.showToast(msg: "Anotação excluída");
-    }
+    await deleteNoteFlow(context: context, ref: ref, note: note);
   }
 
   @override
