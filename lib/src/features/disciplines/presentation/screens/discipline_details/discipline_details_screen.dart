@@ -87,6 +87,10 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                     );
                     break;
                   case 1:
+                    AppRoutes.goToNoteForm(
+                      context,
+                      disciplineId: discipline.id,
+                    );
                     break;
                 }
               },
