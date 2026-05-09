@@ -27,6 +27,8 @@ class RoutePaths {
 
   static const mySchedule = '/my-schedule';
 
+  static const noteForm = '/note-form';
+
   static const pdfViewer = '/pdf-viewer';
 
   static const register = '/register';

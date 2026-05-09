@@ -18,6 +18,7 @@ import 'package:academic_planner/src/features/auth/presentation/screens/forgot_p
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/features/not_found/not_found_screen.dart';
+import 'package:academic_planner/src/features/notes/presentation/screens/note_form/note_form_screen.dart';
 import 'package:academic_planner/src/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/schedule/schedule_screen.dart';
@@ -130,6 +131,20 @@ class AppRouter {
             name: RouteNames.mySchedule,
             path: RoutePaths.mySchedule,
             builder: (context, state) => const MyScheduleScreen(),
+          ),
+          GoRoute(
+            name: RouteNames.noteForm,
+            path: RoutePaths.noteForm,
+            builder: (context, state) {
+              final query = state.uri.queryParameters;
+              final disciplineId =
+                  int.tryParse(query['disciplineId'] ?? '0') ?? 0;
+
+              return NoteFormScreen(
+                noteId: query['noteId'],
+                disciplineId: disciplineId,
+              );
+            },
           ),
           GoRoute(
             name: RouteNames.pdfViewer,

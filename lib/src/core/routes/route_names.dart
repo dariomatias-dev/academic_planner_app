@@ -27,6 +27,8 @@ class RouteNames {
 
   static const mySchedule = 'my_schedule';
 
+  static const noteForm = 'note_form';
+
   static const pdfViewer = 'pdf_viewer';
 
   static const register = 'register';

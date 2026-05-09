@@ -90,6 +90,20 @@ class AppRoutes {
     context.pushNamed(RouteNames.mySchedule);
   }
 
+  static void goToNoteForm(
+    BuildContext context, {
+    String? noteId,
+    required int disciplineId,
+  }) {
+    context.pushNamed(
+      RouteNames.noteForm,
+      queryParameters: <String, String>{
+        'noteId': ?noteId,
+        'disciplineId': disciplineId.toString(),
+      },
+    );
+  }
+
   static void goToPdfViewer(
     BuildContext context, {
     required String url,
