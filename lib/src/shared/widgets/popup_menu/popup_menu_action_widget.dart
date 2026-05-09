@@ -25,9 +25,9 @@ class PopupMenuActionWidget extends StatelessWidget {
         Text(
           label,
           style: GoogleFonts.plusJakartaSans(
-            fontWeight: FontWeight.w700,
-            fontSize: 14.0,
             color: effectiveColor,
+            fontSize: 14.0,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],

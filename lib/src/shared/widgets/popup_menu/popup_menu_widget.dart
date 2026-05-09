@@ -51,6 +51,7 @@ class PopupMenuWidget<T> extends StatelessWidget {
             ),
             onSelected: onSelected,
             itemBuilder: (BuildContext context) => items,
+            child: const SizedBox.shrink(),
           ),
         ),
       ],
