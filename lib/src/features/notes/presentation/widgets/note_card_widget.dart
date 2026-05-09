@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
 
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 
@@ -71,9 +71,11 @@ class NoteCardWidget extends ConsumerWidget {
                     ),
                     PopupMenuItem<VoidCallback>(
                       value: () async {
-                        await ref
-                            .read(noteNotifierProvider.notifier)
-                            .delete(note.id);
+                        await deleteNoteFlow(
+                          context: context,
+                          ref: ref,
+                          note: note,
+                        );
                       },
                       height: 48.0,
                       child: PopupMenuActionWidget(
