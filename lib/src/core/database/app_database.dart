@@ -2,11 +2,12 @@ import 'package:sqflite/sqflite.dart';
 
 import 'package:academic_planner/src/core/database/migrations/migration.dart';
 import 'package:academic_planner/src/core/database/migrations/migration_v1.dart';
+import 'package:academic_planner/src/core/database/migrations/migration_v2.dart';
 
 class AppDatabase {
   static Database? _db;
 
-  static final _migrations = <Migration>[MigrationV1()];
+  static final _migrations = <Migration>[MigrationV1(), MigrationV2()];
 
   static Future<Database> get instance async {
     if (_db != null) return _db!;
