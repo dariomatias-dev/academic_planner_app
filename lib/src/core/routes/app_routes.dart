@@ -90,6 +90,13 @@ class AppRoutes {
     context.pushNamed(RouteNames.mySchedule);
   }
 
+  static void goToNoteDetails(BuildContext context, {required String noteId}) {
+    context.pushNamed(
+      RouteNames.noteDetails,
+      pathParameters: <String, String>{'noteId': noteId},
+    );
+  }
+
   static void goToNoteForm(
     BuildContext context, {
     String? noteId,

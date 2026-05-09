@@ -18,6 +18,7 @@ import 'package:academic_planner/src/features/auth/presentation/screens/forgot_p
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/features/not_found/not_found_screen.dart';
+import 'package:academic_planner/src/features/notes/presentation/screens/note_details/note_details_screen.dart';
 import 'package:academic_planner/src/features/notes/presentation/screens/note_form/note_form_screen.dart';
 import 'package:academic_planner/src/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
@@ -144,6 +145,15 @@ class AppRouter {
                 noteId: query['noteId'],
                 disciplineId: disciplineId,
               );
+            },
+          ),
+          GoRoute(
+            name: RouteNames.noteDetails,
+            path: RoutePaths.noteDetails,
+            builder: (context, state) {
+              final noteId = state.pathParameters['noteId'] as String;
+
+              return NoteDetailsScreen(noteId: noteId);
             },
           ),
           GoRoute(
