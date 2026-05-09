@@ -88,7 +88,9 @@ class _NoteCardWidget extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        AppRoutes.goToNoteDetails(context, noteId: note.id);
+      },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
         padding: const EdgeInsets.all(20.0),
