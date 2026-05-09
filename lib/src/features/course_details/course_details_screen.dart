@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
@@ -40,10 +43,20 @@ class CourseDetailsScreen extends StatelessWidget {
       appBar: AppBarWidget(
         title: "Detalhes do Curso",
         actions: <Widget>[
-          IconButtonWidget(
-            icon: Icons.open_in_browser_rounded,
-            onPressed: () {},
-            style: IconButtonStyle.primary,
+          Consumer(
+            builder: (context, ref, child) {
+              return IconButtonWidget(
+                icon: Icons.launch_rounded,
+                onPressed: () {
+                  openUrl(
+                    context,
+                    'https://estudante.ifpb.edu.br/cursos/346/',
+                    logger: ref.read(loggerProvider),
+                  );
+                },
+                style: IconButtonStyle.primary,
+              );
+            },
           ),
         ],
       ),
