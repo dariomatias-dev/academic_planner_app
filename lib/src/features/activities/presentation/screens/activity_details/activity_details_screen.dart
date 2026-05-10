@@ -11,16 +11,15 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_description_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_due_date_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_menu_widget.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 
 class ActivityDetailsScreen extends ConsumerStatefulWidget {
@@ -116,26 +115,33 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 onPressed: _saveStatus,
                 style: IconButtonStyle.primary,
               ),
-            ActivityDetailsMenuWidget(
-              onEdit: () async {
-                final result = await AppRoutes.goToActivityForm(
-                  context,
-                  activityId: _activity!.id,
-                );
+            PopupMenuWidget(
+              items: <PopupMenuEntry>[
+                PopupMenuActions.edit(
+                  onTap: () async {
+                    final result = await AppRoutes.goToActivityForm(
+                      context,
+                      activityId: _activity!.id,
+                    );
 
-                if (result ?? false) _fetchActivity();
-              },
-              onDelete: () async {
-                final result = await deleteActivityFlow(
-                  context: context,
-                  ref: ref,
-                  activity: _activity!,
-                );
+                    if (result ?? false) _fetchActivity();
+                  },
+                ),
+                PopupMenuActions.delete(
+                  onTap: () async {
+                    final result = await deleteActivityFlow(
+                      context: context,
+                      ref: ref,
+                      activity: _activity!,
+                    );
 
-                if (result && context.mounted) {
-                  Navigator.pop(context);
-                }
-              },
+                    if (result && context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  },
+                  color: colorScheme.error,
+                ),
+              ],
             ),
           ],
         ],
