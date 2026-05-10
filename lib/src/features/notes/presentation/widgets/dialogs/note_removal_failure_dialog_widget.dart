@@ -21,7 +21,8 @@ class NoteRemovalFailureDialogWidget extends StatelessWidget {
   }) async {
     return showDialog(
       context: context,
-      builder: (context) {
+      barrierDismissible: false,
+      builder: (dialogContext) {
         return NoteRemovalFailureDialogWidget(
           onRetry: onRetry,
           errorMessage: errorMessage,
@@ -81,6 +82,7 @@ class NoteRemovalFailureDialogWidget extends StatelessWidget {
               label: "Tentar Novamente",
               onPressed: () {
                 Navigator.pop(context);
+
                 onRetry!();
               },
               style: AppButtonStyle.primary,
@@ -90,7 +92,9 @@ class NoteRemovalFailureDialogWidget extends StatelessWidget {
           ],
           ButtonWidget(
             label: "Fechar",
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context);
+            },
             style: AppButtonStyle.neutral,
             isFullWidth: true,
           ),
