@@ -9,16 +9,15 @@ import 'package:intl/intl.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/shared/utils/open_url.dart';
 
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_menu_widget.dart';
-
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
 final noteDetailProvider = FutureProvider.family<Note?, String>((
@@ -61,21 +60,26 @@ class NoteDetailsScreen extends ConsumerWidget {
           noteAsync.maybeWhen(
             data: (note) => note == null
                 ? const SizedBox.shrink()
-                : ActivityDetailsMenuWidget(
-                    onEdit: () {
-                      AppRoutes.goToNoteForm(
-                        context,
-                        noteId: note.id,
-                        disciplineId: note.disciplineId,
-                      );
-                    },
-                    onDelete: () {
-                      _deleteNote(context, ref, note);
-                    },
+                : PopupMenuWidget(
+                    items: <PopupMenuEntry>[
+                      PopupMenuActions.edit(
+                        onTap: () {
+                          AppRoutes.goToNoteForm(
+                            context,
+                            noteId: note.id,
+                            disciplineId: note.disciplineId,
+                          );
+                        },
+                      ),
+                      PopupMenuActions.delete(
+                        onTap: () {
+                          _deleteNote(context, ref, note);
+                        },
+                        color: colorScheme.error,
+                      ),
+                    ],
                   ),
-            orElse: () {
-              return const SizedBox.shrink();
-            },
+            orElse: () => const SizedBox.shrink(),
           ),
         ],
       ),
