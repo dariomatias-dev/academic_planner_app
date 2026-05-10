@@ -10,6 +10,8 @@ import 'package:academic_planner/src/features/notes/presentation/actions/delete_
 
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 
+enum NoteCardAction { edit, delete }
+
 class NoteCardWidget extends ConsumerWidget {
   final Note note;
 
@@ -52,31 +54,37 @@ class NoteCardWidget extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                PopupMenuWidget<VoidCallback>(
-                  onSelected: (action) => action(),
-                  items: <PopupMenuEntry<VoidCallback>>[
-                    PopupMenuItem<VoidCallback>(
-                      value: () {
+                PopupMenuWidget<NoteCardAction>(
+                  onSelected: (value) async {
+                    switch (value) {
+                      case NoteCardAction.edit:
                         AppRoutes.goToNoteForm(
                           context,
                           noteId: note.id,
                           disciplineId: note.disciplineId,
                         );
-                      },
-                      height: 48.0,
-                      child: const PopupMenuActionWidget(
-                        icon: Icons.edit_outlined,
-                        label: "Editar",
-                      ),
-                    ),
-                    PopupMenuItem<VoidCallback>(
-                      value: () async {
+                        break;
+
+                      case NoteCardAction.delete:
                         await deleteNoteFlow(
                           context: context,
                           ref: ref,
                           note: note,
                         );
-                      },
+                        break;
+                    }
+                  },
+                  items: <PopupMenuEntry<NoteCardAction>>[
+                    const PopupMenuItem<NoteCardAction>(
+                      value: NoteCardAction.edit,
+                      height: 48.0,
+                      child: PopupMenuActionWidget(
+                        icon: Icons.edit_outlined,
+                        label: "Editar",
+                      ),
+                    ),
+                    PopupMenuItem<NoteCardAction>(
+                      value: NoteCardAction.delete,
                       height: 48.0,
                       child: PopupMenuActionWidget(
                         icon: Icons.delete_outline_rounded,
