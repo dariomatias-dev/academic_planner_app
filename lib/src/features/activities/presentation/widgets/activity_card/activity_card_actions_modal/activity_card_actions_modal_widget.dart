@@ -3,129 +3,161 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-
 import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_actions_modal/activity_card_action_tile_modal_widget.dart';
 
-class ActivityCardActionsModalWidget extends ConsumerStatefulWidget {
+class ActivityCardActionsModalWidget extends ConsumerWidget {
   final Activity activity;
 
   const ActivityCardActionsModalWidget({super.key, required this.activity});
 
-  @override
-  ConsumerState<ActivityCardActionsModalWidget> createState() =>
-      _ActivityCardActionsModalWidgetState();
-}
+  Future<void> _markAsCompleted(BuildContext context, WidgetRef ref) async {
+    final notifier = ref.read(activityNotifierProvider.notifier);
 
-class _ActivityCardActionsModalWidgetState
-    extends ConsumerState<ActivityCardActionsModalWidget> {
-  Future<void> _markAsCompleted(BuildContext context) async {
-    final activityNotifier = ref.read(activityNotifierProvider.notifier);
-
-    final updated = widget.activity.copyWith(status: ActivityStatus.completed);
-
-    final result = await activityNotifier.edit(updated);
+    final result = await notifier.edit(
+      activity.copyWith(status: ActivityStatus.completed),
+    );
 
     result.when(
       onSuccess: (_) {
-        Fluttertoast.showToast(msg: "Atividade concluída!");
+        Fluttertoast.showToast(msg: 'Atividade concluída!');
+
         Navigator.pop(context);
       },
-      onFailure: (failure) {
-        Fluttertoast.showToast(msg: "Erro ao atualizar atividade");
+      onFailure: (_) {
+        Fluttertoast.showToast(msg: 'Erro ao atualizar atividade');
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    final actions =
+        <({IconData icon, String label, Color color, VoidCallback onTap})>[
+          (
+            icon: Icons.edit_note_rounded,
+            label: 'Editar informações',
+            color: colorScheme.primary,
+            onTap: () {
+              Navigator.pop(context);
+              AppRoutes.goToActivityForm(context, activityId: activity.id);
+            },
+          ),
+          if (activity.status != ActivityStatus.completed)
+            (
+              icon: Icons.check_circle_outline_rounded,
+              label: 'Marcar como concluída',
+              color: Colors.teal,
+              onTap: () => _markAsCompleted(context, ref),
+            ),
+          (
+            icon: Icons.delete_outline_rounded,
+            label: 'Excluir permanentemente',
+            color: colorScheme.error,
+            onTap: () {
+              deleteActivityFlow(
+                context: context,
+                ref: ref,
+                activity: activity,
+              );
+            },
+          ),
+        ];
 
     return Column(
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        Column(
           children: <Widget>[
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Ações da Atividade",
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w700,
-                      color: colorScheme.primary,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    widget.activity.title,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.plusJakartaSans(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w800,
-                      color: colorScheme.onSurface,
-                    ),
-                  ),
-                ],
+            Text(
+              "Ações da Atividade",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.plusJakartaSans(
+                color: colorScheme.primary,
+                fontSize: 11.0,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.5,
               ),
             ),
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: colorScheme.surface.withAlpha(220),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.close_rounded,
-                  color: colorScheme.onSurface.withAlpha(200),
-                  size: 24.0,
-                ),
+            const SizedBox(height: 8.0),
+            Text(
+              activity.title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.plusJakartaSans(
+                color: colorScheme.onSurface,
+                fontSize: 20.0,
+                fontWeight: FontWeight.w800,
+                height: 1.2,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 24.0),
-        ActivityCardActionTileModalWidget(
-          icon: Icons.edit_rounded,
-          label: "Editar atividade",
-          onTap: () {
-            Navigator.pop(context);
-
-            AppRoutes.goToActivityForm(context, activityId: widget.activity.id);
-          },
-        ),
-        if (widget.activity.status != ActivityStatus.completed)
-          ActivityCardActionTileModalWidget(
-            icon: Icons.check_circle_rounded,
-            label: "Marcar como concluída",
-            color: Colors.teal,
-            onTap: () => _markAsCompleted(context),
-          ),
-        ActivityCardActionTileModalWidget(
-          icon: Icons.delete_outline_rounded,
-          label: "Excluir atividade",
-          color: colorScheme.error,
-          onTap: () {
-            deleteActivityFlow(
-              context: context,
-              ref: ref,
-              activity: widget.activity,
-            );
-          },
-        ),
-        const SizedBox(height: 8.0),
+        const SizedBox(height: 32.0),
+        ...actions.builder((action, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12.0),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: action.onTap,
+                borderRadius: BorderRadius.circular(20.0),
+                child: Container(
+                  padding: const EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(
+                      color:
+                          theme.dividerTheme.color ??
+                          colorScheme.onSurface.withAlpha(20),
+                    ),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        decoration: BoxDecoration(
+                          color: action.color.withAlpha(20),
+                          borderRadius: BorderRadius.circular(14.0),
+                        ),
+                        child: Icon(
+                          action.icon,
+                          color: action.color,
+                          size: 20.0,
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: Text(
+                          action.label,
+                          style: GoogleFonts.plusJakartaSans(
+                            color: colorScheme.onSurface.withAlpha(220),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        size: 20.0,
+                        color: colorScheme.onSurface.withAlpha(60),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }),
       ],
     );
   }
