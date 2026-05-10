@@ -6,9 +6,9 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_dialogs/activity_delete_dialog_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_dialogs/activity_removal_failure_dialog_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_dialogs/activity_removal_success_dialog_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/dialogs/activity_delete_dialog_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/dialogs/activity_removal_failure_dialog_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/dialogs/activity_removal_success_dialog_widget.dart';
 
 Future<bool> deleteActivityFlow({
   required BuildContext context,
