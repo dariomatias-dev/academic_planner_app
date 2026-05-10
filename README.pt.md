@@ -194,14 +194,255 @@ A pasta `core/` concentra tudo que é **compartilhado e transversal** à aplica�
   - `shared_preferences_keys.dart`: Chaves de persistência
   - `validators.dart`: Validadores
 
-#### 8. Sistema de Rotas
+## Sistema de Navegação
 
-Navegação baseada no **GoRouter**, organizada para evitar o acoplamento de caminhos em toda a interface:
+A navegação foi projetada para oferecer desacoplamento, previsibilidade e escalabilidade, utilizando o **GoRouter** como solução central de roteamento.
 
-- `route_paths.dart`: Define os caminhos literais (ex: `/disciplines`).
-- `route_names.dart`: Define nomes semânticos para as rotas.
-- `app_router.dart`: Configuração técnica do GoRouter.
-- `app_routes.dart`: Métodos utilitários para navegação segura e desacoplada (ex: `AppRoutes.toDisciplines(context)`).
+A estrutura segue princípios da **Clean Architecture**, evitando que a interface conheça diretamente URLs, parâmetros ou detalhes técnicos da navegação.
+
+---
+
+### Objetivos da Estrutura
+
+A arquitetura de navegação foi construída para:
+
+- Centralizar o gerenciamento de rotas;
+- Evitar strings espalhadas pela aplicação;
+- Garantir navegação tipada e previsível;
+- Facilitar manutenção e refatoração;
+- Permitir deep links e URLs parametrizadas;
+- Separar responsabilidades da navegação.
+
+---
+
+### Escolha do GoRouter
+
+O projeto utiliza o **GoRouter** como solução oficial de navegação declarativa para Flutter.
+
+#### Motivos da escolha
+
+- Navegação declarativa e centralizada;
+- Integração com Navigator 2.0;
+- Suporte nativo a Web e Deep Linking;
+- Suporte a parâmetros de rota e query params;
+- Melhor organização para aplicações escaláveis;
+- Navegação baseada em nomes (`pushNamed`, `goNamed`).
+
+Exemplo:
+
+```dart
+context.pushNamed(RouteNames.login);
+```
+
+Ao utilizar nomes semânticos ao invés de strings literais, a aplicação reduz erros e melhora a manutenção.
+
+---
+
+### Estrutura de Navegação
+
+```text
+routes/
+├── app_router.dart
+├── app_routes.dart
+├── route_names.dart
+└── route_paths.dart
+```
+
+Cada arquivo possui uma responsabilidade específica.
+
+| Arquivo            | Responsabilidade                                                                                          |
+| ------------------ | --------------------------------------------------------------------------------------------------------- |
+| `app_router.dart`  | Configuração central do `GoRouter`, árvore de rotas, telas, parâmetros, tratamento de erro e rota inicial |
+| `app_routes.dart`  | Camada de abstração responsável por encapsular toda navegação da aplicação                                |
+| `route_names.dart` | Identificadores semânticos das rotas                                                                      |
+| `route_paths.dart` | Caminhos reais (URLs) das rotas                                                                           |
+
+---
+
+### app_router.dart
+
+Responsável pela configuração central do `GoRouter`.
+
+#### Exemplo
+
+```dart
+static final router = GoRouter(
+  initialLocation: RoutePaths.splash,
+);
+```
+
+#### Registro de rotas
+
+```dart
+static final router = GoRouter(
+  initialLocation: RoutePaths.splash,
+  routes: <GoRoute>[
+    GoRoute(
+      name: RouteNames.login,
+      path: RoutePaths.login,
+      builder: (context, state) => const LoginScreen(),
+    ),
+  ],
+);
+```
+
+#### Tratamento de erro
+
+```dart
+static final router = GoRouter(
+  initialLocation: RoutePaths.splash,
+  errorBuilder: (context, state) {
+    return NotFoundScreen();
+  },
+);
+```
+
+---
+
+### route_names.dart e route_paths.dart
+
+As rotas foram separadas entre identificadores semânticos e caminhos reais.
+
+#### route_names.dart
+
+Centraliza os nomes utilizados pela navegação:
+
+```dart
+static const login = 'login';
+```
+
+Uso:
+
+```dart
+context.pushNamed(RouteNames.login);
+```
+
+#### route_paths.dart
+
+Centraliza os caminhos reais da aplicação:
+
+```dart
+static const login = '/login';
+```
+
+Exemplo de rota parametrizada:
+
+```dart
+static const disciplineDetails =
+    '/discipline-details/:disciplineId';
+```
+
+#### Benefícios da separação
+
+- Centralização;
+- Segurança contra erros de digitação;
+- URLs padronizadas;
+- Facilidade de refatoração;
+- Suporte a Deep Linking.
+
+---
+
+### app_routes.dart
+
+Camada de abstração responsável por encapsular toda navegação da aplicação.
+
+A interface não navega diretamente utilizando `context.pushNamed()` ou `context.goNamed()`. Em vez disso, utiliza métodos semânticos centralizados.
+
+#### Exemplo
+
+```dart
+AppRoutes.goToDisciplineDetails(
+  context,
+  disciplineId: 10,
+);
+```
+
+#### Benefícios
+
+- Desacoplamento completo entre a interface e a lógica de navegação;
+- Padronização do fluxo de navegação em toda a aplicação;
+- Maior segurança através de parâmetros tipados, evitando valores inválidos e garantindo obrigatoriedade quando necessário;
+- Redução de inconsistências e erros de navegação;
+- Reutilização mais eficiente das rotas e argumentos compartilhados;
+- Experiência de desenvolvimento mais consistente e produtiva.
+
+---
+
+### Path Parameters e Query Parameters
+
+#### Path Parameters
+
+Utilizados quando o parâmetro representa a identidade da rota.
+
+Exemplo:
+
+```text
+/discipline-details/5
+```
+
+Definição:
+
+```dart
+'/discipline-details/:disciplineId'
+```
+
+Leitura:
+
+```dart
+state.pathParameters['disciplineId']
+```
+
+---
+
+#### Query Parameters
+
+Utilizados para estados opcionais ou complementares.
+
+Exemplo:
+
+```text
+/activity-form?disciplineId=10
+```
+
+Leitura:
+
+```dart
+state.uri.queryParameters['disciplineId']
+```
+
+#### Estratégia adotada
+
+| Tipo             | Uso                          |
+| ---------------- | ---------------------------- |
+| Path Parameters  | Identidade principal da rota |
+| Query Parameters | Estados opcionais            |
+
+---
+
+### Push vs Go
+
+O projeto utiliza dois comportamentos distintos de navegação:
+
+| Método        | Comportamento                        | Uso                                           |
+| ------------- | ------------------------------------ | --------------------------------------------- |
+| `pushNamed()` | Empilha uma nova rota sobre a atual  | detalhes, formulários e fluxos secundários    |
+| `goNamed()`   | Substitui completamente a rota atual | autenticação, splash, logout e reset de fluxo |
+
+Exemplos:
+
+```dart
+context.pushNamed(RouteNames.about);
+
+context.goNamed(RouteNames.login);
+```
+
+---
+
+### Fluxo de Navegação
+
+```text
+UI → AppRoutes → GoRouter → Screen
+```
 
 ## 9. Organização de Widgets
 
