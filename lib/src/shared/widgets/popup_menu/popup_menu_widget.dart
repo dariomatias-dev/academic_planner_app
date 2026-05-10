@@ -5,13 +5,11 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 class PopupMenuWidget<T> extends StatelessWidget {
   final IconData icon;
   final List<PopupMenuEntry<T>> items;
-  final void Function(T) onSelected;
   final IconButtonStyle style;
 
   PopupMenuWidget({
     super.key,
     required this.items,
-    required this.onSelected,
     this.icon = Icons.more_vert_rounded,
     this.style = IconButtonStyle.primary,
   });
@@ -27,8 +25,8 @@ class PopupMenuWidget<T> extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         IconButtonWidget(
-          icon: icon,
           onPressed: () => _menuKey.currentState?.showButtonMenu(),
+          icon: icon,
           style: style,
         ),
         SizedBox(
@@ -49,8 +47,7 @@ class PopupMenuWidget<T> extends StatelessWidget {
                 width: 1.0,
               ),
             ),
-            onSelected: onSelected,
-            itemBuilder: (BuildContext context) => items,
+            itemBuilder: (context) => items,
             child: const SizedBox.shrink(),
           ),
         ),

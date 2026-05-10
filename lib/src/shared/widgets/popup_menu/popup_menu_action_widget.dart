@@ -19,9 +19,9 @@ class PopupMenuActionWidget extends StatelessWidget {
     final effectiveColor = color ?? colorScheme.onSurface;
 
     return Row(
+      spacing: 12.0,
       children: <Widget>[
         Icon(icon, size: 20.0, color: effectiveColor),
-        const SizedBox(width: 12.0),
         Text(
           label,
           style: GoogleFonts.plusJakartaSans(

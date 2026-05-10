@@ -54,43 +54,26 @@ class NoteCardWidget extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                PopupMenuWidget<NoteCardAction>(
-                  onSelected: (value) async {
-                    switch (value) {
-                      case NoteCardAction.edit:
+                PopupMenuWidget(
+                  items: <PopupMenuEntry>[
+                    PopupMenuActions.edit(
+                      onTap: () {
                         AppRoutes.goToNoteForm(
                           context,
                           noteId: note.id,
                           disciplineId: note.disciplineId,
                         );
-                        break;
-
-                      case NoteCardAction.delete:
+                      },
+                    ),
+                    PopupMenuActions.delete(
+                      color: colorScheme.error,
+                      onTap: () async {
                         await deleteNoteFlow(
                           context: context,
                           ref: ref,
                           note: note,
                         );
-                        break;
-                    }
-                  },
-                  items: <PopupMenuEntry<NoteCardAction>>[
-                    const PopupMenuItem<NoteCardAction>(
-                      value: NoteCardAction.edit,
-                      height: 48.0,
-                      child: PopupMenuActionWidget(
-                        icon: Icons.edit_outlined,
-                        label: "Editar",
-                      ),
-                    ),
-                    PopupMenuItem<NoteCardAction>(
-                      value: NoteCardAction.delete,
-                      height: 48.0,
-                      child: PopupMenuActionWidget(
-                        icon: Icons.delete_outline_rounded,
-                        label: "Excluir",
-                        color: colorScheme.error,
-                      ),
+                      },
                     ),
                   ],
                 ),
