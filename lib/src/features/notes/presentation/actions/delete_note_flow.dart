@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/result/failure.dart';
-
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-
 import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_delete_dialog_widget.dart';
 import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_removal_failure_dialog_widget.dart';
 import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_removal_success_dialog_widget.dart';
@@ -22,39 +19,63 @@ Future<bool> deleteNoteFlow({
 
   final noteNotifier = ref.read(noteNotifierProvider.notifier);
 
-  Future<void> delete() async {
+  String? errorMessage;
+
+  Future<bool> attemptDelete() async {
     final result = await noteNotifier.delete(note.id);
 
-    await result.fold(
-      onSuccess: (_) async {
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (failure) {
+        errorMessage = failure.message;
+      },
+    );
+
+    return result.isSuccess;
+  }
+
+  Future<bool> showRetryDialog() async {
+    bool retry = false;
+
+    await NoteRemovalFailureDialogWidget.show(
+      overlayContext,
+      errorMessage: errorMessage,
+      onRetry: () async {
+        retry = true;
+      },
+    );
+
+    return retry;
+  }
+
+  Future<void> onDelete() async {
+    var shouldRetry = true;
+
+    while (shouldRetry) {
+      final ok = await attemptDelete();
+
+      if (ok) {
         success = true;
 
         if (!overlayContext.mounted) return;
 
+        Navigator.pop(overlayContext);
+
         await NoteRemovalSuccessDialogWidget.show(overlayContext);
 
-        if (!overlayContext.mounted) return;
+        return;
+      }
 
-        ref.invalidate(noteNotifierProvider);
+      if (!overlayContext.mounted) return;
 
-        navigator.pop();
-      },
-      onFailure: (failure) async {
-        if (!overlayContext.mounted) return;
-
-        await NoteRemovalFailureDialogWidget.show(
-          overlayContext,
-          onRetry: delete,
-          errorMessage: failure is DatabaseFailure ? failure.message : null,
-        );
-      },
-    );
+      shouldRetry = await showRetryDialog();
+    }
   }
 
   await NoteDeleteDialogWidget.show(
     overlayContext,
     note: note,
-    onDelete: delete,
+    onDelete: onDelete,
   );
 
   return success;
