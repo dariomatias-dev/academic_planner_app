@@ -17,30 +17,33 @@ Future<bool> deleteNoteFlow({
 }) async {
   bool success = false;
 
-  Future<void> delete() async {
-    final noteNotifier = ref.read(noteNotifierProvider.notifier);
+  final navigator = Navigator.of(context, rootNavigator: true);
+  final overlayContext = navigator.context;
 
+  final noteNotifier = ref.read(noteNotifierProvider.notifier);
+
+  Future<void> delete() async {
     final result = await noteNotifier.delete(note.id);
 
     await result.fold(
       onSuccess: (_) async {
         success = true;
 
-        if (!context.mounted) return;
+        if (!overlayContext.mounted) return;
 
-        await NoteRemovalSuccessDialogWidget.show(context);
+        await NoteRemovalSuccessDialogWidget.show(overlayContext);
 
-        if (!context.mounted) return;
+        if (!overlayContext.mounted) return;
 
         ref.invalidate(noteNotifierProvider);
 
-        Navigator.pop(context);
+        navigator.pop();
       },
       onFailure: (failure) async {
-        if (!context.mounted) return;
+        if (!overlayContext.mounted) return;
 
         await NoteRemovalFailureDialogWidget.show(
-          context,
+          overlayContext,
           onRetry: delete,
           errorMessage: failure is DatabaseFailure ? failure.message : null,
         );
@@ -48,7 +51,11 @@ Future<bool> deleteNoteFlow({
     );
   }
 
-  await NoteDeleteDialogWidget.show(context, note: note, onDelete: delete);
+  await NoteDeleteDialogWidget.show(
+    overlayContext,
+    note: note,
+    onDelete: delete,
+  );
 
   return success;
 }
