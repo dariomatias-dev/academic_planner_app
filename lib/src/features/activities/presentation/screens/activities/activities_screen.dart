@@ -15,7 +15,6 @@ import 'package:academic_planner/src/features/activities/presentation/widgets/fi
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
@@ -114,7 +113,6 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
               ActivitiesFilterModalWidget.show(context);
             },
           ),
-          const NotificationButtonWidget(),
         ],
       ),
       floatingActionButton: Padding(

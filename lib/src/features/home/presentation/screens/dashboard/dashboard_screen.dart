@@ -16,7 +16,6 @@ import 'package:academic_planner/src/features/users/di/user_providers.dart';
 
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 
@@ -98,11 +97,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: const AppBarWidget(
-        title: "Bem-vindo",
-        showBackButton: false,
-        actions: <Widget>[NotificationButtonWidget()],
-      ),
+      appBar: const AppBarWidget(title: "Bem-vindo", showBackButton: false),
       body:
           FutureBuilder<
             ({List<Activity> recentActivities, int activeCount, int progress})

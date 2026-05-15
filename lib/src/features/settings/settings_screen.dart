@@ -16,7 +16,6 @@ import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
@@ -172,10 +171,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: const AppBarWidget(
-        title: "Ajustes do App",
-        actions: <Widget>[NotificationButtonWidget()],
-      ),
+      appBar: const AppBarWidget(title: "Ajustes do App"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 140.0),
         physics: const BouncingScrollPhysics(),
