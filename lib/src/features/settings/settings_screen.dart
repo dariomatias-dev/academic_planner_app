@@ -18,7 +18,6 @@ import 'package:academic_planner/src/features/users/domain/entities/user_entity.
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/notification_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
-import 'package:academic_planner/src/shared/widgets/switch_widget.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -29,8 +28,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen>
     with AutomaticKeepAliveClientMixin {
-  bool _notificationsEnabled = true;
-
   @override
   bool get wantKeepAlive => true;
 
@@ -100,23 +97,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       SettingsSectionWidget(
         title: "Preferências",
         children: <Widget>[
-          SettingsTileWidget(
-            icon: Icons.notifications_active_rounded,
-            title: "Notificações",
-            onTap: () {
-              setState(() {
-                _notificationsEnabled = !_notificationsEnabled;
-              });
-            },
-            trailing: SwitchWidget(
-              value: _notificationsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                });
-              },
-            ),
-          ),
           SettingsTileWidget(
             icon: Icons.palette_rounded,
             title: "Tema do Aplicativo",
