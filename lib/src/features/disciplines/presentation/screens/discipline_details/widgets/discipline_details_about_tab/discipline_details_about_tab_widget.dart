@@ -37,7 +37,6 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
             DisciplineDetailsStatsGridWidget(
               workload: discipline.workload,
               weeklyHours: discipline.weeklyHours,
-              teacherId: discipline.responsibleProfessorId,
             ),
             const SizedBox(height: 32.0),
             Column(
