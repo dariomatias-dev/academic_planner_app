@@ -6,8 +6,12 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_teacher_card_widget.dart';
 
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 class DisciplineDetailsAboutTabWidget extends StatelessWidget {
   final DisciplineModel discipline;
@@ -25,6 +29,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
     return Container(
       color: colorScheme.surface,
@@ -39,52 +44,60 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
               weeklyHours: discipline.weeklyHours,
             ),
             const SizedBox(height: 32.0),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                const DisciplineDetailsSectionTitleWidget(
-                  title: "Sobre a Disciplina",
-                  icon: Icons.description_outlined,
-                ),
-                const SizedBox(height: 12.0),
-                Text(
-                  discipline.description,
-                  style: GoogleFonts.plusJakartaSans(
-                    fontSize: 15.0,
-                    color: colorScheme.onSurface.withAlpha(160),
-                    height: 1.6,
-                  ),
-                ),
-                const SizedBox(height: 32.0),
-                DisciplineDetailsSchedulesWidget(disciplineId: discipline.id),
-                const SizedBox(height: 32.0),
-                const DisciplineDetailsSectionTitleWidget(
-                  title: "Requisitos e Dependências",
-                  icon: Icons.account_tree_outlined,
-                ),
-                const SizedBox(height: 16.0),
-                DisciplineDetailsRequirementExpandableTileWidget(
-                  label: "Pré-requisitos",
-                  linkedDisciplines: prerequisites,
-                  color: colorScheme.primary,
-                ),
-                const SizedBox(height: 12.0),
-                DisciplineDetailsRequirementExpandableTileWidget(
-                  label: "Libera acesso para",
-                  linkedDisciplines: prerequisiteFor,
-                  color: colorScheme.secondary,
-                ),
-                const SizedBox(height: 32.0),
-                const DisciplineDetailsSectionTitleWidget(
-                  title: "Recursos",
-                  icon: Icons.attachment_rounded,
-                ),
-                const SizedBox(height: 16.0),
-                DisciplineDetailsCoursePlanButtonWidget(
-                  url: discipline.coursePlan,
-                  disciplineName: discipline.name,
-                ),
-              ],
+            const DisciplineDetailsSectionTitleWidget(
+              title: "Sobre a Disciplina",
+              icon: Icons.description_outlined,
+            ),
+            const SizedBox(height: 12.0),
+            Text(
+              discipline.description,
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 15.0,
+                color: colorScheme.onSurface.withAlpha(160),
+                height: 1.6,
+              ),
+            ),
+            const SizedBox(height: 32.0),
+            const DisciplineDetailsSectionTitleWidget(
+              title: "Docente Responsável",
+              icon: Icons.person_outline_rounded,
+            ),
+            const SizedBox(height: 16.0),
+            DisciplineDetailsTeacherCardWidget(
+              teacherName: teacher.name,
+              onTap: () => AppRoutes.goToTeacherDetails(
+                context,
+                teacherId: discipline.responsibleProfessorId,
+              ),
+            ),
+            const SizedBox(height: 32.0),
+            DisciplineDetailsSchedulesWidget(disciplineId: discipline.id),
+            const SizedBox(height: 32.0),
+            const DisciplineDetailsSectionTitleWidget(
+              title: "Requisitos e Dependências",
+              icon: Icons.account_tree_outlined,
+            ),
+            const SizedBox(height: 16.0),
+            DisciplineDetailsRequirementExpandableTileWidget(
+              label: "Pré-requisitos",
+              linkedDisciplines: prerequisites,
+              color: colorScheme.primary,
+            ),
+            const SizedBox(height: 12.0),
+            DisciplineDetailsRequirementExpandableTileWidget(
+              label: "Libera acesso para",
+              linkedDisciplines: prerequisiteFor,
+              color: colorScheme.secondary,
+            ),
+            const SizedBox(height: 32.0),
+            const DisciplineDetailsSectionTitleWidget(
+              title: "Recursos",
+              icon: Icons.attachment_rounded,
+            ),
+            const SizedBox(height: 16.0),
+            DisciplineDetailsCoursePlanButtonWidget(
+              url: discipline.coursePlan,
+              disciplineName: discipline.name,
             ),
             const SizedBox(height: 40.0),
           ],
