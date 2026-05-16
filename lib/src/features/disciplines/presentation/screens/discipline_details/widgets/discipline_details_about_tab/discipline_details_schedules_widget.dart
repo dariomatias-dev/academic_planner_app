@@ -3,15 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
 
 class DisciplineDetailsSchedulesWidget extends StatelessWidget {
   final int disciplineId;
+  final int period;
 
   const DisciplineDetailsSchedulesWidget({
     super.key,
     required this.disciplineId,
+    required this.period,
   });
 
   String _getDayName(int day) {
@@ -46,92 +49,107 @@ class DisciplineDetailsSchedulesWidget extends StatelessWidget {
     final groupedSchedules = _getGroupedSchedules();
     final sortedDays = groupedSchedules.keys.toList()..sort();
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const DisciplineDetailsSectionTitleWidget(
-          title: "Horários das Aulas",
-          icon: Icons.schedule_rounded,
-        ),
-        const SizedBox(height: 16.0),
-        if (groupedSchedules.isEmpty)
-          Text(
-            "Nenhum horário definido.",
-            style: GoogleFonts.plusJakartaSans(
-              fontSize: 14.0,
-              color: colorScheme.onSurface.withAlpha(120),
-            ),
-          )
-        else
-          Column(
-            spacing: 12.0,
-            children: sortedDays.builder((day, index) {
-              final times = groupedSchedules[day]!;
-
-              return Container(
-                margin: const EdgeInsets.only(right: 12.0),
-                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 20.0, 16.0),
-                decoration: BoxDecoration(
-                  color: colorScheme.surface,
-                  borderRadius: BorderRadius.circular(20.0),
-                  border: Border.all(
-                    color: theme.dividerTheme.color ?? Colors.transparent,
-                  ),
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      width: 4.0,
-                      height: 40.0,
-                      decoration: BoxDecoration(
-                        color: colorScheme.primary,
-                        borderRadius: BorderRadius.circular(2.0),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          _getDayName(day),
-                          style: GoogleFonts.plusJakartaSans(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 15.0,
-                            color: colorScheme.onSurface,
-                          ),
-                        ),
-                        const SizedBox(height: 6.0),
-                        Row(
-                          children: times.builder((time, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(right: 6.0),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0,
-                                vertical: 4.0,
-                              ),
-                              decoration: BoxDecoration(
-                                color: colorScheme.primary.withAlpha(20),
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              child: Text(
-                                time,
-                                style: GoogleFonts.plusJakartaSans(
-                                  fontSize: 11.0,
-                                  fontWeight: FontWeight.w700,
-                                  color: colorScheme.primary,
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            }),
+    return InkWell(
+      onTap: () => AppRoutes.goToSchedule(context, period: period),
+      borderRadius: BorderRadius.circular(24.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          const DisciplineDetailsSectionTitleWidget(
+            title: "Horários das Aulas",
+            icon: Icons.schedule_rounded,
           ),
-      ],
+          const SizedBox(height: 16.0),
+          if (groupedSchedules.isEmpty)
+            Text(
+              "Nenhum horário definido.",
+              style: GoogleFonts.plusJakartaSans(
+                fontSize: 14.0,
+                color: colorScheme.onSurface.withAlpha(120),
+              ),
+            )
+          else
+            Column(
+              spacing: 12.0,
+              children: sortedDays.builder((day, index) {
+                final times = groupedSchedules[day]!;
+
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 12.0,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: colorScheme.onSurface.withAlpha(20),
+                    ),
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      CircleAvatar(
+                        radius: 24.0,
+                        backgroundColor:
+                            colorScheme.primary.withAlpha(30),
+                        child: Icon(
+                          Icons.calendar_today_rounded,
+                          color: colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 16.0),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              _getDayName(day),
+                              style: GoogleFonts.plusJakartaSans(
+                                color: colorScheme.onSurface,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 8.0),
+                            Wrap(
+                              spacing: 6.0,
+                              runSpacing: 6.0,
+                              children: times.builder((time, index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0,
+                                    vertical: 4.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        colorScheme.primary.withAlpha(20),
+                                    borderRadius:
+                                        BorderRadius.circular(8.0),
+                                  ),
+                                  child: Text(
+                                    time,
+                                    style: GoogleFonts.plusJakartaSans(
+                                      fontSize: 11.0,
+                                      fontWeight: FontWeight.w700,
+                                      color: colorScheme.primary,
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right_rounded,
+                        color: colorScheme.onSurface.withAlpha(60),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+        ],
+      ),
     );
   }
 }

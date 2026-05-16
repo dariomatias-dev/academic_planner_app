@@ -71,7 +71,10 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 32.0),
-            DisciplineDetailsSchedulesWidget(disciplineId: discipline.id),
+            DisciplineDetailsSchedulesWidget(
+              disciplineId: discipline.id,
+              period: discipline.period,
+            ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(
               title: "Requisitos e Dependências",
