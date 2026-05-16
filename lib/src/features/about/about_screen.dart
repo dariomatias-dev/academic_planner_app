@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/app_version_provider.dart';
 
+import 'package:academic_planner/src/features/about/widgets/about_source_code_card_widget.dart';
+
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
 class AboutScreen extends StatelessWidget {
   const AboutScreen({super.key});
@@ -19,8 +20,8 @@ class AboutScreen extends StatelessWidget {
     double? height,
   }) {
     return GoogleFonts.plusJakartaSans(
-      fontSize: size,
       color: color ?? Theme.of(context).colorScheme.onSurface,
+      fontSize: size,
       fontWeight: weight,
       letterSpacing: spacing,
       height: height,
@@ -31,16 +32,7 @@ class AboutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidget(
-        title: "Sobre o App",
-        actions: <Widget>[
-          IconButtonWidget(
-            icon: Icons.share_rounded,
-            onPressed: () {},
-            style: IconButtonStyle.primary,
-          ),
-        ],
-      ),
+      appBar: AppBarWidget(title: "Sobre o App"),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
@@ -62,7 +54,9 @@ class AboutScreen extends StatelessWidget {
               "Especificações",
               _buildTechnicalSheet(context),
             ),
-            const SizedBox(height: 64.0),
+            const SizedBox(height: 32.0),
+            const AboutSourceCodeCardWidget(),
+            const SizedBox(height: 32.0),
             const Divider(),
             const SizedBox(height: 48.0),
             _buildProfessionalFooter(context),
