@@ -93,7 +93,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
         title: "Perfil do Docente",
         actions: <Widget>[
           IconButtonWidget(
-            icon: Icons.link_rounded,
+            icon: Icons.launch_rounded,
             onPressed: () {
               openUrl(
                 context,
@@ -101,6 +101,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                 logger: ref.read(loggerProvider),
               );
             },
+            style: IconButtonStyle.primary,
           ),
         ],
       ),
