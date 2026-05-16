@@ -1,16 +1,184 @@
-# academic_planner
+<div align="center">
 
-A new Flutter project.
+<img src="https://img.shields.io/badge/Flutter-3.35.0-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
+<img src="https://img.shields.io/badge/Dart-SDK%20^3.10.4-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
+<img src="https://img.shields.io/badge/Riverpod-3.3.1-08479E?style=for-the-badge" alt="Riverpod">
+<img src="https://img.shields.io/badge/Architecture-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Architecture">
+
+</div>
+
+<br>
+
+<p align="center">
+<strong>Language:</strong>
+<strong>English</strong> | <a href="README.pt.md">Português</a>
+</p>
+
+<h1 align="center">Academic Planner</h1>
+
+<p align="center">
+  Reference project for <strong>MVVM + Clean Architecture + Feature-First</strong> architecture in Flutter.
+  <br><br>
+  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Report Bug</a> ·
+  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Request Feature</a>
+</p>
+
+---
+
+## Table of Contents
+
+- [About the Project](#about-the-project)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Folder Structure](#folder-structure)
+- [Key Technologies](#key-technologies)
+- [Getting Started](#getting-started)
+- [Documentation](#documentation)
+- [Author](#author)
+
+---
+
+## About the Project
+
+Academic Planner is a student routine management application that serves as an **architectural reference project**. The main goal is not just the functionality itself, but to demonstrate how to structure a medium/large Flutter application using:
+
+- **Feature-First**: code organization by business domain
+- **Clean Architecture**: separation of concerns into layers with explicit dependency rules
+- **MVVM**: decoupling between UI and presentation logic
+
+Every architectural decision is documented with its rationale. The project is intentional: there are no shortcuts that compromise the structure to gain development speed.
+
+---
+
+## Features
+
+| Feature             | Description                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------- |
+| Activities          | Create, edit, and delete academic activities with filters by status, date, and discipline |
+| Disciplines         | Manage disciplines by academic period with schedule and teacher details                   |
+| Agenda              | Calendar view with activities grouped by date                                             |
+| Notes               | Rich text editor for creating notes linked to disciplines                                 |
+| Schedule            | Weekly class schedule grid view                                                           |
+| Categories and Tags | Organize activities with custom categories and tags                                       |
+| Authentication      | Sign in, sign up, and password recovery via Firebase Auth                                 |
+| Settings            | Light/dark theme toggle with local persistence                                            |
+| About               | App info with version and source code link                                                |
+
+---
+
+## Architecture
+
+The project combines three complementary approaches:
+
+```
+Feature-First  ->  how code is organized into folders
+Clean Arch     ->  how layers communicate (dependency rules)
+MVVM           ->  how the UI connects to business logic
+```
+
+### Why these three?
+
+**Feature-First** solves the organization problem: instead of grouping files by technical type (all models together, all screens together), it groups by business domain. Each feature is an isolated module - changing `activities` does not require opening other feature folders.
+
+**Clean Architecture** solves the dependency problem: it defines explicit rules about which layer can depend on which. The Domain (business rules) is pure Dart, with no external dependencies. The UI never accesses the database directly.
+
+**MVVM** solves the UI coupling problem: the screen never contains logic. The ViewModel manages screen state without depending on `BuildContext` - it is testable in isolation.
+
+Inside each feature:
+
+```text
+features/activities/
+├── domain/          # Entities and contracts (pure Dart, zero dependencies)
+├── data/            # Models, datasources, and repository implementations
+├── presentation/    # Screens, ViewModels, Providers, and Widgets
+└── di/              # Feature-specific dependency injection
+```
+
+Data flow:
+
+```
+Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> DataSource
+```
+
+> Full documentation with code examples: [docs/en/architecture.md](docs/en/architecture.md)
+
+---
+
+## Folder Structure
+
+```text
+lib/src/
+├── core/        # Global infrastructure (database, routes, theme, DI, logging)
+├── data/        # Development seeds
+├── features/    # 17 isolated business modules
+└── shared/      # Design System and global utilities
+```
+
+Existing features: `about`, `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `not_found`, `pdf_viewer`, `schedule`, `settings`, `splash`, `tags`, `teacher`, `users`.
+
+> Full annotated folder tree: [docs/en/structure.md](docs/en/structure.md)
+
+---
+
+## Key Technologies
+
+| Technology       | Version | Role                       |
+| ---------------- | ------- | -------------------------- |
+| Flutter          | 3.35.0  | UI Framework               |
+| Dart SDK         | ^3.10.4 | Language                   |
+| flutter_riverpod | 3.3.1   | State management and DI    |
+| go_router        | 17.1.0  | Declarative navigation     |
+| sqflite          | 2.4.2   | Local persistence (SQLite) |
+| firebase_auth    | 6.4.0   | Authentication             |
+| cloud_firestore  | 6.3.0   | Cloud backend              |
+| flutter_quill    | 11.5.0  | Rich text editor           |
+
+> Full list with exact versions and rationale for each choice: [docs/en/technologies.md](docs/en/technologies.md)
+
+---
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter 3.35.0+
+- Dart SDK ^3.10.4
+- Firebase project configured (for authentication and Firestore)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+# Clone the repository
+git clone https://github.com/dariomatias-dev/academic-planner.git
+
+# Install dependencies
+flutter pub get
+
+# Run the application
+flutter run
+```
+
+---
+
+## Documentation
+
+Documentation is organized into separate files by topic for easier navigation:
+
+| Document                                  | What you will find                                                                                                                            |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Architecture](docs/en/architecture.md)   | Detailed explanation of MVVM, Clean Architecture, and Feature-First, with code examples from the project itself and rationale for each choice |
+| [Project Structure](docs/en/structure.md) | Full annotated folder tree, details of each section, and a table with all existing features                                                   |
+| [Navigation](docs/en/navigation.md)       | How the routing system works with GoRouter, complete route reference, and a guide for adding new routes                                       |
+| [Technologies](docs/en/technologies.md)   | All dependencies with exact versions (from `pubspec.lock`) and reason for each choice                                                         |
+
+---
+
+## Author
+
+Developed by **Dário Matias**:
+
+- Portfolio: [https://dariomatias-dev.com](https://dariomatias-dev.com)
+- GitHub: [https://github.com/dariomatias-dev](https://github.com/dariomatias-dev)
+- Email: [matiasdario75@gmail.com](mailto:matiasdario75@gmail.com)
+- Instagram: [https://instagram.com/dariomatias_dev](https://instagram.com/dariomatias_dev)
+- LinkedIn: [https://linkedin.com/in/dariomatias-dev](https://linkedin.com/in/dariomatias-dev)
