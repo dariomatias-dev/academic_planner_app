@@ -12,7 +12,9 @@ import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
 
 class ScheduleScreen extends StatefulWidget {
-  const ScheduleScreen({super.key});
+  final int? initialPeriod;
+
+  const ScheduleScreen({super.key, this.initialPeriod});
 
   @override
   State<ScheduleScreen> createState() => _ScheduleScreenState();
@@ -22,7 +24,13 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     with SingleTickerProviderStateMixin {
   final _globalKey = GlobalKey();
 
-  late final _tabController = TabController(length: 6, vsync: this);
+  late final _tabController = TabController(
+    length: 6,
+    vsync: this,
+    initialIndex: widget.initialPeriod != null
+        ? (widget.initialPeriod! - 1).clamp(0, 5)
+        : 0,
+  );
 
   Future<void> _exportSchedule() async {
     await ImageExport.captureAndSave(
