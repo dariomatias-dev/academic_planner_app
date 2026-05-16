@@ -6,7 +6,7 @@ import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/home/presentation/screens/dashboard/dashboard_screen.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/my_disciplines/my_disciplines_screen.dart';
-import 'package:academic_planner/src/features/settings/settings_screen.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/settings_screen.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 

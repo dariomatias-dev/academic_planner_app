@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_option_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/theme_selector_modal/theme_selector_modal_option_widget.dart';
 
 class ThemeSelectorModalWidget extends StatelessWidget {
   final ThemeMode currentMode;

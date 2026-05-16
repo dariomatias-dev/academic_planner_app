@@ -1,10 +1,10 @@
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_source_code_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/app_version_provider.dart';
 
+import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_source_code_card_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 

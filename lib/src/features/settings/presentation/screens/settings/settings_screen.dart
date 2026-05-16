@@ -6,12 +6,12 @@ import 'package:academic_planner/src/core/di/theme_provider.dart';
 import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
-import 'package:academic_planner/src/features/settings/widgets/delete_account/delete_account_confirmation_dialog_widget.dart';
-import 'package:academic_planner/src/features/settings/widgets/logout_confirmation_dialog_widget.dart';
-import 'package:academic_planner/src/features/settings/widgets/settings_profile_header_widget.dart';
-import 'package:academic_planner/src/features/settings/widgets/settings_section_widget.dart';
-import 'package:academic_planner/src/features/settings/widgets/settings_tile_widget.dart';
-import 'package:academic_planner/src/features/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/delete_account_confirmation_dialog_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/logout_confirmation_dialog_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_profile_header_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_section_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_tile_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 

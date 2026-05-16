@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/features/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
