@@ -176,7 +176,12 @@ class AppRouter {
           GoRoute(
             name: RouteNames.schedule,
             path: RoutePaths.schedule,
-            builder: (context, state) => const ScheduleScreen(),
+            builder: (context, state) {
+              final periodParam = state.uri.queryParameters['period'];
+              final initialPeriod =
+                  periodParam != null ? int.tryParse(periodParam) : null;
+              return ScheduleScreen(initialPeriod: initialPeriod);
+            },
           ),
           GoRoute(
             name: RouteNames.splash,

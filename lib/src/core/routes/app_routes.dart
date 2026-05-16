@@ -130,8 +130,13 @@ class AppRoutes {
     }
   }
 
-  static void goToSchedule(BuildContext context) {
-    context.pushNamed(RouteNames.schedule);
+  static void goToSchedule(BuildContext context, {int? period}) {
+    context.pushNamed(
+      RouteNames.schedule,
+      queryParameters: <String, String>{
+        if (period != null) 'period': period.toString(),
+      },
+    );
   }
 
   static void goToTags(BuildContext context) {
