@@ -8,6 +8,8 @@ class ActivityFilter {
   final DateTime? dueBefore;
   final DateTime? dueAfter;
   final List<ActivityStatus>? statuses;
+  final String? category;
+  final List<String>? tags;
 
   const ActivityFilter({
     this.search,
@@ -17,6 +19,8 @@ class ActivityFilter {
     this.dueBefore,
     this.dueAfter,
     this.statuses,
+    this.category,
+    this.tags,
   });
 
   ActivityFilter copyWith({
@@ -27,6 +31,8 @@ class ActivityFilter {
     DateTime? dueBefore,
     DateTime? dueAfter,
     List<ActivityStatus>? statuses,
+    String? category,
+    List<String>? tags,
   }) {
     return ActivityFilter(
       search: search ?? this.search,
@@ -36,6 +42,8 @@ class ActivityFilter {
       dueBefore: dueBefore ?? this.dueBefore,
       dueAfter: dueAfter ?? this.dueAfter,
       statuses: statuses ?? this.statuses,
+      category: category ?? this.category,
+      tags: tags ?? this.tags,
     );
   }
 }
