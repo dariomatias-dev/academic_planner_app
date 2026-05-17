@@ -18,7 +18,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
   });
 
   void _openModal(BuildContext context, WidgetRef ref) {
-    final categories = ref.read(categoriesNotifierProvider);
+    final categories = ref.read(categoriesNotifierProvider).asData?.value ?? [];
 
     ModalBottomSheetWidget.show(
       context: context,

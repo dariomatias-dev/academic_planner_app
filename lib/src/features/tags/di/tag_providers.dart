@@ -13,6 +13,7 @@ final tagRepositoryProvider = Provider<TagRepository>((ref) {
   return TagRepositoryImpl(prefs);
 });
 
-final tagNotifierProvider = NotifierProvider<TagNotifier, List<TagModel>>(() {
-  return TagNotifier();
-});
+final tagNotifierProvider =
+    AsyncNotifierProvider<TagNotifier, List<TagModel>>(() {
+      return TagNotifier();
+    });

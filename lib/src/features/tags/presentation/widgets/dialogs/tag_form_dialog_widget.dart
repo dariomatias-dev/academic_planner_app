@@ -42,7 +42,7 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
     final notifier = ref.read(tagNotifierProvider.notifier);
 
     final result = isEditing
-        ? await notifier.update(widget.index!, name)
+        ? await notifier.edit(widget.index!, name)
         : await notifier.add(name);
 
     result.when(

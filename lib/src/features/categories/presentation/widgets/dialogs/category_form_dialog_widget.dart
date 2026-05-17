@@ -47,7 +47,7 @@ class _CategoryFormDialogWidgetState
     final notifier = ref.read(categoriesNotifierProvider.notifier);
 
     final result = isEditing
-        ? await notifier.update(widget.index!, name)
+        ? await notifier.edit(widget.index!, name)
         : await notifier.add(name);
 
     result.when(

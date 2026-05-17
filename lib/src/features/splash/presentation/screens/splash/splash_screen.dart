@@ -1,4 +1,6 @@
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
+import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,9 +45,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   Future<void> _loadAppData() async {
     try {
-      await ref.read(authNotifierProvider.future);
-
-      await ref.read(userNotifierProvider.future);
+      await Future.wait([
+        ref.read(authNotifierProvider.future),
+        ref.read(userNotifierProvider.future),
+        ref.read(categoriesNotifierProvider.future),
+        ref.read(tagNotifierProvider.future),
+      ]);
 
       if (mounted) {
         AppRoutes.goToRoot(context);

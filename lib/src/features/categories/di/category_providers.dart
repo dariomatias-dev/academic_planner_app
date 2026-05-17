@@ -14,6 +14,6 @@ final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
 });
 
 final categoriesNotifierProvider =
-    NotifierProvider<CategoriesNotifier, List<CategoryModel>>(() {
+    AsyncNotifierProvider<CategoriesNotifier, List<CategoryModel>>(() {
       return CategoriesNotifier();
     });

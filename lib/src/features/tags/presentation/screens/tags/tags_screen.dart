@@ -16,7 +16,7 @@ class TagsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final tags = ref.watch(tagNotifierProvider);
+    final tags = ref.watch(tagNotifierProvider).asData?.value ?? [];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

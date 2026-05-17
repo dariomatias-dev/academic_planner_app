@@ -414,7 +414,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                   const SizedBox(height: 20.0),
                   Consumer(
                     builder: (context, ref, child) {
-                      final categories = ref.watch(categoriesNotifierProvider);
+                      final categories = ref.watch(categoriesNotifierProvider).asData?.value ?? [];
 
                       return ValueListenableBuilder<String?>(
                         valueListenable: _categoryNotifier,
@@ -438,7 +438,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                   const SizedBox(height: 20.0),
                   Consumer(
                     builder: (context, ref, child) {
-                      final availableTags = ref.watch(tagNotifierProvider);
+                      final availableTags = ref.watch(tagNotifierProvider).asData?.value ?? [];
 
                       return ValueListenableBuilder<List<String>>(
                         valueListenable: _tagsNotifier,

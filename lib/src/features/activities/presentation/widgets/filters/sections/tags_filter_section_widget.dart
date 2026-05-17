@@ -18,7 +18,7 @@ class TagsFilterSectionWidget extends ConsumerWidget {
   });
 
   void _openModal(BuildContext context, WidgetRef ref) {
-    final availableTags = ref.read(tagNotifierProvider);
+    final availableTags = ref.read(tagNotifierProvider).asData?.value ?? [];
 
     ModalBottomSheetWidget.show(
       context: context,
