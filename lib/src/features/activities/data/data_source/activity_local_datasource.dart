@@ -54,6 +54,18 @@ class ActivityLocalDataSource {
         whereClauses.add('title LIKE ?');
         whereArgs.add('%${filter.search}%');
       }
+
+      if (filter.category != null && filter.category!.isNotEmpty) {
+        whereClauses.add('category = ?');
+        whereArgs.add(filter.category);
+      }
+
+      if (filter.tags != null && filter.tags!.isNotEmpty) {
+        for (final tag in filter.tags!) {
+          whereClauses.add('tags LIKE ?');
+          whereArgs.add('%"$tag"%');
+        }
+      }
     }
 
     return (
