@@ -20,63 +20,72 @@ class FilterModalLayoutWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final maxHeight = MediaQuery.sizeOf(context).height * 0.6;
 
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 32.0),
-        decoration: BoxDecoration(
-          color: colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(40.0)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child: Container(
-                width: 48.0,
-                height: 5.0,
-                margin: const EdgeInsets.only(bottom: 24.0),
-                decoration: BoxDecoration(
-                  color: colorScheme.onSurface.withAlpha(20),
-                  borderRadius: BorderRadius.circular(10.0),
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 32.0),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(40.0)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Center(
+            child: Container(
+              width: 48.0,
+              height: 5.0,
+              margin: const EdgeInsets.only(bottom: 24.0),
+              decoration: BoxDecoration(
+                color: colorScheme.onSurface.withAlpha(20),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          ),
+          Center(
+            child: Text(
+              title,
+              style: GoogleFonts.plusJakartaSans(
+                color: colorScheme.onSurface,
+                fontSize: 22.0,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
+          const SizedBox(height: 32.0),
+          Flexible(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: maxHeight),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w900,
-                  ),
+          ),
+          const SizedBox(height: 32.0),
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: ButtonWidget(
+                  onPressed: onClear,
+                  label: 'Limpar',
+                  style: AppButtonStyle.outline,
                 ),
-                GestureDetector(
-                  onTap: onClear,
-                  child: Text(
-                    'Limpar',
-                    style: GoogleFonts.plusJakartaSans(
-                      color: colorScheme.primary,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
+              ),
+              const SizedBox(width: 12.0),
+              Expanded(
+                child: ButtonWidget(
+                  onPressed: onApply,
+                  label: 'Aplicar Filtros',
                 ),
-              ],
-            ),
-            const SizedBox(height: 32.0),
-            ...children,
-            const SizedBox(height: 48.0),
-            ButtonWidget(
-              onPressed: onApply,
-              label: 'Aplicar Filtros',
-              isFullWidth: true,
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
