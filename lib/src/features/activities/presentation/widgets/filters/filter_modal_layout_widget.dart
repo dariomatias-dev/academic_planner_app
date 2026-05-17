@@ -21,60 +21,62 @@ class FilterModalLayoutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Container(
-      padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 32.0),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(40.0)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Center(
-            child: Container(
-              width: 48.0,
-              height: 5.0,
-              margin: const EdgeInsets.only(bottom: 24.0),
-              decoration: BoxDecoration(
-                color: colorScheme.onSurface.withAlpha(20),
-                borderRadius: BorderRadius.circular(10.0),
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 32.0),
+        decoration: BoxDecoration(
+          color: colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(40.0)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Center(
+              child: Container(
+                width: 48.0,
+                height: 5.0,
+                margin: const EdgeInsets.only(bottom: 24.0),
+                decoration: BoxDecoration(
+                  color: colorScheme.onSurface.withAlpha(20),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                title,
-                style: GoogleFonts.plusJakartaSans(
-                  color: colorScheme.onSurface,
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              GestureDetector(
-                onTap: onClear,
-                child: Text(
-                  'Limpar',
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  title,
                   style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.primary,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w800,
+                    color: colorScheme.onSurface,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 32.0),
-          ...children,
-          const SizedBox(height: 48.0),
-          ButtonWidget(
-            onPressed: onApply,
-            label: 'Aplicar Filtros',
-            isFullWidth: true,
-          ),
-        ],
+                GestureDetector(
+                  onTap: onClear,
+                  child: Text(
+                    'Limpar',
+                    style: GoogleFonts.plusJakartaSans(
+                      color: colorScheme.primary,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 32.0),
+            ...children,
+            const SizedBox(height: 48.0),
+            ButtonWidget(
+              onPressed: onApply,
+              label: 'Aplicar Filtros',
+              isFullWidth: true,
+            ),
+          ],
+        ),
       ),
     );
   }
