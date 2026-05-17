@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/category_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/date_range_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/tags_filter_section_widget.dart';
 
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 
@@ -29,12 +31,16 @@ class _ActivitiesFilterModalWidgetState
   late int? _selectedDisciplineId;
   late DateTime? _startDate;
   late DateTime? _endDate;
+  late String? _category;
+  late List<String> _tags;
 
   void _applyFilters() {
     final filter = ActivityFilter(
       disciplineId: _selectedDisciplineId,
       startDate: _startDate,
       endDate: _endDate,
+      category: _category,
+      tags: _tags.isEmpty ? null : _tags,
     );
 
     ref.read(activityFilterNotifierProvider.notifier).setFilter(filter);
@@ -47,6 +53,8 @@ class _ActivitiesFilterModalWidgetState
       _selectedDisciplineId = null;
       _startDate = null;
       _endDate = null;
+      _category = null;
+      _tags = [];
     });
   }
 
@@ -59,6 +67,8 @@ class _ActivitiesFilterModalWidgetState
     _selectedDisciplineId = currentFilter.disciplineId;
     _startDate = currentFilter.startDate;
     _endDate = currentFilter.endDate;
+    _category = currentFilter.category;
+    _tags = List.from(currentFilter.tags ?? []);
   }
 
   @override
@@ -84,6 +94,16 @@ class _ActivitiesFilterModalWidgetState
           onEndDateChanged: (date) {
             setState(() => _endDate = date);
           },
+        ),
+        const SizedBox(height: 32.0),
+        CategoryFilterSectionWidget(
+          value: _category,
+          onChanged: (value) => setState(() => _category = value),
+        ),
+        const SizedBox(height: 32.0),
+        TagsFilterSectionWidget(
+          tags: _tags,
+          onChanged: (tags) => setState(() => _tags = tags),
         ),
       ],
     );
