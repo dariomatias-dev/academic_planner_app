@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
+import 'package:academic_planner/src/core/app_colors.dart';
+
 class DateRangeFilterSectionWidget extends StatelessWidget {
   final DateTime? startDate;
   final DateTime? endDate;
@@ -84,15 +86,20 @@ class _DateTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+        padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
-          color: colorScheme.onSurface.withAlpha(10),
+          color: colorScheme.surface,
           borderRadius: BorderRadius.circular(20.0),
+          border: Border.all(
+            color: theme.dividerTheme.color ?? AppColors.transparent,
+            width: 1.0,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,8 +108,8 @@ class _DateTile extends StatelessWidget {
               label,
               style: GoogleFonts.plusJakartaSans(
                 color: colorScheme.onSurface.withAlpha(100),
-                fontSize: 10.0,
-                fontWeight: FontWeight.w800,
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 4.0),
@@ -111,9 +118,11 @@ class _DateTile extends StatelessWidget {
                   ? DateFormat('dd/MM/yyyy').format(date!)
                   : '--/--/--',
               style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w800,
+                color: date == null
+                    ? colorScheme.onSurface.withAlpha(120)
+                    : colorScheme.onSurface,
+                fontSize: 15.0,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
