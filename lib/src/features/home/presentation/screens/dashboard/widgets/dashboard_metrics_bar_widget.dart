@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
+import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 
 class DashboardMetricsBarWidget extends ConsumerWidget {
   const DashboardMetricsBarWidget({super.key});
@@ -12,6 +13,7 @@ class DashboardMetricsBarWidget extends ConsumerWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final statsAsync = ref.watch(activityStatsNotifierProvider);
+    final userDisciplines = ref.watch(userDisciplinesNotifierProvider);
 
     return Container(
       width: double.infinity,
@@ -68,9 +70,9 @@ class DashboardMetricsBarWidget extends ConsumerWidget {
                   width: 1.0,
                   color: colorScheme.onSurface.withAlpha(20),
                 ),
-                const Expanded(
+                Expanded(
                   child: DashboardMetricsBarItemWidget(
-                    value: "08",
+                    value: userDisciplines.length.toString().padLeft(2, '0'),
                     label: "Disciplinas",
                     icon: Icons.grid_view_rounded,
                   ),
