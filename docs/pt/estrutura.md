@@ -10,7 +10,7 @@
 - [Detalhamento por Seção](#detalhamento-por-seção)
 - [Features Existentes](#features-existentes)
 - [Organização de Widgets](#organização-de-widgets)
-- [Seeds de Dados](#seeds-de-dados)
+- [Seeds](#seeds)
 
 ---
 
@@ -69,6 +69,11 @@ lib/
     │   │   ├── logger_service.dart       # Interface
     │   │   └── logger_service_impl.dart  # Implementação
     │   │
+    │   ├── seeds/                   # Seeds de desenvolvimento (inativo por padrão)
+    │   │   ├── seed.dart            # Interface base Seed
+    │   │   ├── seed_runner.dart     # Executor sequencial de seeds
+    │   │   └── seed_initializer.dart  # Ponto de entrada com dupla proteção
+    │   │
     │   ├── notifiers/               # Notifiers globais de estado
     │   │   ├── app_version_notifier.dart
     │   │   └── navigation_notifier.dart
@@ -92,20 +97,13 @@ lib/
     │       ├── app_theme.dart       # Definição dos temas claro e escuro
     │       └── theme_notifier.dart  # Controle e persistência do tema
     │
-    ├── data/                        # Dados globais não pertencentes a uma feature
-    │   └── seeds/                   # Seeds para popular o banco em desenvolvimento
-    │       ├── seed.dart
-    │       ├── seed_runner.dart
-    │       └── activity/
-    │           ├── activity_seed.dart
-    │           └── activity_seed_data.dart
-    │
     ├── features/                    # Módulos de negócio isolados
     │   └── <feature>/               # Ver seção "Features Existentes"
     │       ├── data/
     │       │   ├── data_source/     # Acesso direto ao banco/API
     │       │   ├── models/          # DTOs com fromMap/toMap
-    │       │   └── repositories/   # Implementação dos contratos do Domain
+    │       │   ├── repositories/   # Implementação dos contratos do Domain
+    │       │   └── seeds/           # Seeds de dev específicas da feature (opcional)
     │       ├── di/                  # Providers de DI específicos da feature
     │       ├── domain/
     │       │   ├── entities/        # Entidades puras do domínio
@@ -174,9 +172,27 @@ Componentes sem conhecimento de domínio de negócio. Qualquer feature pode usar
 - **`shared/utils/`**: Funções puras sem UI.
 - **`shared/models/`**: Models reutilizados entre múltiplas features.
 
-### `data/seeds/`
+### Seeds
 
-Seeds são dados iniciais para facilitar o desenvolvimento e testes. O `SeedRunner` executa as seeds ao iniciar o app em modo de desenvolvimento, populando o banco com dados consistentes.
+Seeds vivem em dois lugares: infraestrutura base em `core/seeds/` e dados específicos em `features/<feature>/data/seeds/`.
+
+Seeds **nunca executam em produção** (bloqueado por `kDebugMode`) e são **inativas por padrão no debug** também. Dupla proteção:
+
+```dart
+// core/seeds/seed_initializer.dart
+const _seedEnabled = bool.fromEnvironment('SEED_ENABLED', defaultValue: false);
+
+Future<void> runDevSeeds(Database db) async {
+  if (!kDebugMode || !_seedEnabled) return;
+  // ...
+}
+```
+
+| Caso de uso | Comando |
+|---|---|
+| Rodar app com seeds no primeiro launch | `flutter run --dart-define=SEED_ENABLED=true` |
+| Rodar seeds standalone (sem emulador) | `dart run scripts/seed.dart` |
+| Dev normal / release | seeds nunca executam |
 
 ---
 

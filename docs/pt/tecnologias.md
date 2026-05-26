@@ -99,11 +99,12 @@ Ver [navegacao.md](navegacao.md) para documentação completa do sistema de nave
 
 ## Dev e Ferramentas
 
-| Pacote                                                                    | Versão | Papel no projeto                                   |
-| ------------------------------------------------------------------------- | ------ | -------------------------------------------------- |
-| [flutter_lints](https://pub.dev/packages/flutter_lints)                   | 6.0.0  | Regras de lint recomendadas para Flutter           |
-| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) | 0.14.4 | Geração de ícones do app para todas as plataformas |
-| [flutter_localizations](https://flutter.dev/)                             | SDK    | Suporte a localização e internacionalização        |
+| Pacote                                                                            | Versão  | Papel no projeto                                                  |
+| --------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------- |
+| [flutter_lints](https://pub.dev/packages/flutter_lints)                           | 6.0.0   | Regras de lint recomendadas para Flutter                          |
+| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)         | 0.14.4  | Geração de ícones do app para todas as plataformas                |
+| [flutter_localizations](https://flutter.dev/)                                     | SDK     | Suporte a localização e internacionalização                       |
+| [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)                 | 2.3.7+1 | Driver SQLite via FFI para rodar scripts de seed no desktop       |
 
 ---
 

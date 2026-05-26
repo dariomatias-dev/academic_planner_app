@@ -108,8 +108,7 @@ Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> Da
 
 ```text
 lib/src/
-├── core/        # Global infrastructure (database, routes, theme, DI, logging)
-├── data/        # Development seeds
+├── core/        # Global infrastructure (database, routes, theme, DI, logging, seeds)
 ├── features/    # 17 isolated business modules
 └── shared/      # Design System and global utilities
 ```
@@ -156,6 +155,18 @@ flutter pub get
 
 # Run the application
 flutter run
+```
+
+### Development Seeds
+
+Seeds populate the database with sample data for development. Inactive by default, never run in release builds.
+
+```bash
+# Run app with seeds on first launch (debug only)
+flutter run --dart-define=SEED_ENABLED=true
+
+# Run seeds as a standalone script (no emulator needed)
+dart run scripts/seed.dart
 ```
 
 ---

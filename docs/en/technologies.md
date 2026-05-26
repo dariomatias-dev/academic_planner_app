@@ -99,11 +99,12 @@ See [navigation.md](navigation.md) for complete navigation system documentation.
 
 ## Dev and Tooling
 
-| Package                                                                   | Version | Role in the project                           |
-| ------------------------------------------------------------------------- | ------- | --------------------------------------------- |
-| [flutter_lints](https://pub.dev/packages/flutter_lints)                   | 6.0.0   | Recommended Flutter lint rules                |
-| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) | 0.14.4  | App icon generation for all platforms         |
-| [flutter_localizations](https://flutter.dev/)                             | SDK     | Localization and internationalization support |
+| Package                                                                   | Version | Role in the project                                   |
+| ------------------------------------------------------------------------- | ------- | ----------------------------------------------------- |
+| [flutter_lints](https://pub.dev/packages/flutter_lints)                   | 6.0.0   | Recommended Flutter lint rules                        |
+| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) | 0.14.4  | App icon generation for all platforms                 |
+| [flutter_localizations](https://flutter.dev/)                             | SDK     | Localization and internationalization support         |
+| [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)         | 2.3.7+1 | SQLite FFI driver for running seed scripts on desktop |
 
 ---
 

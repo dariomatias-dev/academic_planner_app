@@ -10,7 +10,7 @@
 - [Section Details](#section-details)
 - [Existing Features](#existing-features)
 - [Widget Organization](#widget-organization)
-- [Data Seeds](#data-seeds)
+- [Seeds](#seeds)
 
 ---
 
@@ -69,6 +69,11 @@ lib/
     │   │   ├── logger_service.dart       # Interface
     │   │   └── logger_service_impl.dart  # Implementation
     │   │
+    │   ├── seeds/                   # Development seeds  (inactive by default)
+    │   │   ├── seed.dart            # Base Seed interface
+    │   │   ├── seed_runner.dart     # Sequential seed executor
+    │   │   └── seed_initializer.dart  # Gated entry point (kDebugMode + dart-define)
+    │   │
     │   ├── notifiers/               # Global state notifiers
     │   │   ├── app_version_notifier.dart
     │   │   └── navigation_notifier.dart
@@ -92,20 +97,13 @@ lib/
     │       ├── app_theme.dart       # Light and dark theme definitions
     │       └── theme_notifier.dart  # Theme control and persistence
     │
-    ├── data/                        # Global data not belonging to any feature
-    │   └── seeds/                   # Seeds to populate the database during development
-    │       ├── seed.dart
-    │       ├── seed_runner.dart
-    │       └── activity/
-    │           ├── activity_seed.dart
-    │           └── activity_seed_data.dart
-    │
     ├── features/                    # Isolated business modules
     │   └── <feature>/               # See "Existing Features" section
     │       ├── data/
     │       │   ├── data_source/     # Direct database/API access
     │       │   ├── models/          # DTOs with fromMap/toMap
-    │       │   └── repositories/    # Domain contract implementations
+    │       │   ├── repositories/    # Domain contract implementations
+    │       │   └── seeds/           # Feature-specific dev seeds (optional)
     │       ├── di/                  # Feature-specific DI providers
     │       ├── domain/
     │       │   ├── entities/        # Pure domain entities
@@ -174,9 +172,27 @@ Components with no knowledge of business domain. Any feature can use them.
 - **`shared/utils/`**: Pure functions without UI.
 - **`shared/models/`**: Models reused across multiple features.
 
-### `data/seeds/`
+### Seeds
 
-Seeds are initial data to ease development and testing. `SeedRunner` executes seeds on app startup in development mode, populating the database with consistent data.
+Seeds live in two places: base infrastructure in `core/seeds/` and feature-specific data in `features/<feature>/data/seeds/`.
+
+Seeds **never execute in production** (blocked by `kDebugMode`) and are **inactive by default in debug** too. Double gate:
+
+```dart
+// core/seeds/seed_initializer.dart
+const _seedEnabled = bool.fromEnvironment('SEED_ENABLED', defaultValue: false);
+
+Future<void> runDevSeeds(Database db) async {
+  if (!kDebugMode || !_seedEnabled) return;
+  // ...
+}
+```
+
+| Use case                           | Command                                       |
+| ---------------------------------- | --------------------------------------------- |
+| Run app with seeds on first launch | `flutter run --dart-define=SEED_ENABLED=true` |
+| Run seeds standalone (no emulator) | `dart run scripts/seed.dart`                  |
+| Normal dev / release               | seeds never run                               |
 
 ---
 
