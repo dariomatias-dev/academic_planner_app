@@ -1,6 +1,5 @@
 import 'package:academic_planner/src/core/logging/logger_service.dart';
-
-import 'package:academic_planner/src/data/seeds/seed.dart';
+import 'package:academic_planner/src/core/seeds/seed.dart';
 
 class SeedRunner {
   final List<Seed> seeds;

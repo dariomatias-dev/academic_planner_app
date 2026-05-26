@@ -1,47 +1,28 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite/sqflite.dart';
 
-import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/logging/logger_service_impl.dart';
 import 'package:academic_planner/src/core/seeds/seed.dart';
 import 'package:academic_planner/src/core/seeds/seed_runner.dart';
+
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 import 'package:academic_planner/src/features/activities/data/seeds/activity_seed.dart';
 
-Future<void> main() async {
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
+// To run seeds: flutter run --dart-define=SEED_ENABLED=true
+// Seeds never execute in release builds regardless of the flag.
+const _seedEnabled = bool.fromEnvironment('SEED_ENABLED', defaultValue: false);
+
+Future<void> runDevSeeds(Database db) async {
+  if (!kDebugMode || !_seedEnabled) return;
 
   final logger = LoggerServiceImpl(Logger());
-  final db = await AppDatabase.instance;
 
-  final runner = SeedRunner(
+  await SeedRunner(
     seeds: <Seed>[
       ActivitySeed(ActivityRepositoryImpl(ActivityLocalDataSource(db))),
     ],
     logger: logger,
-  );
-
-  try {
-    logger.info('Starting seed process...');
-
-    await runner.run();
-
-    logger.info('Seed completed successfully');
-  } catch (err, stackTrace) {
-    logger.error(
-      'Error while running seed',
-      error: err,
-      stackTrace: stackTrace,
-    );
-  } finally {
-    await db.close();
-
-    logger.info('Shutting down process...');
-
-    exit(0);
-  }
+  ).run();
 }

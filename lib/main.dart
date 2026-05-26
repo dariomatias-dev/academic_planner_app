@@ -11,6 +11,7 @@ import 'package:academic_planner/src/app_widget.dart';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
+import 'package:academic_planner/src/core/seeds/seed_initializer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,8 @@ Future<void> main() async {
   final prefs = await SharedPreferences.getInstance();
 
   final appDatabase = await AppDatabase.instance;
+
+  await runDevSeeds(appDatabase);
 
   runApp(
     ProviderScope(

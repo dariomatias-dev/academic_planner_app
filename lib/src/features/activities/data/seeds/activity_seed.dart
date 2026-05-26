@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/data/seeds/activity/activity_seed_data.dart';
-import 'package:academic_planner/src/data/seeds/seed.dart';
+import 'package:academic_planner/src/core/seeds/seed.dart';
 
 import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
+import 'package:academic_planner/src/features/activities/data/seeds/activity_seed_data.dart';
 
 class ActivitySeed implements Seed {
   final ActivityRepositoryImpl repository;
