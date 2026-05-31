@@ -8,6 +8,7 @@ class DropdownFieldWidget<T> extends StatelessWidget {
   final String? hint;
   final Widget? prefixIcon;
   final String? Function(T? value)? validator;
+  final bool enabled;
 
   const DropdownFieldWidget({
     super.key,
@@ -17,71 +18,90 @@ class DropdownFieldWidget<T> extends StatelessWidget {
     this.hint,
     this.prefixIcon,
     this.validator,
+    this.enabled = true,
   });
+
+  static const _radius = 16.0;
+  static const _contentPadding = EdgeInsets.all(16);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
+    final isActuallyEnabled = enabled && onChanged != null;
+
+    final effectiveFillColor = isActuallyEnabled
+        ? colorScheme.surface
+        : colorScheme.onSurface.withAlpha(15);
+
+    final effectiveBorderColor =
+        theme.dividerTheme.color ?? colorScheme.onSurface.withAlpha(30);
+
     return DropdownButtonFormField<T>(
       initialValue: value,
       items: items,
-      onChanged: onChanged,
+      onChanged: enabled ? onChanged : null,
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       icon: Icon(
         Icons.keyboard_arrow_down_rounded,
         color: colorScheme.onSurface.withAlpha(100),
       ),
       dropdownColor: colorScheme.surface,
-      borderRadius: BorderRadius.circular(20.0),
+      borderRadius: BorderRadius.circular(_radius),
       elevation: 16,
-      style: GoogleFonts.plusJakartaSans(
-        fontSize: 14.0,
-        fontWeight: FontWeight.w600,
-        color: colorScheme.onSurface,
+      style: _textStyle(colorScheme).copyWith(
+        color: isActuallyEnabled
+            ? colorScheme.onSurface
+            : colorScheme.onSurface.withAlpha(140),
       ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: colorScheme.surface,
+        fillColor: effectiveFillColor,
         hintText: hint,
-        hintStyle: GoogleFonts.plusJakartaSans(
-          fontSize: 14.0,
-          fontWeight: FontWeight.w500,
-          color: colorScheme.onSurface.withAlpha(100),
-        ),
-        prefixIcon: prefixIcon,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: 20.0,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide(
-            color: colorScheme.primary.withAlpha(100),
-            width: 1.5,
-          ),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide(
-            color: colorScheme.error.withAlpha(100),
-            width: 1.5,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide(color: colorScheme.error, width: 1.5),
-        ),
+        hintStyle: _hintStyle(colorScheme),
+        prefixIcon: prefixIcon != null
+            ? Opacity(opacity: isActuallyEnabled ? 1.0 : 0.5, child: prefixIcon)
+            : null,
+        contentPadding: _contentPadding,
+        border: _border(effectiveBorderColor),
+        enabledBorder: _border(effectiveBorderColor),
+        focusedBorder: _border(effectiveBorderColor),
+        errorBorder: _border(colorScheme.error),
+        focusedErrorBorder: _border(colorScheme.error),
+        errorStyle: _errorStyle(colorScheme),
       ),
+    );
+  }
+
+  TextStyle _textStyle(ColorScheme colors) {
+    return GoogleFonts.plusJakartaSans(
+      fontWeight: FontWeight.w600,
+      fontSize: 14.0,
+    );
+  }
+
+  TextStyle _hintStyle(ColorScheme colors) {
+    return GoogleFonts.plusJakartaSans(
+      color: colors.onSurface.withAlpha(100),
+      fontWeight: FontWeight.w500,
+      fontSize: 14.0,
+    );
+  }
+
+  TextStyle _errorStyle(ColorScheme colors) {
+    return GoogleFonts.plusJakartaSans(
+      color: colors.error,
+      fontWeight: FontWeight.w600,
+      fontSize: 12.0,
+    );
+  }
+
+  OutlineInputBorder _border(Color color) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(_radius),
+      borderSide: BorderSide(color: color, width: 1.0),
     );
   }
 }
