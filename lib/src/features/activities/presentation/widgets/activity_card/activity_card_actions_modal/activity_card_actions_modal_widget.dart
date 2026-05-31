@@ -65,12 +65,14 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
             icon: Icons.delete_outline_rounded,
             label: 'Excluir permanentemente',
             color: colorScheme.error,
-            onTap: () {
-              deleteActivityFlow(
+            onTap: () async {
+              final deleted = await deleteActivityFlow(
                 context: context,
                 ref: ref,
                 activity: activity,
               );
+
+              if (deleted && context.mounted) Navigator.pop(context);
             },
           ),
         ];

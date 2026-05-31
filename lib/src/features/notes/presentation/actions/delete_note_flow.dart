@@ -3,80 +3,33 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_delete_dialog_widget.dart';
-import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_removal_failure_dialog_widget.dart';
-import 'package:academic_planner/src/features/notes/presentation/widgets/dialogs/note_removal_success_dialog_widget.dart';
+
+import 'package:academic_planner/src/shared/actions/removal_flow.dart';
 
 Future<bool> deleteNoteFlow({
   required BuildContext context,
   required WidgetRef ref,
   required Note note,
-}) async {
-  bool success = false;
-
-  final navigator = Navigator.of(context, rootNavigator: true);
-  final overlayContext = navigator.context;
-
+}) {
   final noteNotifier = ref.read(noteNotifierProvider.notifier);
 
-  String? errorMessage;
+  return removalFlow(
+    context: context,
+    confirmTitle: 'Excluir Anotação',
+    confirmMessage:
+        "Tem certeza que deseja excluir '${note.title}'? Esta ação não poderá ser desfeita.",
+    onDelete: () async {
+      String? error;
 
-  Future<bool> attemptDelete() async {
-    final result = await noteNotifier.delete(note.id);
+      final result = await noteNotifier.delete(note.id);
 
-    result.fold(
-      onSuccess: (_) {},
-      onFailure: (failure) {
-        errorMessage = failure.message;
-      },
-    );
+      result.when(onFailure: (f) => error = f.message);
 
-    return result.isSuccess;
-  }
-
-  Future<bool> showRetryDialog() async {
-    bool retry = false;
-
-    await NoteRemovalFailureDialogWidget.show(
-      overlayContext,
-      errorMessage: errorMessage,
-      onRetry: () async {
-        retry = true;
-      },
-    );
-
-    return retry;
-  }
-
-  Future<void> onDelete() async {
-    var shouldRetry = true;
-
-    while (shouldRetry) {
-      final ok = await attemptDelete();
-
-      if (ok) {
-        success = true;
-
-        if (!overlayContext.mounted) return;
-
-        Navigator.pop(overlayContext);
-
-        await NoteRemovalSuccessDialogWidget.show(overlayContext);
-
-        return;
-      }
-
-      if (!overlayContext.mounted) return;
-
-      shouldRetry = await showRetryDialog();
-    }
-  }
-
-  await NoteDeleteDialogWidget.show(
-    overlayContext,
-    note: note,
-    onDelete: onDelete,
+      return error;
+    },
+    successTitle: 'Anotação Removida',
+    successMessage: 'A anotação foi excluída com sucesso da sua base de dados.',
+    failureMessage:
+        'Não conseguimos remover a anotação no momento. Por favor, tente novamente em instantes.',
   );
-
-  return success;
 }

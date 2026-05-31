@@ -42,7 +42,13 @@ class NoteDetailsScreen extends ConsumerWidget {
     WidgetRef ref,
     Note note,
   ) async {
-    await deleteNoteFlow(context: context, ref: ref, note: note);
+    final deleted = await deleteNoteFlow(
+      context: context,
+      ref: ref,
+      note: note,
+    );
+
+    if (deleted && context.mounted) Navigator.pop(context);
   }
 
   @override

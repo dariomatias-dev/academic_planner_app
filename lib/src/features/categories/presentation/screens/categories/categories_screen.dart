@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
-import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_delete_dialog_widget.dart';
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
+import 'package:academic_planner/src/shared/actions/removal_flow.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -16,7 +16,8 @@ class CategoriesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final categories = ref.watch(categoriesNotifierProvider).asData?.value ?? [];
+    final categories =
+        ref.watch(categoriesNotifierProvider).asData?.value ?? [];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -93,7 +94,23 @@ class CategoriesScreen extends ConsumerWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        CategoryDeleteDialogWidget.show(context, index: index);
+                        removalFlow(
+                          context: context,
+                          confirmTitle: 'Excluir Categoria',
+                          confirmMessage:
+                              'Tem certeza que deseja remover esta categoria? Esta ação não pode ser desfeita.',
+                          onDelete: () async {
+                            String? error;
+
+                            final result = await ref
+                                .read(categoriesNotifierProvider.notifier)
+                                .remove(index);
+
+                            result.when(onFailure: (f) => error = f.message);
+
+                            return error;
+                          },
+                        );
                       },
                       icon: Icon(
                         Icons.delete_outline_rounded,

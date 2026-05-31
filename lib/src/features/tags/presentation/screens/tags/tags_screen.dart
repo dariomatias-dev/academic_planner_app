@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
-import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_delete_dialog_widget.dart';
 import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_form_dialog_widget.dart';
 
+import 'package:academic_planner/src/shared/actions/removal_flow.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 
@@ -93,7 +93,23 @@ class TagsScreen extends ConsumerWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        TagDeleteDialogWidget.show(context, index: index);
+                        removalFlow(
+                          context: context,
+                          confirmTitle: 'Excluir Tag',
+                          confirmMessage:
+                              'Tem certeza que deseja remover esta tag? Esta ação não pode ser desfeita.',
+                          onDelete: () async {
+                            String? error;
+
+                            final result = await ref
+                                .read(tagNotifierProvider.notifier)
+                                .remove(index);
+
+                            result.when(onFailure: (f) => error = f.message);
+
+                            return error;
+                          },
+                        );
                       },
                       icon: Icon(
                         Icons.delete_outline_rounded,
