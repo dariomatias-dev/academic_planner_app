@@ -1,7 +1,7 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/features/tags/data/models/tag_model.dart';
+import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/domain/repositories/tag_repository.dart';
 
 class TagViewModel {
@@ -9,12 +9,12 @@ class TagViewModel {
 
   TagViewModel(this.repository);
 
-  Future<Result<List<TagModel>>> load() async {
+  Future<Result<List<Tag>>> load() async {
     return repository.getTags();
   }
 
-  Future<Result<List<TagModel>>> add(
-    List<TagModel> current,
+  Future<Result<List<Tag>>> add(
+    List<Tag> current,
     String name,
   ) async {
     final exists = current.any(
@@ -25,7 +25,7 @@ class TagViewModel {
       return const FailureResult(ValidationFailure('Tag já existe'));
     }
 
-    final updated = <TagModel>[...current, TagModel(name)];
+    final updated = <Tag>[...current, Tag(name: name)];
 
     final result = await repository.saveTags(updated);
 
@@ -35,8 +35,8 @@ class TagViewModel {
     );
   }
 
-  Future<Result<List<TagModel>>> update(
-    List<TagModel> current,
+  Future<Result<List<Tag>>> update(
+    List<Tag> current,
     int index,
     String name,
   ) async {
@@ -50,8 +50,8 @@ class TagViewModel {
       return const FailureResult(ValidationFailure('Tag já existe'));
     }
 
-    final updated = <TagModel>[...current];
-    updated[index] = TagModel(name);
+    final updated = <Tag>[...current];
+    updated[index] = Tag(name: name);
 
     final result = await repository.saveTags(updated);
 
@@ -61,11 +61,11 @@ class TagViewModel {
     );
   }
 
-  Future<Result<List<TagModel>>> remove(
-    List<TagModel> current,
+  Future<Result<List<Tag>>> remove(
+    List<Tag> current,
     int index,
   ) async {
-    final updated = <TagModel>[...current]..removeAt(index);
+    final updated = <Tag>[...current]..removeAt(index);
 
     final result = await repository.saveTags(updated);
 

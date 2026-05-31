@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:academic_planner/src/features/tags/data/models/tag_model.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
+import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
@@ -11,12 +11,12 @@ import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class TagFormDialogWidget extends ConsumerStatefulWidget {
-  final TagModel? tag;
+  final Tag? tag;
   final int? index;
 
   const TagFormDialogWidget({super.key, this.tag, this.index});
 
-  static Future<void> show(BuildContext context, {TagModel? tag, int? index}) {
+  static Future<void> show(BuildContext context, {Tag? tag, int? index}) {
     return showDialog(
       context: context,
       builder: (_) {
@@ -58,6 +58,7 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
   @override
   void dispose() {
     _controller.dispose();
+
     super.dispose();
   }
 

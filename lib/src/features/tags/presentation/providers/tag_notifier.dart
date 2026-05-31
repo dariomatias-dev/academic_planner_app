@@ -2,15 +2,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/features/tags/data/models/tag_model.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
+import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/presentation/view_models/tag_view_model.dart';
 
-class TagNotifier extends AsyncNotifier<List<TagModel>> {
+class TagNotifier extends AsyncNotifier<List<Tag>> {
   late final TagViewModel viewModel;
 
   @override
-  Future<List<TagModel>> build() async {
+  Future<List<Tag>> build() async {
     final repo = ref.read(tagRepositoryProvider);
 
     viewModel = TagViewModel(repo);
@@ -19,11 +19,11 @@ class TagNotifier extends AsyncNotifier<List<TagModel>> {
 
     return result.fold(
       onSuccess: (data) => data,
-      onFailure: (_) => <TagModel>[],
+      onFailure: (_) => <Tag>[],
     );
   }
 
-  Future<Result<List<TagModel>>> add(String name) async {
+  Future<Result<List<Tag>>> add(String name) async {
     final current = state.asData?.value ?? [];
     final result = await viewModel.add(current, name);
 
@@ -32,7 +32,7 @@ class TagNotifier extends AsyncNotifier<List<TagModel>> {
     return result;
   }
 
-  Future<Result<List<TagModel>>> edit(int index, String name) async {
+  Future<Result<List<Tag>>> edit(int index, String name) async {
     final current = state.asData?.value ?? [];
     final result = await viewModel.update(current, index, name);
 
@@ -41,7 +41,7 @@ class TagNotifier extends AsyncNotifier<List<TagModel>> {
     return result;
   }
 
-  Future<Result<List<TagModel>>> remove(int index) async {
+  Future<Result<List<Tag>>> remove(int index) async {
     final current = state.asData?.value ?? [];
     final result = await viewModel.remove(current, index);
 
