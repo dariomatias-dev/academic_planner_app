@@ -13,6 +13,8 @@ class ActivitySeed implements Seed {
 
   @override
   Future<void> run() async {
+    await repository.deleteAll();
+
     for (final activity in activitySeedData) {
       await repository.add(activity);
     }
