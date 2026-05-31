@@ -10,8 +10,7 @@ class TagViewModel {
   TagViewModel(this.repository);
 
   Future<Result<List<TagModel>>> load() async {
-    final data = await repository.getTags();
-    return Success(data);
+    return repository.getTags();
   }
 
   Future<Result<List<TagModel>>> add(
@@ -28,9 +27,12 @@ class TagViewModel {
 
     final updated = <TagModel>[...current, TagModel(name)];
 
-    await repository.saveTags(updated);
+    final result = await repository.saveTags(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 
   Future<Result<List<TagModel>>> update(
@@ -51,9 +53,12 @@ class TagViewModel {
     final updated = <TagModel>[...current];
     updated[index] = TagModel(name);
 
-    await repository.saveTags(updated);
+    final result = await repository.saveTags(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 
   Future<Result<List<TagModel>>> remove(
@@ -62,8 +67,11 @@ class TagViewModel {
   ) async {
     final updated = <TagModel>[...current]..removeAt(index);
 
-    await repository.saveTags(updated);
+    final result = await repository.saveTags(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 }

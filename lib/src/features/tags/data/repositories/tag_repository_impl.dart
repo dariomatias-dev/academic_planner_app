@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 
 import 'package:academic_planner/src/features/tags/data/models/tag_model.dart';
@@ -14,23 +16,33 @@ class TagRepositoryImpl implements TagRepository {
   TagRepositoryImpl(this.prefs);
 
   @override
-  Future<List<TagModel>> getTags() async {
-    final jsonString = prefs.getString(_key);
+  Future<Result<List<TagModel>>> getTags() async {
+    try {
+      final jsonString = prefs.getString(_key);
 
-    if (jsonString.isEmpty) {
-      return _defaultTags();
+      if (jsonString.isEmpty) {
+        return Success(_defaultTags());
+      }
+
+      final List decoded = jsonDecode(jsonString);
+
+      return Success(decoded.builder((e, index) => TagModel.fromMap(e)));
+    } catch (err) {
+      return FailureResult(UnknownFailure(err.toString()));
     }
-
-    final List decoded = jsonDecode(jsonString);
-
-    return decoded.builder((e, index) => TagModel.fromMap(e));
   }
 
   @override
-  Future<void> saveTags(List<TagModel> tags) async {
-    final encoded = jsonEncode(tags.builder((e, index) => e.toMap()));
+  Future<Result<void>> saveTags(List<TagModel> tags) async {
+    try {
+      final encoded = jsonEncode(tags.builder((e, index) => e.toMap()));
 
-    await prefs.setString(_key, encoded);
+      await prefs.setString(_key, encoded);
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(UnknownFailure(err.toString()));
+    }
   }
 
   List<TagModel> _defaultTags() {
