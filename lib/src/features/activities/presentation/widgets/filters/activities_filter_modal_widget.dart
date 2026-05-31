@@ -40,7 +40,10 @@ class _ActivitiesFilterModalWidgetState
   late ActivitySortOrder? _sortOrder;
 
   void _applyFilters() {
+    final currentFilter = ref.read(activityFilterNotifierProvider);
+
     final filter = ActivityFilter(
+      search: currentFilter.search,
       disciplineId: _selectedDisciplineId,
       startDate: _startDate,
       endDate: _endDate,
