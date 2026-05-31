@@ -58,10 +58,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w900),
         ]),
       ]);
-
-      if (mounted) {
-        AppRoutes.goToRoot(context);
-      }
     } catch (err) {
       if (mounted) {
         await ErrorDialogWidget.show(
