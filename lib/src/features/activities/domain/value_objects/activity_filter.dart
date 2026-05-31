@@ -1,4 +1,6 @@
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_field.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
 
 class ActivityFilter {
   final String? search;
@@ -10,6 +12,8 @@ class ActivityFilter {
   final List<ActivityStatus>? statuses;
   final String? category;
   final List<String>? tags;
+  final ActivitySortField? sortField;
+  final ActivitySortOrder? sortOrder;
 
   const ActivityFilter({
     this.search,
@@ -21,6 +25,8 @@ class ActivityFilter {
     this.statuses,
     this.category,
     this.tags,
+    this.sortField,
+    this.sortOrder,
   });
 
   ActivityFilter copyWith({
@@ -33,6 +39,8 @@ class ActivityFilter {
     List<ActivityStatus>? statuses,
     String? category,
     List<String>? tags,
+    ActivitySortField? sortField,
+    ActivitySortOrder? sortOrder,
   }) {
     return ActivityFilter(
       search: search ?? this.search,
@@ -44,6 +52,8 @@ class ActivityFilter {
       statuses: statuses ?? this.statuses,
       category: category ?? this.category,
       tags: tags ?? this.tags,
+      sortField: sortField ?? this.sortField,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 }
