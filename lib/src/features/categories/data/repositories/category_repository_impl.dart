@@ -1,56 +1,50 @@
-import 'dart:convert';
-
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 
+import 'package:academic_planner/src/features/categories/data/data_source/category_local_datasource.dart';
 import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
+import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
-  final SharedPreferencesService prefs;
+  final CategoryLocalDataSource datasource;
 
-  static const _key = 'categories';
+  static const _defaultCategories = <Category>[
+    Category(name: 'Estudo'),
+    Category(name: 'Leitura'),
+    Category(name: 'Projeto'),
+    Category(name: 'Prova'),
+    Category(name: 'Trabalho'),
+  ];
 
-  CategoryRepositoryImpl(this.prefs);
+  CategoryRepositoryImpl(this.datasource);
 
   @override
-  Future<Result<List<CategoryModel>>> getCategories() async {
+  Future<Result<List<Category>>> getCategories() async {
     try {
-      final jsonString = prefs.getString(_key);
+      final data = datasource.getAll();
 
-      if (jsonString.isEmpty) {
-        return Success(_defaultCategories());
-      }
+      if (data.isEmpty) return const Success(_defaultCategories);
 
-      final List decoded = jsonDecode(jsonString);
-
-      return Success(decoded.map((e) => CategoryModel.fromMap(e)).toList());
+      return Success(
+        data.builder((e, index) => CategoryModel.fromMap(e).toEntity()),
+      );
     } catch (err) {
       return FailureResult(UnknownFailure(err.toString()));
     }
   }
 
   @override
-  Future<Result<void>> saveCategories(List<CategoryModel> categories) async {
+  Future<Result<void>> saveCategories(List<Category> categories) async {
     try {
-      final encoded = jsonEncode(categories.map((e) => e.toMap()).toList());
-
-      await prefs.setString(_key, encoded);
+      await datasource.saveAll(
+        categories.builder((e, index) => CategoryModel.fromEntity(e).toMap()),
+      );
 
       return const Success(null);
     } catch (err) {
       return FailureResult(UnknownFailure(err.toString()));
     }
-  }
-
-  List<CategoryModel> _defaultCategories() {
-    return const <CategoryModel>[
-      CategoryModel("Estudo"),
-      CategoryModel("Leitura"),
-      CategoryModel("Projeto"),
-      CategoryModel("Prova"),
-      CategoryModel("Trabalho"),
-    ];
   }
 }

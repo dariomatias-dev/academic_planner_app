@@ -1,7 +1,7 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
-import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
+import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 
 class CategoriesViewModel {
@@ -9,12 +9,12 @@ class CategoriesViewModel {
 
   CategoriesViewModel(this.repository);
 
-  Future<Result<List<CategoryModel>>> load() async {
+  Future<Result<List<Category>>> load() async {
     return repository.getCategories();
   }
 
-  Future<Result<List<CategoryModel>>> add(
-    List<CategoryModel> current,
+  Future<Result<List<Category>>> add(
+    List<Category> current,
     String name,
   ) async {
     final exists = current.any(
@@ -25,7 +25,7 @@ class CategoriesViewModel {
       return const FailureResult(ValidationFailure('Categoria já existe'));
     }
 
-    final updated = <CategoryModel>[...current, CategoryModel(name)];
+    final updated = <Category>[...current, Category(name: name)];
 
     final result = await repository.saveCategories(updated);
 
@@ -35,8 +35,8 @@ class CategoriesViewModel {
     );
   }
 
-  Future<Result<List<CategoryModel>>> update(
-    List<CategoryModel> current,
+  Future<Result<List<Category>>> update(
+    List<Category> current,
     int index,
     String name,
   ) async {
@@ -50,8 +50,8 @@ class CategoriesViewModel {
       return const FailureResult(ValidationFailure('Categoria já existe'));
     }
 
-    final updated = <CategoryModel>[...current];
-    updated[index] = CategoryModel(name);
+    final updated = <Category>[...current];
+    updated[index] = Category(name: name);
 
     final result = await repository.saveCategories(updated);
 
@@ -61,11 +61,11 @@ class CategoriesViewModel {
     );
   }
 
-  Future<Result<List<CategoryModel>>> remove(
-    List<CategoryModel> current,
+  Future<Result<List<Category>>> remove(
+    List<Category> current,
     int index,
   ) async {
-    final updated = <CategoryModel>[...current]..removeAt(index);
+    final updated = <Category>[...current]..removeAt(index);
 
     final result = await repository.saveCategories(updated);
 

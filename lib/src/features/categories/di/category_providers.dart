@@ -2,18 +2,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 
-import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
+import 'package:academic_planner/src/features/categories/data/data_source/category_local_datasource.dart';
 import 'package:academic_planner/src/features/categories/data/repositories/category_repository_impl.dart';
+import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 import 'package:academic_planner/src/features/categories/presentation/providers/categories_notifier.dart';
 
-final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
+final categoryDataSourceProvider = Provider<CategoryLocalDataSource>((ref) {
   final prefs = ref.read(sharedPreferencesServiceProvider);
 
-  return CategoryRepositoryImpl(prefs);
+  return CategoryLocalDataSource(prefs);
+});
+
+final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
+  final datasource = ref.watch(categoryDataSourceProvider);
+
+  return CategoryRepositoryImpl(datasource);
 });
 
 final categoriesNotifierProvider =
-    AsyncNotifierProvider<CategoriesNotifier, List<CategoryModel>>(() {
+    AsyncNotifierProvider<CategoriesNotifier, List<Category>>(() {
       return CategoriesNotifier();
     });

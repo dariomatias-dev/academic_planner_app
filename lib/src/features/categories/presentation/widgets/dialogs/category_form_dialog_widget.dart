@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
@@ -11,14 +11,14 @@ import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class CategoryFormDialogWidget extends ConsumerStatefulWidget {
-  final CategoryModel? category;
+  final Category? category;
   final int? index;
 
   const CategoryFormDialogWidget({super.key, this.category, this.index});
 
   static Future<void> show(
     BuildContext context, {
-    CategoryModel? category,
+    Category? category,
     int? index,
   }) {
     return showDialog(
