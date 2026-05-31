@@ -7,7 +7,6 @@ import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
-import 'package:academic_planner/src/features/activities/presentation/providers/activity_count_provider.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_total_badge_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_stats_cards_widget.dart';

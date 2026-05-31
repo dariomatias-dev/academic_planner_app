@@ -6,7 +6,7 @@ import 'package:academic_planner/src/features/activities/presentation/widgets/fi
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/category_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/tags_filter_section_widget.dart';
-import 'package:academic_planner/src/features/calendar/di/calendar_provider.dart';
+import 'package:academic_planner/src/features/calendar/di/calendar_providers.dart';
 
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 

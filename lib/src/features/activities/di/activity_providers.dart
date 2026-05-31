@@ -38,3 +38,16 @@ final activityStatsNotifierProvider =
     AsyncNotifierProvider<ActivityStatsNotifier, ActivityStats>(
       ActivityStatsNotifier.new,
     );
+
+final activityCountProvider = FutureProvider.family<int, ActivityFilter?>((
+  ref,
+  filter,
+) async {
+  ref.watch(activityNotifierProvider);
+
+  final result = await ref
+      .read(activityNotifierProvider.notifier)
+      .count(filter: filter);
+
+  return result.fold(onSuccess: (count) => count, onFailure: (_) => 0);
+});

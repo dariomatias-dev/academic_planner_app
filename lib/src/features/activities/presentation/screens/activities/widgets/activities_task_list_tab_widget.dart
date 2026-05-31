@@ -1,4 +1,3 @@
-import 'package:academic_planner/src/features/activities/presentation/providers/activity_count_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
