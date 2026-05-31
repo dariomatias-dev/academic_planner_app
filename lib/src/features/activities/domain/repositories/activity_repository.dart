@@ -19,4 +19,6 @@ abstract class ActivityRepository {
   Future<Result<void>> update(Activity activity);
 
   Future<Result<void>> delete(String id);
+
+  Future<Result<void>> deleteAll();
 }

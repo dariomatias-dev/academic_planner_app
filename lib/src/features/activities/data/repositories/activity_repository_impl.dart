@@ -10,7 +10,6 @@ import 'package:academic_planner/src/features/activities/domain/entities/activit
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
-
 List<Activity> _map(List<Map<String, dynamic>> data) {
   return data.map((e) => ActivityModel.fromMap(e).toEntity()).toList();
 }
@@ -92,6 +91,17 @@ class ActivityRepositoryImpl implements ActivityRepository {
   Future<Result<void>> delete(String id) async {
     try {
       await datasource.delete(id);
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(DatabaseFailure(err.toString()));
+    }
+  }
+
+  @override
+  Future<Result<void>> deleteAll() async {
+    try {
+      await datasource.deleteAll();
 
       return const Success(null);
     } catch (err) {
