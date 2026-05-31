@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 
 import 'package:academic_planner/src/features/categories/data/models/category_model.dart';
@@ -13,23 +15,33 @@ class CategoryRepositoryImpl implements CategoryRepository {
   CategoryRepositoryImpl(this.prefs);
 
   @override
-  Future<List<CategoryModel>> getCategories() async {
-    final jsonString = prefs.getString(_key);
+  Future<Result<List<CategoryModel>>> getCategories() async {
+    try {
+      final jsonString = prefs.getString(_key);
 
-    if (jsonString.isEmpty) {
-      return _defaultCategories();
+      if (jsonString.isEmpty) {
+        return Success(_defaultCategories());
+      }
+
+      final List decoded = jsonDecode(jsonString);
+
+      return Success(decoded.map((e) => CategoryModel.fromMap(e)).toList());
+    } catch (err) {
+      return FailureResult(UnknownFailure(err.toString()));
     }
-
-    final List decoded = jsonDecode(jsonString);
-
-    return decoded.map((e) => CategoryModel.fromMap(e)).toList();
   }
 
   @override
-  Future<void> saveCategories(List<CategoryModel> categories) async {
-    final encoded = jsonEncode(categories.map((e) => e.toMap()).toList());
+  Future<Result<void>> saveCategories(List<CategoryModel> categories) async {
+    try {
+      final encoded = jsonEncode(categories.map((e) => e.toMap()).toList());
 
-    await prefs.setString(_key, encoded);
+      await prefs.setString(_key, encoded);
+
+      return const Success(null);
+    } catch (err) {
+      return FailureResult(UnknownFailure(err.toString()));
+    }
   }
 
   List<CategoryModel> _defaultCategories() {

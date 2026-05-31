@@ -10,8 +10,7 @@ class CategoriesViewModel {
   CategoriesViewModel(this.repository);
 
   Future<Result<List<CategoryModel>>> load() async {
-    final data = await repository.getCategories();
-    return Success(data);
+    return repository.getCategories();
   }
 
   Future<Result<List<CategoryModel>>> add(
@@ -28,9 +27,12 @@ class CategoriesViewModel {
 
     final updated = <CategoryModel>[...current, CategoryModel(name)];
 
-    await repository.saveCategories(updated);
+    final result = await repository.saveCategories(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 
   Future<Result<List<CategoryModel>>> update(
@@ -51,9 +53,12 @@ class CategoriesViewModel {
     final updated = <CategoryModel>[...current];
     updated[index] = CategoryModel(name);
 
-    await repository.saveCategories(updated);
+    final result = await repository.saveCategories(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 
   Future<Result<List<CategoryModel>>> remove(
@@ -62,8 +67,11 @@ class CategoriesViewModel {
   ) async {
     final updated = <CategoryModel>[...current]..removeAt(index);
 
-    await repository.saveCategories(updated);
+    final result = await repository.saveCategories(updated);
 
-    return Success(updated);
+    return result.fold(
+      onSuccess: (_) => Success(updated),
+      onFailure: (f) => FailureResult(f),
+    );
   }
 }
