@@ -4,6 +4,7 @@ import 'package:academic_planner/src/core/database/tables/activity_table.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
 
 class ActivityLocalDataSource {
   final Database db;
@@ -78,6 +79,14 @@ class ActivityLocalDataSource {
     await db.insert(ActivityTable.tableName, data);
   }
 
+  String? _buildOrderBy(ActivityFilter? filter) {
+    if (filter?.sortField == null) return null;
+
+    final order = filter!.sortOrder ?? ActivitySortOrder.desc;
+
+    return '${filter.sortField!.column} ${order.name.toUpperCase()}';
+  }
+
   Future<List<Map<String, dynamic>>> getAll({
     ActivityFilter? filter,
     Pagination? pagination,
@@ -88,6 +97,7 @@ class ActivityLocalDataSource {
       ActivityTable.tableName,
       where: where,
       whereArgs: args,
+      orderBy: _buildOrderBy(filter),
       limit: pagination?.limit,
       offset: pagination != null ? (pagination.page * pagination.limit) : null,
     );
