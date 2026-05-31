@@ -138,4 +138,8 @@ class ActivityLocalDataSource {
   Future<void> delete(String id) async {
     await db.delete(ActivityTable.tableName, where: 'id = ?', whereArgs: [id]);
   }
+
+  Future<void> deleteAll() async {
+    await db.delete(ActivityTable.tableName);
+  }
 }
