@@ -50,6 +50,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         ref.read(userNotifierProvider.future),
         ref.read(categoriesNotifierProvider.future),
         ref.read(tagNotifierProvider.future),
+        GoogleFonts.pendingFonts([
+          GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w500),
+          GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w600),
+          GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w700),
+          GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w800),
+          GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w900),
+        ]),
       ]);
 
       if (mounted) {
