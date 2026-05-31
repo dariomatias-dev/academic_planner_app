@@ -11,7 +11,7 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
-import 'package:academic_planner/src/features/calendar/di/calendar_provider.dart';
+import 'package:academic_planner/src/features/calendar/di/calendar_providers.dart';
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
