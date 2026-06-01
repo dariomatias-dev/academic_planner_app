@@ -7,7 +7,7 @@ import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dial
 /// Orchestrates the full delete UX: confirm → delete → success/failure with retry.
 ///
 /// [onDelete] returns null on success or an error message on failure.
-/// [onSuccess] is called immediately after a successful deletion.
+/// [onSuccess] is called after the success dialog is dismissed (or immediately after deletion if no success dialog).
 /// Omit [successTitle]/[successMessage] to skip the success dialog.
 Future<bool> removalFlow({
   required BuildContext context,
@@ -54,7 +54,6 @@ Future<bool> removalFlow({
 
       if (ok) {
         success = true;
-        onSuccess?.call();
 
         if (successTitle != null && successMessage != null) {
           if (!overlayContext.mounted) return;
@@ -64,6 +63,8 @@ Future<bool> removalFlow({
             message: successMessage,
           );
         }
+
+        onSuccess?.call();
 
         if (!overlayContext.mounted) return;
         Navigator.pop(overlayContext);
