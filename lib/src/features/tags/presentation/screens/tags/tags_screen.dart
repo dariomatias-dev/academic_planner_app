@@ -98,16 +98,12 @@ class TagsScreen extends ConsumerWidget {
                           confirmTitle: 'Excluir Tag',
                           confirmMessage:
                               'Tem certeza que deseja remover esta tag? Esta ação não pode ser desfeita.',
-                          onDelete: () async {
-                            String? error;
-
-                            final result = await ref
-                                .read(tagNotifierProvider.notifier)
-                                .remove(index);
-
-                            result.when(onFailure: (f) => error = f.message);
-
-                            return error;
+                          onDelete: () {
+                            return resultToError(
+                              ref
+                                  .read(tagNotifierProvider.notifier)
+                                  .remove(index),
+                            );
                           },
                         );
                       },

@@ -18,15 +18,7 @@ Future<bool> deleteActivityFlow({
     confirmTitle: 'Excluir Atividade',
     confirmMessage:
         "Tem certeza que deseja excluir '${activity.title}'? Esta ação não poderá ser desfeita.",
-    onDelete: () async {
-      String? error;
-
-      final result = await activityNotifier.delete(activity.id);
-
-      result.when(onFailure: (f) => error = f.message);
-
-      return error;
-    },
+    onDelete: () => resultToError(activityNotifier.delete(activity.id)),
     onSuccess: () => ref.invalidate(activityNotifierProvider),
     successTitle: 'Atividade Removida',
     successMessage:

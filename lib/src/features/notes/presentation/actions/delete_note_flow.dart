@@ -18,15 +18,7 @@ Future<bool> deleteNoteFlow({
     confirmTitle: 'Excluir Anotação',
     confirmMessage:
         "Tem certeza que deseja excluir '${note.title}'? Esta ação não poderá ser desfeita.",
-    onDelete: () async {
-      String? error;
-
-      final result = await noteNotifier.delete(note.id);
-
-      result.when(onFailure: (f) => error = f.message);
-
-      return error;
-    },
+    onDelete: () => resultToError(noteNotifier.delete(note.id)),
     successTitle: 'Anotação Removida',
     successMessage: 'A anotação foi excluída com sucesso da sua base de dados.',
     failureMessage:

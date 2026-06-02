@@ -99,16 +99,12 @@ class CategoriesScreen extends ConsumerWidget {
                           confirmTitle: 'Excluir Categoria',
                           confirmMessage:
                               'Tem certeza que deseja remover esta categoria? Esta ação não pode ser desfeita.',
-                          onDelete: () async {
-                            String? error;
-
-                            final result = await ref
-                                .read(categoriesNotifierProvider.notifier)
-                                .remove(index);
-
-                            result.when(onFailure: (f) => error = f.message);
-
-                            return error;
+                          onDelete: () {
+                            return resultToError(
+                              ref
+                                  .read(categoriesNotifierProvider.notifier)
+                                  .remove(index),
+                            );
                           },
                         );
                       },
