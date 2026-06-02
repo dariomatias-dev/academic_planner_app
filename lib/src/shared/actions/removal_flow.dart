@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 
+import 'package:academic_planner/src/core/result/result.dart';
+
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_confirm_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
+
+Future<String?> resultToError<T>(Future<Result<T>> resultFuture) async {
+  String? error;
+
+  final result = await resultFuture;
+
+  result.when(onFailure: (f) => error = f.message);
+
+  return error;
+}
 
 /// Orchestrates the full delete UX: confirm → delete → success/failure with retry.
 ///
