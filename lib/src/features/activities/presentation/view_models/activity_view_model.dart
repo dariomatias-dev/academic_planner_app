@@ -18,17 +18,11 @@ class ActivityViewModel {
   Future<Result<void>> create(Activity activity) async {
     _logger.info('createActivity started: ${activity.title}');
 
-    try {
-      final result = await repository.add(activity);
+    final result = await repository.add(activity);
 
-      _logger.info('createActivity success: ${activity.title}');
+    _logger.info('createActivity success: ${activity.title}');
 
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error('createActivity error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+    return result;
   }
 
   Future<Result<List<Activity>>> getAll({
@@ -37,90 +31,55 @@ class ActivityViewModel {
   }) async {
     _logger.info('getActivities started');
 
-    try {
-      final result = await repository.getAll(
-        filter: filter,
-        pagination: pagination,
-      );
+    final result = await repository.getAll(
+      filter: filter,
+      pagination: pagination,
+    );
 
-      _logger.info('getActivities success');
+    _logger.info('getActivities success');
 
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error('getActivities error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+    return result;
   }
 
   Future<Result<int>> count({ActivityFilter? filter}) async {
     _logger.info('countActivities started');
 
-    try {
-      final result = await repository.count(filter: filter);
+    final result = await repository.count(filter: filter);
 
-      _logger.info('countActivities success');
+    _logger.info('countActivities success');
 
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error(
-        'countActivities error',
-        error: err,
-        stackTrace: stackTrace,
-      );
-
-      rethrow;
-    }
+    return result;
   }
 
   Future<Result<Activity?>> getById(String id) async {
     _logger.info('getById started: $id');
 
-    try {
-      final result = await repository.getById(id);
+    final result = await repository.getById(id);
 
-      _logger.info('getById success: $id');
+    _logger.info('getById success: $id');
 
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error('getById error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+    return result;
   }
 
   Future<Result<void>> update(Activity activity) async {
     _logger.info('update started: ${activity.id}');
 
-    try {
-      final updated = activity.copyWith(updatedAt: DateTime.now());
+    final updated = activity.copyWith(updatedAt: DateTime.now());
+    final result = await repository.update(updated);
 
-      final result = await repository.update(updated);
+    _logger.info('update success: ${activity.id}');
 
-      _logger.info('update success: ${activity.id}');
-
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error('update error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+    return result;
   }
 
   Future<Result<void>> delete(String id) async {
     _logger.info('delete started: $id');
 
-    try {
-      final result = await repository.delete(id);
+    final result = await repository.delete(id);
 
-      _logger.info('delete success: $id');
+    _logger.info('delete success: $id');
 
-      return result;
-    } catch (err, stackTrace) {
-      _logger.error('delete error', error: err, stackTrace: stackTrace);
-
-      rethrow;
-    }
+    return result;
   }
 
   Activity createNew({
