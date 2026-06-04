@@ -148,7 +148,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       context: context,
       initialDate: _dueDateNotifier.value ?? DateTime.now(),
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime(2030),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
     );
 
     if (picked != null) {
@@ -414,7 +414,9 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                   const SizedBox(height: 20.0),
                   Consumer(
                     builder: (context, ref, child) {
-                      final categories = ref.watch(categoriesNotifierProvider).asData?.value ?? [];
+                      final categories =
+                          ref.watch(categoriesNotifierProvider).asData?.value ??
+                          [];
 
                       return ValueListenableBuilder<String?>(
                         valueListenable: _categoryNotifier,
@@ -438,7 +440,8 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
                   const SizedBox(height: 20.0),
                   Consumer(
                     builder: (context, ref, child) {
-                      final availableTags = ref.watch(tagNotifierProvider).asData?.value ?? [];
+                      final availableTags =
+                          ref.watch(tagNotifierProvider).asData?.value ?? [];
 
                       return ValueListenableBuilder<List<String>>(
                         valueListenable: _tagsNotifier,

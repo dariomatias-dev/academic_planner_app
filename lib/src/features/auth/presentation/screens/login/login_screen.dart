@@ -67,8 +67,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             Fluttertoast.showToast(msg: 'Login realizado com sucesso');
 
             AppRoutes.goToRoot(context);
-          } else {
-            Fluttertoast.showToast(msg: 'Usuário não encontrado');
           }
         },
         error: (err, _) {
@@ -240,7 +238,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: null,
       style: OutlinedButton.styleFrom(
         fixedSize: const Size(double.maxFinite, 56.0),
         side: BorderSide(color: colorScheme.onSurface.withAlpha(30)),
