@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
@@ -26,7 +26,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -45,7 +45,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(activities);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -56,7 +56,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(count);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -69,7 +69,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(ActivityModel.fromMap(data).toEntity());
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -83,7 +83,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -94,7 +94,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -105,7 +105,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 }

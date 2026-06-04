@@ -21,6 +21,18 @@ class ExceptionMapper {
     return UnknownFailure(error.toString(), error);
   }
 
+  static Failure mapDatabase(Object error) {
+    if (error is SocketException) {
+      return NetworkFailure('Sem conexão com a internet', error);
+    }
+
+    if (error is FormatException) {
+      return ValidationFailure('Formato inválido', error);
+    }
+
+    return DatabaseFailure(error.toString(), error);
+  }
+
   static Failure _mapFirebaseAuth(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':

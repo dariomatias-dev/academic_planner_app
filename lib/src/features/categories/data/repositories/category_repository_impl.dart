@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/categories/data/data_source/category_local_datasource.dart';
@@ -31,7 +31,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
         data.builder((e, index) => CategoryModel.fromMap(e).toEntity()),
       );
     } catch (err) {
-      return FailureResult(UnknownFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -44,7 +44,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(UnknownFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/notes/data/data_source/note_local_datasource.dart';
@@ -24,7 +24,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -36,7 +36,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return Success(notes);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -49,7 +49,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return Success(NoteModel.fromMap(data).toEntity());
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -60,7 +60,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -71,7 +71,7 @@ class NoteRepositoryImpl implements NoteRepository {
       
       return const Success(null);
     } catch (err) {
-      return FailureResult(DatabaseFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 }

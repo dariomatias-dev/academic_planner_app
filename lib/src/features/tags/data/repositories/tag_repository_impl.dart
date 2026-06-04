@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/tags/data/data_source/tag_local_datasource.dart';
@@ -30,7 +30,7 @@ class TagRepositoryImpl implements TagRepository {
         data.builder((e, index) => TagModel.fromMap(e).toEntity()),
       );
     } catch (err) {
-      return FailureResult(UnknownFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -43,7 +43,7 @@ class TagRepositoryImpl implements TagRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(UnknownFailure(err.toString()));
+      return FailureResult(ExceptionMapper.mapDatabase(err));
     }
   }
 }
