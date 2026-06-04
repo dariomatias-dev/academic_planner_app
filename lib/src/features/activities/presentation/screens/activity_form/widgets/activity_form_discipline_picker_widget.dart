@@ -37,12 +37,23 @@ class ActivityFormDisciplinePickerWidget extends ConsumerStatefulWidget {
 class _ActivityFormDisciplinePickerWidgetState
     extends ConsumerState<ActivityFormDisciplinePickerWidget> {
   late final FocusNode _focusNode;
+  final _formFieldKey = GlobalKey<FormFieldState<DisciplineModel>>();
 
   @override
   void initState() {
     super.initState();
+
     _focusNode = FocusNode();
     _focusNode.addListener(() => setState(() {}));
+  }
+
+  @override
+  void didUpdateWidget(ActivityFormDisciplinePickerWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.selectedDiscipline != widget.selectedDiscipline) {
+      _formFieldKey.currentState?.didChange(widget.selectedDiscipline);
+    }
   }
 
   @override
@@ -57,11 +68,13 @@ class _ActivityFormDisciplinePickerWidgetState
     final colorScheme = theme.colorScheme;
 
     return FormField<DisciplineModel>(
+      key: _formFieldKey,
       initialValue: widget.selectedDiscipline,
       validator: (value) {
-        if (widget.isRequired && widget.selectedDiscipline == null) {
+        if (widget.isRequired && value == null) {
           return "A disciplina é obrigatória";
         }
+
         return widget.validator?.call(value);
       },
       builder: (state) {
