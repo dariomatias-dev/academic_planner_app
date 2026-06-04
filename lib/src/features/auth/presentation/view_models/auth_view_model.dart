@@ -196,44 +196,5 @@ class AuthViewModel {
     return result;
   }
 
-  Future<Result<void>> registerFlow(RegisterEntity entity) async {
-    _logger.info('registerFlow started: ${entity.email}');
-
-    final signUpResult = await signUp(entity);
-
-    return signUpResult.fold(
-      onSuccess: (_) async {
-        final verifyResult = await sendEmailVerification();
-
-        return verifyResult.fold(
-          onSuccess: (_) async {
-            final signOutResult = await signOut();
-
-            return signOutResult.fold(
-              onSuccess: (_) {
-                _logger.info('registerFlow success: ${entity.email}');
-
-                return const Success(null);
-              },
-              onFailure: (f) {
-                _logger.warning('registerFlow signOut failed: ${f.message}');
-
-                return FailureResult(f);
-              },
-            );
-          },
-          onFailure: (f) {
-            _logger.warning('registerFlow verification failed: ${f.message}');
-
-            return FailureResult(f);
-          },
-        );
-      },
-      onFailure: (f) {
-        _logger.warning('registerFlow signUp failed: ${f.message}');
-
-        return FailureResult(f);
-      },
-    );
-  }
+  Future<Result<void>> registerFlow(RegisterEntity entity) => signUp(entity);
 }
