@@ -41,7 +41,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     await auth.signIn(
       LoginEntity(
         email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        password: _passwordController.text,
       ),
     );
   }
