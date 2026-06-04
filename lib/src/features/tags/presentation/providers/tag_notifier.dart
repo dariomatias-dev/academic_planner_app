@@ -27,7 +27,10 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
     final current = state.asData?.value ?? [];
     final result = await _viewModel.add(current, name);
 
-    result.when(onSuccess: (data) => state = AsyncData(data));
+    result.when(
+      onSuccess: (data) => state = AsyncData(data),
+      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
+    );
 
     return result;
   }
@@ -36,7 +39,10 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
     final current = state.asData?.value ?? [];
     final result = await _viewModel.update(current, index, name);
 
-    result.when(onSuccess: (data) => state = AsyncData(data));
+    result.when(
+      onSuccess: (data) => state = AsyncData(data),
+      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
+    );
 
     return result;
   }
@@ -45,7 +51,10 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
     final current = state.asData?.value ?? [];
     final result = await _viewModel.remove(current, index);
 
-    result.when(onSuccess: (data) => state = AsyncData(data));
+    result.when(
+      onSuccess: (data) => state = AsyncData(data),
+      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
+    );
 
     return result;
   }
