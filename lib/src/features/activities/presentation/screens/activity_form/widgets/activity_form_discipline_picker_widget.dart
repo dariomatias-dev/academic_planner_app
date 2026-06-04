@@ -52,7 +52,9 @@ class _ActivityFormDisciplinePickerWidgetState
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.selectedDiscipline != widget.selectedDiscipline) {
-      _formFieldKey.currentState?.didChange(widget.selectedDiscipline);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _formFieldKey.currentState?.didChange(widget.selectedDiscipline);
+      });
     }
   }
 

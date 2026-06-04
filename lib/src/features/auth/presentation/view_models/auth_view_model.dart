@@ -195,6 +195,4 @@ class AuthViewModel {
 
     return result;
   }
-
-  Future<Result<void>> registerFlow(RegisterEntity entity) => signUp(entity);
 }

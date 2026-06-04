@@ -155,7 +155,9 @@ class _ActivitiesTaskListTabWidgetState
 
     final countAsync = ref.watch(activityCountProvider(widget.filter));
 
-    ref.listen(activityNotifierProvider, (_, _) => _fetchInitial());
+    ref.listen(activityNotifierProvider, (prev, next) {
+      if (next is AsyncData && prev is! AsyncData) _fetchInitial();
+    });
 
     if (_isLoading) return const LoadingStateWidget();
 

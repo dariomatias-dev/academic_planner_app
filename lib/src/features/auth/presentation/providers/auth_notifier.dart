@@ -61,17 +61,6 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
   Future<void> register(RegisterEntity entity) async {
     state = const AsyncLoading();
 
-    final result = await viewModel.registerFlow(entity);
-
-    state = result.fold(
-      onSuccess: (_) => const AsyncData(null),
-      onFailure: (f) => AsyncError(f, StackTrace.current),
-    );
-  }
-
-  Future<void> signUp(RegisterEntity entity) async {
-    state = const AsyncLoading();
-
     final result = await viewModel.signUp(entity);
 
     state = result.fold(
