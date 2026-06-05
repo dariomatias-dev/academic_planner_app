@@ -34,7 +34,7 @@ class _RootNavigationState extends State<RootNavigation> {
     super.didUpdateWidget(oldWidget);
 
     final newIndex = widget.navigationShell.currentIndex;
-    if (_pageController.page?.round() != newIndex) {
+    if (_pageController.hasClients && _pageController.page?.round() != newIndex) {
       _pageController.animateToPage(
         newIndex,
         duration: const Duration(milliseconds: 300),
@@ -57,7 +57,11 @@ class _RootNavigationState extends State<RootNavigation> {
         children: <Widget>[
           PageView(
             controller: _pageController,
-            onPageChanged: widget.navigationShell.goBranch,
+            onPageChanged: (index) {
+              if (index != widget.navigationShell.currentIndex) {
+                widget.navigationShell.goBranch(index);
+              }
+            },
             children: widget.children,
           ),
           NavBarWidget(

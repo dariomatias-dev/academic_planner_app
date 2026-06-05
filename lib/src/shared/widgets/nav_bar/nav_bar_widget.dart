@@ -53,7 +53,7 @@ class NavBarWidget extends StatelessWidget {
                     duration: const Duration(milliseconds: 350),
                     curve: Curves.easeInOutBack,
                     left: (itemWidth * selectedIndex) + 4.0,
-                    top: (76.0 - 56.0) / 2.0,
+                    top: (constraints.maxHeight - 56.0) / 2.0,
                     child: Container(
                       width: itemWidth - 8.0,
                       height: 56.0,
