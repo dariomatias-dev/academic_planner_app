@@ -18,7 +18,7 @@ class AppRoutes {
   }) {
     context.pushNamed(
       RouteNames.activityDetails,
-      queryParameters: <String, String>{'activityId': activityId},
+      pathParameters: <String, String>{'activityId': activityId},
     );
   }
 

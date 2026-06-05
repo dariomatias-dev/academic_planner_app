@@ -3,7 +3,7 @@ class RoutePaths {
 
   static const about = '/about';
 
-  static const activityDetails = '/activity-details';
+  static const activityDetails = '/activity-details/:activityId';
 
   static const activityForm = '/activity-form';
 

@@ -50,7 +50,7 @@ class AppRouter {
             path: RoutePaths.activityDetails,
             builder: (context, state) {
               final activityId =
-                  state.uri.queryParameters['activityId'] as String;
+                  state.pathParameters['activityId'] ?? '';
 
               return ActivityDetailsScreen(activityId: activityId);
             },
