@@ -66,7 +66,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
             Fluttertoast.showToast(msg: 'Login realizado com sucesso');
 
-            AppRoutes.goToRoot(context);
+            AppRoutes.goToHome(context);
           }
         },
         error: (err, _) {

@@ -1,82 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:academic_planner/src/core/di/navigation_provider.dart';
-
-import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';
-import 'package:academic_planner/src/features/home/presentation/screens/dashboard/dashboard_screen.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/my_disciplines/my_disciplines_screen.dart';
-import 'package:academic_planner/src/features/settings/presentation/screens/settings/settings_screen.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
 
-class RootNavigation extends ConsumerStatefulWidget {
-  const RootNavigation({super.key});
+class RootNavigation extends StatefulWidget {
+  final StatefulNavigationShell navigationShell;
+  final List<Widget> children;
+
+  const RootNavigation({
+    super.key,
+    required this.navigationShell,
+    required this.children,
+  });
 
   @override
-  ConsumerState<RootNavigation> createState() => _RootNavigationState();
+  State<RootNavigation> createState() => _RootNavigationState();
 }
 
-class _RootNavigationState extends ConsumerState<RootNavigation> {
+class _RootNavigationState extends State<RootNavigation> {
   late final PageController _pageController;
-
-  final _screens = <Widget>[
-    const DashboardScreen(),
-    const MyDisciplinesScreen(showBackButton: false),
-    const ActivitiesScreen(),
-    const SettingsScreen(),
-  ];
-
-  void _handleNavigationChange(int index) {
-    if (_pageController.hasClients && _pageController.page?.round() != index) {
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-  void _onPageChanged(int index) {
-    ref.read(navigationNotifierProvider.notifier).setIndex(index);
-  }
-
-  void _onNavBarTap(int index) {
-    ref.read(navigationNotifierProvider.notifier).setIndex(index);
-  }
 
   @override
   void initState() {
     super.initState();
 
     _pageController = PageController(
-      initialPage: ref.read(navigationNotifierProvider),
+      initialPage: widget.navigationShell.currentIndex,
     );
+  }
+
+  @override
+  void didUpdateWidget(RootNavigation oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final newIndex = widget.navigationShell.currentIndex;
+    if (_pageController.page?.round() != newIndex) {
+      _pageController.animateToPage(
+        newIndex,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final selectedIndex = ref.watch(navigationNotifierProvider);
-
-    ref.listen<int>(navigationNotifierProvider, (prev, next) {
-      _handleNavigationChange(next);
-    });
-
     return Scaffold(
       body: Stack(
         children: <Widget>[
           PageView(
             controller: _pageController,
-            onPageChanged: _onPageChanged,
-            children: _screens,
+            onPageChanged: widget.navigationShell.goBranch,
+            children: widget.children,
           ),
-          NavBarWidget(selectedIndex: selectedIndex, onTap: _onNavBarTap),
+          NavBarWidget(
+            selectedIndex: widget.navigationShell.currentIndex,
+            onTap: (index) {
+              widget.navigationShell.goBranch(
+                index,
+                initialLocation: index == widget.navigationShell.currentIndex,
+              );
+            },
+          ),
         ],
       ),
     );

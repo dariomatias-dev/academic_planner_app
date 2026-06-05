@@ -1,5 +1,11 @@
 class RoutePaths {
-  static const root = '/';
+  static const home = '/home';
+
+  static const myDisciplines = '/my-disciplines';
+
+  static const activities = '/activities';
+
+  static const settings = '/settings';
 
   static const about = '/about';
 

@@ -39,7 +39,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     await _loadAppData();
 
     if (mounted) {
-      AppRoutes.goToRoot(context);
+      AppRoutes.goToHome(context);
     }
   }
 

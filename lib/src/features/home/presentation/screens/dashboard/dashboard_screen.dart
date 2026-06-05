@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/di/navigation_provider.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
@@ -221,7 +221,7 @@ class _HomeSectionHeader extends ConsumerWidget {
         ),
         ViewAllButtonWidget(
           onTap: () {
-            ref.read(navigationNotifierProvider.notifier).setIndex(2);
+            AppRoutes.goToActivities(context);
 
             ref
                 .read(activityFilterNotifierProvider.notifier)

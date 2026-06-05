@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/di/navigation_provider.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
@@ -166,7 +165,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
                   Navigator.pop(context);
                   Navigator.pop(context);
 
-                  ref.read(navigationNotifierProvider.notifier).setIndex(2);
+                  AppRoutes.goToActivities(context);
                 },
               ),
             ),

@@ -4,8 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:academic_planner/src/core/routes/route_names.dart';
 
 class AppRoutes {
-  static void goToRoot(BuildContext context) {
-    context.goNamed(RouteNames.root);
+  static void goToHome(BuildContext context) {
+    context.goNamed(RouteNames.home);
+  }
+
+  static void goToActivities(BuildContext context) {
+    context.goNamed(RouteNames.activities);
   }
 
   static void goToAbout(BuildContext context) {

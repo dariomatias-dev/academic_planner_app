@@ -1,5 +1,11 @@
 class RouteNames {
-  static const root = 'root';
+  static const home = 'home';
+
+  static const myDisciplines = 'my_disciplines';
+
+  static const activities = 'activities';
+
+  static const settings = 'settings';
 
   static const about = 'about';
 
