@@ -182,9 +182,17 @@ class AppRouter {
       GoRoute(
         name: RouteNames.noteForm,
         path: RoutePaths.noteForm,
+        redirect: (context, state) {
+          final raw = state.uri.queryParameters['disciplineId'];
+          final id = int.tryParse(raw ?? '');
+
+          if (id == null || id <= 0) return RoutePaths.home;
+
+          return null;
+        },
         builder: (context, state) {
           final query = state.uri.queryParameters;
-          final disciplineId = int.tryParse(query['disciplineId'] ?? '0') ?? 0;
+          final disciplineId = int.parse(query['disciplineId']!);
 
           return NoteFormScreen(
             noteId: query['noteId'],
@@ -204,11 +212,18 @@ class AppRouter {
       GoRoute(
         name: RouteNames.pdfViewer,
         path: RoutePaths.pdfViewer,
+        redirect: (context, state) {
+          final url = state.uri.queryParameters['url'];
+
+          if (url == null || url.isEmpty) return RoutePaths.home;
+
+          return null;
+        },
         builder: (context, state) {
           final query = state.uri.queryParameters;
 
           return PdfViewerScreen(
-            url: query['url'] ?? '',
+            url: query['url']!,
             title: query['title'] ?? '',
           );
         },
