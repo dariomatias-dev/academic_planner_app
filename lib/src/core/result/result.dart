@@ -14,14 +14,14 @@ sealed class Result<T> {
   }
 
   void when({
-    void Function(T value)? onSuccess,
-    void Function(AppFailure failure)? onFailure,
+    required void Function(T value) onSuccess,
+    required void Function(AppFailure failure) onFailure,
   }) {
     switch (this) {
       case Success<T>(value: final v):
-        onSuccess?.call(v);
+        onSuccess(v);
       case Failure<T>(failure: final f):
-        onFailure?.call(f);
+        onFailure(f);
     }
   }
 
