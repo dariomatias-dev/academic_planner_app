@@ -11,8 +11,6 @@ import 'package:logging/logging.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/description/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
@@ -20,7 +18,6 @@ import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class NoteFormScreen extends ConsumerStatefulWidget {
@@ -234,7 +231,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                     title: "Informações",
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
-                  _NoteFormInputFieldWidget(
+                  InputFieldWidget(
                     controller: _titleController,
                     label: "Título",
                     hint: "Sobre o que é esta anotação?",
@@ -250,7 +247,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                   ValueListenableBuilder<DisciplineModel?>(
                     valueListenable: _disciplineNotifier,
                     builder: (context, discipline, child) {
-                      return ActivityFormDisciplinePickerWidget(
+                      return DisciplinePickerFieldWidget(
                         selectedDiscipline: discipline,
                         isRequired: true,
                         onSelected: (value) {
@@ -265,8 +262,11 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                     title: "Conteúdo",
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
-                  ActivityFormDescriptionFieldWidget(
+                  RichTextFieldWidget(
                     controller: _contentController,
+                    label: "Conteúdo",
+                    placeholder: "Escreva o conteúdo da sua anotação...",
+                    validatorMessage: "O conteúdo é obrigatório",
                   ),
                 ],
               ),
@@ -274,34 +274,6 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
           );
         },
       ),
-    );
-  }
-}
-
-class _NoteFormInputFieldWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final String hint;
-  final bool isRequired;
-  final String? Function(String? value)? validator;
-
-  const _NoteFormInputFieldWidget({
-    required this.controller,
-    required this.label,
-    required this.hint,
-    this.isRequired = false,
-    this.validator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        FormFieldLabelWidget(label: label, isRequired: isRequired),
-        const SizedBox(height: 8.0),
-        InputWidget(controller: controller, hint: hint, validator: validator),
-      ],
     );
   }
 }

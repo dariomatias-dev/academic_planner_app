@@ -3,9 +3,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/description/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_input_field_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 
 class ActivityFormContentSectionWidget extends StatelessWidget {
@@ -27,7 +24,7 @@ class ActivityFormContentSectionWidget extends StatelessWidget {
           title: "Conteúdo",
           padding: EdgeInsets.only(bottom: 16.0),
         ),
-        ActivityFormInputFieldWidget(
+        InputFieldWidget(
           controller: titleController,
           label: "Título",
           hint: "O que deve ser feito?",
@@ -38,7 +35,12 @@ class ActivityFormContentSectionWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20.0),
-        ActivityFormDescriptionFieldWidget(controller: descriptionController),
+        RichTextFieldWidget(
+          controller: descriptionController,
+          label: "Descrição",
+          placeholder: "Mais detalhes sobre a atividade...",
+          validatorMessage: "A descrição é obrigatória",
+        ),
       ],
     );
   }

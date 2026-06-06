@@ -6,7 +6,6 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_category_selector_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_status_selector_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_tag_selector_widget.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
@@ -54,7 +53,7 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
         ValueListenableBuilder<DisciplineModel?>(
           valueListenable: discipline,
           builder: (context, value, _) {
-            return ActivityFormDisciplinePickerWidget(
+            return DisciplinePickerFieldWidget(
               selectedDiscipline: value,
               isRequired: true,
               onSelected: onDisciplineSelected,
