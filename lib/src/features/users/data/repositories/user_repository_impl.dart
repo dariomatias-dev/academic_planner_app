@@ -27,7 +27,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -41,7 +41,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return Success(users);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -58,7 +58,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -78,7 +78,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -89,7 +89,7 @@ class UserRepositoryImpl implements UserRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 }

@@ -27,7 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Success(credential);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
@@ -40,7 +40,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return Success(credential);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
@@ -51,7 +51,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
@@ -62,7 +62,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
@@ -73,7 +73,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
@@ -84,7 +84,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       return const Success(null);
     } catch (err) {
-      return Failure(ExceptionMapper.map(err));
+      return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 

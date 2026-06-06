@@ -5,7 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 
 class ExceptionMapper {
-  static AppFailure map(Object error) {
+  const ExceptionMapper._();
+
+  static AppFailure mapAuth(Object error) {
     if (error is FirebaseAuthException) {
       return _mapFirebaseAuth(error);
     }
@@ -18,15 +20,23 @@ class ExceptionMapper {
       return const ValidationFailure('Formato inválido');
     }
 
-    return UnknownFailure(error.toString());
+    return const UnknownFailure('Erro inesperado');
   }
 
   static AppFailure mapDatabase(Object error) {
+    if (error is FirebaseException) {
+      return const DatabaseFailure('Erro no banco de dados');
+    }
+
+    if (error is SocketException) {
+      return const NetworkFailure('Sem conexão com a internet');
+    }
+
     if (error is FormatException) {
       return const ValidationFailure('Formato inválido');
     }
 
-    return DatabaseFailure(error.toString());
+    return const UnknownFailure('Erro inesperado');
   }
 
   static AppFailure _mapFirebaseAuth(FirebaseAuthException e) {
