@@ -12,6 +12,7 @@ class ModalBottomSheet {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: isScrollControlled,
+      useRootNavigator: true,
       builder: (context) {
         return ConstrainedBox(
           constraints: BoxConstraints(

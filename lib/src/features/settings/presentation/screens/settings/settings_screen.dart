@@ -40,7 +40,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         onModeSelected: (mode) {
           themeNotifier.setThemeMode(mode);
 
-          Navigator.pop(context);
+          Navigator.of(context, rootNavigator: true).pop();
         },
       ),
     );
