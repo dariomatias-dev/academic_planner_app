@@ -30,7 +30,7 @@ class TagRepositoryImpl implements TagRepository {
         data.builder((e, index) => TagModel.fromMap(e).toEntity()),
       );
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -43,7 +43,7 @@ class TagRepositoryImpl implements TagRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 }

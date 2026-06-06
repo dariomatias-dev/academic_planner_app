@@ -45,7 +45,7 @@ class AuthViewModel {
 
             _logger.warning('Email not verified: ${entity.email}');
 
-            return const FailureResult(AuthFailure('Email não verificado'));
+            return const Failure(AuthFailure('Email não verificado'));
           }
 
           isEmailVerified = true;
@@ -60,7 +60,7 @@ class AuthViewModel {
 
               return const Success(null);
             },
-            onFailure: (f) => FailureResult(f),
+            onFailure: (f) => Failure(f),
           );
         } catch (err, stack) {
           _logger.error(
@@ -69,13 +69,13 @@ class AuthViewModel {
             stackTrace: stack,
           );
 
-          return FailureResult(UnknownFailure('Erro ao processar login', err));
+          return Failure(UnknownFailure('Erro ao processar login', err));
         }
       },
       onFailure: (f) async {
         _logger.warning('signIn failed: ${f.message}');
 
-        return FailureResult(f);
+        return Failure(f);
       },
     );
   }
@@ -123,7 +123,7 @@ class AuthViewModel {
             stackTrace: stack,
           );
 
-          return FailureResult(
+          return Failure(
             UnknownFailure('Erro ao processar cadastro', err),
           );
         }
@@ -131,7 +131,7 @@ class AuthViewModel {
       onFailure: (f) async {
         _logger.warning('signUp failed: ${f.message}');
 
-        return FailureResult(f);
+        return Failure(f);
       },
     );
   }
@@ -152,7 +152,7 @@ class AuthViewModel {
       },
       onFailure: (f) {
         _logger.warning('signOut failed: ${f.message}');
-        return FailureResult(f);
+        return Failure(f);
       },
     );
   }
@@ -174,7 +174,7 @@ class AuthViewModel {
       onFailure: (f) {
         _logger.warning('deleteAccount failed: ${f.message}');
 
-        return FailureResult(f);
+        return Failure(f);
       },
     );
   }

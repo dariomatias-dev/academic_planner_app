@@ -22,7 +22,7 @@ class CategoriesViewModel {
     );
 
     if (exists) {
-      return const FailureResult(ValidationFailure('Categoria já existe'));
+      return const Failure(ValidationFailure('Categoria já existe'));
     }
 
     final updated = <Category>[...current, Category(name: name)];
@@ -31,7 +31,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 
@@ -47,7 +47,7 @@ class CategoriesViewModel {
     );
 
     if (exists) {
-      return const FailureResult(ValidationFailure('Categoria já existe'));
+      return const Failure(ValidationFailure('Categoria já existe'));
     }
 
     final updated = <Category>[...current];
@@ -57,7 +57,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 
@@ -71,7 +71,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 }

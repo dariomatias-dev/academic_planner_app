@@ -24,7 +24,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -36,7 +36,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return Success(notes);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -49,7 +49,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return Success(NoteModel.fromMap(data).toEntity());
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -60,7 +60,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -71,7 +71,7 @@ class NoteRepositoryImpl implements NoteRepository {
       
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 }

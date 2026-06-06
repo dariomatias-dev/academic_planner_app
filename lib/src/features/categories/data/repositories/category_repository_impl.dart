@@ -31,7 +31,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
         data.builder((e, index) => CategoryModel.fromMap(e).toEntity()),
       );
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -44,7 +44,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 }

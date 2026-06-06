@@ -72,7 +72,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         error: (err, _) {
           if (!mounted) return;
 
-          final message = err is Failure ? err.message : err.toString();
+          final message = err is AppFailure ? err.message : err.toString();
 
           _logger.error('Login error', error: err);
 

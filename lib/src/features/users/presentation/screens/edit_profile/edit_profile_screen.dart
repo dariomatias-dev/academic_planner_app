@@ -59,7 +59,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
     if (state.hasError) {
       final error = state.error;
-      final message = error is Failure
+      final message = error is AppFailure
           ? error.message
           : "Erro ao atualizar perfil";
 
@@ -100,7 +100,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return Scaffold(
           appBar: const AppBarWidget(title: 'Editar Perfil'),
           body: ErrorStateWidget(
-            description: err is Failure
+            description: err is AppFailure
                 ? err.message
                 : 'Erro ao carregar dados',
             actionLabel: 'Recarregar',

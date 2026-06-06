@@ -22,7 +22,7 @@ class TagViewModel {
     );
 
     if (exists) {
-      return const FailureResult(ValidationFailure('Tag já existe'));
+      return const Failure(ValidationFailure('Tag já existe'));
     }
 
     final updated = <Tag>[...current, Tag(name: name)];
@@ -31,7 +31,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 
@@ -47,7 +47,7 @@ class TagViewModel {
     );
 
     if (exists) {
-      return const FailureResult(ValidationFailure('Tag já existe'));
+      return const Failure(ValidationFailure('Tag já existe'));
     }
 
     final updated = <Tag>[...current];
@@ -57,7 +57,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 
@@ -71,7 +71,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => FailureResult(f),
+      onFailure: (f) => Failure(f),
     );
   }
 }

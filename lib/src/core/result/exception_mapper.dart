@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 
 class ExceptionMapper {
-  static Failure map(Object error) {
+  static AppFailure map(Object error) {
     if (error is FirebaseAuthException) {
       return _mapFirebaseAuth(error);
     }
@@ -21,7 +21,7 @@ class ExceptionMapper {
     return UnknownFailure(error.toString(), error);
   }
 
-  static Failure mapDatabase(Object error) {
+  static AppFailure mapDatabase(Object error) {
     if (error is SocketException) {
       return NetworkFailure('Sem conexão com a internet', error);
     }
@@ -33,7 +33,7 @@ class ExceptionMapper {
     return DatabaseFailure(error.toString(), error);
   }
 
-  static Failure _mapFirebaseAuth(FirebaseAuthException e) {
+  static AppFailure _mapFirebaseAuth(FirebaseAuthException e) {
     switch (e.code) {
       case 'user-not-found':
         return const AuthFailure('Usuário não encontrado');

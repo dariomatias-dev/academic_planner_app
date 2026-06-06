@@ -26,7 +26,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -45,7 +45,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(activities);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -56,7 +56,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(count);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -69,7 +69,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return Success(ActivityModel.fromMap(data).toEntity());
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -83,7 +83,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -94,7 +94,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 
@@ -105,7 +105,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
 
       return const Success(null);
     } catch (err) {
-      return FailureResult(ExceptionMapper.mapDatabase(err));
+      return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
 }

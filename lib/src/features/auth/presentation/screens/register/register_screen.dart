@@ -75,7 +75,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         error: (err, _) {
           if (!mounted) return;
 
-          final message = err is Failure ? err.message : err.toString();
+          final message = err is AppFailure ? err.message : err.toString();
 
           _logger.error('Register error', error: err);
 

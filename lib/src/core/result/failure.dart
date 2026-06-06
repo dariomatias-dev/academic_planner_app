@@ -1,26 +1,26 @@
-sealed class Failure {
+sealed class AppFailure {
   final String message;
   final Object? exception;
 
-  const Failure(this.message, [this.exception]);
+  const AppFailure(this.message, [this.exception]);
 }
 
-final class AuthFailure extends Failure {
+final class AuthFailure extends AppFailure {
   const AuthFailure(super.message, [super.exception]);
 }
 
-final class DatabaseFailure extends Failure {
+final class DatabaseFailure extends AppFailure {
   const DatabaseFailure(super.message, [super.exception]);
 }
 
-final class NetworkFailure extends Failure {
+final class NetworkFailure extends AppFailure {
   const NetworkFailure(super.message, [super.exception]);
 }
 
-final class ValidationFailure extends Failure {
+final class ValidationFailure extends AppFailure {
   const ValidationFailure(super.message, [super.exception]);
 }
 
-final class UnknownFailure extends Failure {
+final class UnknownFailure extends AppFailure {
   const UnknownFailure(super.message, [super.exception]);
 }
