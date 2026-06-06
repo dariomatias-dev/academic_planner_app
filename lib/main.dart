@@ -11,10 +11,13 @@ import 'package:academic_planner/src/app_widget.dart';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
+import 'package:academic_planner/src/core/logging/logger.dart';
 import 'package:academic_planner/src/core/seeds/seed_initializer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  configureLogging();
 
   await initializeDateFormatting('pt_BR', null);
 
