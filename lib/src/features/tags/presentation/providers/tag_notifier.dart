@@ -19,7 +19,7 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     return result.fold(
       onSuccess: (data) => data,
-      onFailure: (_) => <Tag>[],
+      onFailure: (f) => throw f,
     );
   }
 
@@ -29,7 +29,6 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
     );
 
     return result;
@@ -41,7 +40,6 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
     );
 
     return result;
@@ -53,7 +51,6 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
     );
 
     return result;
