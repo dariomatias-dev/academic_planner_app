@@ -13,13 +13,6 @@ class ThemeNotifier extends Notifier<ThemeMode> {
   ThemeMode build() {
     _preferences = ref.read(sharedPreferencesServiceProvider);
 
-    SchedulerBinding.instance.platformDispatcher.onPlatformBrightnessChanged =
-        () {
-          if (state == ThemeMode.system) {
-            state = ThemeMode.system;
-          }
-        };
-
     final value = _preferences.getString(SharedPreferencesKeys.themeModeKey);
 
     if (value == 'light') {
