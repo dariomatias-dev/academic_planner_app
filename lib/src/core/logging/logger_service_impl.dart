@@ -21,4 +21,9 @@ class LoggerServiceImpl implements LoggerService {
   void info(String message) {
     _logger.i(message);
   }
+
+  @override
+  void debug(String message) {
+    _logger.d(message);
+  }
 }
