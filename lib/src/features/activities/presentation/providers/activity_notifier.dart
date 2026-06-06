@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
@@ -9,6 +10,8 @@ import 'package:academic_planner/src/features/activities/domain/value_objects/ac
 import 'package:academic_planner/src/features/activities/presentation/view_models/activity_view_model.dart';
 
 class ActivityNotifier extends AsyncNotifier<void> {
+  static final _log = Logger('activities.ActivityNotifier');
+
   late final ActivityViewModel _viewModel;
 
   @override
@@ -28,7 +31,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
         ref.read(activityStatsNotifierProvider.notifier).refresh();
         return const AsyncData(null);
       },
-      onFailure: (f) => AsyncError(f, StackTrace.current),
+      onFailure: (f) {
+        _log.warning('add failed: ${f.message}');
+
+        return AsyncError(f, StackTrace.current);
+      },
     );
 
     return result;
@@ -57,10 +64,14 @@ class ActivityNotifier extends AsyncNotifier<void> {
     state = result.fold(
       onSuccess: (_) {
         ref.read(activityStatsNotifierProvider.notifier).refresh();
-        
+
         return const AsyncData(null);
       },
-      onFailure: (f) => AsyncError(f, StackTrace.current),
+      onFailure: (f) {
+        _log.warning('edit failed: ${f.message}');
+
+        return AsyncError(f, StackTrace.current);
+      },
     );
 
     return result;
@@ -76,7 +87,11 @@ class ActivityNotifier extends AsyncNotifier<void> {
         ref.read(activityStatsNotifierProvider.notifier).refresh();
         return const AsyncData(null);
       },
-      onFailure: (f) => AsyncError(f, StackTrace.current),
+      onFailure: (f) {
+        _log.warning('delete failed: ${f.message}');
+
+        return AsyncError(f, StackTrace.current);
+      },
     );
 
     return result;

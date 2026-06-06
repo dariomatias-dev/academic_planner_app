@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 
 import 'package:academic_planner/src/core/result/result.dart';
 
@@ -7,6 +8,8 @@ import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_view_model.dart';
 
 class NoteNotifier extends AsyncNotifier<void> {
+  static final _log = Logger('notes.NoteNotifier');
+
   late final NoteViewModel _viewModel;
 
   @override
@@ -20,6 +23,11 @@ class NoteNotifier extends AsyncNotifier<void> {
     state = const AsyncLoading();
 
     final result = await _viewModel.create(note);
+
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (f) => _log.warning('add failed: ${f.message}'),
+    );
 
     state = const AsyncData(null);
 
@@ -39,6 +47,11 @@ class NoteNotifier extends AsyncNotifier<void> {
 
     final result = await _viewModel.update(note);
 
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (f) => _log.warning('edit failed: ${f.message}'),
+    );
+
     state = const AsyncData(null);
 
     return result;
@@ -48,6 +61,11 @@ class NoteNotifier extends AsyncNotifier<void> {
     state = const AsyncLoading();
 
     final result = await _viewModel.delete(id);
+
+    result.fold(
+      onSuccess: (_) {},
+      onFailure: (f) => _log.warning('delete failed: ${f.message}'),
+    );
 
     state = const AsyncData(null);
 
