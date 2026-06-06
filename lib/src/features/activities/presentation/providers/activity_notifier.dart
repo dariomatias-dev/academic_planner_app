@@ -26,11 +26,12 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     final result = await _viewModel.create(activity);
 
-    state = const AsyncData(null);
-
-    result.when(
-      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
-      onFailure: (_) {},
+    state = result.fold(
+      onSuccess: (_) {
+        ref.read(activityStatsNotifierProvider.notifier).refresh();
+        return const AsyncData(null);
+      },
+      onFailure: (f) => AsyncError(f, StackTrace.current),
     );
 
     return result;
@@ -56,11 +57,13 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     final result = await _viewModel.update(activity);
 
-    state = const AsyncData(null);
-
-    result.when(
-      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
-      onFailure: (_) {},
+    state = result.fold(
+      onSuccess: (_) {
+        ref.read(activityStatsNotifierProvider.notifier).refresh();
+        
+        return const AsyncData(null);
+      },
+      onFailure: (f) => AsyncError(f, StackTrace.current),
     );
 
     return result;
@@ -71,11 +74,12 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     final result = await _viewModel.delete(id);
 
-    state = const AsyncData(null);
-
-    result.when(
-      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
-      onFailure: (_) {},
+    state = result.fold(
+      onSuccess: (_) {
+        ref.read(activityStatsNotifierProvider.notifier).refresh();
+        return const AsyncData(null);
+      },
+      onFailure: (f) => AsyncError(f, StackTrace.current),
     );
 
     return result;
