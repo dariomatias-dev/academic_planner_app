@@ -13,8 +13,8 @@ class LoggerServiceImpl implements LoggerService {
   }
 
   @override
-  void warning(String message) {
-    _logger.w(message);
+  void warning(String message, {Object? error, StackTrace? stackTrace}) {
+    _logger.w(message, error: error, stackTrace: stackTrace);
   }
 
   @override
