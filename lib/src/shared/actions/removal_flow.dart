@@ -7,13 +7,12 @@ import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dial
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
 
 Future<String?> resultToError<T>(Future<Result<T>> resultFuture) async {
-  String? error;
-
   final result = await resultFuture;
 
-  result.when(onFailure: (f) => error = f.message);
-
-  return error;
+  return result.fold(
+    onSuccess: (_) => null,
+    onFailure: (f) => f.message,
+  );
 }
 
 /// Orchestrates the full delete UX: confirm → delete → success/failure with retry.
