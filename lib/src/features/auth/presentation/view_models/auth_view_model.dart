@@ -27,7 +27,7 @@ class AuthViewModel {
 
     final result = await authRepository.signIn(entity);
 
-    return await result.foldAsync(
+    return await result.fold<Future<Result<void>>>(
       onSuccess: (_) async {
         try {
           final current = authRepository.currentUser;
@@ -85,7 +85,7 @@ class AuthViewModel {
 
     final result = await authRepository.signUp(entity);
 
-    return await result.foldAsync(
+    return await result.fold<Future<Result<void>>>(
       onSuccess: (credential) async {
         try {
           final firebaseUser = credential.user;
