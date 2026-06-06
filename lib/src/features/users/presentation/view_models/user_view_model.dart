@@ -31,7 +31,7 @@ class UserViewModel {
       },
       onFailure: (failure) {
         error = failure.message;
-        _log.severe('loadUser error', failure.message);
+        _log.severe('loadUser error', failure);
       },
     );
   }
@@ -52,7 +52,7 @@ class UserViewModel {
       onFailure: (failure) {
         error = failure.message;
 
-        _log.severe('listUsers error', failure.message);
+        _log.severe('listUsers error', failure);
 
         return <UserEntity>[];
       },
@@ -75,7 +75,7 @@ class UserViewModel {
       onFailure: (failure) {
         error = failure.message;
 
-        _log.severe('updateUser error', failure.message);
+        _log.severe('updateUser error', failure);
       },
     );
   }
@@ -96,7 +96,7 @@ class UserViewModel {
       onFailure: (failure) {
         error = failure.message;
 
-        _log.severe('deleteUser error', failure.message);
+        _log.severe('deleteUser error', failure);
       },
     );
   }
