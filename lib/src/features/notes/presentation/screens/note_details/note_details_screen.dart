@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
@@ -357,7 +356,7 @@ class _NoteDetailsDescriptionWidgetState
         padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          openUrl(context, url, logger: ref.read(loggerProvider));
+          openUrl(context, url);
         },
       ),
     );

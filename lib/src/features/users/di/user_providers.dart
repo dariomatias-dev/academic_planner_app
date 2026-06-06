@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/di/firebase_providers.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/features/users/data/repositories/user_repository_impl.dart';
 import 'package:academic_planner/src/features/users/data/services/user_firestore_service.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -26,9 +24,8 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 
 final userViewModelProvider = Provider<UserViewModel>((ref) {
   final repository = ref.watch(userRepositoryProvider);
-  final logger = ref.watch(loggerProvider);
 
-  return UserViewModel(repository, logger);
+  return UserViewModel(repository);
 });
 
 final userNotifierProvider = AsyncNotifierProvider<UserNotifier, UserEntity?>(

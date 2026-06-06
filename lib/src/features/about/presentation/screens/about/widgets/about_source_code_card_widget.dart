@@ -6,8 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 
 const _repoUrl = 'https://github.com/dariomatias-dev/academic_planner_app';
@@ -134,7 +132,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
           Divider(height: 1.0, color: theme.dividerTheme.color),
           InkWell(
             onTap: () {
-              openUrl(context, _repoUrl, logger: ref.read(loggerProvider));
+              openUrl(context, _repoUrl);
             },
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(24.0),

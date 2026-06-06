@@ -9,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
@@ -48,7 +49,7 @@ class ActivityFormScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
-  late final _logger = ref.read(loggerProvider);
+  static final _log = Logger('activities.ActivityFormScreen');
 
   final _formKey = GlobalKey<FormState>();
 
@@ -273,11 +274,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
           _unfocus();
         } catch (err, stackTrace) {
-          _logger.error(
-            'Failed to parse description',
-            error: err,
-            stackTrace: stackTrace,
-          );
+          _log.severe('Failed to parse description', err, stackTrace);
         }
 
         _disciplineNotifier.value = adsDisciplines.where((d) {

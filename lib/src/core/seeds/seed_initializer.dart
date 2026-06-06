@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:academic_planner/src/core/logging/logger_service_impl.dart';
 import 'package:academic_planner/src/core/seeds/seed.dart';
 import 'package:academic_planner/src/core/seeds/seed_runner.dart';
 
@@ -17,12 +15,9 @@ const _seedEnabled = bool.fromEnvironment('SEED_ENABLED', defaultValue: false);
 Future<void> runDevSeeds(Database db) async {
   if (!kDebugMode || !_seedEnabled) return;
 
-  final logger = LoggerServiceImpl(Logger());
-
   await SeedRunner(
     seeds: <Seed>[
       ActivitySeed(ActivityRepositoryImpl(ActivityLocalDataSource(db))),
     ],
-    logger: logger,
   ).run();
 }

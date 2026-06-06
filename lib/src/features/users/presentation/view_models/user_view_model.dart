@@ -1,20 +1,21 @@
-import 'package:academic_planner/src/core/logging/logger_service.dart';
+import 'package:logging/logging.dart';
 
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
 class UserViewModel {
-  UserViewModel(this._repository, this._logger);
+  static final _log = Logger('users.UserViewModel');
+
+  UserViewModel(this._repository);
 
   final UserRepository _repository;
-  final LoggerService _logger;
 
   UserEntity? user;
   String? error;
 
   Future<void> loadUser(String uid) async {
     error = null;
-    _logger.info('loadUser started: $uid');
+    _log.info('loadUser started: $uid');
 
     final result = await _repository.getById(uid);
 
@@ -23,18 +24,14 @@ class UserViewModel {
         user = value;
 
         if (user == null) {
-          _logger.warning('User not found: $uid');
+          _log.warning('User not found: $uid');
         } else {
-          _logger.info('User loaded: ${user!.id}');
+          _log.info('User loaded: ${user!.id}');
         }
       },
       onFailure: (failure) {
         error = failure.message;
-        _logger.error(
-          'loadUser error',
-          error: failure.message,
-          stackTrace: null,
-        );
+        _log.severe('loadUser error', failure.message);
       },
     );
   }
@@ -42,24 +39,20 @@ class UserViewModel {
   Future<List<UserEntity>> listUsers({String? query, UserRole? role}) async {
     error = null;
 
-    _logger.info('listUsers started: role=$role, query=$query');
+    _log.info('listUsers started: role=$role, query=$query');
 
     final result = await _repository.getAll(role: role, query: query);
 
     return result.fold(
       onSuccess: (value) {
-        _logger.info('listUsers success: ${value.length} users found');
+        _log.info('listUsers success: ${value.length} users found');
 
         return value;
       },
       onFailure: (failure) {
         error = failure.message;
 
-        _logger.error(
-          'listUsers error',
-          error: failure.message,
-          stackTrace: null,
-        );
+        _log.severe('listUsers error', failure.message);
 
         return <UserEntity>[];
       },
@@ -69,7 +62,7 @@ class UserViewModel {
   Future<void> updateUser(UserEntity updatedUser) async {
     error = null;
 
-    _logger.info('updateUser started: ${updatedUser.id}');
+    _log.info('updateUser started: ${updatedUser.id}');
 
     final result = await _repository.update(updatedUser);
 
@@ -77,16 +70,12 @@ class UserViewModel {
       onSuccess: (_) {
         user = updatedUser;
 
-        _logger.info('updateUser success: ${updatedUser.id}');
+        _log.info('updateUser success: ${updatedUser.id}');
       },
       onFailure: (failure) {
         error = failure.message;
 
-        _logger.error(
-          'updateUser error',
-          error: failure.message,
-          stackTrace: null,
-        );
+        _log.severe('updateUser error', failure.message);
       },
     );
   }
@@ -94,7 +83,7 @@ class UserViewModel {
   Future<void> deleteUser(String uid) async {
     error = null;
 
-    _logger.info('deleteUser started: $uid');
+    _log.info('deleteUser started: $uid');
 
     final result = await _repository.delete(uid);
 
@@ -102,16 +91,12 @@ class UserViewModel {
       onSuccess: (_) {
         user = null;
 
-        _logger.info('deleteUser success: $uid');
+        _log.info('deleteUser success: $uid');
       },
       onFailure: (failure) {
         error = failure.message;
 
-        _logger.error(
-          'deleteUser error',
-          error: failure.message,
-          stackTrace: null,
-        );
+        _log.severe('deleteUser error', failure.message);
       },
     );
   }

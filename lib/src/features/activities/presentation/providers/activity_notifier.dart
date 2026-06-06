@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
@@ -16,9 +14,8 @@ class ActivityNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {
     final repository = ref.read(activityRepositoryProvider);
-    final logger = ref.read(loggerProvider);
 
-    _viewModel = ActivityViewModel(repository, logger);
+    _viewModel = ActivityViewModel(repository);
   }
 
   Future<Result<void>> add(Activity activity) async {

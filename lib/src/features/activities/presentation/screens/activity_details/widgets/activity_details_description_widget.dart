@@ -5,8 +5,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 
 class ActivityDetailsDescriptionWidget extends ConsumerStatefulWidget {
@@ -90,7 +88,7 @@ class _ActivityDetailsDescriptionWidgetState
         padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          openUrl(context, url, logger: ref.read(loggerProvider));
+          openUrl(context, url);
         },
       ),
     );

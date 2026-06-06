@@ -1,4 +1,5 @@
-import 'package:academic_planner/src/core/logging/logger_service.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
@@ -9,9 +10,10 @@ import 'package:academic_planner/src/features/auth/domain/repositories/auth_repo
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
 class AuthViewModel {
+  static final _log = Logger('auth.AuthViewModel');
+
   final AuthRepository authRepository;
   final UserRepository userRepository;
-  final LoggerService _logger;
 
   UserEntity? user;
   bool isEmailVerified = false;
@@ -19,11 +21,10 @@ class AuthViewModel {
   AuthViewModel({
     required this.authRepository,
     required this.userRepository,
-    required LoggerService logger,
-  }) : _logger = logger;
+  });
 
   Future<Result<void>> signIn(LoginEntity entity) async {
-    _logger.info('signIn started: ${entity.email}');
+    _log.info('signIn started: ${entity.email}');
 
     final result = await authRepository.signIn(entity);
 
@@ -33,7 +34,7 @@ class AuthViewModel {
           final current = authRepository.currentUser;
 
           if (current == null) {
-            _logger.warning('signIn: currentUser is null');
+            _log.warning('signIn: currentUser is null');
 
             return const Success(null);
           }
@@ -43,7 +44,7 @@ class AuthViewModel {
           if (!current.emailVerified) {
             await authRepository.signOut();
 
-            _logger.warning('Email not verified: ${entity.email}');
+            _log.warning('Email not verified: ${entity.email}');
 
             return const Failure(AuthFailure('Email não verificado'));
           }
@@ -56,24 +57,20 @@ class AuthViewModel {
             onSuccess: (userData) {
               user = userData;
 
-              _logger.info('signIn success: ${entity.email}');
+              _log.info('signIn success: ${entity.email}');
 
               return const Success(null);
             },
             onFailure: (f) => Failure(f),
           );
         } catch (err, stack) {
-          _logger.error(
-            'signIn processing error',
-            error: err,
-            stackTrace: stack,
-          );
+          _log.severe('signIn processing error', err, stack);
 
           return Failure(UnknownFailure('Erro ao processar login'));
         }
       },
       onFailure: (f) async {
-        _logger.warning('signIn failed: ${f.message}');
+        _log.warning('signIn failed: ${f.message}');
 
         return Failure(f);
       },
@@ -81,7 +78,7 @@ class AuthViewModel {
   }
 
   Future<Result<void>> signUp(RegisterEntity entity) async {
-    _logger.info('signUp started: ${entity.email}');
+    _log.info('signUp started: ${entity.email}');
 
     final result = await authRepository.signUp(entity);
 
@@ -103,9 +100,9 @@ class AuthViewModel {
             await userRepository.create(newUser);
             await firebaseUser.sendEmailVerification();
 
-            _logger.info('User created and verification sent: ${entity.email}');
+            _log.info('User created and verification sent: ${entity.email}');
           } else {
-            _logger.warning('signUp: firebaseUser is null');
+            _log.warning('signUp: firebaseUser is null');
           }
 
           await authRepository.signOut();
@@ -113,15 +110,11 @@ class AuthViewModel {
           user = null;
           isEmailVerified = false;
 
-          _logger.info('signUp completed: ${entity.email}');
+          _log.info('signUp completed: ${entity.email}');
 
           return const Success(null);
         } catch (err, stack) {
-          _logger.error(
-            'signUp processing error',
-            error: err,
-            stackTrace: stack,
-          );
+          _log.severe('signUp processing error', err, stack);
 
           return Failure(
             UnknownFailure('Erro ao processar cadastro'),
@@ -129,7 +122,7 @@ class AuthViewModel {
         }
       },
       onFailure: (f) async {
-        _logger.warning('signUp failed: ${f.message}');
+        _log.warning('signUp failed: ${f.message}');
 
         return Failure(f);
       },
@@ -137,7 +130,7 @@ class AuthViewModel {
   }
 
   Future<Result<void>> signOut() async {
-    _logger.info('signOut started');
+    _log.info('signOut started');
 
     final result = await authRepository.signOut();
 
@@ -146,19 +139,19 @@ class AuthViewModel {
         user = null;
         isEmailVerified = false;
 
-        _logger.info('signOut success');
+        _log.info('signOut success');
 
         return const Success(null);
       },
       onFailure: (f) {
-        _logger.warning('signOut failed: ${f.message}');
+        _log.warning('signOut failed: ${f.message}');
         return Failure(f);
       },
     );
   }
 
   Future<Result<void>> deleteAccount() async {
-    _logger.info('deleteAccount started');
+    _log.info('deleteAccount started');
 
     final result = await authRepository.deleteAccount();
 
@@ -167,12 +160,12 @@ class AuthViewModel {
         user = null;
         isEmailVerified = false;
 
-        _logger.info('deleteAccount success');
+        _log.info('deleteAccount success');
 
         return const Success(null);
       },
       onFailure: (f) {
-        _logger.warning('deleteAccount failed: ${f.message}');
+        _log.warning('deleteAccount failed: ${f.message}');
 
         return Failure(f);
       },
@@ -180,16 +173,16 @@ class AuthViewModel {
   }
 
   Future<Result<void>> sendEmailVerification() async {
-    _logger.info('sendEmailVerification started');
+    _log.info('sendEmailVerification started');
 
     final result = await authRepository.sendEmailVerification();
 
     result.when(
       onSuccess: (_) {
-        _logger.info('sendEmailVerification success');
+        _log.info('sendEmailVerification success');
       },
       onFailure: (f) {
-        _logger.warning('sendEmailVerification failed: ${f.message}');
+        _log.warning('sendEmailVerification failed: ${f.message}');
       },
     );
 

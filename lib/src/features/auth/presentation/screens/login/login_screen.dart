@@ -4,7 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/validators.dart';
@@ -26,7 +27,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  late final _logger = ref.read(loggerProvider);
+  static final _log = Logger('auth.LoginScreen');
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -37,7 +38,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     final auth = ref.read(authNotifierProvider.notifier);
 
-    _logger.info('Login attempt: ${_emailController.text.trim()}');
+    _log.info('Login attempt: ${_emailController.text.trim()}');
 
     await auth.signIn(
       LoginEntity(
@@ -63,7 +64,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           if (!mounted) return;
 
           if (user != null) {
-            _logger.info('Login success: ${_emailController.text.trim()}');
+            _log.info('Login success: ${_emailController.text.trim()}');
 
             Fluttertoast.showToast(msg: 'Login realizado com sucesso');
 
@@ -79,7 +80,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
           final message = err is AppFailure ? err.message : err.toString();
 
-          _logger.error('Login error', error: err);
+          _log.severe('Login error', err);
 
           Fluttertoast.showToast(msg: message);
         },

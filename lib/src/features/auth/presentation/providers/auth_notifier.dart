@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
@@ -18,7 +17,6 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
     viewModel = AuthViewModel(
       authRepository: ref.read(authRepositoryProvider),
       userRepository: ref.read(userRepositoryProvider),
-      logger: ref.read(loggerProvider),
     );
 
     final current = viewModel.authRepository.currentUser;

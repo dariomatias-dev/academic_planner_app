@@ -1,26 +1,24 @@
-import 'package:academic_planner/src/core/logging/logger_service.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/seeds/seed.dart';
 
 class SeedRunner {
-  final List<Seed> seeds;
-  final LoggerService logger;
+  static final _log = Logger('seeds.SeedRunner');
 
-  SeedRunner({required this.seeds, required this.logger});
+  final List<Seed> seeds;
+
+  SeedRunner({required this.seeds});
 
   Future<void> run() async {
     for (final seed in seeds) {
-      logger.info('Running seed: ${seed.name}');
+      _log.info('Running seed: ${seed.name}');
 
       try {
         await seed.run();
 
-        logger.info('Finished seed: ${seed.name}');
+        _log.info('Finished seed: ${seed.name}');
       } catch (e, stackTrace) {
-        logger.error(
-          'Error running seed: ${seed.name}',
-          error: e,
-          stackTrace: stackTrace,
-        );
+        _log.severe('Error running seed: ${seed.name}', e, stackTrace);
 
         rethrow;
       }

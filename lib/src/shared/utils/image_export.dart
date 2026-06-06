@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:logging/logging.dart';
 
-import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/services/image_export_service.dart';
 
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 
 class ImageExport {
-  static late LoggerService _logger;
-
-  static void init(LoggerService logger) {
-    _logger = logger;
-  }
+  static final _log = Logger('shared.ImageExport');
 
   static Future<void> captureAndSave({
     required BuildContext context,
@@ -34,16 +30,12 @@ class ImageExport {
       if (success) {
         _showSuccessToast();
 
-        _logger.info("Image saved successfully: $fileName");
+        _log.info("Image saved successfully: $fileName");
       } else {
         throw Exception("Gallery save returned an error.");
       }
     } catch (err, stackTrace) {
-      _logger.error(
-        "Error exporting image",
-        error: err,
-        stackTrace: stackTrace,
-      );
+      _log.severe("Error exporting image", err, stackTrace);
 
       if (!context.mounted) return;
 

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 
 import 'package:academic_planner/src/shared/utils/open_url.dart';
@@ -51,7 +50,6 @@ class CourseDetailsScreen extends StatelessWidget {
                   openUrl(
                     context,
                     'https://estudante.ifpb.edu.br/cursos/346/',
-                    logger: ref.read(loggerProvider),
                   );
                 },
                 style: IconButtonStyle.primary,

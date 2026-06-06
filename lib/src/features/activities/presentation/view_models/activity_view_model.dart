@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
@@ -10,17 +10,18 @@ import 'package:academic_planner/src/features/activities/domain/repositories/act
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
 class ActivityViewModel {
-  final ActivityRepository repository;
-  final LoggerService _logger;
+  static final _log = Logger('activities.ActivityViewModel');
 
-  ActivityViewModel(this.repository, this._logger);
+  final ActivityRepository repository;
+
+  ActivityViewModel(this.repository);
 
   Future<Result<void>> create(Activity activity) async {
-    _logger.info('createActivity started: ${activity.title}');
+    _log.info('createActivity started: ${activity.title}');
 
     final result = await repository.add(activity);
 
-    _logger.info('createActivity success: ${activity.title}');
+    _log.info('createActivity success: ${activity.title}');
 
     return result;
   }
@@ -29,55 +30,55 @@ class ActivityViewModel {
     ActivityFilter? filter,
     Pagination? pagination,
   }) async {
-    _logger.info('getActivities started');
+    _log.info('getActivities started');
 
     final result = await repository.getAll(
       filter: filter,
       pagination: pagination,
     );
 
-    _logger.info('getActivities success');
+    _log.info('getActivities success');
 
     return result;
   }
 
   Future<Result<int>> count({ActivityFilter? filter}) async {
-    _logger.info('countActivities started');
+    _log.info('countActivities started');
 
     final result = await repository.count(filter: filter);
 
-    _logger.info('countActivities success');
+    _log.info('countActivities success');
 
     return result;
   }
 
   Future<Result<Activity?>> getById(String id) async {
-    _logger.info('getById started: $id');
+    _log.info('getById started: $id');
 
     final result = await repository.getById(id);
 
-    _logger.info('getById success: $id');
+    _log.info('getById success: $id');
 
     return result;
   }
 
   Future<Result<void>> update(Activity activity) async {
-    _logger.info('update started: ${activity.id}');
+    _log.info('update started: ${activity.id}');
 
     final updated = activity.copyWith(updatedAt: DateTime.now());
     final result = await repository.update(updated);
 
-    _logger.info('update success: ${activity.id}');
+    _log.info('update success: ${activity.id}');
 
     return result;
   }
 
   Future<Result<void>> delete(String id) async {
-    _logger.info('delete started: $id');
+    _log.info('delete started: $id');
 
     final result = await repository.delete(id);
 
-    _logger.info('delete success: $id');
+    _log.info('delete success: $id');
 
     return result;
   }
@@ -95,7 +96,7 @@ class ActivityViewModel {
   }) {
     final now = DateTime.now();
 
-    _logger.info('createNew activity: $title');
+    _log.info('createNew activity: $title');
 
     return Activity(
       id: const Uuid().v7(),

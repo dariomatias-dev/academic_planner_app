@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
@@ -13,9 +12,8 @@ class NoteNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {
     final repository = ref.read(noteRepositoryProvider);
-    final logger = ref.read(loggerProvider);
 
-    _viewModel = NoteViewModel(repository, logger);
+    _viewModel = NoteViewModel(repository);
   }
 
   Future<Result<void>> add(Note note) async {

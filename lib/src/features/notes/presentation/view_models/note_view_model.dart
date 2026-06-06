@@ -1,19 +1,20 @@
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:academic_planner/src/core/logging/logger_service.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
 
 class NoteViewModel {
-  final NoteRepository repository;
-  final LoggerService _logger;
+  static final _log = Logger('notes.NoteViewModel');
 
-  NoteViewModel(this.repository, this._logger);
+  final NoteRepository repository;
+
+  NoteViewModel(this.repository);
 
   Future<Result<void>> create(Note note) async {
-    _logger.info('createNote started: ${note.title}');
+    _log.info('createNote started: ${note.title}');
 
     return await repository.add(note);
   }

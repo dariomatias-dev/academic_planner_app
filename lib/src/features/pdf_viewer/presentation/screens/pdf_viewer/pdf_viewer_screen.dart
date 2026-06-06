@@ -5,8 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
@@ -73,7 +71,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
           IconButtonWidget(
             icon: Icons.open_in_new_rounded,
             onPressed: () {
-              openUrl(context, widget.url, logger: ref.read(loggerProvider));
+              openUrl(context, widget.url);
             },
             style: IconButtonStyle.neutral,
           ),

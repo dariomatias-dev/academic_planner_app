@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
@@ -33,7 +34,7 @@ class NoteFormScreen extends ConsumerStatefulWidget {
 }
 
 class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
-  late final _logger = ref.read(loggerProvider);
+  static final _log = Logger('notes.NoteFormScreen');
 
   final _formKey = GlobalKey<FormState>();
 
@@ -153,11 +154,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
 
           _unfocus();
         } catch (err, stackTrace) {
-          _logger.error(
-            'Failed to parse content',
-            error: err,
-            stackTrace: stackTrace,
-          );
+          _log.severe('Failed to parse content', err, stackTrace);
         }
 
         _disciplineNotifier.value = adsDisciplines.where((d) {

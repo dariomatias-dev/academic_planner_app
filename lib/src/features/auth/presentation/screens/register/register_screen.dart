@@ -3,7 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:logging/logging.dart';
+
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/validators.dart';
@@ -25,7 +26,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  late final _logger = ref.read(loggerProvider);
+  static final _log = Logger('auth.RegisterScreen');
 
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -42,7 +43,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
 
-    _logger.info('Register attempt: $email');
+    _log.info('Register attempt: $email');
 
     await auth.register(
       RegisterEntity(name: name, email: email, password: password),
@@ -77,7 +78,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
           final message = err is AppFailure ? err.message : err.toString();
 
-          _logger.error('Register error', error: err);
+          _log.severe('Register error', err);
 
           Fluttertoast.showToast(msg: message);
         },

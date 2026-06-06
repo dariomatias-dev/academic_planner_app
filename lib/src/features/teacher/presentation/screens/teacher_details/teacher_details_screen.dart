@@ -4,8 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/logging/logger_provider.dart';
-
 import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
@@ -98,7 +96,6 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
               openUrl(
                 context,
                 _teacher!.lattes,
-                logger: ref.read(loggerProvider),
               );
             },
             style: IconButtonStyle.primary,
