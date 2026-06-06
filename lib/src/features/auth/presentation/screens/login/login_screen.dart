@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
@@ -66,7 +67,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
             Fluttertoast.showToast(msg: 'Login realizado com sucesso');
 
-            AppRoutes.goToHome(context);
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              AppRoutes.goToHome(context);
+            }
           }
         },
         error: (err, _) {
