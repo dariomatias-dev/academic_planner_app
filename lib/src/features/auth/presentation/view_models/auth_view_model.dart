@@ -85,7 +85,7 @@ class AuthViewModel {
 
     final result = await authRepository.signUp(entity);
 
-    return result.fold(
+    return await result.foldAsync(
       onSuccess: (credential) async {
         try {
           final firebaseUser = credential.user;
@@ -128,7 +128,7 @@ class AuthViewModel {
           );
         }
       },
-      onFailure: (f) {
+      onFailure: (f) async {
         _logger.warning('signUp failed: ${f.message}');
 
         return FailureResult(f);
