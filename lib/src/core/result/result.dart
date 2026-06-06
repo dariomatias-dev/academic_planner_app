@@ -25,15 +25,6 @@ sealed class Result<T> {
     }
   }
 
-  Future<R> foldAsync<R>({
-    required Future<R> Function(T value) onSuccess,
-    required Future<R> Function(AppFailure failure) onFailure,
-  }) async {
-    return switch (this) {
-      Success<T>(value: final v) => onSuccess(v),
-      Failure<T>(failure: final f) => onFailure(f),
-    };
-  }
 }
 
 final class Success<T> extends Result<T> {
