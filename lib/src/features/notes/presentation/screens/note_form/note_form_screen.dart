@@ -173,7 +173,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
       },
     );
 
-    _isLoadingNotifier.value = false;
+    if (mounted) _isLoadingNotifier.value = false;
   }
 
   @override

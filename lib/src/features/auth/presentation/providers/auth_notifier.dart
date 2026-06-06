@@ -93,9 +93,8 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
     final result = await viewModel.sendEmailVerification();
 
     result.when(
-      onFailure: (f) {
-        state = AsyncError(f, StackTrace.current);
-      },
+      onSuccess: (_) => state = AsyncData(viewModel.user),
+      onFailure: (f) => state = AsyncError(f, StackTrace.current),
     );
   }
 }

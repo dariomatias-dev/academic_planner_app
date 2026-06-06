@@ -298,7 +298,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       },
     );
 
-    _isLoadingNotifier.value = false;
+    if (mounted) _isLoadingNotifier.value = false;
   }
 
   @override
