@@ -28,9 +28,10 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     state = const AsyncData(null);
 
-    if (result is Success) {
-      ref.read(activityStatsNotifierProvider.notifier).refresh();
-    }
+    result.when(
+      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
+      onFailure: (_) {},
+    );
 
     return result;
   }
@@ -57,9 +58,10 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     state = const AsyncData(null);
 
-    if (result is Success) {
-      ref.read(activityStatsNotifierProvider.notifier).refresh();
-    }
+    result.when(
+      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
+      onFailure: (_) {},
+    );
 
     return result;
   }
@@ -71,9 +73,10 @@ class ActivityNotifier extends AsyncNotifier<void> {
 
     state = const AsyncData(null);
 
-    if (result is Success) {
-      ref.read(activityStatsNotifierProvider.notifier).refresh();
-    }
+    result.when(
+      onSuccess: (_) => ref.read(activityStatsNotifierProvider.notifier).refresh(),
+      onFailure: (_) {},
+    );
 
     return result;
   }
