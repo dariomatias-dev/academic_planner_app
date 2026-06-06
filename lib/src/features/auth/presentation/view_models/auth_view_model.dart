@@ -69,7 +69,7 @@ class AuthViewModel {
             stackTrace: stack,
           );
 
-          return Failure(UnknownFailure('Erro ao processar login', err));
+          return Failure(UnknownFailure('Erro ao processar login'));
         }
       },
       onFailure: (f) async {
@@ -124,7 +124,7 @@ class AuthViewModel {
           );
 
           return Failure(
-            UnknownFailure('Erro ao processar cadastro', err),
+            UnknownFailure('Erro ao processar cadastro'),
           );
         }
       },

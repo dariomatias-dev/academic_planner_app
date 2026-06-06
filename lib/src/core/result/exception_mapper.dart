@@ -11,26 +11,22 @@ class ExceptionMapper {
     }
 
     if (error is SocketException) {
-      return NetworkFailure('Sem conexão com a internet', error);
+      return const NetworkFailure('Sem conexão com a internet');
     }
 
     if (error is FormatException) {
-      return ValidationFailure('Formato inválido', error);
+      return const ValidationFailure('Formato inválido');
     }
 
-    return UnknownFailure(error.toString(), error);
+    return UnknownFailure(error.toString());
   }
 
   static AppFailure mapDatabase(Object error) {
-    if (error is SocketException) {
-      return NetworkFailure('Sem conexão com a internet', error);
-    }
-
     if (error is FormatException) {
-      return ValidationFailure('Formato inválido', error);
+      return const ValidationFailure('Formato inválido');
     }
 
-    return DatabaseFailure(error.toString(), error);
+    return DatabaseFailure(error.toString());
   }
 
   static AppFailure _mapFirebaseAuth(FirebaseAuthException e) {
@@ -50,7 +46,7 @@ class ExceptionMapper {
       case 'network-request-failed':
         return const NetworkFailure('Erro de conexão');
       default:
-        return AuthFailure(e.message ?? 'Erro de autenticação', e);
+        return AuthFailure(e.message ?? 'Erro de autenticação');
     }
   }
 }
