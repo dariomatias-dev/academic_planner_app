@@ -29,6 +29,7 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
+      onFailure: (f) => state = AsyncError(f, StackTrace.current),
     );
 
     return result;
@@ -40,6 +41,7 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
+      onFailure: (f) => state = AsyncError(f, StackTrace.current),
     );
 
     return result;
@@ -51,6 +53,7 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     result.when(
       onSuccess: (data) => state = AsyncData(data),
+      onFailure: (f) => state = AsyncError(f, StackTrace.current),
     );
 
     return result;
