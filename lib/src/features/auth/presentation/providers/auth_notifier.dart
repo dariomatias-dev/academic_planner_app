@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
@@ -47,7 +48,7 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
     );
   }
 
-  Future<void> signIn(LoginEntity entity) async {
+  Future<Result<void>> signIn(LoginEntity entity) async {
     state = const AsyncLoading();
 
     final result = await viewModel.signIn(entity);
@@ -56,9 +57,11 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (_) => AsyncData(viewModel.user),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> register(RegisterEntity entity) async {
+  Future<Result<void>> register(RegisterEntity entity) async {
     state = const AsyncLoading();
 
     final result = await viewModel.signUp(entity);
@@ -67,18 +70,22 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (_) => const AsyncData(null),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> signOut() async {
+  Future<Result<void>> signOut() async {
     final result = await viewModel.signOut();
 
     state = result.fold(
       onSuccess: (_) => const AsyncData(null),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> deleteAccount() async {
+  Future<Result<void>> deleteAccount() async {
     state = const AsyncLoading();
 
     final result = await viewModel.deleteAccount();
@@ -87,14 +94,18 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (_) => const AsyncData(null),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> sendEmailVerification() async {
+  Future<Result<void>> sendEmailVerification() async {
     final result = await viewModel.sendEmailVerification();
 
     result.when(
       onSuccess: (_) => state = AsyncData(viewModel.user),
       onFailure: (f) => state = AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 }

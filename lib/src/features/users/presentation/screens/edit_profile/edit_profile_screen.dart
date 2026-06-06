@@ -53,26 +53,22 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       updatedAt: DateTime.now(),
     );
 
-    await ref.read(userNotifierProvider.notifier).updateProfile(updatedUser);
+    final result = await ref
+        .read(userNotifierProvider.notifier)
+        .updateProfile(updatedUser);
 
-    final state = ref.read(userNotifierProvider);
+    result.fold(
+      onSuccess: (_) {
+        if (!mounted) return;
 
-    if (state.hasError) {
-      final error = state.error;
-      final message = error is AppFailure
-          ? error.message
-          : "Erro ao atualizar perfil";
+        Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
 
-      Fluttertoast.showToast(msg: message);
-
-      return;
-    }
-
-    if (!mounted) return;
-
-    Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
-
-    Navigator.pop(context);
+        Navigator.pop(context);
+      },
+      onFailure: (f) {
+        Fluttertoast.showToast(msg: f.message);
+      },
+    );
   }
 
   @override

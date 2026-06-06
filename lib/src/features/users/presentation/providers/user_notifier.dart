@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:academic_planner/src/core/logging/logger_provider.dart';
+import 'package:academic_planner/src/core/result/result.dart';
 
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
@@ -50,7 +51,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
     return null;
   }
 
-  Future<void> updateProfile(UserEntity updatedUser) async {
+  Future<Result<void>> updateProfile(UserEntity updatedUser) async {
     state = const AsyncLoading();
 
     final result = await ref.read(userRepositoryProvider).update(updatedUser);
@@ -59,12 +60,14 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (_) => AsyncData(updatedUser),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> deleteAccount() async {
+  Future<Result<void>> deleteAccount() async {
     final currentUser = state.value;
 
-    if (currentUser == null) return;
+    if (currentUser == null) return const Success(null);
 
     state = const AsyncLoading();
 
@@ -76,12 +79,14 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (_) => const AsyncData(null),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 
-  Future<void> refresh() async {
+  Future<Result<void>> refresh() async {
     final authState = ref.read(authNotifierProvider);
 
-    if (!authState.hasValue || authState.value == null) return;
+    if (!authState.hasValue || authState.value == null) return const Success(null);
 
     state = const AsyncLoading();
 
@@ -93,5 +98,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
       onSuccess: (user) => AsyncData(user),
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
+
+    return result;
   }
 }
