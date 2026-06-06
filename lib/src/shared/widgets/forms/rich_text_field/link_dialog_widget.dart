@@ -67,7 +67,7 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             InputWidget(
               controller: _textController,
               hint: "Texto para exibir (ex: Documentação)",
@@ -84,7 +84,7 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
             ),
             const SizedBox(height: 32.0),
             Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: ButtonWidget(
                     label: "Cancelar",

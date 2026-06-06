@@ -54,7 +54,7 @@ class UserViewModel {
 
         _log.severe('listUsers error', failure);
 
-        return <UserEntity>[];
+        return [];
       },
     );
   }

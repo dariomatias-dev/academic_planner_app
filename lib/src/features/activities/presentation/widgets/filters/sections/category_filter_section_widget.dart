@@ -41,7 +41,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           'CATEGORIA',
           style: GoogleFonts.plusJakartaSans(
@@ -65,7 +65,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
               ),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 44.0,
                   height: 44.0,
@@ -83,7 +83,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       Text(
                         value ?? 'Nenhuma categoria',
                         style: GoogleFonts.plusJakartaSans(

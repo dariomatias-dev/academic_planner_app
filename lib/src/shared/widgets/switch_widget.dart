@@ -42,7 +42,7 @@ class SwitchWidget extends StatelessWidget {
                 color: value
                     ? colorScheme.primary
                     : colorScheme.onSurface.withAlpha(60),
-                boxShadow: <BoxShadow>[
+                boxShadow: [
                   if (value)
                     BoxShadow(
                       color: colorScheme.primary.withAlpha(60),

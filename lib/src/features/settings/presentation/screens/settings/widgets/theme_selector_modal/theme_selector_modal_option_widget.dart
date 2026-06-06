@@ -42,7 +42,7 @@ class ThemeSelectorModalOptionWidget extends StatelessWidget {
             ),
           ),
           child: Row(
-            children: <Widget>[
+            children: [
               Icon(
                 icon,
                 color: isSelected

@@ -26,7 +26,7 @@ class DisciplinesSummaryWidget extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: DisciplinesSummaryItemWidget(
               icon: Icons.grid_view_rounded,

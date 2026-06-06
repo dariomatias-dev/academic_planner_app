@@ -28,7 +28,7 @@ class ActivityFormReminderWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           Icon(
             Icons.access_time_rounded,
             color: colorScheme.primary,

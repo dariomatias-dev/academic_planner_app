@@ -22,7 +22,7 @@ class TagsScreen extends ConsumerWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Tags",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.add_rounded,
             onPressed: () {
@@ -50,7 +50,7 @@ class TagsScreen extends ConsumerWidget {
               ),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 54.0,
                   height: 54.0,
@@ -76,7 +76,7 @@ class TagsScreen extends ConsumerWidget {
                   ),
                 ),
                 Row(
-                  children: <Widget>[
+                  children: [
                     IconButton(
                       onPressed: () {
                         TagFormDialogWidget.show(

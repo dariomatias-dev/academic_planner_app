@@ -37,7 +37,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
           ),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
@@ -53,7 +53,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
             const SizedBox(width: 16.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 FormFieldLabelWidget(
                   label: "Data de Entrega",
                   isRequired: isRequired,
@@ -72,7 +72,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            if (dueDate != null) ...<Widget>[
+            if (dueDate != null) ...[
               GestureDetector(
                 onTap: (onClear),
                 child: Container(

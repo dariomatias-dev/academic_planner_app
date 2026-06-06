@@ -23,7 +23,7 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
       decoration: BoxDecoration(color: colorScheme.surface),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Container(
             padding: const EdgeInsets.symmetric(
               horizontal: 12.0,

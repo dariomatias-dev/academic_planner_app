@@ -48,7 +48,7 @@ class EmptyStateWidget extends StatelessWidget {
         mainAxisAlignment: isCentered
             ? MainAxisAlignment.center
             : MainAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Container(
             width: 100.0,
             height: 100.0,
@@ -81,7 +81,7 @@ class EmptyStateWidget extends StatelessWidget {
               height: 1.6,
             ),
           ),
-          if (actionLabel != null && onActionPressed != null) ...<Widget>[
+          if (actionLabel != null && onActionPressed != null) ...[
             const SizedBox(height: 40.0),
             ButtonWidget(
               onPressed: onActionPressed!,

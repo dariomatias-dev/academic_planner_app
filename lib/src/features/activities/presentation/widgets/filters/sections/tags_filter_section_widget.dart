@@ -47,7 +47,7 @@ class TagsFilterSectionWidget extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           'TAGS',
           style: GoogleFonts.plusJakartaSans(
@@ -71,7 +71,7 @@ class TagsFilterSectionWidget extends ConsumerWidget {
               ),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 44.0,
                   height: 44.0,
@@ -89,7 +89,7 @@ class TagsFilterSectionWidget extends ConsumerWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       Text(
                         _label,
                         style: GoogleFonts.plusJakartaSans(
@@ -179,7 +179,7 @@ class _TagListModalState extends State<_TagListModal> {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         ConstrainedBox(
           constraints: BoxConstraints(maxHeight: maxListHeight),
           child: ScrollbarTheme(
@@ -267,7 +267,7 @@ class _TagListModalState extends State<_TagListModal> {
         ),
         const SizedBox(height: 16.0),
         Row(
-          children: <Widget>[
+          children: [
             Expanded(
               child: ButtonWidget(
                 onPressed: () {

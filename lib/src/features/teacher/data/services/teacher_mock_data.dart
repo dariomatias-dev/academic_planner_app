@@ -5,7 +5,7 @@ const teachers = <TeacherModel>[
     id: 1,
     name: "Marcos Vinicius Andrade Lima",
     lattes: "http://lattes.cnpq.br/0000000000000001",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia Civil",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -27,7 +27,7 @@ const teachers = <TeacherModel>[
     id: 2,
     name: "Fernanda Costa Ribeiro",
     lattes: "http://lattes.cnpq.br/0000000000000002",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia de Materiais (em andamento)",
         institution: "Instituto Politécnico Aurora (IPA)",
@@ -49,7 +49,7 @@ const teachers = <TeacherModel>[
         period: "2015 - 2017",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Introdução à Sustentabilidade",
         institution: "Instituto Superior Horizonte (ISH)",
@@ -62,7 +62,7 @@ const teachers = <TeacherModel>[
     id: 3,
     name: "Rodrigo Almeida Nogueira",
     lattes: "http://lattes.cnpq.br/0000000000000003",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia Civil",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -84,7 +84,7 @@ const teachers = <TeacherModel>[
     id: 4,
     name: "Patricia Souza Cavalcante",
     lattes: "http://lattes.cnpq.br/0000000000000004",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Administração",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -106,7 +106,7 @@ const teachers = <TeacherModel>[
     id: 5,
     name: "Camila Ferreira Nascimento",
     lattes: "http://lattes.cnpq.br/0000000000000005",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia Civil",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -128,7 +128,7 @@ const teachers = <TeacherModel>[
     id: 6,
     name: "Diego Martins Carvalho",
     lattes: "http://lattes.cnpq.br/0000000000000006",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Biologia",
         institution: "Instituto Superior do Vale (ISV)",
@@ -145,7 +145,7 @@ const teachers = <TeacherModel>[
     id: 7,
     name: "Juliana Pereira Rocha",
     lattes: "http://lattes.cnpq.br/0000000000000007",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -162,7 +162,7 @@ const teachers = <TeacherModel>[
     id: 8,
     name: "Thiago Barbosa Correia",
     lattes: "http://lattes.cnpq.br/0000000000000008",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Administração",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -184,7 +184,7 @@ const teachers = <TeacherModel>[
     id: 9,
     name: "Larissa Gomes Teixeira",
     lattes: "http://lattes.cnpq.br/0000000000000009",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Matemática Aplicada",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -201,7 +201,7 @@ const teachers = <TeacherModel>[
     id: 10,
     name: "Eduardo Santos Monteiro",
     lattes: "http://lattes.cnpq.br/0000000000000010",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Jornalismo",
         institution: "Centro Universitário Aurora (CUA)",
@@ -223,7 +223,7 @@ const teachers = <TeacherModel>[
     id: 11,
     name: "Beatriz Lima Cordeiro",
     lattes: "http://lattes.cnpq.br/0000000000000011",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Sistemas de Informação",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -245,7 +245,7 @@ const teachers = <TeacherModel>[
     id: 12,
     name: "Gustavo Henrique Vasconcelos",
     lattes: "http://lattes.cnpq.br/0000000000000012",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -262,7 +262,7 @@ const teachers = <TeacherModel>[
     id: 13,
     name: "Renata Alves Fontoura",
     lattes: "http://lattes.cnpq.br/0000000000000013",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -279,7 +279,7 @@ const teachers = <TeacherModel>[
     id: 14,
     name: "Vinicius Cardoso Duarte",
     lattes: "http://lattes.cnpq.br/0000000000000014",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia Civil",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -301,14 +301,14 @@ const teachers = <TeacherModel>[
     id: 15,
     name: "Amanda Ribeiro Siqueira",
     lattes: "http://lattes.cnpq.br/0000000000000015",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Graduação em Ciências Sociais",
         institution: "Centro Universitário Novo Horizonte (CUNH)",
         period: "2010 - 2014",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Mediação de Conflitos",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -321,7 +321,7 @@ const teachers = <TeacherModel>[
     id: 16,
     name: "Felipe Augusto Moreira",
     lattes: "http://lattes.cnpq.br/0000000000000016",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Artes Cênicas",
         institution: "Faculdade Estrela do Norte (FEN)",
@@ -343,7 +343,7 @@ const teachers = <TeacherModel>[
     id: 17,
     name: "Isabela Martins Freitas",
     lattes: "http://lattes.cnpq.br/0000000000000017",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado Profissional em Estatística",
         institution: "Faculdade Pioneira (FP)",
@@ -355,7 +355,7 @@ const teachers = <TeacherModel>[
         period: "1996 - 1998",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Acessibilidade e Inclusão",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -374,7 +374,7 @@ const teachers = <TeacherModel>[
     id: 18,
     name: "Rafael Nogueira Peixoto",
     lattes: "http://lattes.cnpq.br/0000000000000018",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -391,7 +391,7 @@ const teachers = <TeacherModel>[
         period: "1998 - 2002",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Planejamento Educacional",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -404,7 +404,7 @@ const teachers = <TeacherModel>[
     id: 19,
     name: "Vanessa Castro Lopes",
     lattes: "http://lattes.cnpq.br/0000000000000019",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Graduação em Jornalismo",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -416,7 +416,7 @@ const teachers = <TeacherModel>[
         period: "1992 - 1993",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Metodologias Ativas de Ensino",
         institution: "Faculdade Estrela do Norte (FEN)",
@@ -429,7 +429,7 @@ const teachers = <TeacherModel>[
     id: 20,
     name: "Bruno Cesar Andrade",
     lattes: "http://lattes.cnpq.br/0000000000000020",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -446,7 +446,7 @@ const teachers = <TeacherModel>[
         period: "2011 - 2014",
       ),
     ],
-    complementaryEducation: <TeacherComplementaryFormationModel>[
+    complementaryEducation: [
       TeacherComplementaryFormationModel(
         name: "Gestão de Equipes e Processos",
         institution: "Centro Universitário Aurora (CUA)",
@@ -459,7 +459,7 @@ const teachers = <TeacherModel>[
     id: 21,
     name: "Priscila Farias Bezerra",
     lattes: "http://lattes.cnpq.br/0000000000000021",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Engenharia Civil",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -481,7 +481,7 @@ const teachers = <TeacherModel>[
     id: 22,
     name: "Leonardo Matos Guedes",
     lattes: "http://lattes.cnpq.br/0000000000000022",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Sistemas de Informação",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -510,7 +510,7 @@ const teachers = <TeacherModel>[
     id: 23,
     name: "Simone Araujo Vieira",
     lattes: "http://lattes.cnpq.br/0000000000000023",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Farmácia",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -537,7 +537,7 @@ const teachers = <TeacherModel>[
         period: "2005 - 2009",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Metodologias Ativas de Ensino",
         institution: "Centro Universitário Vale do Sol (CUVS)",
@@ -563,7 +563,7 @@ const teachers = <TeacherModel>[
     id: 24,
     name: "Daniel Rocha Meireles",
     lattes: "http://lattes.cnpq.br/0000000000000024",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Química",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -590,7 +590,7 @@ const teachers = <TeacherModel>[
     id: 25,
     name: "Tatiane Correia Sales",
     lattes: "http://lattes.cnpq.br/0000000000000025",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Química",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -602,7 +602,7 @@ const teachers = <TeacherModel>[
         period: "2012 - 2013",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Ferramentas Digitais para Educação",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -615,7 +615,7 @@ const teachers = <TeacherModel>[
     id: 26,
     name: "Marcelo Dantas Coelho",
     lattes: "http://lattes.cnpq.br/0000000000000026",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Engenharia de Materiais",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -632,7 +632,7 @@ const teachers = <TeacherModel>[
     id: 27,
     name: "Aline Sousa Barreto",
     lattes: "http://lattes.cnpq.br/0000000000000027",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em História",
         institution: "Faculdade Estrela do Norte (FEN)",
@@ -661,7 +661,7 @@ const teachers = <TeacherModel>[
     id: 28,
     name: "Igor Pimentel Cavalcanti",
     lattes: "http://lattes.cnpq.br/0000000000000028",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Sistemas de Informação",
         institution: "Instituto Politécnico Aurora (IPA)",
@@ -683,7 +683,7 @@ const teachers = <TeacherModel>[
     id: 29,
     name: "Cristina Melo Andrade",
     lattes: "http://lattes.cnpq.br/0000000000000029",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado Profissional em Engenharia de Materiais",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -695,7 +695,7 @@ const teachers = <TeacherModel>[
         period: "1988 - 1993",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Gestão de Projetos Educacionais",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -708,7 +708,7 @@ const teachers = <TeacherModel>[
     id: 30,
     name: "Fabio Henrique Lacerda",
     lattes: "http://lattes.cnpq.br/0000000000000030",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Filosofia",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -735,7 +735,7 @@ const teachers = <TeacherModel>[
     id: 31,
     name: "Eduardo Santos Monteiro",
     lattes: "http://lattes.cnpq.br/0000000000000010",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Matemática Aplicada",
         institution: "Centro Universitário Aurora (CUA)",
@@ -752,7 +752,7 @@ const teachers = <TeacherModel>[
         period: "1990 - 1994",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Gestão de Equipes e Processos",
         institution: "Instituto Politécnico Aurora (IPA)",
@@ -771,7 +771,7 @@ const teachers = <TeacherModel>[
     id: 32,
     name: "Michele Torres Aguiar",
     lattes: "http://lattes.cnpq.br/0000000000000032",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Educação",
         institution: "Faculdade Estrela do Norte (FEN)",
@@ -788,7 +788,7 @@ const teachers = <TeacherModel>[
         period: "1996 - 2000",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Planejamento Educacional",
         institution: "Universidade Comunitária Bela Vista (UCBV)",
@@ -807,7 +807,7 @@ const teachers = <TeacherModel>[
     id: 33,
     name: "Alexandre Nunes Pontes",
     lattes: "http://lattes.cnpq.br/0000000000000033",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado Profissional em Física",
         institution: "Faculdade Nova Aliança (FNA)",
@@ -819,7 +819,7 @@ const teachers = <TeacherModel>[
         period: "1988 - 1993",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Comunicação Institucional",
         institution: "Universidade Comunitária Bela Vista (UCBV)",
@@ -832,7 +832,7 @@ const teachers = <TeacherModel>[
     id: 34,
     name: "Sabrina Diniz Marques",
     lattes: "http://lattes.cnpq.br/0000000000000034",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em História",
         institution: "Instituto Técnico Rio Claro (ITRC)",
@@ -854,7 +854,7 @@ const teachers = <TeacherModel>[
         period: "2005 - 2009",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Planejamento Educacional",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -867,7 +867,7 @@ const teachers = <TeacherModel>[
     id: 35,
     name: "Leonardo Matos Guedes",
     lattes: "http://lattes.cnpq.br/0000000000000022",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Sistemas de Informação",
         institution: "Universidade Metropolitana do Sul (UMS)",
@@ -897,7 +897,7 @@ const teachers = <TeacherModel>[
     id: 36,
     name: "Wesley Batista Fagundes",
     lattes: "http://lattes.cnpq.br/0000000000000036",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Mestrado em Sistemas de Informação",
         institution: "Faculdade Estrela do Norte (FEN)",
@@ -914,7 +914,7 @@ const teachers = <TeacherModel>[
         period: "2011 - 2014",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Comunicação Institucional",
         institution: "Instituto Superior do Vale (ISV)",
@@ -927,7 +927,7 @@ const teachers = <TeacherModel>[
     id: 37,
     name: "Carla Regina Amaral",
     lattes: "http://lattes.cnpq.br/0000000000000037",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree:
             "Mestrado Profissional em Propriedade Intelectual e Transferência de Tecnologia para Inovação (PROFNIT)",
@@ -940,7 +940,7 @@ const teachers = <TeacherModel>[
         period: "2011 - 2015",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Formação em Tutoria Acadêmica",
         institution: "Faculdade Pioneira (FP)",
@@ -953,7 +953,7 @@ const teachers = <TeacherModel>[
     id: 38,
     name: "Ricardo Bastos Feitosa",
     lattes: "http://lattes.cnpq.br/0000000000000038",
-    academicBackground: <TeacherFormationModel>[
+    academicBackground: [
       TeacherFormationModel(
         degree: "Doutorado em Sistemas de Informação",
         institution: "Centro Educacional Serra Alta (CESA)",
@@ -970,7 +970,7 @@ const teachers = <TeacherModel>[
         period: "2013 - 2018",
       ),
     ],
-    postGraduation: <TeacherSpecializationModel>[
+    postGraduation: [
       TeacherSpecializationModel(
         name: "Fundamentos de Análise de Dados",
         institution: "Universidade Regional do Litoral (URL)",

@@ -99,7 +99,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
           : null,
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return <Widget>[
+          return [
             SliverToBoxAdapter(
               child: DisciplineDetailsHeaderWidget(
                 acronym: discipline.acronym,
@@ -112,7 +112,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
               delegate: DisciplineDetailsTabBarDelegate(
                 TabBarWidget(
                   controller: _tabController,
-                  tabs: const <Tab>[
+                  tabs: const [
                     Tab(text: "Tarefas"),
                     Tab(text: "Anotações"),
                     Tab(text: "Sobre"),
@@ -124,7 +124,7 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
         },
         body: TabBarView(
           controller: _tabController,
-          children: <Widget>[
+          children: [
             DisciplineDetailsActivitiesTabWidget(
               disciplineId: widget.disciplineId,
             ),

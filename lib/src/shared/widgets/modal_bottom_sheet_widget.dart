@@ -32,7 +32,7 @@ class ModalBottomSheetWidget extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
+        children: [
           Container(
             width: 40.0,
             height: 4.0,
@@ -43,7 +43,7 @@ class ModalBottomSheetWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(2.0),
             ),
           ),
-          if (title != null) ...<Widget>[
+          if (title != null) ...[
             const SizedBox(height: 24.0),
             Text(
               title!,

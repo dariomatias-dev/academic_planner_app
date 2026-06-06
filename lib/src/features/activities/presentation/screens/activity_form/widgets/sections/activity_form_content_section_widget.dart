@@ -19,7 +19,7 @@ class ActivityFormContentSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         const FormSectionTitleWidget(
           title: "Conteúdo",
           padding: EdgeInsets.only(bottom: 16.0),

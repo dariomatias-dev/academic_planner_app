@@ -36,7 +36,7 @@ class DisciplineDetailsSchedulesWidget extends StatelessWidget {
     filtered.sort((a, b) => a.time.compareTo(b.time));
 
     for (final entry in filtered) {
-      grouped.putIfAbsent(entry.day, () => <String>[]).add(entry.time);
+      grouped.putIfAbsent(entry.day, () => []).add(entry.time);
     }
 
     return grouped;
@@ -54,7 +54,7 @@ class DisciplineDetailsSchedulesWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           const DisciplineDetailsSectionTitleWidget(
             title: "Horários das Aulas",
             icon: Icons.schedule_rounded,
@@ -86,7 +86,7 @@ class DisciplineDetailsSchedulesWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       CircleAvatar(
                         radius: 24.0,
                         backgroundColor:
@@ -100,7 +100,7 @@ class DisciplineDetailsSchedulesWidget extends StatelessWidget {
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             Text(
                               _getDayName(day),
                               style: GoogleFonts.plusJakartaSans(

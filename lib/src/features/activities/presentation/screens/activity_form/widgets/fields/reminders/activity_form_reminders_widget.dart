@@ -23,10 +23,10 @@ class ActivityFormRemindersWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children: [
             Text(
               "Lembretes",
               style: GoogleFonts.plusJakartaSans(

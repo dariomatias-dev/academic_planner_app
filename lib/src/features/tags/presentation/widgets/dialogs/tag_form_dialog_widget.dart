@@ -71,13 +71,13 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
       message: "Defina um nome para rotular suas atividades de forma rápida.",
       icon: Icons.local_offer_rounded,
       actions: Column(
-        children: <Widget>[
+        children: [
           const FormFieldLabelWidget(label: "Nome da Tag", isRequired: true),
           const SizedBox(height: 8.0),
           InputWidget(controller: _controller, hint: "Ex: Urgente"),
           const SizedBox(height: 32.0),
           Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: ButtonWidget(
                   label: "Cancelar",

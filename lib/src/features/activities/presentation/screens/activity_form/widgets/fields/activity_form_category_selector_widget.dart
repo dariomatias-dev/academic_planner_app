@@ -28,10 +28,10 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children: [
             FormFieldLabelWidget(label: "Categoria", isRequired: isRequired),
             GestureDetector(
               onTap: onCreate,

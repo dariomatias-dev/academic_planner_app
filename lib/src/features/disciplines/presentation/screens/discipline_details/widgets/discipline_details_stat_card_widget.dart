@@ -32,12 +32,12 @@ class DisciplineDetailsStatCardWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Icon(icon, size: 18.0, color: colorScheme.primary),
           const SizedBox(height: 8.0),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Text(
                 value,
                 maxLines: 2,

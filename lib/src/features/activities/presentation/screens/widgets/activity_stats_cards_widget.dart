@@ -16,7 +16,7 @@ class ActivityProgressCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.primary,
         borderRadius: BorderRadius.circular(24.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: colorScheme.primary.withAlpha(60),
             blurRadius: 20.0,
@@ -26,7 +26,7 @@ class ActivityProgressCardWidget extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Text(
             "Seu Progresso",
             style: GoogleFonts.plusJakartaSans(
@@ -49,7 +49,7 @@ class ActivityProgressCardWidget extends StatelessWidget {
             data: (progress) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     "${(progress * 100).toInt()}%",
                     style: GoogleFonts.plusJakartaSans(
@@ -98,7 +98,7 @@ class ActivityUrgentCardWidget extends StatelessWidget {
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           Icon(
             Icons.notification_important_rounded,
             color: colorScheme.error,
@@ -158,7 +158,7 @@ class MetricCardWidget extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: <Widget>[
+        children: [
           Container(
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
@@ -172,7 +172,7 @@ class MetricCardWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 if (state != null)
                   MetricCardValueWidget(state: state!)
                 else

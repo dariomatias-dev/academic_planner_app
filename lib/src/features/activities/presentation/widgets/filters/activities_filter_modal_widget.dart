@@ -91,7 +91,7 @@ class _ActivitiesFilterModalWidgetState
       title: 'Filtros',
       onClear: _clearFilters,
       onApply: _applyFilters,
-      children: <Widget>[
+      children: [
         DisciplineFilterSectionWidget(
           selectedId: _selectedDisciplineId,
           onSelected: (id) {

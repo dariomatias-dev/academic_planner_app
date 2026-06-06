@@ -112,7 +112,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return Scaffold(
           appBar: AppBarWidget(
             title: 'Editar Perfil',
-            actions: <Widget>[
+            actions: [
               IconButtonWidget(
                 icon: Icons.check_rounded,
                 onPressed: () => _onSavePressed(user),
@@ -126,7 +126,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   const SizedBox(height: 16.0),
                   const FormFieldLabelWidget(label: "NOME COMPLETO"),
                   InputWidget(

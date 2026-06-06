@@ -23,7 +23,7 @@ class PopupMenuWidget<T> extends StatelessWidget {
 
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
+      children: [
         IconButtonWidget(
           onPressed: () => _menuKey.currentState?.showButtonMenu(),
           icon: icon,

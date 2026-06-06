@@ -48,7 +48,7 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         const FormSectionTitleWidget(title: "Classificação"),
         ValueListenableBuilder<DisciplineModel?>(
           valueListenable: discipline,

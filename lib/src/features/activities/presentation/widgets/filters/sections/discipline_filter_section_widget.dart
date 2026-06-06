@@ -28,7 +28,7 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           'DISCIPLINA',
           style: GoogleFonts.plusJakartaSans(
@@ -65,7 +65,7 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
               ),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 44.0,
                   height: 44.0,
@@ -83,7 +83,7 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       Text(
                         selectedDiscipline?.name ?? "Nenhuma disciplina",
                         style: GoogleFonts.plusJakartaSans(

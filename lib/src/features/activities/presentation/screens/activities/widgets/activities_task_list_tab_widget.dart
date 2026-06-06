@@ -171,7 +171,7 @@ class _ActivitiesTaskListTabWidgetState
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
           child: ActivitiesTotalBadgeWidget(

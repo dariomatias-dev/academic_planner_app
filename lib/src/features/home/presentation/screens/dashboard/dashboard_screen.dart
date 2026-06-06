@@ -36,7 +36,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
 
     const activeFilter = ActivityFilter(
-      statuses: <ActivityStatus>[
+      statuses: [
         ActivityStatus.pending,
         ActivityStatus.inProgress,
       ],
@@ -51,7 +51,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
       activityNotifier.count(),
       activityNotifier.count(
         filter: const ActivityFilter(
-          statuses: <ActivityStatus>[ActivityStatus.completed],
+          statuses: [ActivityStatus.completed],
         ),
       ),
     ]);
@@ -111,7 +111,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
               return ListView(
                 padding: const EdgeInsets.fromLTRB(24.0, 16.0, 24.0, 140.0),
                 physics: const BouncingScrollPhysics(),
-                children: <Widget>[
+                children: [
                   const _HomeHeaderSection(),
                   const SizedBox(height: 32.0),
                   DashboardMetricsBarWidget(),
@@ -152,10 +152,10 @@ class _HomeHeaderSection extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
+      children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             const _WelcomeUserText(),
             Text(
               DateUtilsHelper.formatWeekdayDate(DateTime.now()),
@@ -198,7 +198,7 @@ class _HomeSectionHeader extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
-      children: <Widget>[
+      children: [
         Container(
           width: 4.0,
           height: 20.0,
@@ -227,7 +227,7 @@ class _HomeSectionHeader extends ConsumerWidget {
                 .read(activityFilterNotifierProvider.notifier)
                 .setFilter(
                   const ActivityFilter(
-                    statuses: <ActivityStatus>[
+                    statuses: [
                       ActivityStatus.pending,
                       ActivityStatus.inProgress,
                     ],
@@ -249,7 +249,7 @@ class _WelcomeUserText extends ConsumerWidget {
     final user = ref.watch(userNotifierProvider).value;
 
     return Row(
-      children: <Widget>[
+      children: [
         Text(
           "Olá, ",
           style: GoogleFonts.plusJakartaSans(

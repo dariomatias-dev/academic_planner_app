@@ -45,11 +45,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 const SizedBox(height: 32.0),
                 Center(
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Container(
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(

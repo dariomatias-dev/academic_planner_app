@@ -26,7 +26,7 @@ class UserCardWidget extends StatelessWidget {
         border: Border.all(
           color: theme.dividerTheme.color ?? Colors.transparent,
         ),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: colorScheme.onSurface.withAlpha(10),
             blurRadius: 24.0,
@@ -35,7 +35,7 @@ class UserCardWidget extends StatelessWidget {
         ],
       ),
       child: Row(
-        children: <Widget>[
+        children: [
           Container(
             width: 56.0,
             height: 56.0,
@@ -49,9 +49,9 @@ class UserCardWidget extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Row(
-                  children: <Widget>[
+                  children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8.0,

@@ -103,11 +103,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 const SizedBox(height: 64.0),
                 Center(
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Container(
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
@@ -193,7 +193,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Text(
                         "Não tem uma conta?",
                         style: GoogleFonts.plusJakartaSans(
@@ -222,7 +222,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
-      children: <Widget>[
+      children: [
         Expanded(child: Divider(color: colorScheme.onSurface.withAlpha(30))),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -254,7 +254,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           const Icon(Icons.g_mobiledata_rounded, size: 32.0, color: Colors.red),
           const SizedBox(width: 8.0),
           Text(

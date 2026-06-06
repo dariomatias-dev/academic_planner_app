@@ -28,7 +28,7 @@ final disciplineActivitiesProvider =
         activityNotifier.getAll(
           filter: ActivityFilter(
             disciplineId: disciplineId,
-            statuses: <ActivityStatus>[
+            statuses: [
               ActivityStatus.pending,
               ActivityStatus.inProgress,
             ],
@@ -37,14 +37,14 @@ final disciplineActivitiesProvider =
         activityNotifier.getAll(
           filter: ActivityFilter(
             disciplineId: disciplineId,
-            statuses: <ActivityStatus>[ActivityStatus.completed],
+            statuses: [ActivityStatus.completed],
           ),
         ),
         activityNotifier.getAll(
           filter: ActivityFilter(
             disciplineId: disciplineId,
             endDate: now.add(const Duration(days: 3)),
-            statuses: <ActivityStatus>[
+            statuses: [
               ActivityStatus.pending,
               ActivityStatus.inProgress,
             ],
@@ -55,7 +55,7 @@ final disciplineActivitiesProvider =
       return results.builder((r, index) {
         return r.fold(
           onSuccess: (data) => data,
-          onFailure: (_) => <Activity>[],
+          onFailure: (_) => [],
         );
       });
     });
@@ -109,9 +109,9 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
         return ListView(
           padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 100.0),
           physics: const BouncingScrollPhysics(),
-          children: <Widget>[
+          children: [
             Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                   flex: 3,
                   child: ActivityProgressCardWidget(
@@ -129,7 +129,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 16.0),
             Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: MetricCardWidget(
                     label: "Ativas",
@@ -149,7 +149,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
                 ),
               ],
             ),
-            if (active.isNotEmpty) ...<Widget>[
+            if (active.isNotEmpty) ...[
               const SizedBox(height: 40.0),
               const ActivitySectionHeaderWidget(title: "Prioridade"),
               const SizedBox(height: 16.0),

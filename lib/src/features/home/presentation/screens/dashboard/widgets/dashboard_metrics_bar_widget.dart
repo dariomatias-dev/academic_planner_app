@@ -25,7 +25,7 @@ class DashboardMetricsBarWidget extends ConsumerWidget {
           color: colorScheme.onSurface.withAlpha(15),
           width: 1.0,
         ),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(8),
             blurRadius: 20.0,
@@ -57,7 +57,7 @@ class DashboardMetricsBarWidget extends ConsumerWidget {
         data: (stats) {
           return IntrinsicHeight(
             child: Row(
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: DashboardMetricsBarItemWidget(
                     value: stats.active.toString().padLeft(2, '0'),
@@ -123,7 +123,7 @@ class DashboardMetricsBarItemWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(

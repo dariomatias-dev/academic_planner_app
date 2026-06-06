@@ -61,7 +61,7 @@ class _AgendaFilterModalState extends ConsumerState<AgendaFilterModalWidget> {
       title: 'Filtros da Agenda',
       onClear: _clearFilters,
       onApply: _applyFilters,
-      children: <Widget>[
+      children: [
         DisciplineFilterSectionWidget(
           selectedId: _selectedDisciplineId,
           onSelected: (id) {

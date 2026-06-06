@@ -15,7 +15,7 @@ class DisciplineDetailsStatsGridWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Expanded(
           child: DisciplineDetailsStatCardWidget(
             label: "Carga Horária",

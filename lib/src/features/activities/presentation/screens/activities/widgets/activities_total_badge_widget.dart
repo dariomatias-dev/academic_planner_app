@@ -21,11 +21,11 @@ class ActivitiesTotalBadgeWidget extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 32.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   title,
                   style: theme.textTheme.headlineSmall?.copyWith(
@@ -56,13 +56,13 @@ class ActivitiesTotalBadgeWidget extends StatelessWidget {
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
+                  children: [
                     Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
                         color: theme.colorScheme.primary,
                         shape: BoxShape.circle,
-                        boxShadow: <BoxShadow>[
+                        boxShadow: [
                           BoxShadow(
                             color: theme.colorScheme.primary.withAlpha(77),
                             blurRadius: 8.0,

@@ -75,7 +75,7 @@ class _CategoryFormDialogWidgetState
       message: "Defina um nome claro para organizar suas atividades.",
       icon: Icons.category_rounded,
       actions: Column(
-        children: <Widget>[
+        children: [
           const FormFieldLabelWidget(
             label: "Nome da Categoria",
             isRequired: true,
@@ -84,7 +84,7 @@ class _CategoryFormDialogWidgetState
           InputWidget(controller: _controller, hint: "Ex: Pesquisa"),
           const SizedBox(height: 32.0),
           Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: ButtonWidget(
                   label: "Cancelar",

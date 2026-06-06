@@ -41,7 +41,7 @@ class CourseDetailsScreen extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Detalhes do Curso",
-        actions: <Widget>[
+        actions: [
           Consumer(
             builder: (context, ref, child) {
               return IconButtonWidget(
@@ -61,14 +61,14 @@ class CourseDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
-          children: <Widget>[
+          children: [
             _buildImpactfulHero(context),
             Transform.translate(
               offset: const Offset(0.0, -36.0),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
-                  children: <Widget>[
+                  children: [
                     _buildFloatingMetricsCard(context),
                     const SizedBox(height: 40.0),
                     _buildMainContent(context),
@@ -91,7 +91,7 @@ class CourseDetailsScreen extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: <Color>[
+          colors: [
             colorScheme.primary,
             colorScheme.primary.withBlue(160),
           ],
@@ -102,7 +102,7 @@ class CourseDetailsScreen extends StatelessWidget {
         ),
       ),
       child: Stack(
-        children: <Widget>[
+        children: [
           Positioned(
             right: -40,
             top: -20,
@@ -116,7 +116,7 @@ class CourseDetailsScreen extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(28.0, 48.0, 28.0, 96.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12.0,
@@ -151,7 +151,7 @@ class CourseDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24.0),
                 Row(
-                  children: <Widget>[
+                  children: [
                     Container(
                       padding: const EdgeInsets.all(6.0),
                       decoration: BoxDecoration(
@@ -193,7 +193,7 @@ class CourseDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(32.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(12),
             blurRadius: 40.0,
@@ -204,7 +204,7 @@ class CourseDetailsScreen extends StatelessWidget {
       ),
       child: IntrinsicHeight(
         child: Row(
-          children: <Widget>[
+          children: [
             _compactMetric(context, "3 ANOS", "Duração", Icons.timer_outlined),
             _verticalDivider(context),
             _compactMetric(
@@ -242,7 +242,7 @@ class CourseDetailsScreen extends StatelessWidget {
   ) {
     return Expanded(
       child: Column(
-        children: <Widget>[
+        children: [
           Icon(icon, size: 22.0, color: Theme.of(context).colorScheme.primary),
           const SizedBox(height: 8.0),
           Text(
@@ -267,7 +267,7 @@ class CourseDetailsScreen extends StatelessWidget {
   Widget _buildMainContent(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         _buildSectionHeader(context, "Visão Geral"),
         const SizedBox(height: 16.0),
         _buildAboutText(context),
@@ -295,7 +295,7 @@ class CourseDetailsScreen extends StatelessWidget {
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Row(
-      children: <Widget>[
+      children: [
         Container(
           width: 4.0,
           height: 16.0,
@@ -356,7 +356,7 @@ class CourseDetailsScreen extends StatelessWidget {
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            children: [
               Icon(
                 skill['icon'] as IconData,
                 size: 16.0,
@@ -376,7 +376,7 @@ class CourseDetailsScreen extends StatelessWidget {
 
   Widget _buildActionTiles(BuildContext context) {
     return Column(
-      children: <Widget>[
+      children: [
         _customAction(
           context,
           "Projeto Pedagógico (PPC)",
@@ -427,7 +427,7 @@ class CourseDetailsScreen extends StatelessWidget {
           border: Border.all(color: colorScheme.onSurface.withAlpha(10)),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             Container(
               padding: const EdgeInsets.all(14.0),
               decoration: BoxDecoration(
@@ -440,7 +440,7 @@ class CourseDetailsScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     title,
                     style: _textStyle(
@@ -479,7 +479,7 @@ class CourseDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.primary,
         borderRadius: BorderRadius.circular(32.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: colorScheme.primary.withAlpha(30),
             blurRadius: 20.0,
@@ -488,9 +488,9 @@ class CourseDetailsScreen extends StatelessWidget {
         ],
       ),
       child: Column(
-        children: <Widget>[
+        children: [
           Row(
-            children: <Widget>[
+            children: [
               CircleAvatar(
                 radius: 30.0,
                 backgroundColor: colorScheme.onPrimary.withAlpha(40),
@@ -504,7 +504,7 @@ class CourseDetailsScreen extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     Text(
                       "Valderi Reis da Silva",
                       style: _textStyle(
@@ -539,7 +539,7 @@ class CourseDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Icon(
                   Icons.alternate_email_rounded,
                   size: 18.0,
@@ -572,7 +572,7 @@ class CourseDetailsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(32.0),
       ),
       child: Column(
-        children: <Widget>[
+        children: [
           _legalRow(context, "Portaria Autorizativa", "nº 2.809 (2017)"),
           _legalRow(context, "Data de Criação", "01/12/2017"),
           _legalRow(context, "Turno do Curso", "Integral"),
@@ -592,7 +592,7 @@ class CourseDetailsScreen extends StatelessWidget {
       padding: EdgeInsets.only(bottom: isLast ? 0 : 20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Text(
             label,
             style: _textStyle(
@@ -615,7 +615,7 @@ class CourseDetailsScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
-      children: <Widget>[
+      children: [
         Center(child: Image.network(_ifpbLogo, height: 70.0)),
         const SizedBox(height: 24.0),
         Text(

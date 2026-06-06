@@ -23,7 +23,7 @@ class CategoriesScreen extends ConsumerWidget {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Categorias",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.add_rounded,
             onPressed: () {
@@ -51,7 +51,7 @@ class CategoriesScreen extends ConsumerWidget {
               ),
             ),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 54.0,
                   height: 54.0,
@@ -77,7 +77,7 @@ class CategoriesScreen extends ConsumerWidget {
                   ),
                 ),
                 Row(
-                  children: <Widget>[
+                  children: [
                     IconButton(
                       onPressed: () {
                         CategoryFormDialogWidget.show(

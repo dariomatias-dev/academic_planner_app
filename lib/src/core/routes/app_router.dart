@@ -38,7 +38,7 @@ class AppRouter {
     errorBuilder: (context, state) {
       return NotFoundScreen();
     },
-    routes: <RouteBase>[
+    routes: [
       StatefulShellRoute(
         builder: (context, state, navigationShell) => navigationShell,
         navigatorContainerBuilder: (context, navigationShell, children) {
@@ -47,9 +47,9 @@ class AppRouter {
             children: children,
           );
         },
-        branches: <StatefulShellBranch>[
+        branches: [
           StatefulShellBranch(
-            routes: <GoRoute>[
+            routes: [
               GoRoute(
                 name: RouteNames.home,
                 path: RoutePaths.home,
@@ -58,7 +58,7 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
-            routes: <GoRoute>[
+            routes: [
               GoRoute(
                 name: RouteNames.myDisciplines,
                 path: RoutePaths.myDisciplines,
@@ -69,7 +69,7 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
-            routes: <GoRoute>[
+            routes: [
               GoRoute(
                 name: RouteNames.activities,
                 path: RoutePaths.activities,
@@ -78,7 +78,7 @@ class AppRouter {
             ],
           ),
           StatefulShellBranch(
-            routes: <GoRoute>[
+            routes: [
               GoRoute(
                 name: RouteNames.settings,
                 path: RoutePaths.settings,

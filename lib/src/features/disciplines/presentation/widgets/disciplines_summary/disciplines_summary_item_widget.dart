@@ -19,7 +19,7 @@ class DisciplinesSummaryItemWidget extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
+      children: [
         Container(
           padding: const EdgeInsets.all(10.0),
           decoration: BoxDecoration(
@@ -32,7 +32,7 @@ class DisciplinesSummaryItemWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             Text(
               value,
               style: GoogleFonts.plusJakartaSans(

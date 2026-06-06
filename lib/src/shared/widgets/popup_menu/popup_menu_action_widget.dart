@@ -20,7 +20,7 @@ class PopupMenuActionWidget extends StatelessWidget {
 
     return Row(
       spacing: 12.0,
-      children: <Widget>[
+      children: [
         Icon(icon, size: 20.0, color: effectiveColor),
         Text(
           label,

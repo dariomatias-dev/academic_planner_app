@@ -167,7 +167,7 @@ class SharedPreferencesService {
   ///
   /// Returns the stored `List<String>` or the [defaultValue] if the key doesn't exist.
   List<String> getStringList(String key, {List<String>? defaultValue}) {
-    return _prefs.getStringList(key) ?? (defaultValue ?? <String>[]);
+    return _prefs.getStringList(key) ?? (defaultValue ?? []);
   }
 
   /// Retrieves a `List<String>` value from SharedPreferences.

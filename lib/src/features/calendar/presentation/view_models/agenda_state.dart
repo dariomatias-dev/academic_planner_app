@@ -8,7 +8,7 @@ class AgendaState {
   final ActivityFilter? filter;
 
   AgendaState({
-    this.activities = const <Activity>[],
+    this.activities = const [],
     DateTime? displayDate,
     DateTime? selectedDate,
     this.filter,

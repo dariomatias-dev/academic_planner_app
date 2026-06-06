@@ -49,7 +49,7 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
       appBar: AppBarWidget(
         showBackButton: widget.showBackButton,
         title: "Minha Grade",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
             onPressed: () {

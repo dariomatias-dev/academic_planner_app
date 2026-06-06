@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:academic_planner/src/core/seeds/seed.dart';
 import 'package:academic_planner/src/core/seeds/seed_runner.dart';
 
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
@@ -16,7 +15,7 @@ Future<void> runDevSeeds(Database db) async {
   if (!kDebugMode || !_seedEnabled) return;
 
   await SeedRunner(
-    seeds: <Seed>[
+    seeds: [
       ActivitySeed(ActivityRepositoryImpl(ActivityLocalDataSource(db))),
     ],
   ).run();

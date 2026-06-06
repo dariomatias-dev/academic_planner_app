@@ -31,7 +31,7 @@ class FilterModalLayoutWidget extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Center(
             child: Container(
               width: 48.0,
@@ -68,7 +68,7 @@ class FilterModalLayoutWidget extends StatelessWidget {
           ),
           const SizedBox(height: 32.0),
           Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: ButtonWidget(
                   onPressed: onClear,

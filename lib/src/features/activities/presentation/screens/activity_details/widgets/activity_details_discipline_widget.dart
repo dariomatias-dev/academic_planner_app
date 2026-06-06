@@ -29,7 +29,7 @@ class ActivityDetailsDisciplineWidget extends StatelessWidget {
           ),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             Container(
               width: 52.0,
               height: 52.0,
@@ -52,7 +52,7 @@ class ActivityDetailsDisciplineWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     discipline.name,
                     style: GoogleFonts.plusJakartaSans(

@@ -85,7 +85,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.borderRadius),
         boxShadow: widget.style == AppButtonStyle.primary && !_isLoading
-            ? <BoxShadow>[
+            ? [
                 BoxShadow(
                   color: colors.backgroundColor.withAlpha(40),
                   blurRadius: 12.0,
@@ -182,8 +182,8 @@ class _ButtonContent extends StatelessWidget {
       key: const ValueKey('content'),
       mainAxisSize: isFullWidth ? MainAxisSize.max : MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,
-      children: <Widget>[
-        if (icon != null) ...<Widget>[
+      children: [
+        if (icon != null) ...[
           Container(
             padding: const EdgeInsets.all(6.0),
             decoration: BoxDecoration(
@@ -203,7 +203,7 @@ class _ButtonContent extends StatelessWidget {
             letterSpacing: -0.2,
           ),
         ),
-        if (trailingIcon != null) ...<Widget>[
+        if (trailingIcon != null) ...[
           const Spacer(),
           Icon(trailingIcon, size: 18.0, color: textColor),
         ],

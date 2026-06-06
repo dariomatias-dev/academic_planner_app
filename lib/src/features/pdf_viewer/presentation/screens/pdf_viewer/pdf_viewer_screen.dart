@@ -67,7 +67,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: widget.title,
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.open_in_new_rounded,
             onPressed: () {
@@ -78,7 +78,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
         ],
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Container(
             height: 1.0,
             width: double.infinity,
@@ -86,7 +86,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
           ),
           Expanded(
             child: Stack(
-              children: <Widget>[
+              children: [
                 if (!_hasError)
                   SfPdfViewer.network(
                     widget.url,
@@ -147,7 +147,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                           decoration: BoxDecoration(
                             color: colorScheme.onSurface.withAlpha(230),
                             borderRadius: BorderRadius.circular(30.0),
-                            boxShadow: <BoxShadow>[
+                            boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withAlpha(40),
                                 blurRadius: 12.0,

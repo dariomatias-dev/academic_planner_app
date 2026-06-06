@@ -25,7 +25,7 @@ class FormFieldLabelWidget extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: FontWeight.w700,
         ),
-        children: <TextSpan>[
+        children: [
           if (isRequired)
             const TextSpan(
               text: ' *',

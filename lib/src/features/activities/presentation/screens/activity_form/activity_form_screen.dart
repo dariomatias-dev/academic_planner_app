@@ -133,7 +133,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: isEditing ? "Editar Atividade" : "Criar Atividade",
-        actions: <Widget>[
+        actions: [
           ValueListenableBuilder<bool>(
             valueListenable: _viewModel.canSave,
             builder: (context, canSave, _) {
@@ -157,7 +157,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   ActivityFormContentSectionWidget(
                     titleController: _viewModel.titleController,
                     descriptionController: _viewModel.descriptionController,

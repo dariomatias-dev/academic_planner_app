@@ -52,7 +52,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Disciplinas",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
             onPressed: () => AppRoutes.goToSchedule(context),
@@ -61,7 +61,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
         ],
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Container(
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 20.0),

@@ -21,7 +21,7 @@ class NotFoundScreen extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Container(
                 width: 120.0,
                 height: 120.0,

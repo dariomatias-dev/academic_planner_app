@@ -22,7 +22,7 @@ class ActivityDetailsDueDateWidget extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: <Widget>[
+        children: [
           Icon(
             Icons.calendar_today_rounded,
             color: colorScheme.primary,
@@ -32,7 +32,7 @@ class ActivityDetailsDueDateWidget extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   "PRAZO DE ENTREGA",
                   style: GoogleFonts.plusJakartaSans(

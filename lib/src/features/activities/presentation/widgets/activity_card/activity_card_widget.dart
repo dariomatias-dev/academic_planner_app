@@ -62,7 +62,7 @@ class ActivityCardWidget extends StatelessWidget {
           ),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             Container(
               width: 54.0,
               height: 54.0,
@@ -85,10 +85,10 @@ class ActivityCardWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Row(
-                    children: <Widget>[
-                      if (activity.category != null) ...<Widget>[
+                    children: [
+                      if (activity.category != null) ...[
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 8.0,
@@ -117,7 +117,7 @@ class ActivityCardWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                       ),
-                      if (activity.dueDate != null) ...<Widget>[
+                      if (activity.dueDate != null) ...[
                         const SizedBox(width: 8.0),
                         Icon(
                           Icons.calendar_today_rounded,

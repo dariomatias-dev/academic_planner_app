@@ -14,7 +14,7 @@ class ActivitiesDateIndicatorWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 16.0),
       child: Row(
-        children: <Widget>[
+        children: [
           Container(
             padding: const EdgeInsets.all(6.0),
             decoration: BoxDecoration(

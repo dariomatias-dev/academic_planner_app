@@ -19,7 +19,7 @@ class CategoriesNotifier extends AsyncNotifier<List<Category>> {
 
     return result.fold(
       onSuccess: (data) => data,
-      onFailure: (_) => <Category>[],
+      onFailure: (_) => [],
     );
   }
 

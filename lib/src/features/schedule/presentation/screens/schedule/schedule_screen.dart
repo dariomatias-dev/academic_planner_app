@@ -68,7 +68,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Grade de Aulas",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.download_rounded,
             onPressed: _exportSchedule,
@@ -77,7 +77,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
         ],
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Container(
             decoration: BoxDecoration(
               color: colorScheme.surface,

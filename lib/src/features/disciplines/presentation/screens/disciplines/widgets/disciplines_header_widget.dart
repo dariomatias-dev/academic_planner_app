@@ -17,10 +17,10 @@ class DisciplinesHeaderWidget extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return Column(
-      children: <Widget>[
+      children: [
         AppBarWidget(
           title: "",
-          actions: <Widget>[
+          actions: [
             IconButtonWidget(
               icon: Icons.account_tree_rounded,
               onPressed: () => AppRoutes.goToSchedule(context),
@@ -34,7 +34,7 @@ class DisciplinesHeaderWidget extends StatelessWidget {
           decoration: BoxDecoration(color: colorScheme.surface),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               Text(
                 "Disciplinas",
                 style: GoogleFonts.plusJakartaSans(

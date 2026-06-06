@@ -24,7 +24,7 @@ class DateRangeFilterSectionWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           'PERÍODO',
           style: GoogleFonts.plusJakartaSans(
@@ -36,7 +36,7 @@ class DateRangeFilterSectionWidget extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
         Row(
-          children: <Widget>[
+          children: [
             Expanded(
               child: _DateTile(
                 label: 'Início',
@@ -103,7 +103,7 @@ class _DateTile extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Text(
               label,
               style: GoogleFonts.plusJakartaSans(

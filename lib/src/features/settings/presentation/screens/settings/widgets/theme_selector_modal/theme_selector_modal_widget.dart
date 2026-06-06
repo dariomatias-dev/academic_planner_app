@@ -20,7 +20,7 @@ class ThemeSelectorModalWidget extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Align(
           alignment: AlignmentGeometry.center,
           child: Text(

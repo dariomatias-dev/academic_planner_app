@@ -42,7 +42,7 @@ class RemovalConfirmDialogWidget extends StatelessWidget {
       icon: Icons.delete_outline_rounded,
       iconColor: Theme.of(context).colorScheme.error,
       actions: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: ButtonWidget(
               label: 'Cancelar',

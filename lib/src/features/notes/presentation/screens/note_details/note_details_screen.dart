@@ -61,12 +61,12 @@ class NoteDetailsScreen extends ConsumerWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: noteAsync.value?.title ?? 'Detalhes',
-        actions: <Widget>[
+        actions: [
           noteAsync.maybeWhen(
             data: (note) => note == null
                 ? const SizedBox.shrink()
                 : PopupMenuWidget(
-                    items: <PopupMenuEntry>[
+                    items: [
                       PopupMenuActions.edit(
                         onTap: () {
                           AppRoutes.goToNoteForm(
@@ -120,8 +120,8 @@ class NoteDetailsScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                if (discipline != null) ...<Widget>[
+              children: [
+                if (discipline != null) ...[
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12.0,
@@ -155,7 +155,7 @@ class NoteDetailsScreen extends ConsumerWidget {
                 const SizedBox(height: 32.0),
                 const _NoteSectionTitleWidget(title: "Conteúdo"),
                 NoteDetailsDescriptionWidget(description: note.content),
-                if (discipline != null) ...<Widget>[
+                if (discipline != null) ...[
                   const SizedBox(height: 32.0),
                   const _NoteSectionTitleWidget(title: "Disciplina"),
                   ActivityDetailsDisciplineWidget(discipline: discipline),
@@ -169,7 +169,7 @@ class NoteDetailsScreen extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(32.0),
                   ),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       _buildMetadataInfo(
                         context,
                         "Criada",
@@ -209,13 +209,13 @@ class NoteDetailsScreen extends ConsumerWidget {
 
     return Expanded(
       child: Row(
-        children: <Widget>[
+        children: [
           Icon(icon, size: 20.0, color: colorScheme.primary),
           const SizedBox(width: 12.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   label,
                   style: GoogleFonts.plusJakartaSans(

@@ -26,7 +26,7 @@ class DisciplineDetailsTeacherCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
         ),
         child: Row(
-          children: <Widget>[
+          children: [
             CircleAvatar(
               radius: 24.0,
               backgroundColor: colorScheme.primary.withAlpha(30),
@@ -36,7 +36,7 @@ class DisciplineDetailsTeacherCardWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     teacherName,
                     style: GoogleFonts.plusJakartaSans(

@@ -32,7 +32,7 @@ class ActivityCardActionTileModalWidget extends StatelessWidget {
             color: colorScheme.surface.withAlpha(40),
           ),
           child: Row(
-            children: <Widget>[
+            children: [
               Container(
                 padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(

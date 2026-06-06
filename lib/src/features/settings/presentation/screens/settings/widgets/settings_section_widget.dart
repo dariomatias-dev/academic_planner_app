@@ -18,7 +18,7 @@ class SettingsSectionWidget extends StatelessWidget {
     return Column(
       spacing: 16.0,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.only(left: 4.0),
           child: Text(

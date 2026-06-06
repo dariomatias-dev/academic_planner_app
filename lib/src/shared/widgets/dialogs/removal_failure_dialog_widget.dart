@@ -46,8 +46,8 @@ class RemovalFailureDialogWidget extends StatelessWidget {
       iconColor: colorScheme.error,
       actions: Column(
         mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          if (errorMessage != null) ...<Widget>[
+        children: [
+          if (errorMessage != null) ...[
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12.0),
@@ -57,7 +57,7 @@ class RemovalFailureDialogWidget extends StatelessWidget {
                 border: Border.all(color: colorScheme.error.withAlpha(40)),
               ),
               child: Row(
-                children: <Widget>[
+                children: [
                   Icon(
                     Icons.info_outline_rounded,
                     size: 16.0,
@@ -79,7 +79,7 @@ class RemovalFailureDialogWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
           ],
-          if (onRetry != null) ...<Widget>[
+          if (onRetry != null) ...[
             ButtonWidget(
               label: 'Tentar Novamente',
               onPressed: () {

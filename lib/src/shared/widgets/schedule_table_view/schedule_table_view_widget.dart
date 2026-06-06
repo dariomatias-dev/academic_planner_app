@@ -57,10 +57,10 @@ class ScheduleTableViewWidget extends StatelessWidget {
                 4: FixedColumnWidth(210.0),
                 5: FixedColumnWidth(210.0),
               },
-              children: <TableRow>[
+              children: [
                 TableRow(
                   decoration: BoxDecoration(color: colorScheme.surface),
-                  children: <Widget>[
+                  children: [
                     ScheduleHeaderCellWidget(text: "HORA"),
                     ...dayNames.builder((dayName, index) {
                       return ScheduleHeaderCellWidget(text: dayName);
@@ -74,7 +74,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                         color: colorScheme.primary.withAlpha(20),
                         border: Border(bottom: BorderSide(color: dividerColor)),
                       ),
-                      children: <Widget>[
+                      children: [
                         ScheduleTimeCellWidget(time: slot.label, isBreak: true),
                         ...List<Widget>.generate(5, (index) {
                           if (index == 2) {
@@ -107,7 +107,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                         bottom: BorderSide(color: dividerColor.withAlpha(100)),
                       ),
                     ),
-                    children: <Widget>[
+                    children: [
                       ScheduleTimeCellWidget(time: slot.label),
                       ...List<Widget>.generate(5, (index) {
                         return ScheduleDataCellWidget(

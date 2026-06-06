@@ -106,7 +106,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
       appBar: AppBarWidget(
         title: "Atividades",
         showBackButton: false,
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.filter_list,
             onPressed: () {
@@ -126,15 +126,15 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
         ),
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           _buildHeader(colorScheme),
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: <Widget>[
+              children: [
                 ActivitiesSummaryTabWidget(
                   filter: filterState.copyWith(
-                    statuses: <ActivityStatus>[
+                    statuses: [
                       ActivityStatus.pending,
                       ActivityStatus.inProgress,
                     ],
@@ -146,7 +146,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
                   description: "Atividades Planejadas e em Execução",
                   emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
                   filter: filterState.copyWith(
-                    statuses: <ActivityStatus>[
+                    statuses: [
                       ActivityStatus.pending,
                       ActivityStatus.inProgress,
                     ],
@@ -158,7 +158,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
                   emptyMessage:
                       "O histórico está vazio. Toque no + para começar.",
                   filter: filterState.copyWith(
-                    statuses: <ActivityStatus>[ActivityStatus.completed],
+                    statuses: [ActivityStatus.completed],
                   ),
                   onFetch: _fetchActivities,
                 ),
@@ -166,7 +166,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
                   description: "Atividades em Rascunho ou Descontinuadas",
                   emptyMessage: "Sem rascunhos ou tarefas canceladas.",
                   filter: filterState.copyWith(
-                    statuses: <ActivityStatus>[
+                    statuses: [
                       ActivityStatus.draft,
                       ActivityStatus.canceled,
                     ],
@@ -187,7 +187,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
       color: colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           const ActivitiesDateIndicatorWidget(),
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
@@ -202,7 +202,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
           ),
           TabBarWidget(
             controller: _tabController,
-            tabs: const <Tab>[
+            tabs: const [
               Tab(text: "Resumo"),
               Tab(text: "Ativas"),
               Tab(text: "Concluídas"),

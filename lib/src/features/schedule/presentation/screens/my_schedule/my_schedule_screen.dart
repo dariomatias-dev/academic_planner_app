@@ -48,7 +48,7 @@ class _MyScheduleScreenState extends ConsumerState<MyScheduleScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Minha Grade",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.download_rounded,
             onPressed: _exportSchedule,
@@ -57,7 +57,7 @@ class _MyScheduleScreenState extends ConsumerState<MyScheduleScreen> {
         ],
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           Expanded(
             child: ScheduleTableViewWidget(
               repaintKey: _globalKey,

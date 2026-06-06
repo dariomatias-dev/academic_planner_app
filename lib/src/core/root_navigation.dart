@@ -54,7 +54,7 @@ class _RootNavigationState extends State<RootNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: <Widget>[
+        children: [
           PageView(
             controller: _pageController,
             onPageChanged: (index) {

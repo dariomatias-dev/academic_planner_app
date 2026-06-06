@@ -80,7 +80,7 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           "AÇÕES DA ATIVIDADE",
           style: GoogleFonts.plusJakartaSans(
@@ -128,7 +128,7 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
                             ),
                           ),
                           child: Row(
-                            children: <Widget>[
+                            children: [
                               Container(
                                 padding: const EdgeInsets.all(10.0),
                                 decoration: BoxDecoration(

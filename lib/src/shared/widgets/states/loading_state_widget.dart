@@ -38,7 +38,7 @@ class LoadingStateWidget extends StatelessWidget {
         mainAxisAlignment: isCentered
             ? MainAxisAlignment.center
             : MainAxisAlignment.start,
-        children: <Widget>[
+        children: [
           SizedBox(
             width: 32.0,
             height: 32.0,

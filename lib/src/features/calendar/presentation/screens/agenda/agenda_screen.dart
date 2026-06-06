@@ -63,7 +63,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Minha Agenda",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.filter_list,
             onPressed: _openFilterModal,
@@ -83,9 +83,9 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         },
         data: (state) {
           return Stack(
-            children: <Widget>[
+            children: [
               Column(
-                children: <Widget>[
+                children: [
                   const SizedBox(height: 24.0),
                   _AgendaHeader(
                     displayDate: state.displayDate,
@@ -139,11 +139,11 @@ class _AgendaHeader extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Row(
-        children: <Widget>[
+        children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   DateFormat(
                     'MMMM yyyy',
@@ -214,7 +214,7 @@ class _CalendarView extends StatelessWidget {
             color: theme.dividerTheme.color ?? AppColors.transparent,
             width: 1.0,
           ),
-          boxShadow: <BoxShadow>[
+          boxShadow: [
             BoxShadow(
               color: colorScheme.onSurface.withAlpha(12),
               blurRadius: 40.0,

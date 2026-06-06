@@ -22,7 +22,7 @@ class ActivityFormStatusSelectorWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         const FormFieldLabelWidget(label: "Status", isRequired: true),
         const SizedBox(height: 12.0),
         SingleChildScrollView(

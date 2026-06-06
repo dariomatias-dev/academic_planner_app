@@ -38,7 +38,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             DisciplineDetailsStatsGridWidget(
               workload: discipline.workload,
               weeklyHours: discipline.weeklyHours,

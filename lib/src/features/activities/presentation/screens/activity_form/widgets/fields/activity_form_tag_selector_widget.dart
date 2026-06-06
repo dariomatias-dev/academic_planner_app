@@ -25,10 +25,10 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children: [
             Text(
               "Tags",
               style: GoogleFonts.plusJakartaSans(

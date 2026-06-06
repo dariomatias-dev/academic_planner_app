@@ -31,8 +31,8 @@ class DialogWidget extends StatelessWidget {
           padding: const EdgeInsets.all(32.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              if (icon != null) ...<Widget>[
+            children: [
+              if (icon != null) ...[
                 Container(
                   width: 80.0,
                   height: 80.0,

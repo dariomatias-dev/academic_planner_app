@@ -42,7 +42,7 @@ class SettingsTileWidget extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   width: 44.0,
                   height: 44.0,

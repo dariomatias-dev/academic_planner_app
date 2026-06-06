@@ -107,8 +107,8 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: _activity?.title ?? 'Detalhes',
-        actions: <Widget>[
-          if (!_isLoading && _activity != null) ...<Widget>[
+        actions: [
+          if (!_isLoading && _activity != null) ...[
             if (_hasStatusChanged)
               IconButtonWidget(
                 icon: Icons.check_rounded,
@@ -116,7 +116,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 style: IconButtonStyle.primary,
               ),
             PopupMenuWidget(
-              items: <PopupMenuEntry>[
+              items: [
                 PopupMenuActions.edit(
                   onTap: () async {
                     final result = await AppRoutes.goToActivityForm(
@@ -171,10 +171,10 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 40.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Row(
-                  children: <Widget>[
-                    if (_activity!.category != null) ...<Widget>[
+                  children: [
+                    if (_activity!.category != null) ...[
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 12.0,
@@ -264,12 +264,12 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 ActivityDetailsDescriptionWidget(
                   description: _activity!.description,
                 ),
-                if (discipline != null) ...<Widget>[
+                if (discipline != null) ...[
                   const SizedBox(height: 32.0),
                   const ActivityDetailsSectionTitleWidget(title: "Disciplina"),
                   ActivityDetailsDisciplineWidget(discipline: discipline),
                 ],
-                if (_activity!.tags.isNotEmpty) ...<Widget>[
+                if (_activity!.tags.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
                   const ActivityDetailsSectionTitleWidget(title: "Tags"),
                   Wrap(
@@ -301,7 +301,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                     }),
                   ),
                 ],
-                if (_activity!.reminders.isNotEmpty) ...<Widget>[
+                if (_activity!.reminders.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
                   const ActivityDetailsSectionTitleWidget(title: "Lembretes"),
                   ..._activity!.reminders.map((time) {
@@ -313,7 +313,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Row(
-                        children: <Widget>[
+                        children: [
                           Icon(
                             Icons.notifications_active_outlined,
                             size: 20.0,
@@ -334,7 +334,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                   }),
                 ],
                 if (_activity!.notes != null &&
-                    _activity!.notes!.isNotEmpty) ...<Widget>[
+                    _activity!.notes!.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
                   const ActivityDetailsSectionTitleWidget(title: "Anotações"),
                   Container(
@@ -364,7 +364,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                     borderRadius: BorderRadius.circular(32.0),
                   ),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       _buildMetadataInfo(
                         context,
                         "Criada em",
@@ -404,13 +404,13 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
 
     return Expanded(
       child: Row(
-        children: <Widget>[
+        children: [
           Icon(icon, size: 20.0, color: colorScheme.primary),
           const SizedBox(width: 12.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   label,
                   style: GoogleFonts.plusJakartaSans(

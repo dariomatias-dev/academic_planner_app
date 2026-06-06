@@ -53,7 +53,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Configurar Grade",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
             onPressed: () {
@@ -64,11 +64,11 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
         ],
       ),
       body: Column(
-        children: <Widget>[
+        children: [
           TabBarWidget(
             controller: _mainTabController,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            tabs: const <Tab>[
+            tabs: const [
               Tab(text: "Minha Grade"),
               Tab(text: "Adicionar"),
             ],
@@ -81,7 +81,7 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
           Expanded(
             child: TabBarView(
               controller: _mainTabController,
-              children: <Widget>[
+              children: [
                 DisciplineSelectionMyGradeTabWidget(
                   mainTabController: _mainTabController,
                 ),

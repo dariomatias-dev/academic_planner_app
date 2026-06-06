@@ -37,11 +37,11 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
         height: 120.0,
         child: Stack(
           clipBehavior: Clip.none,
-          children: <Widget>[
+          children: [
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28.0),
-                boxShadow: <BoxShadow>[
+                boxShadow: [
                   BoxShadow(
                     color: colorScheme.onSurface.withAlpha(6),
                     blurRadius: 16.0,
@@ -63,14 +63,14 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 16.0),
                     child: Row(
-                      children: <Widget>[
+                      children: [
                         Container(
                           width: 6.0,
                           height: 44.0,
                           decoration: BoxDecoration(
                             color: statusColor,
                             borderRadius: BorderRadius.circular(10.0),
-                            boxShadow: <BoxShadow>[
+                            boxShadow: [
                               BoxShadow(
                                 color: statusColor.withAlpha(40),
                                 blurRadius: 8.0,
@@ -84,7 +84,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
+                            children: [
                               Text(
                                 (discipline?.acronym ?? 'GERAL').toUpperCase(),
                                 style: GoogleFonts.plusJakartaSans(
@@ -109,7 +109,7 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
                               ),
                               const SizedBox(height: 8.0),
                               Row(
-                                children: <Widget>[
+                                children: [
                                   Icon(
                                     Icons.schedule_rounded,
                                     size: 15.0,

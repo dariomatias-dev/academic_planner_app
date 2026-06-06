@@ -38,10 +38,10 @@ class NoteCardWidget extends ConsumerWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: [
                 Expanded(
                   child: Text(
                     note.title,
@@ -55,7 +55,7 @@ class NoteCardWidget extends ConsumerWidget {
                   ),
                 ),
                 PopupMenuWidget(
-                  items: <PopupMenuEntry>[
+                  items: [
                     PopupMenuActions.edit(
                       onTap: () {
                         AppRoutes.goToNoteForm(
@@ -103,7 +103,7 @@ class NoteCardWidget extends ConsumerWidget {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+                children: [
                   Icon(
                     Icons.calendar_today_rounded,
                     size: 12.0,

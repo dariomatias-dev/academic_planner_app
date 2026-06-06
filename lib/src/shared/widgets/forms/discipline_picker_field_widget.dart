@@ -99,7 +99,7 @@ class _DisciplinePickerFieldWidgetState
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             FormFieldLabelWidget(
               label: "Disciplina",
               isRequired: widget.isRequired,
@@ -145,7 +145,7 @@ class _DisciplinePickerFieldWidgetState
                     border: Border.all(color: borderColor, width: borderWidth),
                   ),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       Container(
                         width: 44.0,
                         height: 44.0,
@@ -169,7 +169,7 @@ class _DisciplinePickerFieldWidgetState
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             Text(
                               widget.selectedDiscipline?.name ??
                                   "Nenhuma disciplina",

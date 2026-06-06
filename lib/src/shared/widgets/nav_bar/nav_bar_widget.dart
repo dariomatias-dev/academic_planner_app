@@ -29,7 +29,7 @@ class NavBarWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(28.0),
-          boxShadow: <BoxShadow>[
+          boxShadow: [
             BoxShadow(
               color: colorScheme.onSurface.withAlpha(15),
               blurRadius: 20.0,
@@ -48,7 +48,7 @@ class NavBarWidget extends StatelessWidget {
               final itemWidth = constraints.maxWidth / 4.0;
 
               return Stack(
-                children: <Widget>[
+                children: [
                   AnimatedPositioned(
                     duration: const Duration(milliseconds: 350),
                     curve: Curves.easeInOutBack,
@@ -64,7 +64,7 @@ class NavBarWidget extends StatelessWidget {
                     ),
                   ),
                   Row(
-                    children: <Widget>[
+                    children: [
                       NavItemWidget(
                         icon: Icons.grid_view_rounded,
                         label: 'Início',

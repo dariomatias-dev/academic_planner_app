@@ -30,7 +30,7 @@ class SortFilterSectionWidget extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           'ORDENAÇÃO',
           style: GoogleFonts.plusJakartaSans(

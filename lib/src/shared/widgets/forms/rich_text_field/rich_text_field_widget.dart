@@ -129,7 +129,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
 
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             FormFieldLabelWidget(
               label: widget.label,
               isRequired: widget.validatorMessage != null,
@@ -145,7 +145,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
                 border: Border.all(color: borderColor, width: 1.0),
               ),
               child: Column(
-                children: <Widget>[
+                children: [
                   QuillSimpleToolbar(
                     controller: widget.controller,
                     config: QuillSimpleToolbarConfig(
@@ -189,7 +189,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
                       showListCheck: false,
                       multiRowsDisplay: false,
                       showLink: false,
-                      customButtons: <QuillToolbarCustomButtonOptions>[
+                      customButtons: [
                         QuillToolbarCustomButtonOptions(
                           icon: const Icon(Icons.link_rounded),
                           onPressed: () async {

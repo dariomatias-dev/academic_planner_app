@@ -57,9 +57,9 @@ class TeacherModel {
     required this.id,
     required this.name,
     required this.lattes,
-    this.academicBackground = const <TeacherFormationModel>[],
-    this.postGraduation = const <TeacherSpecializationModel>[],
-    this.postDoctorate = const <TeacherFormationModel>[],
-    this.complementaryEducation = const <TeacherComplementaryFormationModel>[],
+    this.academicBackground = const [],
+    this.postGraduation = const [],
+    this.postDoctorate = const [],
+    this.complementaryEducation = const [],
   });
 }

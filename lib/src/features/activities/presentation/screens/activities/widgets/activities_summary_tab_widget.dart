@@ -164,14 +164,14 @@ class _ActivitiesSummaryTabWidgetState
         if (index == 0) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               ActivitiesTotalBadgeWidget(
                 title: "Minhas Atividades",
                 subtitle: "Total acumulado",
                 state: countAsync,
               ),
               Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                     flex: 3,
                     child: ActivityProgressCardWidget(
@@ -189,7 +189,7 @@ class _ActivitiesSummaryTabWidgetState
               ),
               const SizedBox(height: 16.0),
               Row(
-                children: <Widget>[
+                children: [
                   Expanded(
                     child: MetricCardWidget(
                       label: "Ativas",

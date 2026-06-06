@@ -31,8 +31,8 @@ class ActivityFormViewModel {
   final _dueDateNotifier = ValueNotifier<DateTime?>(null);
   final _statusNotifier = ValueNotifier<ActivityStatus>(ActivityStatus.draft);
   final _categoryNotifier = ValueNotifier<String?>(null);
-  final _tagsNotifier = ValueNotifier<List<String>>(<String>[]);
-  final _remindersNotifier = ValueNotifier<List<TimeOfDay>>(<TimeOfDay>[]);
+  final _tagsNotifier = ValueNotifier<List<String>>([]);
+  final _remindersNotifier = ValueNotifier<List<TimeOfDay>>([]);
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _canSaveNotifier = ValueNotifier<bool>(false);
 

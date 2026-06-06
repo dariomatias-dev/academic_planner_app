@@ -77,11 +77,11 @@ class ActivityModel {
       dueDate: map['dueDate'] != null ? DateTime.parse(map['dueDate']) : null,
       category: map['category'],
       tags: map['tags'] == null || (map['tags'] as String).isEmpty
-          ? <String>[]
+          ? []
           : List<String>.from(jsonDecode(map['tags'] as String)),
       reminders:
           map['reminders'] == null || (map['reminders'] as String).isEmpty
-          ? <TimeOfDay>[]
+          ? []
           : (jsonDecode(map['reminders'] as String) as List)
                 .map(
                   (e) => TimeOfDay(

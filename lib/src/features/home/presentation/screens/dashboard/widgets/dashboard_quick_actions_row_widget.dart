@@ -11,7 +11,7 @@ class DashboardQuickActionsRowWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: <Widget>[
+      children: [
         ActionButtonWidget(
           onPressed: () {
             AppRoutes.goToActivityForm(context);

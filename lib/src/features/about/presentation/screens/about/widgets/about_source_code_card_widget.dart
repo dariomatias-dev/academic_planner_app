@@ -68,11 +68,11 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
         ),
       ),
       child: Column(
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 20.0, 12.0, 20.0),
             child: Row(
-              children: <Widget>[
+              children: [
                 Container(
                   padding: const EdgeInsets.all(12.0),
                   decoration: BoxDecoration(
@@ -89,7 +89,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: [
                       Text(
                         "Código-fonte",
                         style: _textStyle(
@@ -144,7 +144,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: [
                   Icon(
                     Icons.open_in_new_rounded,
                     color: colorScheme.primary,

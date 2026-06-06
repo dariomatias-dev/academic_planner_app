@@ -20,7 +20,7 @@ final disciplineNotesProvider = FutureProvider.family<List<Note>, int>((
 
   return result.fold(
     onSuccess: (notes) => notes,
-    onFailure: (failure) => <Note>[],
+    onFailure: (failure) => [],
   );
 });
 

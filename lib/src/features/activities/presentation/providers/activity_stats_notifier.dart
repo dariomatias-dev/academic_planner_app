@@ -15,18 +15,18 @@ class ActivityStatsNotifier extends AsyncNotifier<ActivityStats> {
     final now = DateTime.now();
 
     const activeFilter = ActivityFilter(
-      statuses: <ActivityStatus>[
+      statuses: [
         ActivityStatus.pending,
         ActivityStatus.inProgress,
       ],
     );
 
     const completedFilter = ActivityFilter(
-      statuses: <ActivityStatus>[ActivityStatus.completed],
+      statuses: [ActivityStatus.completed],
     );
 
     final urgentFilter = ActivityFilter(
-      statuses: const <ActivityStatus>[
+      statuses: const [
         ActivityStatus.pending,
         ActivityStatus.inProgress,
       ],

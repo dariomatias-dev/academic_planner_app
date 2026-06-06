@@ -23,12 +23,12 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
       height: 64.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: <Color>[colorScheme.primary, colorScheme.secondary],
+          colors: [colorScheme.primary, colorScheme.secondary],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(24.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: colorScheme.primary.withAlpha(60),
             blurRadius: 16.0,
@@ -49,7 +49,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(24.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+            children: [
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(

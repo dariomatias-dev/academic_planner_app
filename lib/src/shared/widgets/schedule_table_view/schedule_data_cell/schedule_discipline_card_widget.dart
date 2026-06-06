@@ -45,7 +45,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(16.0),
           border: Border.all(color: dividerColor, width: 1.0),
-          boxShadow: <BoxShadow>[
+          boxShadow: [
             BoxShadow(
               color: colorScheme.onSurface.withAlpha(15),
               blurRadius: 10.0,
@@ -55,10 +55,10 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 6.0,
@@ -103,7 +103,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
             ),
             const SizedBox(height: 4.0),
             Row(
-              children: <Widget>[
+              children: [
                 Icon(
                   Icons.person_rounded,
                   size: 10.0,

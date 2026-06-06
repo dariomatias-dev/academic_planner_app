@@ -58,7 +58,7 @@ class DraggableAgendaSheetWidget extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: colorScheme.surface,
-          boxShadow: <BoxShadow>[
+          boxShadow: [
             BoxShadow(
               color: Colors.black.withAlpha(30),
               blurRadius: 40.0,
@@ -77,7 +77,7 @@ class DraggableAgendaSheetWidget extends StatelessWidget {
           itemBuilder: (context, index) {
             if (index == 0) {
               return Column(
-                children: <Widget>[
+                children: [
                   DraggableAgendaSheetHeaderWidget(
                     date: selectedDate,
                     relativeText: _getRelativeDateText(),

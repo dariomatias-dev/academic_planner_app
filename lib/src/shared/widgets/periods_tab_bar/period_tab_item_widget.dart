@@ -32,14 +32,14 @@ class PeriodTabItemWidget extends StatelessWidget {
           width: 1.2,
         ),
         boxShadow: isSelected
-            ? <BoxShadow>[
+            ? [
                 BoxShadow(
                   color: colorScheme.onSurface.withAlpha(30),
                   blurRadius: 15.0,
                   offset: const Offset(0.0, 8.0),
                 ),
               ]
-            : <BoxShadow>[],
+            : [],
       ),
       child: Text(
         "$periodº Período",

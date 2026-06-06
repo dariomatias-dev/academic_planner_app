@@ -33,11 +33,11 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(title: "Usuários"),
       body: Column(
-        children: <Widget>[
+        children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
             child: Column(
-              children: <Widget>[
+              children: [
                 _buildSearchBar(ref, colorScheme),
                 const SizedBox(height: 16.0),
                 _buildFilterChips(ref, colorScheme),
@@ -89,7 +89,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: colorScheme.onSurface.withAlpha(8),
             blurRadius: 20.0,
@@ -115,7 +115,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       scrollDirection: Axis.horizontal,
       physics: const BouncingScrollPhysics(),
       child: Row(
-        children: <Widget>[
+        children: [
           _buildChip(ref, "Todos", null, filter.role == null, colorScheme),
           ...UserRole.values.map(
             (role) => _buildChip(

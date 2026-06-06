@@ -19,7 +19,7 @@ class DraggableAgendaSheetHeaderWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
-      children: <Widget>[
+      children: [
         Container(
           width: 48.0,
           height: 5.0,
@@ -31,10 +31,10 @@ class DraggableAgendaSheetHeaderWidget extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   DateFormat('dd MMMM', 'pt_BR').format(date),
                   style: GoogleFonts.plusJakartaSans(

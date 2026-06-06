@@ -37,7 +37,7 @@ class DisciplineCardWidget extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 20.0),
           height: 130.0,
           child: Stack(
-            children: <Widget>[
+            children: [
               Align(
                 alignment: Alignment.centerRight,
                 child: Container(
@@ -49,7 +49,7 @@ class DisciplineCardWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: colorScheme.surface,
                     borderRadius: BorderRadius.circular(28.0),
-                    boxShadow: <BoxShadow>[
+                    boxShadow: [
                       BoxShadow(
                         color: colorScheme.onSurface.withAlpha(15),
                         blurRadius: 24.0,
@@ -58,7 +58,7 @@ class DisciplineCardWidget extends StatelessWidget {
                     ],
                   ),
                   child: Row(
-                    children: <Widget>[
+                    children: [
                       Container(
                         width: 4.0,
                         height: 40.0,
@@ -72,7 +72,7 @@ class DisciplineCardWidget extends StatelessWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
+                          children: [
                             Text(
                               discipline.acronym,
                               style: GoogleFonts.plusJakartaSans(
@@ -96,7 +96,7 @@ class DisciplineCardWidget extends StatelessWidget {
                             ),
                             const SizedBox(height: 8.0),
                             Row(
-                              children: <Widget>[
+                              children: [
                                 Icon(
                                   Icons.calendar_today_rounded,
                                   size: 14.0,

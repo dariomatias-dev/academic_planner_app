@@ -28,7 +28,7 @@ class NavItemWidget extends StatelessWidget {
         behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: [
             AnimatedScale(
               duration: const Duration(milliseconds: 200),
               scale: isSelected ? 1.15 : 1.0,

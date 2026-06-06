@@ -16,7 +16,7 @@ class ActivitySectionHeaderWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
-      children: <Widget>[
+      children: [
         Container(
           width: 4.0,
           height: 18.0,

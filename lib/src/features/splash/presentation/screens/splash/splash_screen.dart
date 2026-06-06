@@ -87,7 +87,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
+        children: [
           Positioned(
             top: -50.0,
             left: -50.0,
@@ -100,7 +100,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
-                    colors: <Color>[
+                    colors: [
                       colorScheme.primary,
                       colorScheme.primary.withAlpha(0),
                     ],
@@ -121,7 +121,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
-                    colors: <Color>[
+                    colors: [
                       colorScheme.primary,
                       colorScheme.primary.withAlpha(0),
                     ],
@@ -133,7 +133,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
+              children: [
                 AnimatedScale(
                   duration: const Duration(milliseconds: 1400),
                   scale: _scale,
@@ -169,7 +169,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     duration: const Duration(milliseconds: 1000),
                     opacity: _opacity,
                     child: Column(
-                      children: <Widget>[
+                      children: [
                         Text(
                           "ACADEMIC",
                           style: GoogleFonts.plusJakartaSans(
@@ -193,7 +193,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         const SizedBox(height: 24.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
+                          children: [
                             Container(
                               height: 1.5,
                               width: 20.0,
@@ -231,7 +231,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               duration: const Duration(milliseconds: 1200),
               opacity: _opacity,
               child: Column(
-                children: <Widget>[
+                children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10.0),
                     child: LinearProgressIndicator(

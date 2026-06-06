@@ -37,7 +37,7 @@ class AboutScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             _buildBrandingSection(context),
             _buildMetricBadges(context),
             const SizedBox(height: 48.0),
@@ -70,7 +70,7 @@ class AboutScreen extends StatelessWidget {
   Widget _buildSection(BuildContext context, String title, Widget content) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           title.toUpperCase(),
           style: _textStyle(
@@ -94,13 +94,13 @@ class AboutScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 48.0),
       child: Column(
-        children: <Widget>[
+        children: [
           Container(
             padding: const EdgeInsets.all(20.0),
             decoration: BoxDecoration(
               color: colorScheme.primary,
               borderRadius: BorderRadius.circular(24.0),
-              boxShadow: <BoxShadow>[
+              boxShadow: [
                 BoxShadow(
                   color: colorScheme.primary.withAlpha(40),
                   blurRadius: 24.0,
@@ -140,7 +140,7 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildMetricBadges(BuildContext context) {
     return Row(
-      children: <Widget>[
+      children: [
         _impactBadge(context, "Foco", Icons.center_focus_strong_rounded),
         const SizedBox(width: 12.0),
         _impactBadge(context, "Gestão", Icons.auto_graph_rounded),
@@ -161,7 +161,7 @@ class AboutScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(24.0),
         ),
         child: Column(
-          children: <Widget>[
+          children: [
             Icon(icon, color: colorScheme.primary, size: 28.0),
             const SizedBox(height: 12.0),
             Text(
@@ -195,18 +195,18 @@ class AboutScreen extends StatelessWidget {
 
   Widget _buildBenefitList(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final List<List<Object>> benefits = <List<Object>>[
-      <Object>[
+    final List<List<Object>> benefits = [
+      [
         "Acompanhamento de Evolução",
         "Mantenha um registro fiel de notas, faltas e seu desempenho geral.",
         Icons.verified_outlined,
       ],
-      <Object>[
+      [
         "Controle de Cronograma",
         "Visualize seus horários e prazos em um mapa semântico claro.",
         Icons.calendar_today_outlined,
       ],
-      <Object>[
+      [
         "Privacidade Total",
         "Dados armazenados localmente, garantindo sua total segurança.",
         Icons.security_outlined,
@@ -220,7 +220,7 @@ class AboutScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 32.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Icon(
                     b[2] as IconData,
                     color: colorScheme.primary,
@@ -230,7 +230,7 @@ class AboutScreen extends StatelessWidget {
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
+                      children: [
                         Text(
                           b[0] as String,
                           style: _textStyle(
@@ -274,7 +274,7 @@ class AboutScreen extends StatelessWidget {
         ),
       ),
       child: Column(
-        children: <Widget>[
+        children: [
           Consumer(
             builder: (context, ref, child) {
               final appVersion = ref.watch(appVersionProvider);
@@ -320,7 +320,7 @@ class AboutScreen extends StatelessWidget {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
+        children: [
           Text(
             label,
             style: _textStyle(
@@ -344,7 +344,7 @@ class AboutScreen extends StatelessWidget {
 
     return Center(
       child: Column(
-        children: <Widget>[
+        children: [
           Icon(Icons.verified_rounded, color: colorScheme.primary, size: 24.0),
           const SizedBox(height: 16.0),
           Text(

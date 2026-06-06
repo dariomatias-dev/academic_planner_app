@@ -62,7 +62,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
     final colorScheme = theme.colorScheme;
 
     return Column(
-      children: <Widget>[
+      children: [
         Container(
           decoration: BoxDecoration(
             color: colorScheme.surface.withAlpha(100),
@@ -80,7 +80,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                 padding: const EdgeInsets.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
+                  children: [
                     Text(
                       widget.label,
                       style: GoogleFonts.plusJakartaSans(
@@ -90,7 +90,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                       ),
                     ),
                     Row(
-                      children: <Widget>[
+                      children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10.0,
@@ -109,7 +109,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                             ),
                           ),
                         ),
-                        if (hasDisciplines) ...<Widget>[
+                        if (hasDisciplines) ...[
                           const SizedBox(width: 8.0),
                           RotationTransition(
                             turns: Tween<double>(

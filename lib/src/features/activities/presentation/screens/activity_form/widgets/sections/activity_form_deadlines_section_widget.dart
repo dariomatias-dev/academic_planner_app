@@ -28,7 +28,7 @@ class ActivityFormDeadlinesSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         const FormSectionTitleWidget(title: "Prazos e Lembretes"),
         ValueListenableBuilder<DateTime?>(
           valueListenable: dueDate,

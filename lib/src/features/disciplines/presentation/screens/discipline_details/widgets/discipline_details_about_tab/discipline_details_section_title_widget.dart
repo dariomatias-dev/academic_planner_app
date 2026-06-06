@@ -16,7 +16,7 @@ class DisciplineDetailsSectionTitleWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Row(
-      children: <Widget>[
+      children: [
         Icon(icon, size: 20.0, color: colorScheme.onSurface),
         const SizedBox(width: 10.0),
         Text(

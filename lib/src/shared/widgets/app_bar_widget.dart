@@ -40,7 +40,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             if (displayBackButton)
               const Padding(
                 padding: EdgeInsets.only(right: 16.0),
@@ -50,7 +50,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   if (title != null)
                     Text(
                       title!,

@@ -51,11 +51,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     ThemeMode themeMode,
     UserEntity? user,
   ) {
-    return <Widget>[
+    return [
       if (user != null)
         SettingsSectionWidget(
           title: "Minha Conta",
-          children: <Widget>[
+          children: [
             SettingsTileWidget(
               icon: Icons.person_outline_rounded,
               title: "Editar Perfil",
@@ -65,7 +65,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         ),
       SettingsSectionWidget(
         title: "Informações do Curso",
-        children: <Widget>[
+        children: [
           SettingsTileWidget(
             icon: Icons.list_alt_rounded,
             title: "Disciplinas do Curso",
@@ -80,7 +80,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       ),
       SettingsSectionWidget(
         title: "Organização",
-        children: <Widget>[
+        children: [
           SettingsTileWidget(
             icon: Icons.category_rounded,
             title: "Categorias",
@@ -95,7 +95,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       ),
       SettingsSectionWidget(
         title: "Preferências",
-        children: <Widget>[
+        children: [
           SettingsTileWidget(
             icon: Icons.palette_rounded,
             title: "Tema do Aplicativo",
@@ -123,7 +123,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       ),
       SettingsSectionWidget(
         title: "Suporte",
-        children: <Widget>[
+        children: [
           SettingsTileWidget(
             icon: Icons.info_rounded,
             title: "Sobre o Academic Planner",
@@ -136,7 +136,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           padding: const EdgeInsets.only(top: 20.0),
           child: SettingsSectionWidget(
             title: "Sessão e Segurança",
-            children: <Widget>[
+            children: [
               SettingsTileWidget(
                 icon: Icons.logout_rounded,
                 title: "Sair da Conta",
@@ -177,7 +177,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             const SettingsProfileHeaderWidget(),
             const SizedBox(height: 32.0),
             Column(spacing: 36.0, children: sections),

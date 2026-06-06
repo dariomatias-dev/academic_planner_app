@@ -94,7 +94,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: isEditing ? "Editar Anotação" : "Nova Anotação",
-        actions: <Widget>[
+        actions: [
           ValueListenableBuilder<bool>(
             valueListenable: _viewModel.canSave,
             builder: (context, canSave, child) {
@@ -118,7 +118,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
               key: _formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   const FormSectionTitleWidget(
                     title: "Informações",
                     padding: EdgeInsets.only(bottom: 16.0),

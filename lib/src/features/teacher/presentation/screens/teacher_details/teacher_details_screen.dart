@@ -89,7 +89,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         title: "Perfil do Docente",
-        actions: <Widget>[
+        actions: [
           IconButtonWidget(
             icon: Icons.launch_rounded,
             onPressed: () {
@@ -106,7 +106,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
         padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+          children: [
             _buildEnhancedHeader(context, _teacher!),
             const SizedBox(height: 48.0),
             if (_teacher!.academicBackground.isNotEmpty)
@@ -115,7 +115,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                 "Formação Acadêmica",
                 _buildFormationList(context, _teacher!.academicBackground),
               ),
-            if (_teacher!.postGraduation.isNotEmpty) ...<Widget>[
+            if (_teacher!.postGraduation.isNotEmpty) ...[
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
@@ -123,7 +123,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                 _buildSpecializationList(context, _teacher!.postGraduation),
               ),
             ],
-            if (_teacher!.postDoctorate.isNotEmpty) ...<Widget>[
+            if (_teacher!.postDoctorate.isNotEmpty) ...[
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
@@ -131,7 +131,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                 _buildFormationList(context, _teacher!.postDoctorate),
               ),
             ],
-            if (_teacher!.complementaryEducation.isNotEmpty) ...<Widget>[
+            if (_teacher!.complementaryEducation.isNotEmpty) ...[
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
@@ -155,10 +155,10 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
       width: double.infinity,
       padding: const EdgeInsets.only(top: 32.0),
       child: Column(
-        children: <Widget>[
+        children: [
           Stack(
             alignment: Alignment.center,
-            children: <Widget>[
+            children: [
               Container(
                 width: 100.0,
                 height: 100.0,
@@ -167,12 +167,12 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: <Color>[
+                    colors: [
                       colorScheme.primary,
                       colorScheme.primaryContainer,
                     ],
                   ),
-                  boxShadow: <BoxShadow>[
+                  boxShadow: [
                     BoxShadow(
                       color: colorScheme.primary.withAlpha(60),
                       blurRadius: 20.0,
@@ -233,7 +233,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
   Widget _buildSection(BuildContext context, String title, Widget content) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+      children: [
         Text(
           title.toUpperCase(),
           style: _textStyle(
@@ -263,9 +263,9 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
       margin: const EdgeInsets.only(bottom: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Column(
-            children: <Widget>[
+            children: [
               Container(
                 width: 12.0,
                 height: 12.0,
@@ -286,7 +286,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: <Color>[
+                    colors: [
                       colorScheme.primary.withAlpha(60),
                       colorScheme.primary.withAlpha(0),
                     ],
@@ -299,7 +299,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   title,
                   style: _textStyle(

@@ -49,7 +49,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
               : colorScheme.outlineVariant.withAlpha(80),
           width: 1.5,
         ),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(
             color: Colors.black.withAlpha(isDark ? 50 : 15),
             blurRadius: 40.0,
@@ -75,17 +75,17 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
-      children: <Widget>[
+      children: [
         Padding(
           padding: const EdgeInsets.all(28.0),
           child: Row(
-            children: <Widget>[
+            children: [
               _buildAvatar(context),
               const SizedBox(width: 20.0),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     _buildBadge(context),
                     const SizedBox(height: 12.0),
                     Text(
@@ -127,7 +127,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(28.0),
         child: Row(
-          children: <Widget>[
+          children: [
             Container(
               width: 72.0,
               height: 72.0,
@@ -145,7 +145,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+                children: [
                   Text(
                     "Entre na sua conta",
                     style: _textStyle(
@@ -182,7 +182,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
 
     return Stack(
       alignment: Alignment.bottomRight,
-      children: <Widget>[
+      children: [
         Container(
           width: 92.0,
           height: 92.0,
@@ -212,7 +212,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
               color: Theme.of(context).colorScheme.surface,
               width: 3.5,
             ),
-            boxShadow: <BoxShadow>[
+            boxShadow: [
               BoxShadow(
                 color: AppColors.emerald500.withAlpha(60),
                 blurRadius: 10.0,
@@ -267,7 +267,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16.0),
-        boxShadow: <BoxShadow>[
+        boxShadow: [
           BoxShadow(color: Colors.black.withAlpha(5), blurRadius: 10.0),
         ],
       ),
@@ -303,13 +303,13 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
         ),
       ),
       child: Row(
-        children: <Widget>[
+        children: [
           _buildInstitutionLogo(context),
           const SizedBox(width: 16.0),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Text(
                   _staticCourse,
                   style: _textStyle(

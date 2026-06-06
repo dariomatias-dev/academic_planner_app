@@ -103,11 +103,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 const SizedBox(height: 64.0),
                 Center(
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Container(
                         padding: const EdgeInsets.all(16.0),
                         decoration: BoxDecoration(
@@ -215,7 +215,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Align(
                   alignment: Alignment.center,
                   child: Column(
-                    children: <Widget>[
+                    children: [
                       Text(
                         "Já possui uma conta?",
                         style: GoogleFonts.plusJakartaSans(
