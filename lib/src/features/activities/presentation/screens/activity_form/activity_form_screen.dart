@@ -1,37 +1,18 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:logging/logging.dart';
-
-import 'package:academic_planner/src/core/result/result.dart';
-import 'package:academic_planner/src/core/validators.dart';
 
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_date_picker_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_reminders/activity_form_reminders_widget.dart';
-import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+import 'package:academic_planner/src/features/activities/presentation/view_models/activity_form_view_model.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_classification_section_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_content_section_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_deadlines_section_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_notes_section_widget.dart';
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_form_dialog_widget.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
-import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 
 class ActivityFormScreen extends ConsumerStatefulWidget {
@@ -49,85 +30,11 @@ class ActivityFormScreen extends ConsumerStatefulWidget {
 }
 
 class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
-  static final _log = Logger('activities.ActivityFormScreen');
-
   final _formKey = GlobalKey<FormState>();
-
-  final _titleController = TextEditingController();
-  final _notesController = TextEditingController();
-  late final QuillController _descriptionController;
-
-  final _disciplineNotifier = ValueNotifier<DisciplineModel?>(null);
-  final _dueDateNotifier = ValueNotifier<DateTime?>(null);
-  final _statusNotifier = ValueNotifier<ActivityStatus>(ActivityStatus.draft);
-  final _categoryNotifier = ValueNotifier<String?>(null);
-
-  final _tagsNotifier = ValueNotifier<List<String>>(<String>[]);
-  final _remindersNotifier = ValueNotifier<List<TimeOfDay>>(<TimeOfDay>[]);
-  final _isLoadingNotifier = ValueNotifier<bool>(false);
-  final _canSaveNotifier = ValueNotifier<bool>(false);
-
-  Activity? _initialActivity;
+  late final ActivityFormViewModel _viewModel;
 
   void _unfocus() {
     FocusManager.instance.primaryFocus?.unfocus();
-  }
-
-  bool _isSameDay(DateTime? d1, DateTime? d2) {
-    if (d1 == null && d2 == null) return true;
-    if (d1 == null || d2 == null) return false;
-
-    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
-  }
-
-  void _updateChangeTracker() {
-    _canSaveNotifier.value = _hasChanges();
-  }
-
-  bool _hasChanges() {
-    if (_initialActivity == null) return true;
-
-    final currentDescription = jsonEncode(
-      _descriptionController.document.toDelta().toJson(),
-    );
-
-    final hasTitleChanged =
-        _titleController.text.trim() != _initialActivity!.title.trim();
-    final hasDescriptionChanged =
-        currentDescription != _initialActivity!.description;
-    final hasNotesChanged =
-        _notesController.text.trim() != (_initialActivity!.notes?.trim() ?? "");
-    final hasDisciplineChanged =
-        _disciplineNotifier.value?.id != _initialActivity!.disciplineId;
-    final hasDueDateChanged = !_isSameDay(
-      _dueDateNotifier.value,
-      _initialActivity!.dueDate,
-    );
-    final hasStatusChanged =
-        _statusNotifier.value != (_initialActivity!.status);
-    final hasCategoryChanged =
-        _categoryNotifier.value != _initialActivity!.category;
-    final hasTagsChanged =
-        !(_tagsNotifier.value.length == _initialActivity!.tags.length &&
-            _tagsNotifier.value.every((t) {
-              return _initialActivity!.tags.contains(t);
-            }));
-    final hasRemindersChanged =
-        !(_remindersNotifier.value.length ==
-                _initialActivity!.reminders.length &&
-            _remindersNotifier.value.every((r) {
-              return _initialActivity!.reminders.contains(r);
-            }));
-
-    return hasTitleChanged ||
-        hasDescriptionChanged ||
-        hasNotesChanged ||
-        hasDisciplineChanged ||
-        hasDueDateChanged ||
-        hasStatusChanged ||
-        hasCategoryChanged ||
-        hasTagsChanged ||
-        hasRemindersChanged;
   }
 
   void _showCreateCategoryDialog() {
@@ -147,16 +54,12 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
     final picked = await showDatePicker(
       context: context,
-      initialDate: _dueDateNotifier.value ?? DateTime.now(),
+      initialDate: _viewModel.dueDate.value ?? DateTime.now(),
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
     );
 
-    if (picked != null) {
-      _dueDateNotifier.value = picked;
-
-      _updateChangeTracker();
-    }
+    if (picked != null) _viewModel.setDueDate(picked);
 
     _unfocus();
   }
@@ -169,161 +72,56 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       initialTime: const TimeOfDay(hour: 8, minute: 30),
     );
 
-    if (picked != null && !_remindersNotifier.value.contains(picked)) {
-      _remindersNotifier.value = <TimeOfDay>[
-        ..._remindersNotifier.value,
-        picked,
-      ];
-
-      _updateChangeTracker();
-    }
+    if (picked != null) _viewModel.addReminder(picked);
   }
 
   Future<void> _saveTask() async {
     _unfocus();
 
-    if (_formKey.currentState?.validate() ?? false) {
-      final activityNotifier = ref.read(activityNotifierProvider.notifier);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
 
-      final description = jsonEncode(
-        _descriptionController.document.toDelta().toJson(),
-      );
+    final result = await _viewModel.save();
 
-      Result<void> result;
-
-      if (_initialActivity != null) {
-        final updatedActivity = _initialActivity!.copyWith(
-          title: _titleController.text.trim(),
-          description: description,
-          notes: _notesController.text.trim(),
-          disciplineId: _disciplineNotifier.value?.id,
-          dueDate: _dueDateNotifier.value,
-          category: _categoryNotifier.value,
-          tags: _tagsNotifier.value,
-          reminders: _remindersNotifier.value,
-          status: _statusNotifier.value,
-        );
-
-        result = await activityNotifier.edit(updatedActivity);
-      } else {
-        final newActivity = activityNotifier.createNew(
-          title: _titleController.text.trim(),
-          description: description,
-          disciplineId: _disciplineNotifier.value!.id,
-          tags: _tagsNotifier.value,
-          reminders: _remindersNotifier.value,
-          status: _statusNotifier.value,
-          notes: _notesController.text.trim(),
-          dueDate: _dueDateNotifier.value,
-          category: _categoryNotifier.value,
-        );
-
-        result = await activityNotifier.add(newActivity);
-      }
-
-      result.fold(
-        onSuccess: (data) {
-          if (!mounted) return;
-
-          ref.invalidate(activityNotifierProvider);
-
-          Navigator.pop(context, true);
-        },
-        onFailure: (failure) {
-          Fluttertoast.showToast(msg: 'Erro ao salvar atividade');
-        },
-      );
-    }
+    result.fold(
+      onSuccess: (_) {
+        if (!mounted) return;
+        ref.invalidate(activityNotifierProvider);
+        Navigator.pop(context, true);
+      },
+      onFailure: (_) => Fluttertoast.showToast(msg: 'Erro ao salvar atividade'),
+    );
   }
 
   Future<void> _loadActivity() async {
-    final activityNotifier = ref.read(activityNotifierProvider.notifier);
-
-    if (widget.activityId == null) {
-      if (widget.initialDisciplineId != null) {
-        _disciplineNotifier.value = adsDisciplines.where((d) {
-          return d.id == widget.initialDisciplineId;
-        }).firstOrNull;
-      }
-
-      _updateChangeTracker();
-
-      return;
-    }
-
-    _isLoadingNotifier.value = true;
-
-    final result = await activityNotifier.getById(widget.activityId!);
+    final result = await _viewModel.load(
+      activityId: widget.activityId,
+      initialDisciplineId: widget.initialDisciplineId,
+    );
 
     result.fold(
-      onSuccess: (activity) {
-        if (!mounted || activity == null) return;
-
-        _initialActivity = activity;
-        _titleController.text = activity.title;
-        _notesController.text = activity.notes ?? "";
-
-        try {
-          final doc = Document.fromJson(jsonDecode(activity.description));
-
-          _descriptionController.document = doc;
-          _descriptionController.updateSelection(
-            const TextSelection.collapsed(offset: 0),
-            ChangeSource.local,
-          );
-
-          _unfocus();
-        } catch (err, stackTrace) {
-          _log.severe('Failed to parse description', err, stackTrace);
-        }
-
-        _disciplineNotifier.value = adsDisciplines.where((d) {
-          return d.id == activity.disciplineId;
-        }).firstOrNull;
-        _dueDateNotifier.value = activity.dueDate;
-        _statusNotifier.value = activity.status;
-        _categoryNotifier.value = activity.category;
-        _tagsNotifier.value = List<String>.from(activity.tags);
-        _remindersNotifier.value = List<TimeOfDay>.from(activity.reminders);
-
-        _updateChangeTracker();
-      },
-      onFailure: (failure) {
+      onSuccess: (_) {},
+      onFailure: (_) {
         if (!mounted) return;
 
         Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
       },
     );
-
-    if (mounted) _isLoadingNotifier.value = false;
   }
 
   @override
   void initState() {
     super.initState();
 
-    _descriptionController = QuillController.basic();
-    _descriptionController.addListener(_updateChangeTracker);
-    _titleController.addListener(_updateChangeTracker);
-    _notesController.addListener(_updateChangeTracker);
+    _viewModel = ActivityFormViewModel(
+      ref.read(activityNotifierProvider.notifier),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadActivity());
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _descriptionController.dispose();
-    _notesController.dispose();
-    _disciplineNotifier.dispose();
-    _dueDateNotifier.dispose();
-    _statusNotifier.dispose();
-    _categoryNotifier.dispose();
-    _tagsNotifier.dispose();
-    _remindersNotifier.dispose();
-    _isLoadingNotifier.dispose();
-    _canSaveNotifier.dispose();
-
+    _viewModel.dispose();
     super.dispose();
   }
 
@@ -337,8 +135,8 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
         title: isEditing ? "Editar Atividade" : "Criar Atividade",
         actions: <Widget>[
           ValueListenableBuilder<bool>(
-            valueListenable: _canSaveNotifier,
-            builder: (context, canSave, child) {
+            valueListenable: _viewModel.canSave,
+            builder: (context, canSave, _) {
               return IconButtonWidget(
                 icon: Icons.check_rounded,
                 onPressed: canSave ? _saveTask : null,
@@ -349,11 +147,9 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
         ],
       ),
       body: ValueListenableBuilder<bool>(
-        valueListenable: _isLoadingNotifier,
-        builder: (context, isLoading, child) {
-          if (isLoading) {
-            return const LoadingStateWidget();
-          }
+        valueListenable: _viewModel.isLoading,
+        builder: (context, isLoading, _) {
+          if (isLoading) return const LoadingStateWidget();
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
@@ -362,157 +158,32 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  const FormSectionTitleWidget(
-                    title: "Conteúdo",
-                    padding: EdgeInsets.only(bottom: 16.0),
+                  ActivityFormContentSectionWidget(
+                    titleController: _viewModel.titleController,
+                    descriptionController: _viewModel.descriptionController,
                   ),
-                  ActivityFormInputFieldWidget(
-                    controller: _titleController,
-                    label: "Título",
-                    hint: "O que deve ser feito?",
-                    isRequired: true,
-                    validator: (value) {
-                      return Validators.required(
-                        value?.trim(),
-                        message: "O título é obrigatório",
-                      );
-                    },
+                  ActivityFormClassificationSectionWidget(
+                    discipline: _viewModel.discipline,
+                    onDisciplineSelected: _viewModel.setDiscipline,
+                    status: _viewModel.status,
+                    onStatusSelected: _viewModel.setStatus,
+                    category: _viewModel.category,
+                    onCategorySelected: _viewModel.setCategory,
+                    onCreateCategory: _showCreateCategoryDialog,
+                    tags: _viewModel.tags,
+                    onTagToggled: _viewModel.toggleTag,
+                    onCreateTag: _showCreateTagDialog,
                   ),
-                  const SizedBox(height: 20.0),
-                  ActivityFormDescriptionFieldWidget(
-                    controller: _descriptionController,
+                  ActivityFormDeadlinesSectionWidget(
+                    dueDate: _viewModel.dueDate,
+                    onSelectDate: _selectDate,
+                    onClearDate: () => _viewModel.setDueDate(null),
+                    reminders: _viewModel.reminders,
+                    onAddReminder: _addReminder,
+                    onRemoveReminder: _viewModel.removeReminder,
                   ),
-                  const SizedBox(height: 20.0),
-                  const FormSectionTitleWidget(title: "Classificação"),
-                  ValueListenableBuilder<DisciplineModel?>(
-                    valueListenable: _disciplineNotifier,
-                    builder: (context, discipline, child) {
-                      return ActivityFormDisciplinePickerWidget(
-                        selectedDiscipline: discipline,
-                        isRequired: true,
-                        onSelected: (value) {
-                          _disciplineNotifier.value = value;
-
-                          _updateChangeTracker();
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20.0),
-                  ValueListenableBuilder<ActivityStatus>(
-                    valueListenable: _statusNotifier,
-                    builder: (context, status, child) {
-                      return ActivityFormStatusSelectorWidget(
-                        selectedStatus: status,
-                        onSelect: (value) {
-                          _statusNotifier.value = value;
-
-                          _updateChangeTracker();
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20.0),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final categories =
-                          ref.watch(categoriesNotifierProvider).asData?.value ??
-                          [];
-
-                      return ValueListenableBuilder<String?>(
-                        valueListenable: _categoryNotifier,
-                        builder: (context, selectedCategory, child) {
-                          return ActivityFormCategorySelectorWidget(
-                            categories: categories.builder(
-                              (category, index) => category.name,
-                            ),
-                            selectedCategory: selectedCategory,
-                            onSelect: (value) {
-                              _categoryNotifier.value = value;
-
-                              _updateChangeTracker();
-                            },
-                            onCreate: _showCreateCategoryDialog,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20.0),
-                  Consumer(
-                    builder: (context, ref, child) {
-                      final availableTags =
-                          ref.watch(tagNotifierProvider).asData?.value ?? [];
-
-                      return ValueListenableBuilder<List<String>>(
-                        valueListenable: _tagsNotifier,
-                        builder: (context, selected, child) {
-                          return ActivityFormTagSelectorWidget(
-                            availableTags: availableTags.builder(
-                              (tag, index) => tag.name,
-                            ),
-                            selectedTags: selected,
-                            onToggle: (tag, value) {
-                              final current = List<String>.from(
-                                _tagsNotifier.value,
-                              );
-
-                              value ? current.add(tag) : current.remove(tag);
-
-                              _tagsNotifier.value = current;
-
-                              _updateChangeTracker();
-                            },
-                            onCreate: _showCreateTagDialog,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20.0),
-                  const FormSectionTitleWidget(title: "Prazos e Lembretes"),
-                  ValueListenableBuilder<DateTime?>(
-                    valueListenable: _dueDateNotifier,
-                    builder: (context, date, child) {
-                      return ActivityFormDatePickerWidget(
-                        dueDate: date,
-                        isRequired: false,
-                        onTap: _selectDate,
-                        onClear: () {
-                          _dueDateNotifier.value = null;
-
-                          _updateChangeTracker();
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  ValueListenableBuilder<List<TimeOfDay>>(
-                    valueListenable: _remindersNotifier,
-                    builder: (context, reminders, child) {
-                      return ActivityFormRemindersWidget(
-                        reminders: reminders,
-                        onAdd: _addReminder,
-                        onRemove: (time) {
-                          final current = List<TimeOfDay>.from(
-                            _remindersNotifier.value,
-                          );
-
-                          current.remove(time);
-
-                          _remindersNotifier.value = current;
-
-                          _updateChangeTracker();
-                        },
-                      );
-                    },
-                  ),
-                  const SizedBox(height: 20.0),
-                  const FormSectionTitleWidget(title: "Anotações"),
-                  InputWidget(
-                    controller: _notesController,
-                    hint: "Rascunhos ou lembretes rápidos...",
-                    maxLines: 5,
+                  ActivityFormNotesSectionWidget(
+                    controller: _viewModel.notesController,
                   ),
                 ],
               ),
@@ -520,204 +191,6 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
           );
         },
       ),
-    );
-  }
-}
-
-class ActivityFormInputFieldWidget extends StatelessWidget {
-  final TextEditingController controller;
-  final String label;
-  final String hint;
-  final int maxLines;
-  final bool isRequired;
-  final String? Function(String? value)? validator;
-
-  const ActivityFormInputFieldWidget({
-    super.key,
-    required this.controller,
-    required this.label,
-    required this.hint,
-    this.maxLines = 1,
-    this.isRequired = false,
-    this.validator,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        FormFieldLabelWidget(label: label, isRequired: isRequired),
-        const SizedBox(height: 8.0),
-        InputWidget(
-          controller: controller,
-          hint: hint,
-          maxLines: maxLines,
-          validator: validator,
-        ),
-      ],
-    );
-  }
-}
-
-class ActivityFormStatusSelectorWidget extends StatelessWidget {
-  final ActivityStatus selectedStatus;
-  final void Function(ActivityStatus value) onSelect;
-
-  const ActivityFormStatusSelectorWidget({
-    super.key,
-    required this.selectedStatus,
-    required this.onSelect,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        const FormFieldLabelWidget(label: "Status", isRequired: true),
-        const SizedBox(height: 12.0),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            spacing: 8.0,
-            children: ActivityStatus.values.builder((status, index) {
-              final isSelected = selectedStatus == status;
-
-              return SelectableChipWidget(
-                onTap: () => onSelect(status),
-                label: status.label,
-                isSelected: isSelected,
-              );
-            }),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ActivityFormCategorySelectorWidget extends StatelessWidget {
-  final List<String> categories;
-  final String? selectedCategory;
-  final void Function(String? value) onSelect;
-  final VoidCallback onCreate;
-  final bool isRequired;
-
-  const ActivityFormCategorySelectorWidget({
-    super.key,
-    required this.categories,
-    required this.selectedCategory,
-    required this.onSelect,
-    required this.onCreate,
-    this.isRequired = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            FormFieldLabelWidget(label: "Categoria", isRequired: isRequired),
-            GestureDetector(
-              onTap: onCreate,
-              child: Text(
-                "+ Nova Categoria",
-                style: GoogleFonts.plusJakartaSans(
-                  color: colorScheme.primary,
-                  fontSize: 11.0,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12.0),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            spacing: 8.0,
-            children: categories.builder((category, index) {
-              final isSelected = selectedCategory == category;
-
-              return SelectableChipWidget(
-                onTap: () => onSelect(isSelected ? null : category),
-                label: category,
-                isSelected: isSelected,
-              );
-            }),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ActivityFormTagSelectorWidget extends StatelessWidget {
-  final List<String> availableTags;
-  final List<String> selectedTags;
-  final Function(String tag, bool value) onToggle;
-  final VoidCallback onCreate;
-
-  const ActivityFormTagSelectorWidget({
-    super.key,
-    required this.availableTags,
-    required this.selectedTags,
-    required this.onToggle,
-    required this.onCreate,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              "Tags",
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            GestureDetector(
-              onTap: onCreate,
-              child: Text(
-                "+ Nova Tag",
-                style: GoogleFonts.plusJakartaSans(
-                  color: colorScheme.primary,
-                  fontSize: 11.0,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 12.0),
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 8.0,
-          children: availableTags.builder((tag, index) {
-            final isSelected = selectedTags.contains(tag);
-
-            return FilterChipWidget(
-              label: tag,
-              isSelected: isSelected,
-              onSelected: (value) => onToggle(tag, value),
-            );
-          }),
-        ),
-      ],
     );
   }
 }

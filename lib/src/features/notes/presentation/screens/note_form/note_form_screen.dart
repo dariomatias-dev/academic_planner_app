@@ -11,8 +11,8 @@ import 'package:logging/logging.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_description_field/activity_form_description_field_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/activity_form_discipline_picker_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/description/activity_form_description_field_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_discipline_picker_widget.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
