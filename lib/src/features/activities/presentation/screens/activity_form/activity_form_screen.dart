@@ -222,6 +222,8 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
       result.fold(
         onSuccess: (data) {
+          if (!mounted) return;
+
           ref.invalidate(activityNotifierProvider);
 
           Navigator.pop(context, true);
@@ -290,6 +292,8 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
         _updateChangeTracker();
       },
       onFailure: (failure) {
+        if (!mounted) return;
+
         Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
       },
     );

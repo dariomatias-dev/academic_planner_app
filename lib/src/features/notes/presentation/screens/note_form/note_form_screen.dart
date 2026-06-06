@@ -102,11 +102,15 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
 
       result.fold(
         onSuccess: (data) {
+          if (!mounted) return;
+
           ref.invalidate(noteNotifierProvider);
 
           Navigator.pop(context, true);
         },
         onFailure: (failure) {
+          if (!mounted) return;
+
           Fluttertoast.showToast(msg: 'Erro ao salvar anotação');
         },
       );
@@ -163,6 +167,8 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
         _updateChangeTracker();
       },
       onFailure: (failure) {
+        if (!mounted) return;
+
         Fluttertoast.showToast(msg: 'Erro ao carregar anotação');
       },
     );
