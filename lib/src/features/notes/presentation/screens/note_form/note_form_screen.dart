@@ -1,19 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:logging/logging.dart';
-
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/validators.dart';
 
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
-import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/view_models/note_form_view_model.dart';
 
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
@@ -31,163 +23,65 @@ class NoteFormScreen extends ConsumerStatefulWidget {
 }
 
 class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
-  static final _log = Logger('notes.NoteFormScreen');
-
   final _formKey = GlobalKey<FormState>();
 
-  final _titleController = TextEditingController();
-  late final QuillController _contentController;
-
-  final _disciplineNotifier = ValueNotifier<DisciplineModel?>(null);
-  final _isLoadingNotifier = ValueNotifier<bool>(false);
-  final _canSaveNotifier = ValueNotifier<bool>(false);
-
-  Note? _initialNote;
+  late final NoteFormViewModel _viewModel;
 
   void _unfocus() {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  void _updateChangeTracker() {
-    _canSaveNotifier.value = _hasChanges();
-  }
-
-  bool _hasChanges() {
-    if (_initialNote == null) return true;
-
-    final currentContent = jsonEncode(
-      _contentController.document.toDelta().toJson(),
-    );
-
-    final hasTitleChanged =
-        _titleController.text.trim() != _initialNote!.title.trim();
-    final hasContentChanged = currentContent != _initialNote!.content;
-    final hasDisciplineChanged =
-        _disciplineNotifier.value?.id != _initialNote!.disciplineId;
-
-    return hasTitleChanged || hasContentChanged || hasDisciplineChanged;
-  }
-
   Future<void> _saveNote() async {
     _unfocus();
 
-    if (_formKey.currentState?.validate() ?? false) {
-      final noteNotifier = ref.read(noteNotifierProvider.notifier);
+    if (!(_formKey.currentState?.validate() ?? false)) return;
 
-      final content = jsonEncode(
-        _contentController.document.toDelta().toJson(),
-      );
+    final result = await _viewModel.save();
 
-      Result<void> result;
+    result.fold(
+      onSuccess: (_) {
+        if (!mounted) return;
 
-      if (_initialNote != null) {
-        final updatedNote = _initialNote!.copyWith(
-          title: _titleController.text.trim(),
-          content: content,
-          disciplineId: _disciplineNotifier.value?.id,
-        );
+        ref.invalidate(noteNotifierProvider);
 
-        result = await noteNotifier.edit(updatedNote);
-      } else {
-        final newNote = noteNotifier.createNew(
-          title: _titleController.text.trim(),
-          content: content,
-          disciplineId: _disciplineNotifier.value!.id,
-        );
+        Navigator.pop(context, true);
+      },
+      onFailure: (_) {
+        if (!mounted) return;
 
-        result = await noteNotifier.add(newNote);
-      }
-
-      result.fold(
-        onSuccess: (data) {
-          if (!mounted) return;
-
-          ref.invalidate(noteNotifierProvider);
-
-          Navigator.pop(context, true);
-        },
-        onFailure: (failure) {
-          if (!mounted) return;
-
-          Fluttertoast.showToast(msg: 'Erro ao salvar anotação');
-        },
-      );
-    }
+        Fluttertoast.showToast(msg: 'Erro ao salvar anotação');
+      },
+    );
   }
 
   Future<void> _loadNote() async {
-    final noteNotifier = ref.read(noteNotifierProvider.notifier);
-
-    if (widget.noteId == null) {
-      _disciplineNotifier.value = adsDisciplines.where((d) {
-        return d.id == widget.disciplineId;
-      }).firstOrNull;
-
-      _updateChangeTracker();
-
-      return;
-    }
-
-    _isLoadingNotifier.value = true;
-
-    final result = await noteNotifier.getById(widget.noteId!);
+    final result = await _viewModel.load(
+      noteId: widget.noteId,
+      disciplineId: widget.disciplineId,
+    );
 
     result.fold(
-      onSuccess: (note) {
-        if (!mounted || note == null) return;
-
-        _initialNote = note;
-        _titleController.text = note.title;
-
-        try {
-          final doc = Document.fromJson(jsonDecode(note.content));
-
-          _contentController.document = doc;
-          _contentController.updateSelection(
-            const TextSelection.collapsed(offset: 0),
-
-            ChangeSource.local,
-          );
-
-          _unfocus();
-        } catch (err, stackTrace) {
-          _log.severe('Failed to parse content', err, stackTrace);
-        }
-
-        _disciplineNotifier.value = adsDisciplines.where((d) {
-          return d.id == note.disciplineId;
-        }).firstOrNull;
-
-        _updateChangeTracker();
-      },
-      onFailure: (failure) {
+      onSuccess: (_) => _unfocus(),
+      onFailure: (_) {
         if (!mounted) return;
 
         Fluttertoast.showToast(msg: 'Erro ao carregar anotação');
       },
     );
-
-    if (mounted) _isLoadingNotifier.value = false;
   }
 
   @override
   void initState() {
     super.initState();
 
-    _contentController = QuillController.basic();
-    _contentController.addListener(_updateChangeTracker);
-    _titleController.addListener(_updateChangeTracker);
+    _viewModel = NoteFormViewModel(ref.read(noteNotifierProvider.notifier));
 
     WidgetsBinding.instance.addPostFrameCallback((_) => _loadNote());
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    _disciplineNotifier.dispose();
-    _isLoadingNotifier.dispose();
-    _canSaveNotifier.dispose();
+    _viewModel.dispose();
 
     super.dispose();
   }
@@ -202,7 +96,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
         title: isEditing ? "Editar Anotação" : "Nova Anotação",
         actions: <Widget>[
           ValueListenableBuilder<bool>(
-            valueListenable: _canSaveNotifier,
+            valueListenable: _viewModel.canSave,
             builder: (context, canSave, child) {
               return IconButtonWidget(
                 icon: Icons.check_rounded,
@@ -214,11 +108,9 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
         ],
       ),
       body: ValueListenableBuilder<bool>(
-        valueListenable: _isLoadingNotifier,
+        valueListenable: _viewModel.isLoading,
         builder: (context, isLoading, child) {
-          if (isLoading) {
-            return const LoadingStateWidget();
-          }
+          if (isLoading) return const LoadingStateWidget();
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),
@@ -232,7 +124,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
                   InputFieldWidget(
-                    controller: _titleController,
+                    controller: _viewModel.titleController,
                     label: "Título",
                     hint: "Sobre o que é esta anotação?",
                     isRequired: true,
@@ -244,16 +136,13 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                     },
                   ),
                   const SizedBox(height: 20.0),
-                  ValueListenableBuilder<DisciplineModel?>(
-                    valueListenable: _disciplineNotifier,
+                  ValueListenableBuilder(
+                    valueListenable: _viewModel.discipline,
                     builder: (context, discipline, child) {
                       return DisciplinePickerFieldWidget(
                         selectedDiscipline: discipline,
                         isRequired: true,
-                        onSelected: (value) {
-                          _disciplineNotifier.value = value;
-                          _updateChangeTracker();
-                        },
+                        onSelected: _viewModel.setDiscipline,
                       );
                     },
                   ),
@@ -263,7 +152,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
                   RichTextFieldWidget(
-                    controller: _contentController,
+                    controller: _viewModel.contentController,
                     label: "Conteúdo",
                     placeholder: "Escreva o conteúdo da sua anotação...",
                     validatorMessage: "O conteúdo é obrigatório",
