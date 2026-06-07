@@ -21,38 +21,37 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
     );
   }
 
+  Future<List<Tag>> _currentTags() async {
+    if (state case AsyncData(:final value)) return value;
+
+    final result = await _viewModel.load();
+
+    return result.fold(onSuccess: (data) => data, onFailure: (_) => []);
+  }
+
   Future<Result<List<Tag>>> add(String name) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentTags();
     final result = await _viewModel.add(current, name);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (f) => state = AsyncError(f, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }
 
   Future<Result<List<Tag>>> edit(int index, String name) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentTags();
     final result = await _viewModel.update(current, index, name);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (f) => state = AsyncError(f, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }
 
   Future<Result<List<Tag>>> remove(int index) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentTags();
     final result = await _viewModel.remove(current, index);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (f) => state = AsyncError(f, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }

@@ -21,38 +21,37 @@ class CategoriesNotifier extends AsyncNotifier<List<Category>> {
     );
   }
 
+  Future<List<Category>> _currentCategories() async {
+    if (state case AsyncData(:final value)) return value;
+
+    final result = await _viewModel.load();
+
+    return result.fold(onSuccess: (data) => data, onFailure: (_) => []);
+  }
+
   Future<Result<List<Category>>> add(String name) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentCategories();
     final result = await _viewModel.add(current, name);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }
 
   Future<Result<List<Category>>> edit(int index, String name) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentCategories();
     final result = await _viewModel.update(current, index, name);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }
 
   Future<Result<List<Category>>> remove(int index) async {
-    final current = state.asData?.value ?? [];
+    final current = await _currentCategories();
     final result = await _viewModel.remove(current, index);
 
-    result.when(
-      onSuccess: (data) => state = AsyncData(data),
-      onFailure: (failure) => state = AsyncError(failure, StackTrace.current),
-    );
+    if (result case Success(:final value)) state = AsyncData(value);
 
     return result;
   }
