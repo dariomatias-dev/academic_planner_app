@@ -1,20 +1,18 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/validators.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:flutter/material.dart';
 
 class LinkDialogWidget extends StatefulWidget {
-  final String? initialText;
-  final String? initialUrl;
-
   const LinkDialogWidget({
     super.key,
     this.initialText,
     this.initialUrl,
   });
+
+  final String? initialText;
+  final String? initialUrl;
 
   static Future<Map<String, String>?> show(
     BuildContext context, {
@@ -60,8 +58,8 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
   @override
   Widget build(BuildContext context) {
     return DialogWidget(
-      title: "Adicionar Link",
-      message: "Insira o texto de exibição e o endereço da URL para o link.",
+      title: 'Adicionar Link',
+      message: 'Insira o texto de exibição e o endereço da URL para o link.',
       icon: Icons.link_rounded,
       actions: Form(
         key: _formKey,
@@ -70,13 +68,13 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
           children: [
             InputWidget(
               controller: _textController,
-              hint: "Texto para exibir (ex: Documentação)",
+              hint: 'Texto para exibir (ex: Documentação)',
               validator: Validators.required,
             ),
             const SizedBox(height: 16.0),
             InputWidget(
               controller: _urlController,
-              hint: "Endereço URL (ex: https://...)",
+              hint: 'Endereço URL (ex: https://...)',
               validator: Validators.multiple([
                 Validators.required,
                 Validators.url,
@@ -87,7 +85,7 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
               children: [
                 Expanded(
                   child: ButtonWidget(
-                    label: "Cancelar",
+                    label: 'Cancelar',
                     onPressed: () => Navigator.pop(context),
                     style: AppButtonStyle.neutral,
                   ),
@@ -95,9 +93,8 @@ class _LinkDialogWidgetState extends State<LinkDialogWidget> {
                 const SizedBox(width: 12.0),
                 Expanded(
                   child: ButtonWidget(
-                    label: "Adicionar",
+                    label: 'Adicionar',
                     onPressed: _onConfirm,
-                    style: AppButtonStyle.primary,
                   ),
                 ),
               ],

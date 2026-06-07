@@ -1,29 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
-import 'package:academic_planner/src/features/activities/presentation/view_models/activity_form_view_model.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_classification_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_content_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_deadlines_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/sections/activity_form_notes_section_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/view_models/activity_form_view_model.dart';
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
 import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_form_dialog_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ActivityFormScreen extends ConsumerStatefulWidget {
-  final String? activityId;
-  final int? initialDisciplineId;
-
   const ActivityFormScreen({
     super.key,
     this.activityId,
     this.initialDisciplineId,
   });
+
+  final String? activityId;
+  final int? initialDisciplineId;
 
   @override
   ConsumerState<ActivityFormScreen> createState() => _ActivityFormScreenState();
@@ -37,16 +35,16 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
     FocusManager.instance.primaryFocus?.unfocus();
   }
 
-  void _showCreateCategoryDialog() {
+  Future<void> _showCreateCategoryDialog() async {
     _unfocus();
 
-    CategoryFormDialogWidget.show(context);
+    await CategoryFormDialogWidget.show(context);
   }
 
-  void _showCreateTagDialog() {
+  Future<void> _showCreateTagDialog() async {
     _unfocus();
 
-    TagFormDialogWidget.show(context);
+    await TagFormDialogWidget.show(context);
   }
 
   Future<void> _selectDate() async {
@@ -82,10 +80,12 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
 
     final result = await _viewModel.save();
 
-    result.fold(
+    await result.fold(
       onSuccess: (_) {
         if (!mounted) return;
+
         ref.invalidate(activityNotifierProvider);
+
         Navigator.pop(context, true);
       },
       onFailure: (_) => Fluttertoast.showToast(msg: 'Erro ao salvar atividade'),
@@ -98,12 +98,12 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       initialDisciplineId: widget.initialDisciplineId,
     );
 
-    result.fold(
+    await result.fold(
       onSuccess: (_) {},
-      onFailure: (_) {
+      onFailure: (_) async {
         if (!mounted) return;
 
-        Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
+        await Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
       },
     );
   }
@@ -132,7 +132,7 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: isEditing ? "Editar Atividade" : "Criar Atividade",
+        title: isEditing ? 'Editar Atividade' : 'Criar Atividade',
         actions: [
           ValueListenableBuilder<bool>(
             valueListenable: _viewModel.canSave,

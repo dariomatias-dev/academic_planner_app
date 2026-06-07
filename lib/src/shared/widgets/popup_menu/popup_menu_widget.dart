@@ -1,18 +1,17 @@
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-
 class PopupMenuWidget<T> extends StatelessWidget {
-  final IconData icon;
-  final List<PopupMenuEntry<T>> items;
-  final IconButtonStyle style;
-
   PopupMenuWidget({
-    super.key,
     required this.items,
+    super.key,
     this.icon = Icons.more_vert_rounded,
     this.style = IconButtonStyle.primary,
   });
+
+  final IconData icon;
+  final List<PopupMenuEntry<T>> items;
+  final IconButtonStyle style;
 
   final _menuKey = GlobalKey<PopupMenuButtonState<T>>();
 
@@ -25,13 +24,11 @@ class PopupMenuWidget<T> extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButtonWidget(
-          onPressed: () => _menuKey.currentState?.showButtonMenu(),
+          onPressed: _menuKey.currentState?.showButtonMenu,
           icon: icon,
           style: style,
         ),
-        SizedBox(
-          width: 0.0,
-          height: 0.0,
+        SizedBox.shrink(
           child: PopupMenuButton<T>(
             key: _menuKey,
             offset: const Offset(0.0, 32.0),
@@ -44,7 +41,6 @@ class PopupMenuWidget<T> extends StatelessWidget {
               borderRadius: BorderRadius.circular(24.0),
               side: BorderSide(
                 color: theme.dividerTheme.color ?? Colors.transparent,
-                width: 1.0,
               ),
             ),
             itemBuilder: (context) => items,

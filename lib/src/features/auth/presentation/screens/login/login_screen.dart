@@ -1,23 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'package:logging/logging.dart';
-
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/validators.dart';
-
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:logging/logging.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -58,15 +54,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.whenOrNull(
-        data: (user) {
+    ref.listen(authNotifierProvider, (previous, next) async {
+      await next.whenOrNull(
+        data: (user) async {
           if (!mounted) return;
 
           if (user != null) {
             _log.info('Login success: ${_emailController.text.trim()}');
 
-            Fluttertoast.showToast(msg: 'Login realizado com sucesso');
+            await Fluttertoast.showToast(msg: 'Login realizado com sucesso');
+
+            if (!context.mounted) return;
 
             if (context.canPop()) {
               context.pop();
@@ -75,14 +73,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             }
           }
         },
-        error: (err, _) {
+        error: (err, _) async {
           if (!mounted) return;
 
           final message = err is AppFailure ? err.message : err.toString();
 
           _log.severe('Login error', err);
 
-          Fluttertoast.showToast(msg: message);
+          await Fluttertoast.showToast(msg: message);
         },
       );
     });
@@ -91,7 +89,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     if (authState.isLoading) {
-      return const Scaffold(body: LoadingStateWidget(message: "Entrando..."));
+      return const Scaffold(body: LoadingStateWidget(message: 'Entrando...'));
     }
 
     return Scaffold(
@@ -122,7 +120,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       const SizedBox(height: 24.0),
                       Text(
-                        "Academic Planner",
+                        'Academic Planner',
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 28.0,
                           fontWeight: FontWeight.w900,
@@ -130,7 +128,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        "Gestão Educacional Inteligente",
+                        'Gestão Educacional Inteligente',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
                           fontSize: 14.0,
@@ -143,11 +141,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 48.0),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
-                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                  child: FormFieldLabelWidget(label: 'E-MAIL', fontSize: 11.0),
                 ),
                 InputWidget(
                   controller: _emailController,
-                  hint: "seu@email.com",
+                  hint: 'seu@email.com',
                   validator: Validators.multiple([
                     Validators.required,
                     Validators.email,
@@ -161,14 +159,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 24.0),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
-                  child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
+                  child: FormFieldLabelWidget(label: 'SENHA', fontSize: 11.0),
                 ),
                 PasswordInputWidget(
                   controller: _passwordController,
                   validator: (value) {
                     return Validators.required(
                       value,
-                      message: "A senha é obrigatória",
+                      message: 'A senha é obrigatória',
                     );
                   },
                 ),
@@ -182,7 +180,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 16.0),
                 ButtonWidget(
                   onPressed: _onLoginPressed,
-                  label: "Entrar",
+                  label: 'Entrar',
                   isFullWidth: true,
                 ),
                 const SizedBox(height: 32.0),
@@ -191,19 +189,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 _buildGoogleButton(context),
                 const SizedBox(height: 48.0),
                 Align(
-                  alignment: Alignment.center,
                   child: Column(
                     children: [
                       Text(
-                        "Não tem uma conta?",
+                        'Não tem uma conta?',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
                           fontSize: 14.0,
                         ),
                       ),
                       TextButtonWidget(
-                        onTap: () {
-                          AppRoutes.goToRegister(context, replace: true);
+                        onTap: () async {
+                          await AppRoutes.goToRegister(context, replace: true);
                         },
                         text: 'Cadastre-se',
                       ),
@@ -227,7 +224,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
-            "ou entre com",
+            'ou entre com',
             style: GoogleFonts.plusJakartaSans(
               color: colorScheme.onSurface.withAlpha(100),
               fontSize: 12.0,
@@ -258,7 +255,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           const Icon(Icons.g_mobiledata_rounded, size: 32.0, color: Colors.red),
           const SizedBox(width: 8.0),
           Text(
-            "Continuar com Google",
+            'Continuar com Google',
             style: GoogleFonts.plusJakartaSans(
               fontSize: 15.0,
               fontWeight: FontWeight.w800,

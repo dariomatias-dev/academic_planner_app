@@ -1,21 +1,19 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
+import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
-import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
-
 class DisciplineFilterSectionWidget extends StatelessWidget {
-  final int? selectedId;
-  final Function(int? id) onSelected;
-
   const DisciplineFilterSectionWidget({
-    super.key,
     required this.selectedId,
     required this.onSelected,
+    super.key,
   });
+
+  final int? selectedId;
+  final void Function(int? id) onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +38,10 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
         ),
         const SizedBox(height: 16.0),
         GestureDetector(
-          onTap: () {
-            ModalBottomSheetWidget.show(
+          onTap: () async {
+            await ModalBottomSheetWidget.show<void>(
               context: context,
-              title: "Filtrar por Disciplina",
+              title: 'Filtrar por Disciplina',
               child: DisciplineListModalWidget(
                 selectedId: selectedId,
                 disciplines: adsDisciplines,
@@ -61,7 +59,6 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
                 color: theme.dividerTheme.color ?? AppColors.transparent,
-                width: 1.0,
               ),
             ),
             child: Row(
@@ -85,7 +82,7 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        selectedDiscipline?.name ?? "Nenhuma disciplina",
+                        selectedDiscipline?.name ?? 'Nenhuma disciplina',
                         style: GoogleFonts.plusJakartaSans(
                           color: selectedDiscipline == null
                               ? colorScheme.onSurface.withAlpha(120)
@@ -97,8 +94,8 @@ class DisciplineFilterSectionWidget extends StatelessWidget {
                       ),
                       Text(
                         selectedDiscipline == null
-                            ? "Toque para selecionar"
-                            : "Filtro ativo",
+                            ? 'Toque para selecionar'
+                            : 'Filtro ativo',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(100),
                           fontSize: 12.0,

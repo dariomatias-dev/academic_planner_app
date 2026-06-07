@@ -1,18 +1,17 @@
+import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
-
 class ModalBottomSheetWidget extends StatelessWidget {
+  const ModalBottomSheetWidget({required this.child, super.key, this.title});
+
   final String? title;
   final Widget child;
 
-  const ModalBottomSheetWidget({super.key, this.title, required this.child});
-
   static Future<T?> show<T>({
     required BuildContext context,
-    String? title,
     required Widget child,
+    String? title,
   }) {
     return ModalBottomSheet.show<T>(
       context: context,

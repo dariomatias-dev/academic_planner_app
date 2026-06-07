@@ -1,20 +1,18 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
+import 'package:flutter/material.dart';
 
 class ScheduleScreen extends StatefulWidget {
-  final int? initialPeriod;
-
   const ScheduleScreen({super.key, this.initialPeriod});
+
+  final int? initialPeriod;
 
   @override
   State<ScheduleScreen> createState() => _ScheduleScreenState();
@@ -22,7 +20,7 @@ class ScheduleScreen extends StatefulWidget {
 
 class _ScheduleScreenState extends State<ScheduleScreen>
     with SingleTickerProviderStateMixin {
-  final _globalKey = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _globalKey = GlobalKey();
 
   late final _tabController = TabController(
     length: 6,
@@ -36,7 +34,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     await ImageExport.captureAndSave(
       context: context,
       containerKey: _globalKey,
-      fileName: "schedule_period_${_tabController.index}",
+      fileName: 'schedule_period_${_tabController.index}',
     );
   }
 
@@ -67,7 +65,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Grade de Aulas",
+        title: 'Grade de Aulas',
         actions: [
           IconButtonWidget(
             icon: Icons.download_rounded,
@@ -84,7 +82,6 @@ class _ScheduleScreenState extends State<ScheduleScreen>
               border: Border(
                 bottom: BorderSide(
                   color: theme.dividerTheme.color ?? AppColors.transparent,
-                  width: 1.0,
                 ),
               ),
             ),

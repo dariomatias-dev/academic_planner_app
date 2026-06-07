@@ -1,23 +1,21 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
-import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
-
 class ScheduleDisciplineCardWidget extends StatelessWidget {
-  final ScheduleEntry entry;
-  final List<DisciplineModel> disciplines;
-
   const ScheduleDisciplineCardWidget({
-    super.key,
     required this.entry,
     required this.disciplines,
+    super.key,
   });
+
+  final ScheduleEntry entry;
+  final List<DisciplineModel> disciplines;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +30,8 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
     final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
     return GestureDetector(
-      onTap: () {
-        AppRoutes.goToDisciplineDetails(
+      onTap: () async {
+        await AppRoutes.goToDisciplineDetails(
           context,
           disciplineId: discipline.id,
           tab: 2,
@@ -44,7 +42,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: colorScheme.surface,
           borderRadius: BorderRadius.circular(16.0),
-          border: Border.all(color: dividerColor, width: 1.0),
+          border: Border.all(color: dividerColor),
           boxShadow: [
             BoxShadow(
               color: colorScheme.onSurface.withAlpha(15),
@@ -78,7 +76,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${discipline.period}º Período",
+                  '${discipline.period}º Período',
                   style: GoogleFonts.plusJakartaSans(
                     color: colorScheme.primary,
                     fontWeight: FontWeight.w800,

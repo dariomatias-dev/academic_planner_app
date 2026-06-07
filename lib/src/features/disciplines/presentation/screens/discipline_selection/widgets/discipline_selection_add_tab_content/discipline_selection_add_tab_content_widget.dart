@@ -1,26 +1,24 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/constants/day_names.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/conflict_alert_dialog_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_check_icon_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DisciplineSelectionAddTabContentWidget extends ConsumerStatefulWidget {
-  final List<int> periods;
-  final TabController periodController;
-
   const DisciplineSelectionAddTabContentWidget({
-    super.key,
     required this.periods,
     required this.periodController,
+    super.key,
   });
+
+  final List<int> periods;
+  final TabController periodController;
 
   @override
   ConsumerState<DisciplineSelectionAddTabContentWidget> createState() =>
@@ -29,26 +27,30 @@ class DisciplineSelectionAddTabContentWidget extends ConsumerStatefulWidget {
 
 class _DisciplineSelectionAddTabContentWidgetState
     extends ConsumerState<DisciplineSelectionAddTabContentWidget> {
-  void _onSelect(bool isSelected, DisciplineModel discipline) {
+  Future<void> _onSelect(bool isSelected, DisciplineModel discipline) async {
     if (isSelected) {
-      ref
+      await ref
           .read(userDisciplinesNotifierProvider.notifier)
           .toggleDiscipline(discipline.id);
-    } else {
-      final conflictDetails = _getConflictDetails(discipline.id);
 
-      if (conflictDetails != null) {
-        ConflictAlertDialogWidget.show(
-          context,
-          targetDisciplineName: discipline.name,
-          conflictDetails: conflictDetails,
-        );
-      } else {
-        ref
-            .read(userDisciplinesNotifierProvider.notifier)
-            .toggleDiscipline(discipline.id);
-      }
+      return;
     }
+
+    final conflictDetails = _getConflictDetails(discipline.id);
+
+    if (conflictDetails != null) {
+      await ConflictAlertDialogWidget.show(
+        context,
+        targetDisciplineName: discipline.name,
+        conflictDetails: conflictDetails,
+      );
+
+      return;
+    }
+
+    await ref
+        .read(userDisciplinesNotifierProvider.notifier)
+        .toggleDiscipline(discipline.id);
   }
 
   String? _getConflictDetails(int disciplineId) {
@@ -74,7 +76,7 @@ class _DisciplineSelectionAddTabContentWidgetState
           final dayLabel = dayNames[newSlot.day - 1];
 
           conflicts.add(
-            "• $dayLabel às ${newSlot.time}: ${conflictingDiscipline.name}",
+            '• $dayLabel às ${newSlot.time}: ${conflictingDiscipline.name}',
           );
         }
       }
@@ -82,7 +84,7 @@ class _DisciplineSelectionAddTabContentWidgetState
 
     if (conflicts.isEmpty) return null;
 
-    return conflicts.toSet().join("\n");
+    return conflicts.toSet().join('\n');
   }
 
   @override

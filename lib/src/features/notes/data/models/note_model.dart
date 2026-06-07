@@ -1,13 +1,6 @@
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 
 class NoteModel {
-  final String id;
-  final String title;
-  final String content;
-  final int disciplineId;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
   NoteModel({
     required this.id,
     required this.title,
@@ -16,17 +9,6 @@ class NoteModel {
     required this.createdAt,
     required this.updatedAt,
   });
-
-  Note toEntity() {
-    return Note(
-      id: id,
-      title: title,
-      content: content,
-      disciplineId: disciplineId,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
-    );
-  }
 
   factory NoteModel.fromEntity(Note note) {
     return NoteModel(
@@ -41,12 +23,30 @@ class NoteModel {
 
   factory NoteModel.fromMap(Map<String, dynamic> map) {
     return NoteModel(
-      id: map['id'],
-      title: map['title'],
-      content: map['content'],
-      disciplineId: map['disciplineId'],
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt']),
+      id: map['id'] as String,
+      title: map['title'] as String,
+      content: map['content'] as String,
+      disciplineId: map['disciplineId'] as int,
+      createdAt: DateTime.parse(map['createdAt'] as String),
+      updatedAt: DateTime.parse(map['updatedAt'] as String),
+    );
+  }
+
+  final String id;
+  final String title;
+  final String content;
+  final int disciplineId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
+  Note toEntity() {
+    return Note(
+      id: id,
+      title: title,
+      content: content,
+      disciplineId: disciplineId,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 

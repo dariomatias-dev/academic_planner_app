@@ -1,17 +1,16 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class ScheduleTimeCellWidget extends StatelessWidget {
-  final String time;
-  final bool isBreak;
-
   const ScheduleTimeCellWidget({
-    super.key,
     required this.time,
+    super.key,
     this.isBreak = false,
   });
+
+  final String time;
+  final bool isBreak;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class ScheduleTimeCellWidget extends StatelessWidget {
       color: isBreak ? AppColors.transparent : theme.scaffoldBackgroundColor,
       child: Center(
         child: Text(
-          isBreak ? "" : time,
+          isBreak ? '' : time,
           style: GoogleFonts.plusJakartaSans(
             color: theme.colorScheme.onSurface,
             fontSize: 14.0,

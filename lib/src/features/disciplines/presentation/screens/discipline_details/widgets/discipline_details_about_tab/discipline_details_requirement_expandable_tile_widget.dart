@@ -1,18 +1,16 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
-
 class DisciplineDetailsRequirementExpandableTileWidget extends StatefulWidget {
   const DisciplineDetailsRequirementExpandableTileWidget({
-    super.key,
     required this.label,
     required this.linkedDisciplines,
     required this.color,
+    super.key,
   });
 
   final String label;
@@ -39,12 +37,13 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
   bool isExpanded = false;
 
   void toggleExpansion() {
-    setState(() {
+    setState(() async {
       isExpanded = !isExpanded;
+
       if (isExpanded) {
-        expandController.forward();
+        await expandController.forward();
       } else {
-        expandController.reverse();
+        await expandController.reverse();
       }
     });
   }
@@ -52,6 +51,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
   @override
   void dispose() {
     expandController.dispose();
+
     super.dispose();
   }
 
@@ -84,9 +84,9 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                     Text(
                       widget.label,
                       style: GoogleFonts.plusJakartaSans(
+                        color: colorScheme.onSurface,
                         fontWeight: FontWeight.w700,
                         fontSize: 14.0,
-                        color: colorScheme.onSurface,
                       ),
                     ),
                     Row(
@@ -101,11 +101,11 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Text(
-                            "${widget.linkedDisciplines.length} Disciplinas",
+                            '${widget.linkedDisciplines.length} Disciplinas',
                             style: GoogleFonts.plusJakartaSans(
+                              color: widget.color,
                               fontWeight: FontWeight.w800,
                               fontSize: 11.0,
-                              color: widget.color,
                             ),
                           ),
                         ),

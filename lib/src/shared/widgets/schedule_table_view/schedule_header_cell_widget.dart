@@ -1,12 +1,11 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class ScheduleHeaderCellWidget extends StatelessWidget {
-  final String text;
+  const ScheduleHeaderCellWidget({required this.text, super.key});
 
-  const ScheduleHeaderCellWidget({super.key, required this.text});
+  final String text;
 
   @override
   Widget build(BuildContext context) {

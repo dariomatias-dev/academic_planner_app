@@ -1,9 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity_stats.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivityStatsNotifier extends AsyncNotifier<ActivityStats> {
   @override

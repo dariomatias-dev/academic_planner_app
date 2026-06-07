@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class FloatingActionButtonWidget extends StatelessWidget {
+  const FloatingActionButtonWidget({
+    required this.onPressed,
+    required this.icon,
+    super.key,
+    this.heroTag,
+  });
+
   final VoidCallback onPressed;
   final IconData icon;
   final String? heroTag;
-
-  const FloatingActionButtonWidget({
-    super.key,
-    required this.onPressed,
-    required this.icon,
-    this.heroTag,
-  });
 
   @override
   Widget build(BuildContext context) {

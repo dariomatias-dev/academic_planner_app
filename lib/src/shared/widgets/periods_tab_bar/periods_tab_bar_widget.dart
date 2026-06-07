@@ -1,18 +1,16 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
-
 class PeriodsTabBarWidget extends StatelessWidget {
-  final TabController controller;
-  final List<int> periods;
-
   const PeriodsTabBarWidget({
-    super.key,
     required this.controller,
     required this.periods,
+    super.key,
   });
+
+  final TabController controller;
+  final List<int> periods;
 
   @override
   Widget build(BuildContext context) {

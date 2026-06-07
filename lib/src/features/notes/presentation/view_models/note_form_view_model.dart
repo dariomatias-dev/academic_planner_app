@@ -1,26 +1,24 @@
 import 'dart:convert';
 
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/providers/note_notifier.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:logging/logging.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/result/result.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/presentation/providers/note_notifier.dart';
-
 class NoteFormViewModel {
-  static final _log = Logger('notes.NoteFormViewModel');
-
-  final NoteNotifier _noteNotifier;
-
   NoteFormViewModel(this._noteNotifier) {
     titleController.addListener(updateChangeTracker);
     contentController.addListener(updateChangeTracker);
   }
+
+  static final _log = Logger('notes.NoteFormViewModel');
+
+  final NoteNotifier _noteNotifier;
 
   final titleController = TextEditingController();
   final contentController = QuillController.basic();
@@ -108,14 +106,16 @@ class NoteFormViewModel {
     titleController.text = note.title;
 
     try {
-      final doc = Document.fromJson(jsonDecode(note.content));
+      final doc = Document.fromJson(
+        jsonDecode(note.content) as List<dynamic>,
+      );
 
       contentController.document = doc;
       contentController.updateSelection(
         const TextSelection.collapsed(offset: 0),
         ChangeSource.local,
       );
-    } catch (err, stackTrace) {
+    } on Exception catch (err, stackTrace) {
       _log.severe('Failed to parse content', err, stackTrace);
     }
 

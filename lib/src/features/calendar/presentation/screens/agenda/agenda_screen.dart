@@ -1,22 +1,21 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'dart:async';
 
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/agenda_filter_modal_widget.dart';
 import 'package:academic_planner/src/features/calendar/di/calendar_providers.dart';
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class AgendaScreen extends ConsumerStatefulWidget {
   const AgendaScreen({super.key});
@@ -39,10 +38,13 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
   }
 
   void _openFilterModal() {
-    final asyncState = ref.read(agendaNotifierProvider);
-
-    asyncState.whenData((state) {
-      AgendaFilterModalWidget.show(context, initialFilter: state.filter);
+    ref.read(agendaNotifierProvider).whenData((state) {
+      unawaited(
+        AgendaFilterModalWidget.show(
+          context,
+          initialFilter: state.filter,
+        ),
+      );
     });
   }
 
@@ -62,7 +64,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Minha Agenda",
+        title: 'Minha Agenda',
         actions: [
           IconButtonWidget(
             icon: Icons.filter_list,
@@ -76,8 +78,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
         },
         error: (error, stackTrace) {
           return ErrorStateWidget(
-            description: "Não foi possível carregar sua agenda.",
-            actionLabel: "Tentar novamente",
+            description: 'Não foi possível carregar sua agenda.',
             onActionPressed: notifier.fetchData,
           );
         },
@@ -96,7 +97,7 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
                   _CalendarView(
                     controller: _calendarController,
                     onViewChanged: _onViewChanged,
-                    onTap: (date) => notifier.updateSelectedDate(date),
+                    onTap: notifier.updateSelectedDate,
                     activities: state.activities,
                   ),
                 ],
@@ -122,15 +123,14 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
 }
 
 class _AgendaHeader extends StatelessWidget {
-  final DateTime displayDate;
-  final VoidCallback onBackward;
-  final VoidCallback onForward;
-
   const _AgendaHeader({
     required this.displayDate,
     required this.onBackward,
     required this.onForward,
   });
+  final DateTime displayDate;
+  final VoidCallback onBackward;
+  final VoidCallback onForward;
 
   @override
   Widget build(BuildContext context) {
@@ -186,17 +186,16 @@ class _AgendaHeader extends StatelessWidget {
 }
 
 class _CalendarView extends StatelessWidget {
-  final CalendarController controller;
-  final Function(ViewChangedDetails value) onViewChanged;
-  final Function(DateTime value) onTap;
-  final List<Activity> activities;
-
   const _CalendarView({
     required this.controller,
     required this.onViewChanged,
     required this.onTap,
     required this.activities,
   });
+  final CalendarController controller;
+  final void Function(ViewChangedDetails value) onViewChanged;
+  final void Function(DateTime value) onTap;
+  final List<Activity> activities;
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +211,6 @@ class _CalendarView extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadiusValue),
           border: Border.all(
             color: theme.dividerTheme.color ?? AppColors.transparent,
-            width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
@@ -271,7 +269,6 @@ class _CalendarView extends StatelessWidget {
               ),
               monthViewSettings: MonthViewSettings(
                 dayFormat: 'EEE',
-                appointmentDisplayMode: MonthAppointmentDisplayMode.indicator,
                 monthCellStyle: MonthCellStyle(
                   textStyle: GoogleFonts.plusJakartaSans(
                     fontWeight: FontWeight.w600,

@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
+import 'package:flutter/material.dart';
 
 class DisciplineSelectionPeriodSelectorWidget extends StatelessWidget {
-  final TabController controller;
-  final List<int> periods;
-
   const DisciplineSelectionPeriodSelectorWidget({
-    super.key,
     required this.controller,
     required this.periods,
+    super.key,
   });
+
+  final TabController controller;
+  final List<int> periods;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class DisciplineSelectionPeriodSelectorWidget extends StatelessWidget {
 
           return Tab(
             child: DisciplinesPeriodChipWidget(
-              label: "$periodº Período",
+              label: '$periodº Período',
               isSelected: isSelected,
             ),
           );

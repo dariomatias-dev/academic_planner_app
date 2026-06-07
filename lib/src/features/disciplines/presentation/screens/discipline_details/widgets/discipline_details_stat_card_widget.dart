@@ -1,14 +1,13 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DisciplineDetailsStatCardWidget extends StatelessWidget {
   const DisciplineDetailsStatCardWidget({
-    super.key,
     required this.label,
     required this.value,
     required this.icon,
+    super.key,
   });
 
   final String label;

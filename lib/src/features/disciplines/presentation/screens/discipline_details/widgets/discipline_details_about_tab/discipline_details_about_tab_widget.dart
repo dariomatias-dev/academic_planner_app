@@ -1,29 +1,27 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_teacher_card_widget.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_teacher_card_widget.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
-import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 class DisciplineDetailsAboutTabWidget extends StatelessWidget {
-  final DisciplineModel discipline;
-  final List<DisciplineModel> prerequisites;
-  final List<DisciplineModel> prerequisiteFor;
-
   const DisciplineDetailsAboutTabWidget({
-    super.key,
     required this.discipline,
     required this.prerequisites,
     required this.prerequisiteFor,
+    super.key,
   });
+
+  final DisciplineModel discipline;
+  final List<DisciplineModel> prerequisites;
+  final List<DisciplineModel> prerequisiteFor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
-    return Container(
+    return ColoredBox(
       color: colorScheme.surface,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -45,7 +43,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
             ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(
-              title: "Sobre a Disciplina",
+              title: 'Sobre a Disciplina',
               icon: Icons.description_outlined,
             ),
             const SizedBox(height: 12.0),
@@ -59,7 +57,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
             ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(
-              title: "Docente Responsável",
+              title: 'Docente Responsável',
               icon: Icons.person_outline_rounded,
             ),
             const SizedBox(height: 16.0),
@@ -77,24 +75,24 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
             ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(
-              title: "Requisitos e Dependências",
+              title: 'Requisitos e Dependências',
               icon: Icons.account_tree_outlined,
             ),
             const SizedBox(height: 16.0),
             DisciplineDetailsRequirementExpandableTileWidget(
-              label: "Pré-requisitos",
+              label: 'Pré-requisitos',
               linkedDisciplines: prerequisites,
               color: colorScheme.primary,
             ),
             const SizedBox(height: 12.0),
             DisciplineDetailsRequirementExpandableTileWidget(
-              label: "Libera acesso para",
+              label: 'Libera acesso para',
               linkedDisciplines: prerequisiteFor,
               color: colorScheme.secondary,
             ),
             const SizedBox(height: 32.0),
             const DisciplineDetailsSectionTitleWidget(
-              title: "Recursos",
+              title: 'Recursos',
               icon: Icons.attachment_rounded,
             ),
             const SizedBox(height: 16.0),

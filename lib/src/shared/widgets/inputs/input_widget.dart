@@ -1,15 +1,14 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/app_colors.dart';
 
 enum InputStyle { primary, secondary }
 
 class InputWidget extends StatelessWidget {
   const InputWidget({
-    super.key,
     required this.controller,
     required this.hint,
+    super.key,
     this.maxLines = 1,
     this.prefixIcon,
     this.suffix,
@@ -118,7 +117,7 @@ class InputWidget extends StatelessWidget {
   OutlineInputBorder _border(Color color) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(color: color, width: 1.0),
+      borderSide: BorderSide(color: color),
     );
   }
 }
@@ -132,7 +131,7 @@ class _ClearButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: controller,
-      builder: (BuildContext context, Widget? child) {
+      builder: (context, child) {
         if (controller.text.isEmpty) return const SizedBox.shrink();
 
         return IconButton(

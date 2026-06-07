@@ -1,18 +1,17 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
-  final String url;
-  final String disciplineName;
-
   const DisciplineDetailsCoursePlanButtonWidget({
-    super.key,
     required this.url,
     required this.disciplineName,
+    super.key,
   });
+
+  final String url;
+  final String disciplineName;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +23,6 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [colorScheme.primary, colorScheme.secondary],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
         ),
         borderRadius: BorderRadius.circular(24.0),
         boxShadow: [
@@ -39,8 +36,8 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
       child: Material(
         color: AppColors.transparent,
         child: InkWell(
-          onTap: () {
-            AppRoutes.goToPdfViewer(
+          onTap: () async {
+            await AppRoutes.goToPdfViewer(
               context,
               url: url,
               title: disciplineName,
@@ -64,7 +61,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               ),
               const SizedBox(width: 16.0),
               Text(
-                "Visualizar Plano de Ensino",
+                'Visualizar Plano de Ensino',
                 style: GoogleFonts.plusJakartaSans(
                   color: AppColors.white,
                   fontSize: 15.0,

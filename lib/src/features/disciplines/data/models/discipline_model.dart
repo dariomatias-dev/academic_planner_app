@@ -1,17 +1,4 @@
 class DisciplineModel {
-  final int id;
-  final String acronym;
-  final String name;
-  final String description;
-  final int period;
-  final String type;
-  final int workload;
-  final int weeklyHours;
-  final int responsibleProfessorId;
-  final List<int> prerequisites;
-  final List<int> prerequisiteFor;
-  final String coursePlan;
-
   DisciplineModel({
     required this.id,
     required this.acronym,
@@ -26,4 +13,17 @@ class DisciplineModel {
     required this.prerequisiteFor,
     required this.coursePlan,
   });
+
+  final int id;
+  final String acronym;
+  final String name;
+  final String description;
+  final int period;
+  final String type;
+  final int workload;
+  final int weeklyHours;
+  final int responsibleProfessorId;
+  final List<int> prerequisites;
+  final List<int> prerequisiteFor;
+  final String coursePlan;
 }

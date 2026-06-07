@@ -3,18 +3,6 @@ import 'package:academic_planner/src/features/activities/domain/value_objects/ac
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
 
 class ActivityFilter {
-  final String? search;
-  final int? disciplineId;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final DateTime? dueBefore;
-  final DateTime? dueAfter;
-  final List<ActivityStatus>? statuses;
-  final String? category;
-  final List<String>? tags;
-  final ActivitySortField? sortField;
-  final ActivitySortOrder? sortOrder;
-
   const ActivityFilter({
     this.search,
     this.disciplineId,
@@ -28,6 +16,17 @@ class ActivityFilter {
     this.sortField,
     this.sortOrder,
   });
+  final String? search;
+  final int? disciplineId;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final DateTime? dueBefore;
+  final DateTime? dueAfter;
+  final List<ActivityStatus>? statuses;
+  final String? category;
+  final List<String>? tags;
+  final ActivitySortField? sortField;
+  final ActivitySortOrder? sortOrder;
 
   ActivityFilter copyWith({
     String? search,

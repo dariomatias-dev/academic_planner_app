@@ -1,17 +1,16 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:flutter/material.dart';
 
 class RemovalSuccessDialogWidget extends StatelessWidget {
-  final String title;
-  final String message;
-
   const RemovalSuccessDialogWidget({
-    super.key,
     required this.title,
     required this.message,
+    super.key,
   });
+
+  final String title;
+  final String message;
 
   static Future<void> show(
     BuildContext context, {
@@ -36,7 +35,6 @@ class RemovalSuccessDialogWidget extends StatelessWidget {
       actions: ButtonWidget(
         label: 'Entendido',
         onPressed: () => Navigator.pop(context),
-        style: AppButtonStyle.primary,
         isFullWidth: true,
       ),
     );

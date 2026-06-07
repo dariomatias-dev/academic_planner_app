@@ -1,20 +1,19 @@
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
-
 class RemovalFailureDialogWidget extends StatelessWidget {
-  final String message;
-  final VoidCallback? onRetry;
-  final String? errorMessage;
-
   const RemovalFailureDialogWidget({
-    super.key,
     required this.message,
+    super.key,
     this.onRetry,
     this.errorMessage,
   });
+
+  final String message;
+  final VoidCallback? onRetry;
+  final String? errorMessage;
 
   static Future<void> show(
     BuildContext context, {
@@ -87,7 +86,6 @@ class RemovalFailureDialogWidget extends StatelessWidget {
 
                 onRetry!();
               },
-              style: AppButtonStyle.primary,
               isFullWidth: true,
             ),
             const SizedBox(height: 12.0),

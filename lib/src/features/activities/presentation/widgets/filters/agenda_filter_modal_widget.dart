@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/category_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/tags_filter_section_widget.dart';
 import 'package:academic_planner/src/features/calendar/di/calendar_providers.dart';
-
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AgendaFilterModalWidget extends ConsumerStatefulWidget {
-  final ActivityFilter? initialFilter;
-
   const AgendaFilterModalWidget({super.key, this.initialFilter});
+
+  final ActivityFilter? initialFilter;
 
   static Future<void> show(
     BuildContext context, {
@@ -35,14 +33,16 @@ class _AgendaFilterModalState extends ConsumerState<AgendaFilterModalWidget> {
   late String? _category = widget.initialFilter?.category;
   late List<String> _tags = List.from(widget.initialFilter?.tags ?? []);
 
-  void _applyFilters() {
+  Future<void> _applyFilters() async {
     final filter = ActivityFilter(
       disciplineId: _selectedDisciplineId,
       category: _category,
       tags: _tags.isEmpty ? null : _tags,
     );
 
-    ref.read(agendaNotifierProvider.notifier).fetchData(filter: filter);
+    await ref.read(agendaNotifierProvider.notifier).fetchData(filter: filter);
+
+    if (!mounted) return;
 
     Navigator.pop(context);
   }

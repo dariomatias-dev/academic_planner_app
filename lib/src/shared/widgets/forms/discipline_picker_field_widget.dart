@@ -1,33 +1,30 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DisciplinePickerFieldWidget extends ConsumerStatefulWidget {
-  final DisciplineModel? selectedDiscipline;
-  final bool isRequired;
-  final String? Function(DisciplineModel?)? validator;
-  final Function(DisciplineModel value) onSelected;
-
   const DisciplinePickerFieldWidget({
+    required this.onSelected,
     super.key,
     this.selectedDiscipline,
     this.isRequired = false,
     this.validator,
-    required this.onSelected,
   });
+
+  final DisciplineModel? selectedDiscipline;
+  final bool isRequired;
+  final String? Function(DisciplineModel?)? validator;
+  final void Function(DisciplineModel value) onSelected;
 
   @override
   ConsumerState<DisciplinePickerFieldWidget> createState() =>
@@ -53,7 +50,9 @@ class _DisciplinePickerFieldWidgetState
 
     if (oldWidget.selectedDiscipline != widget.selectedDiscipline) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) _formFieldKey.currentState?.didChange(widget.selectedDiscipline);
+        if (mounted) {
+          _formFieldKey.currentState?.didChange(widget.selectedDiscipline);
+        }
       });
     }
   }
@@ -74,7 +73,7 @@ class _DisciplinePickerFieldWidgetState
       initialValue: widget.selectedDiscipline,
       validator: (value) {
         if (widget.isRequired && value == null) {
-          return "A disciplina é obrigatória";
+          return 'A disciplina é obrigatória';
         }
 
         return widget.validator?.call(value);
@@ -101,19 +100,19 @@ class _DisciplinePickerFieldWidgetState
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormFieldLabelWidget(
-              label: "Disciplina",
+              label: 'Disciplina',
               isRequired: widget.isRequired,
             ),
             const SizedBox(height: 8.0),
             Focus(
               focusNode: _focusNode,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   _focusNode.unfocus();
 
-                  ModalBottomSheetWidget.show(
+                  await ModalBottomSheetWidget.show<void>(
                     context: context,
-                    title: "Minhas Disciplinas",
+                    title: 'Minhas Disciplinas',
                     child: Consumer(
                       builder: (context, ref, _) {
                         final ids = ref.watch(userDisciplinesNotifierProvider);
@@ -126,10 +125,11 @@ class _DisciplinePickerFieldWidgetState
                           selectedId: widget.selectedDiscipline?.id,
                           disciplines: disciplines,
                           emptyDescription:
-                              'Para vincular atividades, selecione as disciplinas cursadas na sua grade.',
+                              'Para vincular atividades, selecione as '
+                              'disciplinas cursadas na sua grade.',
                           actionLabel: 'Configurar',
-                          onActionPressed: () {
-                            AppRoutes.goToDisciplineSelection(context);
+                          onActionPressed: () async {
+                            await AppRoutes.goToDisciplineSelection(context);
                           },
                           onSelected: widget.onSelected,
                         );
@@ -172,7 +172,7 @@ class _DisciplinePickerFieldWidgetState
                           children: [
                             Text(
                               widget.selectedDiscipline?.name ??
-                                  "Nenhuma disciplina",
+                                  'Nenhuma disciplina',
                               style: GoogleFonts.plusJakartaSans(
                                 color: widget.selectedDiscipline == null
                                     ? colorScheme.onSurface.withAlpha(120)
@@ -184,8 +184,8 @@ class _DisciplinePickerFieldWidgetState
                             ),
                             Text(
                               widget.selectedDiscipline == null
-                                  ? "Toque para vincular uma disciplina"
-                                  : "Disciplina selecionada",
+                                  ? 'Toque para vincular uma disciplina'
+                                  : 'Disciplina selecionada',
                               style: GoogleFonts.plusJakartaSans(
                                 color: colorScheme.onSurface.withAlpha(100),
                                 fontSize: 12.0,

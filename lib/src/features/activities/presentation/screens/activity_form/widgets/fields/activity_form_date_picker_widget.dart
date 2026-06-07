@@ -1,24 +1,22 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-
 class ActivityFormDatePickerWidget extends StatelessWidget {
+  const ActivityFormDatePickerWidget({
+    required this.onTap,
+    required this.onClear,
+    super.key,
+    this.dueDate,
+    this.isRequired = false,
+  });
+
   final DateTime? dueDate;
   final VoidCallback onTap;
   final VoidCallback onClear;
   final bool isRequired;
-
-  const ActivityFormDatePickerWidget({
-    super.key,
-    this.dueDate,
-    required this.onTap,
-    required this.onClear,
-    this.isRequired = false,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,13 +53,13 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FormFieldLabelWidget(
-                  label: "Data de Entrega",
+                  label: 'Data de Entrega',
                   isRequired: isRequired,
                   fontSize: 11.0,
                 ),
                 Text(
                   dueDate == null
-                      ? "Definir prazo"
+                      ? 'Definir prazo'
                       : DateFormat('dd / MM / yyyy').format(dueDate!),
                   style: GoogleFonts.plusJakartaSans(
                     color: colorScheme.onSurface,
@@ -74,7 +72,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
             const Spacer(),
             if (dueDate != null) ...[
               GestureDetector(
-                onTap: (onClear),
+                onTap: onClear,
                 child: Container(
                   padding: const EdgeInsets.all(4.0),
                   decoration: BoxDecoration(

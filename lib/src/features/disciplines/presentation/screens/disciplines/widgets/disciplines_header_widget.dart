@@ -1,15 +1,13 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-
 class DisciplinesHeaderWidget extends StatelessWidget {
-  final int totalDisciplines;
+  const DisciplinesHeaderWidget({required this.totalDisciplines, super.key});
 
-  const DisciplinesHeaderWidget({super.key, required this.totalDisciplines});
+  final int totalDisciplines;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +17,7 @@ class DisciplinesHeaderWidget extends StatelessWidget {
     return Column(
       children: [
         AppBarWidget(
-          title: "",
+          title: '',
           actions: [
             IconButtonWidget(
               icon: Icons.account_tree_rounded,
@@ -36,7 +34,7 @@ class DisciplinesHeaderWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Disciplinas",
+                'Disciplinas',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.onSurface,
                   fontSize: 28.0,
@@ -46,7 +44,7 @@ class DisciplinesHeaderWidget extends StatelessWidget {
               ),
               const SizedBox(height: 4.0),
               Text(
-                "Análise e Desenvolvimento de Sistemas",
+                'Análise e Desenvolvimento de Sistemas',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.onSurface.withAlpha(160),
                   fontSize: 14.0,

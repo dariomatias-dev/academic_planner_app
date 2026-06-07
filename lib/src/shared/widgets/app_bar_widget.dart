@@ -1,15 +1,9 @@
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
-
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  final String? title;
-  final List<Widget>? actions;
-  final bool? showBackButton;
-  final Color? backgroundColor;
-
   const AppBarWidget({
     super.key,
     this.title,
@@ -17,6 +11,11 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     this.showBackButton,
     this.backgroundColor,
   });
+
+  final String? title;
+  final List<Widget>? actions;
+  final bool? showBackButton;
+  final Color? backgroundColor;
 
   @override
   Size get preferredSize => const Size.fromHeight(80.0);
@@ -39,7 +38,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       title: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (displayBackButton)
               const Padding(

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ViewAllButtonWidget extends StatelessWidget {
-  final VoidCallback onTap;
+  const ViewAllButtonWidget({required this.onTap, super.key});
 
-  const ViewAllButtonWidget({super.key, required this.onTap});
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ViewAllButtonWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Text(
-          "Ver Todas",
+          'Ver Todas',
           style: GoogleFonts.plusJakartaSans(
             fontSize: 12.0,
             fontWeight: FontWeight.w800,

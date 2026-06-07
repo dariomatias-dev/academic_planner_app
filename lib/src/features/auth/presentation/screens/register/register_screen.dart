@@ -1,22 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:logging/logging.dart';
-
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/validators.dart';
-
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:logging/logging.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -62,25 +58,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(authNotifierProvider, (previous, next) {
-      next.whenOrNull(
-        data: (_) {
+    ref.listen(authNotifierProvider, (previous, next) async {
+      await next.whenOrNull(
+        data: (_) async {
           if (!mounted) return;
 
-          Fluttertoast.showToast(
+          await Fluttertoast.showToast(
             msg: 'Conta criada! Verifique seu email antes de fazer login.',
           );
 
-          AppRoutes.goToLogin(context, replace: true);
+          if (!context.mounted) return;
+
+          await AppRoutes.goToLogin(context, replace: true);
         },
-        error: (err, _) {
+        error: (err, _) async {
           if (!mounted) return;
 
           final message = err is AppFailure ? err.message : err.toString();
 
           _log.severe('Register error', err);
 
-          Fluttertoast.showToast(msg: message);
+          await Fluttertoast.showToast(msg: message);
         },
       );
     });
@@ -90,7 +88,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
     if (auth.isLoading) {
       return const Scaffold(
-        body: LoadingStateWidget(message: "Criando conta..."),
+        body: LoadingStateWidget(message: 'Criando conta...'),
       );
     }
 
@@ -122,7 +120,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       const SizedBox(height: 24.0),
                       Text(
-                        "Criar Conta",
+                        'Criar Conta',
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 28.0,
                           fontWeight: FontWeight.w900,
@@ -130,7 +128,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       const SizedBox(height: 8.0),
                       Text(
-                        "Junte-se à nossa plataforma acadêmica",
+                        'Junte-se à nossa plataforma acadêmica',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
                           fontSize: 14.0,
@@ -144,14 +142,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
                   child: FormFieldLabelWidget(
-                    label: "NOME COMPLETO",
+                    label: 'NOME COMPLETO',
                     fontSize: 11.0,
                   ),
                 ),
                 InputWidget(
                   controller: _nameController,
-                  hint: "Seu nome completo",
-                  validator: (value) => Validators.required(value),
+                  hint: 'Seu nome completo',
+                  validator: Validators.required,
                   prefixIcon: Icon(
                     Icons.person_outline_rounded,
                     color: colorScheme.primary,
@@ -161,11 +159,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 20.0),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
-                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                  child: FormFieldLabelWidget(label: 'E-MAIL', fontSize: 11.0),
                 ),
                 InputWidget(
                   controller: _emailController,
-                  hint: "seu@email.com",
+                  hint: 'seu@email.com',
                   validator: Validators.multiple([
                     Validators.required,
                     Validators.email,
@@ -179,53 +177,52 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 20.0),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
-                  child: FormFieldLabelWidget(label: "SENHA", fontSize: 11.0),
+                  child: FormFieldLabelWidget(label: 'SENHA', fontSize: 11.0),
                 ),
                 PasswordInputWidget(
                   controller: _passwordController,
-                  hint: "Mínimo 8 caracteres",
+                  hint: 'Mínimo 8 caracteres',
                   validator: Validators.required,
                 ),
                 const SizedBox(height: 20.0),
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
                   child: FormFieldLabelWidget(
-                    label: "CONFIRMAR SENHA",
+                    label: 'CONFIRMAR SENHA',
                     fontSize: 11.0,
                   ),
                 ),
                 PasswordInputWidget(
                   controller: _confirmPasswordController,
-                  hint: "Repita sua senha",
+                  hint: 'Repita sua senha',
                   validator: (value) {
                     return Validators.compare(
                       value,
                       _passwordController.text,
-                      message: "As senhas não conferem",
+                      message: 'As senhas não conferem',
                     );
                   },
                 ),
                 const SizedBox(height: 40.0),
                 ButtonWidget(
                   onPressed: _onRegisterPressed,
-                  label: "Cadastrar agora",
+                  label: 'Cadastrar agora',
                   isFullWidth: true,
                 ),
                 const SizedBox(height: 32.0),
                 Align(
-                  alignment: Alignment.center,
                   child: Column(
                     children: [
                       Text(
-                        "Já possui uma conta?",
+                        'Já possui uma conta?',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
                           fontSize: 14.0,
                         ),
                       ),
                       TextButtonWidget(
-                        onTap: () {
-                          AppRoutes.goToLogin(context, replace: true);
+                        onTap: () async {
+                          await AppRoutes.goToLogin(context, replace: true);
                         },
                         text: 'Fazer Login',
                       ),
@@ -235,7 +232,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 24.0),
                 Center(
                   child: Text(
-                    "Ao se cadastrar, você concorda com nossos\nTermos e Condições de Uso",
+                    'Ao se cadastrar, você concorda com nossos '
+                    'Termos e Condições de Uso',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onSurface.withAlpha(100),

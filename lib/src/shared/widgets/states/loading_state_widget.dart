@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LoadingStateWidget extends StatelessWidget {
-  final String message;
-  final bool isCentered;
-
   const LoadingStateWidget({
     super.key,
-    this.message = "Obtendo informações...",
+    this.message = 'Obtendo informações...',
     this.isCentered = true,
   });
+
+  final String message;
+  final bool isCentered;
 
   TextStyle _textStyle(
     BuildContext context, {
@@ -53,9 +53,7 @@ class LoadingStateWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             style: _textStyle(
               context,
-              size: 14.0,
               color: colorScheme.onSurface.withAlpha(180),
-              weight: FontWeight.w600,
             ),
           ),
         ],

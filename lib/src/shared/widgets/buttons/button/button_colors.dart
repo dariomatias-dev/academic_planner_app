@@ -1,15 +1,8 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class AppButtonStyles {
-  final Color backgroundColor;
-  final Color textColor;
-  final Color? borderColor;
-  final Color? iconBackgroundColor;
-
   const AppButtonStyles({
     required this.backgroundColor,
     required this.textColor,
@@ -56,4 +49,9 @@ class AppButtonStyles {
         );
     }
   }
+
+  final Color backgroundColor;
+  final Color textColor;
+  final Color? borderColor;
+  final Color? iconBackgroundColor;
 }

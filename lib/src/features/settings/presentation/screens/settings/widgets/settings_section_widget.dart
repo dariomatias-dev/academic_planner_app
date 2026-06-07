@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SettingsSectionWidget extends StatelessWidget {
-  final String title;
-  final List<Widget> children;
-
   const SettingsSectionWidget({
-    super.key,
     required this.title,
     required this.children,
+    super.key,
   });
+
+  final String title;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {

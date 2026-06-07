@@ -1,10 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/presentation/view_models/tag_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TagNotifier extends AsyncNotifier<List<Tag>> {
   late final TagViewModel _viewModel;
@@ -19,7 +17,7 @@ class TagNotifier extends AsyncNotifier<List<Tag>> {
 
     return result.fold(
       onSuccess: (data) => data,
-      onFailure: (f) => throw f,
+      onFailure: (f) => throw Exception(f.message),
     );
   }
 

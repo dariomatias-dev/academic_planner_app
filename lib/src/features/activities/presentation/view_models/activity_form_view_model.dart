@@ -1,27 +1,25 @@
 import 'dart:convert';
 
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/presentation/providers/activity_notifier.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:logging/logging.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/result/result.dart';
-
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/presentation/providers/activity_notifier.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-
 class ActivityFormViewModel {
-  static final _log = Logger('activities.ActivityFormViewModel');
-
-  final ActivityNotifier _activityNotifier;
-
   ActivityFormViewModel(this._activityNotifier) {
     titleController.addListener(updateChangeTracker);
     notesController.addListener(updateChangeTracker);
     descriptionController.addListener(updateChangeTracker);
   }
+
+  static final _log = Logger('activities.ActivityFormViewModel');
+
+  final ActivityNotifier _activityNotifier;
 
   final titleController = TextEditingController();
   final notesController = TextEditingController();
@@ -110,7 +108,9 @@ class ActivityFormViewModel {
     notesController.text = activity.notes ?? '';
 
     try {
-      final doc = Document.fromJson(jsonDecode(activity.description));
+      final doc = Document.fromJson(
+        jsonDecode(activity.description) as List<dynamic>,
+      );
 
       descriptionController.document = doc;
       descriptionController.updateSelection(
@@ -119,7 +119,7 @@ class ActivityFormViewModel {
       );
 
       FocusManager.instance.primaryFocus?.unfocus();
-    } catch (err, stackTrace) {
+    } on Exception catch (err, stackTrace) {
       _log.severe('Failed to parse description', err, stackTrace);
     }
 
@@ -177,10 +177,10 @@ class ActivityFormViewModel {
     updateChangeTracker();
   }
 
-  void toggleTag(String tag, bool selected) {
+  void toggleTag(String tag, {bool value = false}) {
     final current = List<String>.from(_tagsNotifier.value);
 
-    selected ? current.add(tag) : current.remove(tag);
+    value ? current.add(tag) : current.remove(tag);
 
     _tagsNotifier.value = current;
 
@@ -196,9 +196,8 @@ class ActivityFormViewModel {
   }
 
   void removeReminder(TimeOfDay time) {
-    final current = List<TimeOfDay>.from(_remindersNotifier.value);
-
-    current.remove(time);
+    final current = List<TimeOfDay>.from(_remindersNotifier.value)
+      ..remove(time);
 
     _remindersNotifier.value = current;
 

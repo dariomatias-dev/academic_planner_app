@@ -1,14 +1,13 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DisciplineSelectionCheckIconWidget extends StatelessWidget {
-  final bool isSelected;
-
   const DisciplineSelectionCheckIconWidget({
-    super.key,
     required this.isSelected,
+    super.key,
   });
+
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {

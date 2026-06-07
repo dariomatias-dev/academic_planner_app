@@ -1,72 +1,71 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_stats_cards_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final disciplineActivitiesProvider =
-    FutureProvider.family<List<List<Activity>>, int>((ref, disciplineId) async {
-      ref.watch(activityNotifierProvider);
+final FutureProvider<List<List<Activity>>> Function(int)
+disciplineActivitiesProvider = FutureProvider.family<List<List<Activity>>, int>(
+  (ref, disciplineId) async {
+    ref.watch(activityNotifierProvider);
 
-      final activityNotifier = ref.read(activityNotifierProvider.notifier);
-      final now = DateTime.now();
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
+    final now = DateTime.now();
 
-      final results = await Future.wait([
-        activityNotifier.getAll(
-          filter: ActivityFilter(disciplineId: disciplineId),
+    final results = await Future.wait([
+      activityNotifier.getAll(
+        filter: ActivityFilter(disciplineId: disciplineId),
+      ),
+      activityNotifier.getAll(
+        filter: ActivityFilter(
+          disciplineId: disciplineId,
+          statuses: [
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
         ),
-        activityNotifier.getAll(
-          filter: ActivityFilter(
-            disciplineId: disciplineId,
-            statuses: [
-              ActivityStatus.pending,
-              ActivityStatus.inProgress,
-            ],
-          ),
+      ),
+      activityNotifier.getAll(
+        filter: ActivityFilter(
+          disciplineId: disciplineId,
+          statuses: [ActivityStatus.completed],
         ),
-        activityNotifier.getAll(
-          filter: ActivityFilter(
-            disciplineId: disciplineId,
-            statuses: [ActivityStatus.completed],
-          ),
+      ),
+      activityNotifier.getAll(
+        filter: ActivityFilter(
+          disciplineId: disciplineId,
+          endDate: now.add(const Duration(days: 3)),
+          statuses: [
+            ActivityStatus.pending,
+            ActivityStatus.inProgress,
+          ],
         ),
-        activityNotifier.getAll(
-          filter: ActivityFilter(
-            disciplineId: disciplineId,
-            endDate: now.add(const Duration(days: 3)),
-            statuses: [
-              ActivityStatus.pending,
-              ActivityStatus.inProgress,
-            ],
-          ),
-        ),
-      ]);
+      ),
+    ]);
 
-      return results.builder((r, index) {
-        return r.fold(
-          onSuccess: (data) => data,
-          onFailure: (_) => [],
-        );
-      });
+    return results.builder((r, index) {
+      return r.fold(
+        onSuccess: (data) => data,
+        onFailure: (_) => [],
+      );
     });
+  },
+);
 
 class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
-  final int disciplineId;
-
   const DisciplineDetailsActivitiesTabWidget({
-    super.key,
     required this.disciplineId,
+    super.key,
   });
+
+  final int disciplineId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -95,11 +94,14 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
         if (all.isEmpty) {
           return EmptyStateWidget(
             icon: Icons.assignment_outlined,
-            title: "Sem atividades",
-            description: "Nenhuma atividade criada para esta disciplina.",
-            actionLabel: "Criar Atividade",
-            onActionPressed: () {
-              AppRoutes.goToActivityForm(context, disciplineId: disciplineId);
+            title: 'Sem atividades',
+            description: 'Nenhuma atividade criada para esta disciplina.',
+            actionLabel: 'Criar Atividade',
+            onActionPressed: () async {
+              await AppRoutes.goToActivityForm(
+                context,
+                disciplineId: disciplineId,
+              );
             },
           );
         }
@@ -132,7 +134,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
               children: [
                 Expanded(
                   child: MetricCardWidget(
-                    label: "Ativas",
+                    label: 'Ativas',
                     value: active.length.toString(),
                     icon: Icons.bolt_rounded,
                     color: theme.colorScheme.secondary,
@@ -141,7 +143,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: MetricCardWidget(
-                    label: "Concluídas",
+                    label: 'Concluídas',
                     value: completed.length.toString(),
                     icon: Icons.check_circle_rounded,
                     color: Colors.teal,
@@ -151,7 +153,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
             ),
             if (active.isNotEmpty) ...[
               const SizedBox(height: 40.0),
-              const ActivitySectionHeaderWidget(title: "Prioridade"),
+              const ActivitySectionHeaderWidget(title: 'Prioridade'),
               const SizedBox(height: 16.0),
               ...active.map(
                 (activity) => ActivityCardWidget(activity: activity),
@@ -159,7 +161,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
             ],
             const SizedBox(height: 40.0),
             ActivitySectionHeaderWidget(
-              title: "Todas as Atividades",
+              title: 'Todas as Atividades',
               action: ViewAllButtonWidget(
                 onTap: () {
                   Navigator.pop(context);

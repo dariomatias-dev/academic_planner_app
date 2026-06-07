@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AuthRepository {
   User? get currentUser;

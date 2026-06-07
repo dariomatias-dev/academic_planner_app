@@ -1,36 +1,35 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:flutter/material.dart';
 
 class ErrorDialogWidget extends StatelessWidget {
+  const ErrorDialogWidget({
+    required this.message,
+    super.key,
+    this.title = 'Ops! Algo deu errado',
+    this.buttonLabel = 'Entendido',
+    this.onClose,
+  });
+
   final String title;
   final String message;
   final String buttonLabel;
   final VoidCallback? onClose;
 
-  const ErrorDialogWidget({
-    super.key,
-    this.title = "Ops! Algo deu errado",
-    required this.message,
-    this.buttonLabel = "Entendido",
-    this.onClose,
-  });
-
   static Future<void> show(
     BuildContext context, {
-    String? title,
     required String message,
+    String? title,
     String? buttonLabel,
     VoidCallback? onClose,
   }) async {
-    await showDialog(
+    await showDialog<void>(
       context: context,
       builder: (context) {
         return ErrorDialogWidget(
-          title: title ?? "Ops! Algo deu errado",
+          title: title ?? 'Ops! Algo deu errado',
           message: message,
-          buttonLabel: buttonLabel ?? "Entendido",
+          buttonLabel: buttonLabel ?? 'Entendido',
           onClose: onClose,
         );
       },
@@ -53,7 +52,6 @@ class ErrorDialogWidget extends StatelessWidget {
           onClose?.call();
         },
         label: buttonLabel,
-        style: AppButtonStyle.primary,
         isFullWidth: true,
       ),
     );

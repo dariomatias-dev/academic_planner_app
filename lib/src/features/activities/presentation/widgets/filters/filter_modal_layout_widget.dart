@@ -1,21 +1,20 @@
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class FilterModalLayoutWidget extends StatelessWidget {
-  final String title;
-  final VoidCallback onClear;
-  final VoidCallback onApply;
-  final List<Widget> children;
-
   const FilterModalLayoutWidget({
-    super.key,
     required this.title,
     required this.onClear,
     required this.onApply,
     required this.children,
+    super.key,
   });
+
+  final String title;
+  final VoidCallback onClear;
+  final VoidCallback onApply;
+  final List<Widget> children;
 
   @override
   Widget build(BuildContext context) {

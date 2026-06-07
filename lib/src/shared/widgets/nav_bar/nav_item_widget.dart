@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class NavItemWidget extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final int index;
-  final bool isSelected;
-  final ValueChanged<int> onTap;
-
   const NavItemWidget({
-    super.key,
     required this.icon,
     required this.label,
     required this.index,
     required this.isSelected,
     required this.onTap,
+    super.key,
   });
+
+  final IconData icon;
+  final String label;
+  final int index;
+  final bool isSelected;
+  final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -1,13 +1,12 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DisciplinesPeriodChipWidget extends StatelessWidget {
   const DisciplinesPeriodChipWidget({
-    super.key,
     required this.label,
     required this.isSelected,
+    super.key,
   });
 
   final String label;

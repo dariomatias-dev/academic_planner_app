@@ -1,6 +1,7 @@
 enum ActivitySortOrder {
   asc,
-  desc;
+  desc
+  ;
 
   String get label {
     return switch (this) {

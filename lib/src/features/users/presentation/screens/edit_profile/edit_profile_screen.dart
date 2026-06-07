@@ -1,20 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/validators.dart';
-
-import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
-
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -57,16 +54,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         .read(userNotifierProvider.notifier)
         .updateProfile(updatedUser);
 
-    result.fold(
-      onSuccess: (_) {
+    await result.fold(
+      onSuccess: (_) async {
         if (!mounted) return;
 
-        Fluttertoast.showToast(msg: "Perfil atualizado com sucesso!");
+        await Fluttertoast.showToast(msg: 'Perfil atualizado com sucesso!');
+
+        if (!mounted) return;
 
         Navigator.pop(context);
       },
-      onFailure: (f) {
-        Fluttertoast.showToast(msg: f.message);
+      onFailure: (f) async {
+        await Fluttertoast.showToast(msg: f.message);
       },
     );
   }
@@ -89,7 +88,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       loading: () {
         return const Scaffold(
           appBar: AppBarWidget(title: 'Editar Perfil'),
-          body: LoadingStateWidget(message: "Processando..."),
+          body: LoadingStateWidget(message: 'Processando...'),
         );
       },
       error: (err, stack) {
@@ -128,10 +127,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16.0),
-                  const FormFieldLabelWidget(label: "NOME COMPLETO"),
+                  const FormFieldLabelWidget(label: 'NOME COMPLETO'),
                   InputWidget(
                     controller: _nameController,
-                    hint: "Seu nome",
+                    hint: 'Seu nome',
                     validator: Validators.required,
                     prefixIcon: Icon(
                       Icons.person_outline_rounded,
@@ -140,10 +139,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 24.0),
-                  const FormFieldLabelWidget(label: "E-MAIL"),
+                  const FormFieldLabelWidget(label: 'E-MAIL'),
                   InputWidget(
                     controller: _emailController,
-                    hint: "email@gmail.com",
+                    hint: 'email@gmail.com',
                     readOnly: true,
                     prefixIcon: Icon(
                       Icons.email_outlined,
@@ -152,7 +151,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 24.0),
-                  const FormFieldLabelWidget(label: "CARGO"),
+                  const FormFieldLabelWidget(label: 'CARGO'),
                   DropdownFieldWidget<UserRole>(
                     value: _selectedRole,
                     onChanged: (role) => setState(() => _selectedRole = role),

@@ -1,21 +1,20 @@
 import 'dart:async';
 
+import 'package:academic_planner/src/shared/utils/open_url.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-import 'package:academic_planner/src/shared/utils/open_url.dart';
-import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
-
 class PdfViewerScreen extends ConsumerStatefulWidget {
+  const PdfViewerScreen({required this.title, required this.url, super.key});
+
   final String title;
   final String url;
-
-  const PdfViewerScreen({super.key, required this.title, required this.url});
 
   @override
   ConsumerState<PdfViewerScreen> createState() => _PdfViewerScreenState();
@@ -70,10 +69,9 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
         actions: [
           IconButtonWidget(
             icon: Icons.open_in_new_rounded,
-            onPressed: () {
-              openUrl(context, widget.url);
+            onPressed: () async {
+              await openUrl(context, widget.url);
             },
-            style: IconButtonStyle.neutral,
           ),
         ],
       ),
@@ -121,10 +119,10 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                   const LoadingStateWidget(message: 'Carregando documento...'),
                 if (_hasError)
                   ErrorStateWidget(
-                    title: "Falha ao carregar",
+                    title: 'Falha ao carregar',
                     description:
-                        "Não foi possível abrir o documento. Verifique sua conexão com a internet.",
-                    actionLabel: "Tentar novamente",
+                        'Não foi possível abrir o documento. Verifique '
+                        'sua conexão com a internet.',
                     onActionPressed: _handleRetry,
                   ),
                 if (!_isLoading && !_hasError && _totalPages > 0)
@@ -156,7 +154,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                             ],
                           ),
                           child: Text(
-                            "$_currentPage / $_totalPages",
+                            '$_currentPage / $_totalPages',
                             style: GoogleFonts.plusJakartaSans(
                               color: colorScheme.surface,
                               fontSize: 11.0,

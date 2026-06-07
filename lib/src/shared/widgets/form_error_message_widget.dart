@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormErrorMessageWidget extends StatelessWidget {
-  final bool hasError;
-  final String? errorText;
-
   const FormErrorMessageWidget({
-    super.key,
     required this.hasError,
+    super.key,
     this.errorText,
   });
+
+  final bool hasError;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {

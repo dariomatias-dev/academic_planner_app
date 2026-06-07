@@ -1,20 +1,17 @@
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_actions_modal/activity_card_actions_modal_widget.dart';
+import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_actions_modal/activity_card_actions_modal_widget.dart';
-import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
-
 class ActivityCardWidget extends StatelessWidget {
-  final Activity activity;
+  const ActivityCardWidget({required this.activity, super.key});
 
-  const ActivityCardWidget({super.key, required this.activity});
+  final Activity activity;
 
   bool _isUrgent() {
     if (activity.dueDate == null ||
@@ -28,8 +25,8 @@ class ActivityCardWidget extends StatelessWidget {
     return difference.inDays <= 3;
   }
 
-  void _showActionMenu(BuildContext context) {
-    ModalBottomSheetWidget.show(
+  Future<void> _showActionMenu(BuildContext context) async {
+    await ModalBottomSheetWidget.show<void>(
       context: context,
       child: ActivityCardActionsModalWidget(activity: activity),
     );
@@ -47,8 +44,8 @@ class ActivityCardWidget extends StatelessWidget {
     final isUrgent = _isUrgent();
 
     return GestureDetector(
-      onTap: () {
-        AppRoutes.goToActivityDetails(context, activityId: activity.id);
+      onTap: () async {
+        await AppRoutes.goToActivityDetails(context, activityId: activity.id);
       },
       onLongPress: () => _showActionMenu(context),
       child: Container(

@@ -1,22 +1,19 @@
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-
 class DraggableAgendaSheetCardWidget extends StatelessWidget {
-  final int index;
-  final Activity activity;
-
   const DraggableAgendaSheetCardWidget({
-    super.key,
     required this.index,
     required this.activity,
+    super.key,
   });
+  final int index;
+  final Activity activity;
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +26,8 @@ class DraggableAgendaSheetCardWidget extends StatelessWidget {
         .firstOrNull;
 
     return GestureDetector(
-      onTap: () {
-        AppRoutes.goToActivityDetails(context, activityId: activity.id);
+      onTap: () async {
+        await AppRoutes.goToActivityDetails(context, activityId: activity.id);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 20.0),

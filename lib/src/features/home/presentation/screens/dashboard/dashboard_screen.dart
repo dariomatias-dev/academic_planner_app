@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
@@ -13,11 +8,13 @@ import 'package:academic_planner/src/features/activities/presentation/widgets/ac
 import 'package:academic_planner/src/features/home/presentation/screens/dashboard/widgets/dashboard_metrics_bar_widget.dart';
 import 'package:academic_planner/src/features/home/presentation/screens/dashboard/widgets/dashboard_quick_actions_row_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
-
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -97,7 +94,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: const AppBarWidget(title: "Bem-vindo", showBackButton: false),
+      appBar: const AppBarWidget(title: 'Bem-vindo', showBackButton: false),
       body:
           FutureBuilder<
             ({List<Activity> recentActivities, int activeCount, int progress})
@@ -114,7 +111,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                 children: [
                   const _HomeHeaderSection(),
                   const SizedBox(height: 32.0),
-                  DashboardMetricsBarWidget(),
+                  const DashboardMetricsBarWidget(),
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 32.0),
                     child: DashboardQuickActionsRowWidget(),
@@ -126,9 +123,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                   else if (data == null || data.recentActivities.isEmpty)
                     const EmptyStateWidget(
                       icon: Icons.done_all_rounded,
-                      title: "Tudo organizado!",
+                      title: 'Tudo organizado!',
                       description:
-                          "Você não possui atividades pendentes no momento.",
+                          'Você não possui atividades pendentes no momento.',
                       isCentered: false,
                     )
                   else
@@ -160,9 +157,9 @@ class _HomeHeaderSection extends StatelessWidget {
             Text(
               DateUtilsHelper.formatWeekdayDate(DateTime.now()),
               style: GoogleFonts.plusJakartaSans(
+                color: colorScheme.primary,
                 fontSize: 14.0,
                 fontWeight: FontWeight.w600,
-                color: colorScheme.primary,
                 letterSpacing: 0.5,
               ),
             ),
@@ -210,11 +207,11 @@ class _HomeSectionHeader extends ConsumerWidget {
         const SizedBox(width: 12.0),
         Expanded(
           child: Text(
-            "Próximas Atividades",
+            'Próximas Atividades',
             style: GoogleFonts.plusJakartaSans(
+              color: colorScheme.onSurface,
               fontSize: 18.0,
               fontWeight: FontWeight.w800,
-              color: colorScheme.onSurface,
               letterSpacing: -0.5,
             ),
           ),
@@ -225,14 +222,12 @@ class _HomeSectionHeader extends ConsumerWidget {
 
             ref
                 .read(activityFilterNotifierProvider.notifier)
-                .setFilter(
-                  const ActivityFilter(
-                    statuses: [
-                      ActivityStatus.pending,
-                      ActivityStatus.inProgress,
-                    ],
-                  ),
-                );
+                .filter = const ActivityFilter(
+              statuses: [
+                ActivityStatus.pending,
+                ActivityStatus.inProgress,
+              ],
+            );
           },
         ),
       ],
@@ -251,19 +246,19 @@ class _WelcomeUserText extends ConsumerWidget {
     return Row(
       children: [
         Text(
-          "Olá, ",
+          'Olá, ',
           style: GoogleFonts.plusJakartaSans(
+            color: colorScheme.onSurface,
             fontSize: 28.0,
             fontWeight: FontWeight.w400,
-            color: colorScheme.onSurface,
           ),
         ),
         Text(
           user?.name.split(' ').first ?? 'Estudante',
           style: GoogleFonts.plusJakartaSans(
+            color: colorScheme.onSurface,
             fontSize: 28.0,
             fontWeight: FontWeight.w900,
-            color: colorScheme.onSurface,
             letterSpacing: -1.0,
           ),
         ),

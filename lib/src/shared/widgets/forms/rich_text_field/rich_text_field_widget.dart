@@ -1,26 +1,24 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/validators.dart';
-
-import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
-import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-
 class RichTextFieldWidget extends StatefulWidget {
+  const RichTextFieldWidget({
+    required this.controller,
+    required this.label,
+    required this.placeholder,
+    super.key,
+    this.validatorMessage,
+  });
+
   final QuillController controller;
   final String label;
   final String placeholder;
   final String? validatorMessage;
-
-  const RichTextFieldWidget({
-    super.key,
-    required this.controller,
-    required this.label,
-    required this.placeholder,
-    this.validatorMessage,
-  });
 
   @override
   State<RichTextFieldWidget> createState() => _RichTextFieldWidgetState();
@@ -61,8 +59,9 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
   void dispose() {
     widget.controller.removeListener(_onTextChange);
 
-    _focusNode.removeListener(_onFocusChange);
-    _focusNode.dispose();
+    _focusNode
+      ..removeListener(_onFocusChange)
+      ..dispose();
 
     _scrollController.dispose();
 
@@ -88,9 +87,9 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
     final defaultStyles = DefaultStyles(
       paragraph: DefaultTextBlockStyle(
         textStyle,
-        const HorizontalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
+        HorizontalSpacing.zero,
+        VerticalSpacing.zero,
+        VerticalSpacing.zero,
         null,
       ),
       link: textStyle.copyWith(
@@ -99,9 +98,9 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
       ),
       placeHolder: DefaultTextBlockStyle(
         hintStyle,
-        const HorizontalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
+        HorizontalSpacing.zero,
+        VerticalSpacing.zero,
+        VerticalSpacing.zero,
         null,
       ),
     );
@@ -109,7 +108,12 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
     return FormField<String>(
       initialValue: widget.controller.document.toPlainText().trim(),
       validator: widget.validatorMessage != null
-          ? (value) => Validators.required(value, message: widget.validatorMessage!)
+          ? (value) {
+              return Validators.required(
+                value,
+                message: widget.validatorMessage,
+              );
+            }
           : null,
       builder: (state) {
         _fieldState = state;
@@ -142,7 +146,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
               decoration: BoxDecoration(
                 color: colorScheme.surface,
                 borderRadius: BorderRadius.circular(16.0),
-                border: Border.all(color: borderColor, width: 1.0),
+                border: Border.all(color: borderColor),
               ),
               child: Column(
                 children: [
@@ -177,9 +181,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
                       showFontFamily: false,
                       showSubscript: false,
                       showSuperscript: false,
-                      showSmallButton: false,
                       showInlineCode: false,
-                      showDirection: false,
                       showSearchButton: false,
                       showCodeBlock: false,
                       showQuote: false,
@@ -263,9 +265,6 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
                         focusNode: _focusNode,
                         config: QuillEditorConfig(
                           scrollable: false,
-                          autoFocus: false,
-                          expands: false,
-                          padding: EdgeInsets.zero,
                           placeholder: widget.placeholder,
                           customStyles: defaultStyles,
                           onTapOutside: (event, focusNode) {

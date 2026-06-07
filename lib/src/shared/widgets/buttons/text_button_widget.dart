@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TextButtonWidget extends StatelessWidget {
-  const TextButtonWidget({super.key, required this.onTap, required this.text});
+  const TextButtonWidget({required this.onTap, required this.text, super.key});
 
   final VoidCallback onTap;
   final String text;

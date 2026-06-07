@@ -3,6 +3,22 @@ import 'package:flutter/material.dart';
 enum ActivityStatus { draft, pending, inProgress, completed, canceled }
 
 class Activity {
+  Activity({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.disciplineId,
+    required this.tags,
+    required this.reminders,
+    required this.status,
+    this.notes,
+    this.category,
+    this.dueDate,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) : createdAt = createdAt ?? DateTime.now(),
+       updatedAt = updatedAt ?? DateTime.now();
+
   final String id;
   final String title;
   final String description;
@@ -15,22 +31,6 @@ class Activity {
   final ActivityStatus status;
   final DateTime createdAt;
   final DateTime updatedAt;
-
-  Activity({
-    required this.id,
-    required this.title,
-    required this.description,
-    this.notes,
-    required this.disciplineId,
-    this.category,
-    this.dueDate,
-    required this.tags,
-    required this.reminders,
-    required this.status,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-  }) : createdAt = createdAt ?? DateTime.now(),
-       updatedAt = updatedAt ?? DateTime.now();
 
   Activity copyWith({
     String? id,

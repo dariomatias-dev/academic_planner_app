@@ -1,28 +1,27 @@
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TagsFilterSectionWidget extends ConsumerWidget {
+  const TagsFilterSectionWidget({
+    required this.tags,
+    required this.onChanged,
+    super.key,
+  });
+
   final List<String> tags;
   final ValueChanged<List<String>> onChanged;
 
-  const TagsFilterSectionWidget({
-    super.key,
-    required this.tags,
-    required this.onChanged,
-  });
-
-  void _openModal(BuildContext context, WidgetRef ref) {
+  Future<void> _openModal(BuildContext context, WidgetRef ref) async {
     final availableTags = ref.read(tagNotifierProvider).asData?.value ?? [];
 
-    ModalBottomSheetWidget.show(
+    await ModalBottomSheetWidget.show<void>(
       context: context,
       title: 'Filtrar por Tags',
       child: _TagListModal(
@@ -67,7 +66,6 @@ class TagsFilterSectionWidget extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
                 color: theme.dividerTheme.color ?? AppColors.transparent,
-                width: 1.0,
               ),
             ),
             child: Row(
@@ -127,15 +125,15 @@ class TagsFilterSectionWidget extends ConsumerWidget {
 }
 
 class _TagListModal extends StatefulWidget {
-  final List<String> availableTags;
-  final List<String> selected;
-  final ValueChanged<List<String>> onConfirm;
-
   const _TagListModal({
     required this.availableTags,
     required this.selected,
     required this.onConfirm,
   });
+
+  final List<String> availableTags;
+  final List<String> selected;
+  final ValueChanged<List<String>> onConfirm;
 
   @override
   State<_TagListModal> createState() => _TagListModalState();

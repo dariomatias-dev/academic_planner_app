@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:academic_planner/src/core/di/theme_provider.dart';
 import 'package:academic_planner/src/core/routes/app_router.dart';
 import 'package:academic_planner/src/core/theme/app_theme.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppWidget extends ConsumerWidget {
   const AppWidget({super.key});

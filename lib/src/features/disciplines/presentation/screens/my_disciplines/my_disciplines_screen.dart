@@ -1,18 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MyDisciplinesScreen extends ConsumerStatefulWidget {
   const MyDisciplinesScreen({super.key, this.showBackButton});
@@ -48,12 +45,12 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
         showBackButton: widget.showBackButton,
-        title: "Minha Grade",
+        title: 'Minha Grade',
         actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
-            onPressed: () {
-              AppRoutes.goToMySchedule(context);
+            onPressed: () async {
+              await AppRoutes.goToMySchedule(context);
             },
             style: IconButtonStyle.primary,
           ),
@@ -62,8 +59,8 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButtonWidget(
-          onPressed: () {
-            AppRoutes.goToDisciplineSelection(context);
+          onPressed: () async {
+            await AppRoutes.goToDisciplineSelection(context);
           },
           icon: Icons.calendar_today_rounded,
         ),
@@ -73,11 +70,11 @@ class _MyDisciplinesScreenState extends ConsumerState<MyDisciplinesScreen>
               padding: EdgeInsets.only(bottom: 100.0),
               child: EmptyStateWidget(
                 icon: Icons.auto_stories_rounded,
-                title: "Sua grade está vazia",
+                title: 'Sua grade está vazia',
                 description:
-                    "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
-                actionLabel: "Configurar",
-                onActionPressed: null,
+                    'Selecione as disciplinas que você está cursando para '
+                    'montar seu cronograma acadêmico.',
+                actionLabel: 'Configurar',
               ),
             )
           : ListView.builder(

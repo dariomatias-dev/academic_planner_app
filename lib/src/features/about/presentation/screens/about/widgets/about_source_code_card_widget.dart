@@ -1,12 +1,11 @@
 import 'dart:async';
 
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:academic_planner/src/shared/utils/open_url.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const _repoUrl = 'https://github.com/dariomatias-dev/academic_planner_app';
 
@@ -18,13 +17,14 @@ class AboutSourceCodeCardWidget extends ConsumerStatefulWidget {
       _SourceCodeCardWidgetState();
 }
 
-class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget> {
+class _SourceCodeCardWidgetState
+    extends ConsumerState<AboutSourceCodeCardWidget> {
   bool _copied = false;
   Timer? _resetTimer;
 
-  void _copyLink() {
-    Clipboard.setData(const ClipboardData(text: _repoUrl));
-    Fluttertoast.showToast(msg: 'Link copiado');
+  Future<void> _copyLink() async {
+    await Clipboard.setData(const ClipboardData(text: _repoUrl));
+    await Fluttertoast.showToast(msg: 'Link copiado');
 
     setState(() => _copied = true);
 
@@ -91,7 +91,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Código-fonte",
+                        'Código-fonte',
                         style: _textStyle(
                           context,
                           size: 15.0,
@@ -100,12 +100,11 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
                       ),
                       const SizedBox(height: 3.0),
                       Text(
-                        "Projeto open source no GitHub",
+                        'Projeto open source no GitHub',
                         style: _textStyle(
                           context,
                           size: 12.0,
                           color: colorScheme.onSurface.withAlpha(120),
-                          weight: FontWeight.w500,
                         ),
                       ),
                     ],
@@ -123,7 +122,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
                       size: 20.0,
                     ),
                     onPressed: _copyLink,
-                    tooltip: _copied ? "Copiado!" : "Copiar link",
+                    tooltip: _copied ? 'Copiado!' : 'Copiar link',
                   ),
                 ),
               ],
@@ -131,8 +130,8 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
           ),
           Divider(height: 1.0, color: theme.dividerTheme.color),
           InkWell(
-            onTap: () {
-              openUrl(context, _repoUrl);
+            onTap: () async {
+              await openUrl(context, _repoUrl);
             },
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(24.0),
@@ -152,7 +151,7 @@ class _SourceCodeCardWidgetState extends ConsumerState<AboutSourceCodeCardWidget
                   ),
                   const SizedBox(width: 8.0),
                   Text(
-                    "Abrir no GitHub",
+                    'Abrir no GitHub',
                     style: _textStyle(
                       context,
                       size: 13.0,

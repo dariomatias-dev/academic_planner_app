@@ -1,7 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivityFilterNotifier extends Notifier<ActivityFilter> {
   @override
@@ -9,8 +8,10 @@ class ActivityFilterNotifier extends Notifier<ActivityFilter> {
     return const ActivityFilter();
   }
 
-  void setFilter(ActivityFilter filter) {
-    state = filter;
+  ActivityFilter get filter => state;
+
+  set filter(ActivityFilter value) {
+    state = value;
   }
 
   void update({

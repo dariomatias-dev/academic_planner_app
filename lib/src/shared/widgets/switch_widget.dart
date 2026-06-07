@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SwitchWidget extends StatelessWidget {
+  const SwitchWidget({required this.value, required this.onChanged, super.key});
+
   final bool value;
   final ValueChanged<bool> onChanged;
-
-  const SwitchWidget({super.key, required this.value, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {

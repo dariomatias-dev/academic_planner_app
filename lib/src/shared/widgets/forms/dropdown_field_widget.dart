@@ -2,17 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DropdownFieldWidget<T> extends StatelessWidget {
-  final T? value;
-  final List<DropdownMenuItem<T>> items;
-  final void Function(T? value)? onChanged;
-  final String? hint;
-  final Widget? prefixIcon;
-  final String? Function(T? value)? validator;
-  final bool enabled;
-
   const DropdownFieldWidget({
-    super.key,
     required this.items,
+    super.key,
     this.value,
     this.onChanged,
     this.hint,
@@ -20,6 +12,14 @@ class DropdownFieldWidget<T> extends StatelessWidget {
     this.validator,
     this.enabled = true,
   });
+
+  final T? value;
+  final List<DropdownMenuItem<T>> items;
+  final void Function(T? value)? onChanged;
+  final String? hint;
+  final Widget? prefixIcon;
+  final String? Function(T? value)? validator;
+  final bool enabled;
 
   static const _radius = 16.0;
   static const _contentPadding = EdgeInsets.all(16);
@@ -101,7 +101,7 @@ class DropdownFieldWidget<T> extends StatelessWidget {
   OutlineInputBorder _border(Color color) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(_radius),
-      borderSide: BorderSide(color: color, width: 1.0),
+      borderSide: BorderSide(color: color),
     );
   }
 }

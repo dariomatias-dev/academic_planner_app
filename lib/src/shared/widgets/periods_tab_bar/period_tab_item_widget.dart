@@ -1,13 +1,12 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class PeriodTabItemWidget extends StatelessWidget {
   const PeriodTabItemWidget({
-    super.key,
     required this.period,
     required this.isSelected,
+    super.key,
   });
 
   final int period;
@@ -42,7 +41,7 @@ class PeriodTabItemWidget extends StatelessWidget {
             : [],
       ),
       child: Text(
-        "$periodº Período",
+        '$periodº Período',
         style: GoogleFonts.plusJakartaSans(
           color: isSelected
               ? colorScheme.surface

@@ -1,15 +1,13 @@
+import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
-
-import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
-
 class UserCardWidget extends StatelessWidget {
-  final UserEntity user;
+  const UserCardWidget({required this.user, super.key});
 
-  const UserCardWidget({super.key, required this.user});
+  final UserEntity user;
 
   @override
   Widget build(BuildContext context) {

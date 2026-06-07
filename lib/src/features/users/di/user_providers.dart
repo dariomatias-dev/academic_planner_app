@@ -1,5 +1,3 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/di/firebase_providers.dart';
 import 'package:academic_planner/src/features/users/data/repositories/user_repository_impl.dart';
 import 'package:academic_planner/src/features/users/data/services/user_firestore_service.dart';
@@ -9,6 +7,7 @@ import 'package:academic_planner/src/features/users/domain/value_objects/user_fi
 import 'package:academic_planner/src/features/users/presentation/providers/user_filter_notifier.dart';
 import 'package:academic_planner/src/features/users/presentation/providers/user_notifier.dart';
 import 'package:academic_planner/src/features/users/presentation/view_models/user_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userFirestoreServiceProvider = Provider<UserFirestoreService>((ref) {
   final firestore = ref.watch(firestoreProvider);

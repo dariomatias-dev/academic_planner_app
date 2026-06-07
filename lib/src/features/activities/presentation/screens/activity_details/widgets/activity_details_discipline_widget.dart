@@ -1,14 +1,12 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-
 class ActivityDetailsDisciplineWidget extends StatelessWidget {
-  final DisciplineModel discipline;
+  const ActivityDetailsDisciplineWidget({required this.discipline, super.key});
 
-  const ActivityDetailsDisciplineWidget({super.key, required this.discipline});
+  final DisciplineModel discipline;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +14,11 @@ class ActivityDetailsDisciplineWidget extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     return GestureDetector(
-      onTap: () {
-        AppRoutes.goToDisciplineDetails(context, disciplineId: discipline.id);
+      onTap: () async {
+        await AppRoutes.goToDisciplineDetails(
+          context,
+          disciplineId: discipline.id,
+        );
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -56,17 +57,17 @@ class ActivityDetailsDisciplineWidget extends StatelessWidget {
                   Text(
                     discipline.name,
                     style: GoogleFonts.plusJakartaSans(
+                      color: colorScheme.onSurface,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w800,
-                      color: colorScheme.onSurface,
                     ),
                   ),
                   Text(
-                    "${discipline.period}º Período",
+                    '${discipline.period}º Período',
                     style: GoogleFonts.plusJakartaSans(
+                      color: colorScheme.onSurface.withAlpha(140),
                       fontSize: 12.0,
                       fontWeight: FontWeight.w600,
-                      color: colorScheme.onSurface.withAlpha(140),
                     ),
                   ),
                 ],

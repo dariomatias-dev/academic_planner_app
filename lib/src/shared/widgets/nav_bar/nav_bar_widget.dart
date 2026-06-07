@@ -1,18 +1,16 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
-
 class NavBarWidget extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onTap;
-
   const NavBarWidget({
-    super.key,
     required this.selectedIndex,
     required this.onTap,
+    super.key,
   });
+
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
 
   @override
   Widget build(BuildContext context) {

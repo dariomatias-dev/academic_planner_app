@@ -1,17 +1,16 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class ActivityFormReminderWidget extends StatelessWidget {
-  final TimeOfDay time;
-  final VoidCallback onRemove;
-
   const ActivityFormReminderWidget({
-    super.key,
     required this.time,
     required this.onRemove,
+    super.key,
   });
+
+  final TimeOfDay time;
+  final VoidCallback onRemove;
 
   @override
   Widget build(BuildContext context) {

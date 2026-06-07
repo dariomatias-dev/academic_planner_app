@@ -1,12 +1,11 @@
 import 'package:academic_planner/src/core/seeds/seed.dart';
-
 import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 import 'package:academic_planner/src/features/activities/data/seeds/activity_seed_data.dart';
 
 class ActivitySeed implements Seed {
-  final ActivityRepositoryImpl repository;
-
   ActivitySeed(this.repository);
+
+  final ActivityRepositoryImpl repository;
 
   @override
   String get name => 'activity_seed';

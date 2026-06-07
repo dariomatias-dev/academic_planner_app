@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_confirm_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
+import 'package:flutter/material.dart';
 
 Future<String?> resultToError<T>(Future<Result<T>> resultFuture) async {
   final result = await resultFuture;
@@ -18,7 +16,8 @@ Future<String?> resultToError<T>(Future<Result<T>> resultFuture) async {
 /// Orchestrates the full delete UX: confirm → delete → success/failure with retry.
 ///
 /// [onDelete] returns null on success or an error message on failure.
-/// [onSuccess] is called after the success dialog is dismissed (or immediately after deletion if no success dialog).
+/// [onSuccess] is called after the success dialog is dismissed
+/// (or immediately after deletion if no success dialog).
 /// Omit [successTitle]/[successMessage] to skip the success dialog.
 Future<bool> removalFlow({
   required BuildContext context,
@@ -29,9 +28,10 @@ Future<bool> removalFlow({
   String? successTitle,
   String? successMessage,
   String failureMessage =
-      'Não conseguimos remover o item no momento. Por favor, tente novamente em instantes.',
+      'Não conseguimos remover o item no momento.'
+      ' Por favor, tente novamente em instantes.',
 }) async {
-  bool success = false;
+  var success = false;
 
   final navigator = Navigator.of(context, rootNavigator: true);
   final overlayContext = navigator.context;
@@ -45,7 +45,7 @@ Future<bool> removalFlow({
   }
 
   Future<bool> showRetryDialog() async {
-    bool retry = false;
+    var retry = false;
 
     await RemovalFailureDialogWidget.show(
       overlayContext,

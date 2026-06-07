@@ -1,6 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel extends UserEntity {
   UserModel({
@@ -17,9 +16,9 @@ class UserModel extends UserEntity {
     final updated = map['updated_at'];
 
     return UserModel(
-      id: map['id'] ?? '',
-      email: map['email'] ?? '',
-      name: map['name'] ?? '',
+      id: map['id'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      name: map['name'] as String? ?? '',
       role: _roleFromString(map['role']),
       createdAt: created is Timestamp ? created.toDate() : DateTime.now(),
       updatedAt: updated is Timestamp ? updated.toDate() : DateTime.now(),

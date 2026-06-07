@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DisciplineDetailsTeacherCardWidget extends StatelessWidget {
-  final String teacherName;
-  final VoidCallback onTap;
-
   const DisciplineDetailsTeacherCardWidget({
-    super.key,
     required this.teacherName,
     required this.onTap,
+    super.key,
   });
+
+  final String teacherName;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class DisciplineDetailsTeacherCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Ver perfil do professor",
+                    'Ver perfil do professor',
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onSurface.withAlpha(120),
                       fontSize: 12.0,

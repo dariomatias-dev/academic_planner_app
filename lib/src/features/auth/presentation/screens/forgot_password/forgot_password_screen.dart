@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/validators.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -37,7 +35,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBarWidget(backgroundColor: AppColors.transparent),
+      appBar: const AppBarWidget(backgroundColor: AppColors.transparent),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -64,7 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                       const SizedBox(height: 24.0),
                       Text(
-                        "Recuperar Senha",
+                        'Recuperar Senha',
                         style: GoogleFonts.plusJakartaSans(
                           fontSize: 28.0,
                           fontWeight: FontWeight.w900,
@@ -72,7 +70,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       ),
                       const SizedBox(height: 12.0),
                       Text(
-                        "Insira seu e-mail abaixo para receber as instruções de redefinição de senha.",
+                        'Insira seu e-mail abaixo para receber as instruções '
+                        'de redefinição de senha.',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(150),
@@ -84,13 +83,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 48.0),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0, left: 4.0),
-                  child: FormFieldLabelWidget(label: "E-MAIL", fontSize: 11.0),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0, left: 4.0),
+                  child: FormFieldLabelWidget(label: 'E-MAIL', fontSize: 11.0),
                 ),
                 InputWidget(
                   controller: _emailController,
-                  hint: "seu@email.com",
+                  hint: 'seu@email.com',
                   validator: Validators.multiple([
                     Validators.required,
                     Validators.email,
@@ -104,7 +103,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: 32.0),
                 ButtonWidget(
                   onPressed: _onSendPressed,
-                  label: "Enviar Instruções",
+                  label: 'Enviar Instruções',
                   isFullWidth: true,
                 ),
                 const SizedBox(height: 32.0),

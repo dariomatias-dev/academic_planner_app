@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DisciplineDetailsTabBarDelegate extends SliverPersistentHeaderDelegate {
-  final PreferredSizeWidget tabBar;
-
   DisciplineDetailsTabBarDelegate(this.tabBar);
+
+  final PreferredSizeWidget tabBar;
 
   @override
   double get minExtent => tabBar.preferredSize.height;

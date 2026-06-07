@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/calendar/presentation/view_models/agenda_state.dart';
 import 'package:academic_planner/src/features/calendar/presentation/view_models/agenda_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AgendaNotifier extends AsyncNotifier<AgendaState> {
   late final AgendaViewModel _viewModel;
@@ -14,10 +13,10 @@ class AgendaNotifier extends AsyncNotifier<AgendaState> {
   FutureOr<AgendaState> build() async {
     _viewModel = AgendaViewModel();
 
-    ref.listen(activityNotifierProvider, (_, _) {
+    ref.listen(activityNotifierProvider, (_, _) async {
       if (state is! AsyncLoading) {
-        Future.microtask(() {
-          fetchData(filter: state.value?.filter);
+        await Future.microtask(() async {
+          await fetchData(filter: state.value?.filter);
         });
       }
     });
@@ -33,29 +32,29 @@ class AgendaNotifier extends AsyncNotifier<AgendaState> {
       onSuccess: (activities) {
         return _viewModel.handleFetchSuccess(AgendaState(), activities);
       },
-      onFailure: (failure) => throw failure,
+      onFailure: (failure) => throw Exception(failure.message),
     );
   }
 
   Future<void> fetchData({ActivityFilter? filter}) async {
     state = const AsyncLoading();
 
-    state = await AsyncValue.guard(() async {
-      final activityNotifier = ref.read(activityNotifierProvider.notifier);
-      final result = await activityNotifier.getAll(filter: filter);
+    final activityNotifier = ref.read(activityNotifierProvider.notifier);
+    final result = await activityNotifier.getAll(filter: filter);
 
-      return result.fold(
-        onSuccess: (activities) {
-          final currentState = state.value ?? AgendaState();
+    state = result.fold(
+      onSuccess: (activities) {
+        final currentState = state.value ?? AgendaState();
 
-          return _viewModel.handleFetchSuccess(
+        return AsyncData(
+          _viewModel.handleFetchSuccess(
             currentState.copyWith(filter: filter),
             activities,
-          );
-        },
-        onFailure: (failure) => throw failure,
-      );
-    });
+          ),
+        );
+      },
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
   }
 
   void updateDisplayDate(DateTime date) {

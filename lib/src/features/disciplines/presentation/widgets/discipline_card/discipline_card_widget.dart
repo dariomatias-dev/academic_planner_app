@@ -1,26 +1,24 @@
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
-
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
-
 class DisciplineCardWidget extends StatelessWidget {
+  const DisciplineCardWidget({
+    required this.index,
+    required this.discipline,
+    super.key,
+    this.onTap,
+    this.trailing,
+    this.opacity = 1.0,
+  });
+
   final int index;
   final DisciplineModel discipline;
   final VoidCallback? onTap;
   final Widget? trailing;
   final double opacity;
-
-  const DisciplineCardWidget({
-    super.key,
-    required this.index,
-    required this.discipline,
-    this.onTap,
-    this.trailing,
-    this.opacity = 1.0,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +102,7 @@ class DisciplineCardWidget extends StatelessWidget {
                                 ),
                                 const SizedBox(width: 6.0),
                                 Text(
-                                  "${discipline.period}º Período",
+                                  '${discipline.period}º Período',
                                   style: GoogleFonts.plusJakartaSans(
                                     color: colorScheme.onSurface.withAlpha(160),
                                     fontSize: 12.0,

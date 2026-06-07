@@ -1,33 +1,34 @@
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/features/categories/di/category_providers.dart';
+import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/features/categories/di/category_providers.dart';
-import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-
 class CategoryFilterSectionWidget extends ConsumerWidget {
+  const CategoryFilterSectionWidget({
+    required this.value,
+    required this.onChanged,
+    super.key,
+  });
+
   final String? value;
   final ValueChanged<String?> onChanged;
 
-  const CategoryFilterSectionWidget({
-    super.key,
-    required this.value,
-    required this.onChanged,
-  });
-
-  void _openModal(BuildContext context, WidgetRef ref) {
+  Future<void> _openModal(BuildContext context, WidgetRef ref) async {
     final categories = ref.read(categoriesNotifierProvider).asData?.value ?? [];
 
-    ModalBottomSheetWidget.show(
+    await ModalBottomSheetWidget.show<void>(
       context: context,
       title: 'Filtrar por Categoria',
       child: _CategoryListModal(
-        categories: categories.map((c) => c.name).toList(),
+        categories: categories.builder((category, index) => category.name),
         selected: value,
         onSelected: (name) {
           onChanged(name == value ? null : name);
+
           Navigator.pop(context);
         },
       ),
@@ -61,7 +62,6 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
                 color: theme.dividerTheme.color ?? AppColors.transparent,
-                width: 1.0,
               ),
             ),
             child: Row(
@@ -96,7 +96,9 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        value == null ? 'Toque para selecionar' : 'Filtro ativo',
+                        value == null
+                            ? 'Toque para selecionar'
+                            : 'Filtro ativo',
                         style: GoogleFonts.plusJakartaSans(
                           color: colorScheme.onSurface.withAlpha(100),
                           fontSize: 12.0,
@@ -121,15 +123,15 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
 }
 
 class _CategoryListModal extends StatelessWidget {
-  final List<String> categories;
-  final String? selected;
-  final ValueChanged<String> onSelected;
-
   const _CategoryListModal({
     required this.categories,
     required this.selected,
     required this.onSelected,
   });
+
+  final List<String> categories;
+  final String? selected;
+  final ValueChanged<String> onSelected;
 
   @override
   Widget build(BuildContext context) {

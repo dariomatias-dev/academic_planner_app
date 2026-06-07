@@ -1,30 +1,28 @@
-import 'package:academic_planner/src/core/constants/day_names.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/constants/day_names.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
-
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_data_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_header_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_time_cell_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ScheduleTableViewWidget extends StatelessWidget {
-  final GlobalKey repaintKey;
-  final List<TimeSlot> timeSlots;
-  final List<ScheduleEntry> entries;
-  final List<DisciplineModel> disciplines;
-
   const ScheduleTableViewWidget({
-    super.key,
     required this.repaintKey,
     required this.timeSlots,
     required this.entries,
     required this.disciplines,
+    super.key,
   });
+
+  final GlobalKey repaintKey;
+  final List<TimeSlot> timeSlots;
+  final List<ScheduleEntry> entries;
+  final List<DisciplineModel> disciplines;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +59,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
                 TableRow(
                   decoration: BoxDecoration(color: colorScheme.surface),
                   children: [
-                    ScheduleHeaderCellWidget(text: "HORA"),
+                    const ScheduleHeaderCellWidget(text: 'HORA'),
                     ...dayNames.builder((dayName, index) {
                       return ScheduleHeaderCellWidget(text: dayName);
                     }),

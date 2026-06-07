@@ -1,7 +1,6 @@
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 
 class ActivitiesDateIndicatorWidget extends StatelessWidget {
   const ActivitiesDateIndicatorWidget({super.key});

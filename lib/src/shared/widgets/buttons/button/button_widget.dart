@@ -1,11 +1,9 @@
 import 'dart:async';
 
+import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/app_colors.dart';
-
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_colors.dart';
 
 enum AppButtonStyle {
   primary,
@@ -17,6 +15,22 @@ enum AppButtonStyle {
 }
 
 class ButtonWidget extends StatefulWidget {
+  const ButtonWidget({
+    required this.label,
+    required this.onPressed,
+    super.key,
+    this.icon,
+    this.trailingIcon,
+    this.style = AppButtonStyle.primary,
+    this.isFullWidth = false,
+    this.height = 56.0,
+    this.fontSize = 16.0,
+    this.fontWeight = FontWeight.w700,
+    this.borderRadius = 24.0,
+    this.padding,
+    this.mainAxisAlignment = MainAxisAlignment.center,
+  });
+
   final String label;
   final FutureOr<void> Function()? onPressed;
   final IconData? icon;
@@ -29,22 +43,6 @@ class ButtonWidget extends StatefulWidget {
   final double borderRadius;
   final EdgeInsetsGeometry? padding;
   final MainAxisAlignment mainAxisAlignment;
-
-  const ButtonWidget({
-    super.key,
-    required this.label,
-    required this.onPressed,
-    this.icon,
-    this.trailingIcon,
-    this.style = AppButtonStyle.primary,
-    this.isFullWidth = false,
-    this.height = 56.0,
-    this.fontSize = 16.0,
-    this.fontWeight = FontWeight.w700,
-    this.borderRadius = 24.0,
-    this.padding,
-    this.mainAxisAlignment = MainAxisAlignment.center,
-  });
 
   @override
   State<ButtonWidget> createState() => _ButtonWidgetState();
@@ -154,6 +152,18 @@ class _ButtonWidgetState extends State<ButtonWidget> {
 }
 
 class _ButtonContent extends StatelessWidget {
+  const _ButtonContent({
+    required this.label,
+    required this.icon,
+    required this.trailingIcon,
+    required this.textColor,
+    required this.fontSize,
+    required this.fontWeight,
+    required this.isFullWidth,
+    required this.mainAxisAlignment,
+    this.iconBackgroundColor,
+  });
+
   final String label;
   final IconData? icon;
   final IconData? trailingIcon;
@@ -163,18 +173,6 @@ class _ButtonContent extends StatelessWidget {
   final FontWeight fontWeight;
   final bool isFullWidth;
   final MainAxisAlignment mainAxisAlignment;
-
-  const _ButtonContent({
-    required this.label,
-    required this.icon,
-    required this.trailingIcon,
-    required this.textColor,
-    this.iconBackgroundColor,
-    required this.fontSize,
-    required this.fontWeight,
-    required this.isFullWidth,
-    required this.mainAxisAlignment,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -213,9 +211,9 @@ class _ButtonContent extends StatelessWidget {
 }
 
 class _ButtonLoadingIndicator extends StatelessWidget {
-  final Color color;
-
   const _ButtonLoadingIndicator({required this.color});
+
+  final Color color;
 
   @override
   Widget build(BuildContext context) {

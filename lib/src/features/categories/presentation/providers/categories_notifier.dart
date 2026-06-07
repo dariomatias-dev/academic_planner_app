@@ -1,10 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/presentation/view_models/categories_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CategoriesNotifier extends AsyncNotifier<List<Category>> {
   late final CategoriesViewModel _viewModel;

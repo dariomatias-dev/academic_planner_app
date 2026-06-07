@@ -1,10 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
@@ -12,12 +8,13 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_summary_tab_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_task_list_tab_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/activities_filter_modal_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesScreen extends ConsumerStatefulWidget {
   const ActivitiesScreen({super.key});
@@ -39,9 +36,8 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
   void _onSearchChanged() {
     final currentFilter = ref.read(activityFilterNotifierProvider);
 
-    ref
-        .read(activityFilterNotifierProvider.notifier)
-        .setFilter(currentFilter.copyWith(search: _searchController.text));
+    ref.read(activityFilterNotifierProvider.notifier).filter = currentFilter
+        .copyWith(search: _searchController.text);
   }
 
   Future<Result<List<Activity>>> _fetchActivities({
@@ -57,7 +53,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
     final statuses = filter.statuses;
     if (statuses == null || statuses.isEmpty) return;
 
-    int targetIndex = 0;
+    var targetIndex = 0;
     if (statuses.contains(ActivityStatus.pending) ||
         statuses.contains(ActivityStatus.inProgress)) {
       targetIndex = 1;
@@ -104,13 +100,13 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Atividades",
+        title: 'Atividades',
         showBackButton: false,
         actions: [
           IconButtonWidget(
             icon: Icons.filter_list,
-            onPressed: () {
-              ActivitiesFilterModalWidget.show(context);
+            onPressed: () async {
+              await ActivitiesFilterModalWidget.show(context);
             },
           ),
         ],
@@ -118,9 +114,8 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 90.0),
         child: FloatingActionButtonWidget(
-          heroTag: null,
-          onPressed: () {
-            AppRoutes.goToActivityForm(context);
+          onPressed: () async {
+            await AppRoutes.goToActivityForm(context);
           },
           icon: Icons.add_rounded,
         ),
@@ -143,8 +138,8 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Atividades Planejadas e em Execução",
-                  emptyMessage: "Foco total! Nenhuma tarefa ativa no momento.",
+                  description: 'Atividades Planejadas e em Execução',
+                  emptyMessage: 'Foco total! Nenhuma tarefa ativa no momento.',
                   filter: filterState.copyWith(
                     statuses: [
                       ActivityStatus.pending,
@@ -154,17 +149,17 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Histórico de Atividades Finalizadas",
+                  description: 'Histórico de Atividades Finalizadas',
                   emptyMessage:
-                      "O histórico está vazio. Toque no + para começar.",
+                      'O histórico está vazio. Toque no + para começar.',
                   filter: filterState.copyWith(
                     statuses: [ActivityStatus.completed],
                   ),
                   onFetch: _fetchActivities,
                 ),
                 ActivitiesTaskListTabWidget(
-                  description: "Atividades em Rascunho ou Descontinuadas",
-                  emptyMessage: "Sem rascunhos ou tarefas canceladas.",
+                  description: 'Atividades em Rascunho ou Descontinuadas',
+                  emptyMessage: 'Sem rascunhos ou tarefas canceladas.',
                   filter: filterState.copyWith(
                     statuses: [
                       ActivityStatus.draft,
@@ -183,7 +178,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
   }
 
   Widget _buildHeader(ColorScheme colorScheme) {
-    return Container(
+    return ColoredBox(
       color: colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +188,7 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
             padding: const EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
             child: InputWidget(
               controller: _searchController,
-              hint: "Filtrar atividades...",
+              hint: 'Filtrar atividades...',
               prefixIcon: Icon(
                 Icons.search_rounded,
                 color: colorScheme.onSurface.withAlpha(100),
@@ -203,10 +198,10 @@ class _ActivitiesScreenWidgetState extends ConsumerState<ActivitiesScreen>
           TabBarWidget(
             controller: _tabController,
             tabs: const [
-              Tab(text: "Resumo"),
-              Tab(text: "Ativas"),
-              Tab(text: "Concluídas"),
-              Tab(text: "Outras"),
+              Tab(text: 'Resumo'),
+              Tab(text: 'Ativas'),
+              Tab(text: 'Concluídas'),
+              Tab(text: 'Outras'),
             ],
           ),
         ],

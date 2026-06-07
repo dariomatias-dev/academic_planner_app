@@ -1,11 +1,9 @@
+import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
+import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
-
-import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
 
 class LogoutConfirmationDialogWidget extends ConsumerWidget {
   const LogoutConfirmationDialogWidget({super.key});
@@ -24,16 +22,16 @@ class LogoutConfirmationDialogWidget extends ConsumerWidget {
     return ConfirmationDialogWidget(
       icon: Icons.logout_rounded,
       iconColor: Theme.of(context).colorScheme.error,
-      title: "Sair da Conta",
+      title: 'Sair da Conta',
       message:
-          "Tem certeza que deseja encerrar sua sessão no Academic Planner?",
-      confirmLabel: "Sair",
+          'Tem certeza que deseja encerrar sua sessão no Academic Planner?',
+      confirmLabel: 'Sair',
       confirmStyle: AppButtonStyle.destructiveSolid,
       onConfirm: () async {
         await ref.read(authNotifierProvider.notifier).signOut();
 
         if (context.mounted) {
-          Fluttertoast.showToast(msg: 'Sessão encerrada com sucesso');
+          await Fluttertoast.showToast(msg: 'Sessão encerrada com sucesso');
         }
       },
     );

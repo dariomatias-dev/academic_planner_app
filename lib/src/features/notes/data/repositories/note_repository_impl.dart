@@ -1,21 +1,19 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/notes/data/data_source/note_local_datasource.dart';
 import 'package:academic_planner/src/features/notes/data/models/note_model.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
+import 'package:flutter/foundation.dart';
 
 List<Note> _mapNotes(List<Map<String, dynamic>> data) {
   return data.map((e) => NoteModel.fromMap(e).toEntity()).toList();
 }
 
 class NoteRepositoryImpl implements NoteRepository {
-  final NoteLocalDataSource datasource;
-
   NoteRepositoryImpl(this.datasource);
+
+  final NoteLocalDataSource datasource;
 
   @override
   Future<Result<void>> add(Note note) async {
@@ -23,7 +21,7 @@ class NoteRepositoryImpl implements NoteRepository {
       await datasource.insert(NoteModel.fromEntity(note).toMap());
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -35,7 +33,7 @@ class NoteRepositoryImpl implements NoteRepository {
       final notes = await compute(_mapNotes, data);
 
       return Success(notes);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -48,7 +46,7 @@ class NoteRepositoryImpl implements NoteRepository {
       if (data == null) return const Success(null);
 
       return Success(NoteModel.fromMap(data).toEntity());
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -59,7 +57,7 @@ class NoteRepositoryImpl implements NoteRepository {
       await datasource.update(note.id, NoteModel.fromEntity(note).toMap());
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -68,9 +66,9 @@ class NoteRepositoryImpl implements NoteRepository {
   Future<Result<void>> delete(String id) async {
     try {
       await datasource.delete(id);
-      
+
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }

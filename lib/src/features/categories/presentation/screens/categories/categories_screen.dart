@@ -1,13 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
 import 'package:academic_planner/src/shared/actions/removal_flow.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CategoriesScreen extends ConsumerWidget {
   const CategoriesScreen({super.key});
@@ -22,12 +20,12 @@ class CategoriesScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Categorias",
+        title: 'Categorias',
         actions: [
           IconButtonWidget(
             icon: Icons.add_rounded,
-            onPressed: () {
-              CategoryFormDialogWidget.show(context);
+            onPressed: () async {
+              await CategoryFormDialogWidget.show(context);
             },
             style: IconButtonStyle.primary,
           ),
@@ -79,8 +77,8 @@ class CategoriesScreen extends ConsumerWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {
-                        CategoryFormDialogWidget.show(
+                      onPressed: () async {
+                        await CategoryFormDialogWidget.show(
                           context,
                           category: category,
                           index: index,
@@ -93,12 +91,13 @@ class CategoriesScreen extends ConsumerWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        removalFlow(
+                      onPressed: () async {
+                        await removalFlow(
                           context: context,
                           confirmTitle: 'Excluir Categoria',
                           confirmMessage:
-                              'Tem certeza que deseja remover esta categoria? Esta ação não pode ser desfeita.',
+                              'Tem certeza que deseja remover esta categoria? '
+                              'Esta ação não pode ser desfeita.',
                           onDelete: () {
                             return resultToError(
                               ref

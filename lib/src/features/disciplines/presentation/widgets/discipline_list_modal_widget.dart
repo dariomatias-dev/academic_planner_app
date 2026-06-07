@@ -1,28 +1,27 @@
+import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-
 class DisciplineListModalWidget extends StatelessWidget {
+  const DisciplineListModalWidget({
+    required this.disciplines,
+    required this.onSelected,
+    super.key,
+    this.selectedId,
+    this.emptyTitle = 'Nenhuma disciplina',
+    this.emptyDescription = 'Não encontramos disciplinas cadastradas.',
+    this.actionLabel,
+    this.onActionPressed,
+  });
+
   final List<DisciplineModel> disciplines;
   final int? selectedId;
   final String emptyTitle;
   final String emptyDescription;
   final String? actionLabel;
   final VoidCallback? onActionPressed;
-  final Function(DisciplineModel value) onSelected;
-
-  const DisciplineListModalWidget({
-    super.key,
-    required this.disciplines,
-    this.selectedId,
-    this.emptyTitle = 'Nenhuma disciplina',
-    this.emptyDescription = 'Não encontramos disciplinas cadastradas.',
-    this.actionLabel,
-    this.onActionPressed,
-    required this.onSelected,
-  });
+  final void Function(DisciplineModel value) onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +51,7 @@ class DisciplineListModalWidget extends StatelessWidget {
           child: ListTile(
             onTap: () {
               onSelected(discipline);
+
               Navigator.pop(context);
             },
             shape: RoundedRectangleBorder(

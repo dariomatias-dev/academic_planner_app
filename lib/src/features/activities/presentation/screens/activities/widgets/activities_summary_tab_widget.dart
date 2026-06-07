@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
 
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
@@ -11,23 +9,24 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_stats_cards_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesSummaryTabWidget extends ConsumerStatefulWidget {
+  const ActivitiesSummaryTabWidget({
+    required this.filter,
+    required this.onFetch,
+    super.key,
+  });
+
   final ActivityFilter filter;
   final Future<Result<List<Activity>>> Function({
     required ActivityFilter filter,
     required Pagination pagination,
   })
   onFetch;
-
-  const ActivitiesSummaryTabWidget({
-    super.key,
-    required this.filter,
-    required this.onFetch,
-  });
 
   @override
   ConsumerState<ActivitiesSummaryTabWidget> createState() =>
@@ -50,13 +49,13 @@ class _ActivitiesSummaryTabWidgetState
   @override
   bool get wantKeepAlive => true;
 
-  void _onScroll() {
+  Future<void> _onScroll() async {
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 200.0 &&
         !_isLoadingMore &&
         _hasMore &&
         !_isLoading) {
-      _fetchMore();
+      await _fetchMore();
     }
   }
 
@@ -71,16 +70,19 @@ class _ActivitiesSummaryTabWidgetState
 
     final result = await widget.onFetch(
       filter: widget.filter,
-      pagination: const Pagination(page: 0, limit: _limit),
+      pagination: const Pagination(),
     );
 
     if (mounted) {
       result.fold(
         onSuccess: (data) {
           setState(() {
-            _activities.clear();
-            _activities.addAll(data);
+            _activities
+              ..clear()
+              ..addAll(data);
+
             _hasMore = data.length == _limit;
+
             _isLoading = false;
           });
         },
@@ -97,7 +99,7 @@ class _ActivitiesSummaryTabWidgetState
     final nextPage = _currentPage + 1;
     final result = await widget.onFetch(
       filter: widget.filter,
-      pagination: Pagination(page: nextPage, limit: _limit),
+      pagination: Pagination(page: nextPage),
     );
 
     if (mounted) {
@@ -119,7 +121,7 @@ class _ActivitiesSummaryTabWidgetState
   void initState() {
     super.initState();
 
-    _fetchInitial();
+    unawaited(_fetchInitial());
 
     _scrollController.addListener(_onScroll);
   }
@@ -129,7 +131,7 @@ class _ActivitiesSummaryTabWidgetState
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.filter != widget.filter) {
-      _fetchInitial();
+      unawaited(_fetchInitial());
     }
   }
 
@@ -166,8 +168,8 @@ class _ActivitiesSummaryTabWidgetState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ActivitiesTotalBadgeWidget(
-                title: "Minhas Atividades",
-                subtitle: "Total acumulado",
+                title: 'Minhas Atividades',
+                subtitle: 'Total acumulado',
                 state: countAsync,
               ),
               Row(
@@ -192,7 +194,7 @@ class _ActivitiesSummaryTabWidgetState
                 children: [
                   Expanded(
                     child: MetricCardWidget(
-                      label: "Ativas",
+                      label: 'Ativas',
                       icon: Icons.bolt_rounded,
                       color: theme.colorScheme.secondary,
                       state: statsAsync.whenData((stats) => stats.active),
@@ -201,7 +203,7 @@ class _ActivitiesSummaryTabWidgetState
                   const SizedBox(width: 16.0),
                   Expanded(
                     child: MetricCardWidget(
-                      label: "Concluídas",
+                      label: 'Concluídas',
                       icon: Icons.check_circle_rounded,
                       color: Colors.teal,
                       state: statsAsync.whenData((stats) => stats.completed),
@@ -210,7 +212,7 @@ class _ActivitiesSummaryTabWidgetState
                 ],
               ),
               const SizedBox(height: 40.0),
-              const ActivitySectionHeaderWidget(title: "Próximos Prazos"),
+              const ActivitySectionHeaderWidget(title: 'Próximos Prazos'),
               const SizedBox(height: 20.0),
             ],
           );

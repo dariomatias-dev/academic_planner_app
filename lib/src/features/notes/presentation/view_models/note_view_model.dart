@@ -1,39 +1,38 @@
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:academic_planner/src/core/result/result.dart';
-
-import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
-
 class NoteViewModel {
+  NoteViewModel(this.repository);
+
   static final _log = Logger('notes.NoteViewModel');
 
   final NoteRepository repository;
 
-  NoteViewModel(this.repository);
-
   Future<Result<void>> create(Note note) async {
     _log.info('createNote started: ${note.title}');
 
-    return await repository.add(note);
+    return repository.add(note);
   }
 
   Future<Result<List<Note>>> getAll() async {
-    return await repository.getAll();
+    return repository.getAll();
   }
 
   Future<Result<Note?>> getById(String id) async {
-    return await repository.getById(id);
+    return repository.getById(id);
   }
 
   Future<Result<void>> update(Note note) async {
     final updated = note.copyWith(updatedAt: DateTime.now());
-    return await repository.update(updated);
+
+    return repository.update(updated);
   }
 
   Future<Result<void>> delete(String id) async {
-    return await repository.delete(id);
+    return repository.delete(id);
   }
 
   Note createNew({
@@ -42,6 +41,7 @@ class NoteViewModel {
     required int disciplineId,
   }) {
     final now = DateTime.now();
+
     return Note(
       id: const Uuid().v7(),
       title: title,

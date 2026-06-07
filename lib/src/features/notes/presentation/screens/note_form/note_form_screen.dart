@@ -1,22 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-
 import 'package:academic_planner/src/core/validators.dart';
-
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_form_view_model.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NoteFormScreen extends ConsumerStatefulWidget {
+  const NoteFormScreen({required this.disciplineId, super.key, this.noteId});
+
   final String? noteId;
   final int disciplineId;
-
-  const NoteFormScreen({super.key, this.noteId, required this.disciplineId});
 
   @override
   ConsumerState<NoteFormScreen> createState() => _NoteFormScreenState();
@@ -38,7 +35,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
 
     final result = await _viewModel.save();
 
-    result.fold(
+    await result.fold(
       onSuccess: (_) {
         if (!mounted) return;
 
@@ -46,10 +43,10 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
 
         Navigator.pop(context, true);
       },
-      onFailure: (_) {
+      onFailure: (_) async {
         if (!mounted) return;
 
-        Fluttertoast.showToast(msg: 'Erro ao salvar anotação');
+        await Fluttertoast.showToast(msg: 'Erro ao salvar anotação');
       },
     );
   }
@@ -62,10 +59,10 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
 
     result.fold(
       onSuccess: (_) => _unfocus(),
-      onFailure: (_) {
+      onFailure: (_) async {
         if (!mounted) return;
 
-        Fluttertoast.showToast(msg: 'Erro ao carregar anotação');
+        await Fluttertoast.showToast(msg: 'Erro ao carregar anotação');
       },
     );
   }
@@ -93,7 +90,7 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: isEditing ? "Editar Anotação" : "Nova Anotação",
+        title: isEditing ? 'Editar Anotação' : 'Nova Anotação',
         actions: [
           ValueListenableBuilder<bool>(
             valueListenable: _viewModel.canSave,
@@ -120,18 +117,18 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const FormSectionTitleWidget(
-                    title: "Informações",
+                    title: 'Informações',
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
                   InputFieldWidget(
                     controller: _viewModel.titleController,
-                    label: "Título",
-                    hint: "Sobre o que é esta anotação?",
+                    label: 'Título',
+                    hint: 'Sobre o que é esta anotação?',
                     isRequired: true,
                     validator: (value) {
                       return Validators.required(
                         value?.trim(),
-                        message: "O título é obrigatório",
+                        message: 'O título é obrigatório',
                       );
                     },
                   ),
@@ -148,14 +145,14 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
                   ),
                   const SizedBox(height: 32.0),
                   const FormSectionTitleWidget(
-                    title: "Conteúdo",
+                    title: 'Conteúdo',
                     padding: EdgeInsets.only(bottom: 16.0),
                   ),
                   RichTextFieldWidget(
                     controller: _viewModel.contentController,
-                    label: "Conteúdo",
-                    placeholder: "Escreva o conteúdo da sua anotação...",
-                    validatorMessage: "O conteúdo é obrigatório",
+                    label: 'Conteúdo',
+                    placeholder: 'Escreva o conteúdo da sua anotação...',
+                    validatorMessage: 'O conteúdo é obrigatório',
                   ),
                 ],
               ),

@@ -1,12 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetailsScreen extends StatelessWidget {
   const CourseDetailsScreen({super.key});
@@ -40,14 +38,14 @@ class CourseDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Detalhes do Curso",
+        title: 'Detalhes do Curso',
         actions: [
           Consumer(
             builder: (context, ref, child) {
               return IconButtonWidget(
                 icon: Icons.launch_rounded,
-                onPressed: () {
-                  openUrl(
+                onPressed: () async {
+                  await openUrl(
                     context,
                     'https://estudante.ifpb.edu.br/cursos/346/',
                   );
@@ -127,7 +125,7 @@ class CourseDetailsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
-                    "CURSO SUPERIOR",
+                    'CURSO SUPERIOR',
                     style: _textStyle(
                       context,
                       size: 10.0,
@@ -139,7 +137,7 @@ class CourseDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24.0),
                 Text(
-                  "Análise e\nDesenvolvimento\nde Sistemas",
+                  'Análise e\nDesenvolvimento\nde Sistemas',
                   style: _textStyle(
                     context,
                     size: 36.0,
@@ -166,7 +164,7 @@ class CourseDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 12.0),
                     Text(
-                      "IFPB Campus Esperança",
+                      'IFPB Campus Esperança',
                       style: _textStyle(
                         context,
                         size: 16.0,
@@ -205,19 +203,19 @@ class CourseDetailsScreen extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           children: [
-            _compactMetric(context, "3 ANOS", "Duração", Icons.timer_outlined),
+            _compactMetric(context, '3 ANOS', 'Duração', Icons.timer_outlined),
             _verticalDivider(context),
             _compactMetric(
               context,
-              "2.084H",
-              "Carga",
+              '2.084H',
+              'Carga',
               Icons.history_edu_rounded,
             ),
             _verticalDivider(context),
             _compactMetric(
               context,
-              "40 VAGAS",
-              "Semestrais",
+              '40 VAGAS',
+              'Semestrais',
               Icons.groups_rounded,
             ),
           ],
@@ -268,23 +266,23 @@ class CourseDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionHeader(context, "Visão Geral"),
+        _buildSectionHeader(context, 'Visão Geral'),
         const SizedBox(height: 16.0),
         _buildAboutText(context),
         const SizedBox(height: 40.0),
-        _buildSectionHeader(context, "O que você irá aprender"),
+        _buildSectionHeader(context, 'O que você irá aprender'),
         const SizedBox(height: 20.0),
         _buildSkillGrid(context),
         const SizedBox(height: 48.0),
-        _buildSectionHeader(context, "Recursos Oficiais"),
+        _buildSectionHeader(context, 'Recursos Oficiais'),
         const SizedBox(height: 20.0),
         _buildActionTiles(context),
         const SizedBox(height: 48.0),
-        _buildSectionHeader(context, "Gestão do Curso"),
+        _buildSectionHeader(context, 'Gestão do Curso'),
         const SizedBox(height: 20.0),
         _buildCoordinationCard(context),
         const SizedBox(height: 48.0),
-        _buildSectionHeader(context, "Dados Administrativos"),
+        _buildSectionHeader(context, 'Dados Administrativos'),
         const SizedBox(height: 20.0),
         _buildLegalSheet(context),
         const SizedBox(height: 64.0),
@@ -321,12 +319,15 @@ class CourseDetailsScreen extends StatelessWidget {
 
   Widget _buildAboutText(BuildContext context) {
     return Text(
-      "O Tecnólogo em Análise e Desenvolvimento de Sistemas do IFPB Campus Esperança é capacitado para analisar, projetar, documentar, testar, implantar e manter sistemas computacionais de informação. Sua atuação engloba a produção de softwares com qualidade, usabilidade, integridade e segurança, focando em soluções inovadoras para o mercado global.",
+      'O Tecnólogo em Análise e Desenvolvimento de Sistemas do IFPB Campus '
+      'Esperança é capacitado para analisar, projetar, documentar, testar, '
+      'implantar e manter sistemas computacionais de informação. Sua atuação '
+      'engloba a produção de softwares com qualidade, usabilidade, integridade '
+      'e segurança, focando em soluções inovadoras para o mercado global.',
       style: _textStyle(
         context,
         size: 15.0,
         height: 1.8,
-        weight: FontWeight.w500,
         color: Theme.of(context).colorScheme.onSurface.withAlpha(160),
       ),
     );
@@ -335,12 +336,12 @@ class CourseDetailsScreen extends StatelessWidget {
   Widget _buildSkillGrid(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final skills = <Map<String, dynamic>>[
-      {"label": "Software", "icon": Icons.code_rounded},
-      {"label": "Redes", "icon": Icons.lan_rounded},
-      {"label": "Dados", "icon": Icons.storage_rounded},
-      {"label": "Mobile", "icon": Icons.smartphone_rounded},
-      {"label": "Segurança", "icon": Icons.security_rounded},
-      {"label": "DevOps", "icon": Icons.all_inclusive_rounded},
+      {'label': 'Software', 'icon': Icons.code_rounded},
+      {'label': 'Redes', 'icon': Icons.lan_rounded},
+      {'label': 'Dados', 'icon': Icons.storage_rounded},
+      {'label': 'Mobile', 'icon': Icons.smartphone_rounded},
+      {'label': 'Segurança', 'icon': Icons.security_rounded},
+      {'label': 'DevOps', 'icon': Icons.all_inclusive_rounded},
     ];
 
     return Wrap(
@@ -379,27 +380,27 @@ class CourseDetailsScreen extends StatelessWidget {
       children: [
         _customAction(
           context,
-          "Projeto Pedagógico (PPC)",
-          "Regras, diretrizes e matriz curricular oficial.",
+          'Projeto Pedagógico (PPC)',
+          'Regras, diretrizes e matriz curricular oficial.',
           Icons.picture_as_pdf_rounded,
           Colors.redAccent,
-          () {
-            AppRoutes.goToPdfViewer(
+          () async {
+            await AppRoutes.goToPdfViewer(
               context,
               url: _ppcUrl,
-              title: "PPC ADS Esperança",
+              title: 'PPC ADS Esperança',
             );
           },
         ),
         const SizedBox(height: 16.0),
         _customAction(
           context,
-          "Estrutura Curricular",
-          "Lista detalhada de disciplinas por período.",
+          'Estrutura Curricular',
+          'Lista detalhada de disciplinas por período.',
           Icons.auto_awesome_mosaic_rounded,
           Theme.of(context).colorScheme.primary,
-          () {
-            AppRoutes.goToDisciplines(context);
+          () async {
+            await AppRoutes.goToDisciplines(context);
           },
         ),
       ],
@@ -506,7 +507,7 @@ class CourseDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Valderi Reis da Silva",
+                      'Valderi Reis da Silva',
                       style: _textStyle(
                         context,
                         size: 18.0,
@@ -515,7 +516,7 @@ class CourseDetailsScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Coordenador de ADS",
+                      'Coordenador de ADS',
                       style: _textStyle(
                         context,
                         size: 13.0,
@@ -547,7 +548,7 @@ class CourseDetailsScreen extends StatelessWidget {
                 ),
                 const SizedBox(width: 12.0),
                 Text(
-                  "ads.esperanca@ifpb.edu.br",
+                  'ads.esperanca@ifpb.edu.br',
                   style: _textStyle(
                     context,
                     weight: FontWeight.w700,
@@ -573,10 +574,10 @@ class CourseDetailsScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _legalRow(context, "Portaria Autorizativa", "nº 2.809 (2017)"),
-          _legalRow(context, "Data de Criação", "01/12/2017"),
-          _legalRow(context, "Turno do Curso", "Integral"),
-          _legalRow(context, "Código e-MEC", "1406836", isLast: true),
+          _legalRow(context, 'Portaria Autorizativa', 'nº 2.809 (2017)'),
+          _legalRow(context, 'Data de Criação', '01/12/2017'),
+          _legalRow(context, 'Turno do Curso', 'Integral'),
+          _legalRow(context, 'Código e-MEC', '1406836', isLast: true),
         ],
       ),
     );
@@ -619,12 +620,12 @@ class CourseDetailsScreen extends StatelessWidget {
         Center(child: Image.network(_ifpbLogo, height: 70.0)),
         const SizedBox(height: 24.0),
         Text(
-          "Instituto Federal da Paraíba",
-          style: _textStyle(context, size: 14.0, weight: FontWeight.w800),
+          'Instituto Federal da Paraíba',
+          style: _textStyle(context, weight: FontWeight.w800),
         ),
         const SizedBox(height: 4.0),
         Text(
-          "CAMPUS ESPERANÇA",
+          'CAMPUS ESPERANÇA',
           style: _textStyle(
             context,
             size: 11.0,

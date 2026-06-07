@@ -1,15 +1,12 @@
-import 'package:sqflite/sqflite.dart';
-
 import 'package:academic_planner/src/core/database/tables/activity_table.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ActivityLocalDataSource {
-  final Database db;
-
   ActivityLocalDataSource(this.db);
+  final Database db;
 
   (String? where, List<Object?>? args) _buildWhere(ActivityFilter? filter) {
     final whereClauses = <String>[];
@@ -93,7 +90,7 @@ class ActivityLocalDataSource {
   }) async {
     final (String? where, List<Object?>? args) = _buildWhere(filter);
 
-    return await db.query(
+    return db.query(
       ActivityTable.tableName,
       where: where,
       whereArgs: args,

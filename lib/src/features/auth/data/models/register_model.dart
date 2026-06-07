@@ -1,10 +1,6 @@
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 
 class RegisterModel {
-  final String name;
-  final String email;
-  final String password;
-
   RegisterModel({
     required this.name,
     required this.email,
@@ -26,6 +22,10 @@ class RegisterModel {
       password: map['password'] as String,
     );
   }
+
+  final String name;
+  final String email;
+  final String password;
 
   Map<String, dynamic> toMap() {
     return {'name': name, 'email': email, 'password': password};

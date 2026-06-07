@@ -1,15 +1,12 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_add_tab_content/discipline_selection_add_tab_content_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_my_grade_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_period_selector_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:flutter/material.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {
   const DisciplineSelectionScreen({super.key});
@@ -27,7 +24,8 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     vsync: this,
   );
 
-  final _periods = adsDisciplines.map((d) => d.period).toSet().toList()..sort();
+  final List<int> _periods =
+      adsDisciplines.map((d) => d.period).toSet().toList()..sort();
 
   @override
   void initState() {
@@ -52,12 +50,12 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Configurar Grade",
+        title: 'Configurar Grade',
         actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
-            onPressed: () {
-              AppRoutes.goToMySchedule(context);
+            onPressed: () async {
+              await AppRoutes.goToMySchedule(context);
             },
             style: IconButtonStyle.primary,
           ),
@@ -69,8 +67,8 @@ class _DisciplineSelectionScreenState extends State<DisciplineSelectionScreen>
             controller: _mainTabController,
             backgroundColor: Theme.of(context).colorScheme.surface,
             tabs: const [
-              Tab(text: "Minha Grade"),
-              Tab(text: "Adicionar"),
+              Tab(text: 'Minha Grade'),
+              Tab(text: 'Adicionar'),
             ],
           ),
           if (isAddTab)

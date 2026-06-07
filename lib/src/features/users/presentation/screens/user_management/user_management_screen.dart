@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
-
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/presentation/widgets/user_card_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserManagementScreen extends ConsumerStatefulWidget {
   const UserManagementScreen({super.key});
@@ -31,7 +28,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: const AppBarWidget(title: "Usuários"),
+      appBar: const AppBarWidget(title: 'Usuários'),
       body: Column(
         children: [
           Padding(
@@ -48,7 +45,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
             child: usersAsync.when(
               loading: () {
                 return const LoadingStateWidget(
-                  message: "Buscando usuários...",
+                  message: 'Buscando usuários...',
                 );
               },
               error: (err, _) {
@@ -58,8 +55,8 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                 if (users.isEmpty) {
                   return const EmptyStateWidget(
                     icon: Icons.people_outline_rounded,
-                    title: "Nenhum usuário",
-                    description: "A busca não retornou resultados.",
+                    title: 'Nenhum usuário',
+                    description: 'A busca não retornou resultados.',
                   );
                 }
 
@@ -103,7 +100,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
           ref.read(userFilterProvider.notifier).setQuery(value.trim());
         },
         hint: 'Pressione enter para buscar...',
-        prefixIcon: Icon(Icons.search_rounded),
+        prefixIcon: const Icon(Icons.search_rounded),
       ),
     );
   }
@@ -116,7 +113,7 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
       physics: const BouncingScrollPhysics(),
       child: Row(
         children: [
-          _buildChip(ref, "Todos", null, filter.role == null, colorScheme),
+          _buildChip(ref, 'Todos', null, filter.role == null, colorScheme),
           ...UserRole.values.map(
             (role) => _buildChip(
               ref,

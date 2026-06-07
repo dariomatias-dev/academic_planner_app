@@ -1,13 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/presentation/view_models/user_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserNotifier extends AsyncNotifier<UserEntity?> {
   late final UserViewModel viewModel;
@@ -27,7 +25,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
             final result = await userRepository.getById(firebaseUser.id);
 
             state = result.fold(
-              onSuccess: (user) => AsyncData(user),
+              onSuccess: AsyncData.new,
               onFailure: (f) => AsyncError(f, StackTrace.current),
             );
           } else {
@@ -44,7 +42,10 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
     if (authState.hasValue && authState.value != null) {
       final result = await userRepository.getById(authState.value!.id);
 
-      return result.fold(onSuccess: (user) => user, onFailure: (f) => throw f);
+      return result.fold(
+        onSuccess: (user) => user,
+        onFailure: (f) => throw Exception(f.message),
+      );
     }
 
     return null;
@@ -85,7 +86,9 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
   Future<Result<void>> refresh() async {
     final authState = ref.read(authNotifierProvider);
 
-    if (!authState.hasValue || authState.value == null) return const Success(null);
+    if (!authState.hasValue || authState.value == null) {
+      return const Success(null);
+    }
 
     state = const AsyncLoading();
 
@@ -94,7 +97,7 @@ class UserNotifier extends AsyncNotifier<UserEntity?> {
         .getById(authState.value!.id);
 
     state = result.fold(
-      onSuccess: (user) => AsyncData(user),
+      onSuccess: AsyncData.new,
       onFailure: (f) => AsyncError(f, StackTrace.current),
     );
 

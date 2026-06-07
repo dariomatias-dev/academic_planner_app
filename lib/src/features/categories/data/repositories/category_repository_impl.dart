@@ -8,6 +8,8 @@ import 'package:academic_planner/src/features/categories/domain/entities/categor
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
+  CategoryRepositoryImpl(this.datasource);
+
   final CategoryLocalDataSource datasource;
 
   static const _defaultCategories = <Category>[
@@ -18,19 +20,25 @@ class CategoryRepositoryImpl implements CategoryRepository {
     Category(name: 'Trabalho'),
   ];
 
-  CategoryRepositoryImpl(this.datasource);
-
   @override
   Future<Result<List<Category>>> getCategories() async {
     try {
       final data = datasource.getAll();
 
-      if (data.isEmpty) return const Success(_defaultCategories);
+      if (data.isEmpty) {
+        await datasource.saveAll(
+          _defaultCategories.builder(
+            (e, _) => CategoryModel.fromEntity(e).toMap(),
+          ),
+        );
+
+        return const Success(_defaultCategories);
+      }
 
       return Success(
         data.builder((e, index) => CategoryModel.fromMap(e).toEntity()),
       );
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -43,7 +51,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
       );
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }

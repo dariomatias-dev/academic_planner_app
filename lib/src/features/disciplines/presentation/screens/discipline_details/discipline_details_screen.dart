@@ -1,28 +1,25 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_activities_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_header_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_notes_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:flutter/material.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {
-  final int disciplineId;
-  final int? initialTabIndex;
-
   const DisciplineDetailsScreen({
-    super.key,
     required this.disciplineId,
+    super.key,
     this.initialTabIndex,
   });
+
+  final int disciplineId;
+  final int? initialTabIndex;
 
   @override
   State<DisciplineDetailsScreen> createState() =>
@@ -78,20 +75,18 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
       appBar: const AppBarWidget(),
       floatingActionButton: _showFab
           ? FloatingActionButtonWidget(
-              onPressed: () {
+              onPressed: () async {
                 switch (_tabController.index) {
                   case 0:
-                    AppRoutes.goToActivityForm(
+                    await AppRoutes.goToActivityForm(
                       context,
                       disciplineId: discipline.id,
                     );
-                    break;
                   case 1:
-                    AppRoutes.goToNoteForm(
+                    await AppRoutes.goToNoteForm(
                       context,
                       disciplineId: discipline.id,
                     );
-                    break;
                 }
               },
               icon: Icons.add_rounded,
@@ -113,9 +108,9 @@ class _DisciplineDetailsScreenState extends State<DisciplineDetailsScreen>
                 TabBarWidget(
                   controller: _tabController,
                   tabs: const [
-                    Tab(text: "Tarefas"),
-                    Tab(text: "Anotações"),
-                    Tab(text: "Sobre"),
+                    Tab(text: 'Tarefas'),
+                    Tab(text: 'Anotações'),
+                    Tab(text: 'Sobre'),
                   ],
                 ),
               ),

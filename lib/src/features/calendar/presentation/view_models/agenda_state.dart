@@ -2,11 +2,6 @@ import 'package:academic_planner/src/features/activities/domain/entities/activit
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 
 class AgendaState {
-  final List<Activity> activities;
-  final DateTime displayDate;
-  final DateTime selectedDate;
-  final ActivityFilter? filter;
-
   AgendaState({
     this.activities = const [],
     DateTime? displayDate,
@@ -14,6 +9,11 @@ class AgendaState {
     this.filter,
   }) : displayDate = displayDate ?? DateTime.now(),
        selectedDate = selectedDate ?? DateTime.now();
+
+  final List<Activity> activities;
+  final DateTime displayDate;
+  final DateTime selectedDate;
+  final ActivityFilter? filter;
 
   AgendaState copyWith({
     List<Activity>? activities,

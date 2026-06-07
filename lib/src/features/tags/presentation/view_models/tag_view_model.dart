@@ -1,13 +1,12 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/domain/repositories/tag_repository.dart';
 
 class TagViewModel {
-  final TagRepository repository;
-
   TagViewModel(this.repository);
+
+  final TagRepository repository;
 
   Future<Result<List<Tag>>> load() async {
     return repository.getTags();
@@ -31,7 +30,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 
@@ -57,7 +56,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 
@@ -71,7 +70,7 @@ class TagViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 }

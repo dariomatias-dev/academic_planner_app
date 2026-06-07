@@ -1,23 +1,22 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class SettingsTileWidget extends StatelessWidget {
+  const SettingsTileWidget({
+    required this.icon,
+    required this.title,
+    super.key,
+    this.trailing,
+    this.onTap,
+    this.color,
+  });
+
   final IconData icon;
   final String title;
   final Widget? trailing;
   final VoidCallback? onTap;
   final Color? color;
-
-  const SettingsTileWidget({
-    super.key,
-    required this.icon,
-    required this.title,
-    this.trailing,
-    this.onTap,
-    this.color,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,6 @@ class SettingsTileWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(24.0),
         border: Border.all(
           color: theme.dividerTheme.color ?? AppColors.transparent,
-          width: 1.0,
         ),
       ),
       child: Material(

@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/users/data/models/user_model.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserFirestoreService {
   UserFirestoreService(this._firestore);
@@ -32,12 +30,12 @@ class UserFirestoreService {
     final snapshot = await firestoreQuery.get();
 
     return snapshot.docs.builder((doc, index) {
-      return UserModel.fromMap(doc.data() as Map<String, dynamic>);
+      return UserModel.fromMap(doc.data()! as Map<String, dynamic>);
     });
   }
 
   Future<DocumentSnapshot> getUserDoc(String uid) async {
-    return await _usersRef.doc(uid).get();
+    return _usersRef.doc(uid).get();
   }
 
   Future<void> updateUser(UserModel user) async {

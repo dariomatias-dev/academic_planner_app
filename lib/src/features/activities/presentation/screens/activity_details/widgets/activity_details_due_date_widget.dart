@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class ActivityDetailsDueDateWidget extends StatelessWidget {
-  final DateTime? dueDate;
-
   const ActivityDetailsDueDateWidget({super.key, this.dueDate});
+
+  final DateTime? dueDate;
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +34,24 @@ class ActivityDetailsDueDateWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "PRAZO DE ENTREGA",
+                  'PRAZO DE ENTREGA',
                   style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface.withAlpha(120),
                     fontSize: 10.0,
                     fontWeight: FontWeight.w900,
-                    color: colorScheme.onSurface.withAlpha(120),
                   ),
                 ),
                 Text(
                   dueDate != null
                       ? DateFormat(
                           "dd 'de' MMMM, yyyy",
-                          "pt_BR",
+                          'pt_BR',
                         ).format(dueDate!)
-                      : "Sem data definida",
+                      : 'Sem data definida',
                   style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface,
                     fontSize: 15.0,
                     fontWeight: FontWeight.w700,
-                    color: colorScheme.onSurface,
                   ),
                 ),
               ],

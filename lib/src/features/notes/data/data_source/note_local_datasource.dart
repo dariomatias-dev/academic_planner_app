@@ -1,18 +1,17 @@
+import 'package:academic_planner/src/core/database/tables/note_table.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'package:academic_planner/src/core/database/tables/note_table.dart';
-
 class NoteLocalDataSource {
-  final Database db;
-
   NoteLocalDataSource(this.db);
+
+  final Database db;
 
   Future<void> insert(Map<String, dynamic> data) async {
     await db.insert(NoteTable.tableName, data);
   }
 
   Future<List<Map<String, dynamic>>> getAll() async {
-    return await db.query(NoteTable.tableName, orderBy: 'updatedAt DESC');
+    return db.query(NoteTable.tableName, orderBy: 'updatedAt DESC');
   }
 
   Future<Map<String, dynamic>?> getById(String id) async {

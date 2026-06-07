@@ -1,25 +1,24 @@
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class ErrorStateWidget extends StatelessWidget {
+  const ErrorStateWidget({
+    required this.description,
+    super.key,
+    this.icon = Icons.error_outline_rounded,
+    this.title = 'Ops! Algo deu errado',
+    this.actionLabel = 'Tentar novamente',
+    this.onActionPressed,
+    this.isCentered = true,
+  });
+
   final IconData icon;
   final String title;
   final String description;
   final String actionLabel;
   final VoidCallback? onActionPressed;
   final bool isCentered;
-
-  const ErrorStateWidget({
-    super.key,
-    this.icon = Icons.error_outline_rounded,
-    this.title = "Ops! Algo deu errado",
-    required this.description,
-    this.actionLabel = 'Tentar novamente',
-    this.onActionPressed,
-    this.isCentered = true,
-  });
 
   TextStyle _textStyle(
     BuildContext context, {
@@ -77,14 +76,13 @@ class ErrorStateWidget extends StatelessWidget {
               context,
               size: 15.0,
               color: colorScheme.onSurface.withAlpha(160),
-              weight: FontWeight.w500,
               height: 1.6,
             ),
           ),
           if (onActionPressed != null) ...[
             const SizedBox(height: 40.0),
             ButtonWidget(
-              onPressed: onActionPressed!,
+              onPressed: onActionPressed,
               label: actionLabel,
               isFullWidth: true,
             ),

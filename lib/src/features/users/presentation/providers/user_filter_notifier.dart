@@ -1,7 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/value_objects/user_filter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserFilterNotifier extends Notifier<UserFilter> {
   @override

@@ -15,7 +15,7 @@ class ScheduleEmptyStatusWidget extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          "LIVRE",
+          'LIVRE',
           style: GoogleFonts.plusJakartaSans(
             color: theme.colorScheme.onSurface.withAlpha(80),
             fontSize: 10.0,

@@ -1,20 +1,18 @@
+import 'package:academic_planner/src/core/domain/entities/pagination.dart';
+import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
-import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-import 'package:academic_planner/src/core/result/result.dart';
-
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
-import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
-
 class ActivityViewModel {
+  ActivityViewModel(this.repository);
+
   static final _log = Logger('activities.ActivityViewModel');
 
   final ActivityRepository repository;
-
-  ActivityViewModel(this.repository);
 
   Future<Result<void>> create(Activity activity) async {
     _log.info('createActivity started: ${activity.title}');

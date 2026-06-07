@@ -1,20 +1,21 @@
+import 'dart:async';
+
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/shared/utils/open_url.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
-import 'package:academic_planner/src/shared/utils/open_url.dart';
-import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
-
 class TeacherDetailsScreen extends ConsumerStatefulWidget {
-  final int teacherId;
+  const TeacherDetailsScreen({required this.teacherId, super.key});
 
-  const TeacherDetailsScreen({super.key, required this.teacherId});
+  final int teacherId;
 
   @override
   ConsumerState<TeacherDetailsScreen> createState() =>
@@ -57,27 +58,28 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
   void initState() {
     super.initState();
 
-    _fetchTeacher();
+    unawaited(_fetchTeacher());
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Scaffold(
-        appBar: AppBarWidget(title: "Perfil do Docente"),
+        appBar: AppBarWidget(title: 'Perfil do Docente'),
         body: LoadingStateWidget(),
       );
     }
 
     if (_teacher == null) {
       return Scaffold(
-        appBar: const AppBarWidget(title: "Perfil do Docente"),
+        appBar: const AppBarWidget(title: 'Perfil do Docente'),
         body: EmptyStateWidget(
           icon: Icons.person_search_rounded,
-          title: "Docente não encontrado",
+          title: 'Docente não encontrado',
           description:
-              "Não foi possível localizar os registros deste professor no sistema acadêmico.",
-          actionLabel: "Voltar",
+              'Não foi possível localizar os registros deste '
+              'professor no sistema acadêmico.',
+          actionLabel: 'Voltar',
           onActionPressed: () {
             Navigator.pop(context);
           },
@@ -88,12 +90,12 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Perfil do Docente",
+        title: 'Perfil do Docente',
         actions: [
           IconButtonWidget(
             icon: Icons.launch_rounded,
-            onPressed: () {
-              openUrl(
+            onPressed: () async {
+              await openUrl(
                 context,
                 _teacher!.lattes,
               );
@@ -112,14 +114,14 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
             if (_teacher!.academicBackground.isNotEmpty)
               _buildSection(
                 context,
-                "Formação Acadêmica",
+                'Formação Acadêmica',
                 _buildFormationList(context, _teacher!.academicBackground),
               ),
             if (_teacher!.postGraduation.isNotEmpty) ...[
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
-                "Pós-Graduação",
+                'Pós-Graduação',
                 _buildSpecializationList(context, _teacher!.postGraduation),
               ),
             ],
@@ -127,7 +129,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
-                "Pós-Doutorado",
+                'Pós-Doutorado',
                 _buildFormationList(context, _teacher!.postDoctorate),
               ),
             ],
@@ -135,7 +137,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
               const SizedBox(height: 40.0),
               _buildSection(
                 context,
-                "Formação Complementar",
+                'Formação Complementar',
                 _buildComplementaryList(
                   context,
                   _teacher!.complementaryEducation,
@@ -314,7 +316,6 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
                   style: _textStyle(
                     context,
                     color: colorScheme.onSurface.withAlpha(160),
-                    size: 14.0,
                     weight: FontWeight.w600,
                   ),
                 ),
@@ -382,7 +383,8 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
           title: teacherComplementaryFormation.name,
           subtitle: teacherComplementaryFormation.institution,
           period:
-              "${teacherComplementaryFormation.year} • ${teacherComplementaryFormation.workload}",
+              '${teacherComplementaryFormation.year} • '
+              '${teacherComplementaryFormation.workload}',
         );
       }),
     );

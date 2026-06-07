@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivitySectionHeaderWidget extends StatelessWidget {
-  final String title;
-  final Widget? action;
-
   const ActivitySectionHeaderWidget({
-    super.key,
     required this.title,
+    super.key,
     this.action,
   });
+
+  final String title;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {

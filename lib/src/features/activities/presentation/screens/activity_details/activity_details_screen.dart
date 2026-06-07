@@ -1,31 +1,28 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_description_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_due_date_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ActivityDetailsScreen extends ConsumerStatefulWidget {
-  final String activityId;
+  const ActivityDetailsScreen({required this.activityId, super.key});
 
-  const ActivityDetailsScreen({super.key, required this.activityId});
+  final String activityId;
 
   @override
   ConsumerState<ActivityDetailsScreen> createState() =>
@@ -50,7 +47,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
     final activityNotifier = ref.read(activityNotifierProvider.notifier);
     final result = await activityNotifier.getById(widget.activityId);
 
-    result.fold(
+    await result.fold(
       onSuccess: (activity) {
         setState(() {
           _activity = activity;
@@ -59,10 +56,10 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
           _isLoading = false;
         });
       },
-      onFailure: (failure) {
+      onFailure: (failure) async {
         setState(() => _isLoading = false);
 
-        Fluttertoast.showToast(msg: "Erro ao carregar atividade");
+        await Fluttertoast.showToast(msg: 'Erro ao carregar atividade');
       },
     );
   }
@@ -77,16 +74,16 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
     final result = await notifier.edit(updatedActivity);
 
     result.when(
-      onSuccess: (_) {
+      onSuccess: (_) async {
         setState(() {
           _activity = updatedActivity;
           _originalStatus = _currentStatus;
         });
 
-        Fluttertoast.showToast(msg: "Status atualizado com sucesso");
+        await Fluttertoast.showToast(msg: 'Status atualizado com sucesso');
       },
-      onFailure: (failure) {
-        Fluttertoast.showToast(msg: "Erro ao salvar alterações");
+      onFailure: (failure) async {
+        await Fluttertoast.showToast(msg: 'Erro ao salvar alterações');
       },
     );
   }
@@ -124,7 +121,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                       activityId: _activity!.id,
                     );
 
-                    if (result ?? false) _fetchActivity();
+                    if (result ?? false) await _fetchActivity();
                   },
                 ),
                 PopupMenuActions.delete(
@@ -155,10 +152,10 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
           if (_activity == null) {
             return EmptyStateWidget(
               icon: Icons.description_outlined,
-              title: "Atividade não encontrada",
+              title: 'Atividade não encontrada',
               description:
-                  "Não foi possível carregar os detalhes desta atividade.",
-              actionLabel: "Tentar novamente",
+                  'Não foi possível carregar os detalhes desta atividade.',
+              actionLabel: 'Tentar novamente',
               onActionPressed: _fetchActivity,
             );
           }
@@ -208,7 +205,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      (_currentStatus?.label ?? "Sem Status").toUpperCase(),
+                      (_currentStatus?.label ?? 'Sem Status').toUpperCase(),
                       style: GoogleFonts.plusJakartaSans(
                         color: colorScheme.onSurface.withAlpha(150),
                         fontSize: 11.0,
@@ -237,7 +234,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                   ),
                 const SizedBox(height: 32.0),
                 const ActivityDetailsSectionTitleWidget(
-                  title: "Alterar Status",
+                  title: 'Alterar Status',
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -260,18 +257,18 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                const ActivityDetailsSectionTitleWidget(title: "Descrição"),
+                const ActivityDetailsSectionTitleWidget(title: 'Descrição'),
                 ActivityDetailsDescriptionWidget(
                   description: _activity!.description,
                 ),
                 if (discipline != null) ...[
                   const SizedBox(height: 32.0),
-                  const ActivityDetailsSectionTitleWidget(title: "Disciplina"),
+                  const ActivityDetailsSectionTitleWidget(title: 'Disciplina'),
                   ActivityDetailsDisciplineWidget(discipline: discipline),
                 ],
                 if (_activity!.tags.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
-                  const ActivityDetailsSectionTitleWidget(title: "Tags"),
+                  const ActivityDetailsSectionTitleWidget(title: 'Tags'),
                   Wrap(
                     spacing: 8.0,
                     runSpacing: 8.0,
@@ -290,11 +287,11 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                           ),
                         ),
                         child: Text(
-                          "#$tag",
+                          '#$tag',
                           style: GoogleFonts.plusJakartaSans(
+                            color: colorScheme.onSurface.withAlpha(180),
                             fontSize: 13.0,
                             fontWeight: FontWeight.w700,
-                            color: colorScheme.onSurface.withAlpha(180),
                           ),
                         ),
                       );
@@ -303,7 +300,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 ],
                 if (_activity!.reminders.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
-                  const ActivityDetailsSectionTitleWidget(title: "Lembretes"),
+                  const ActivityDetailsSectionTitleWidget(title: 'Lembretes'),
                   ..._activity!.reminders.map((time) {
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12.0),
@@ -323,9 +320,9 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                           Text(
                             time.format(context),
                             style: GoogleFonts.plusJakartaSans(
+                              color: colorScheme.onSurface,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w800,
-                              color: colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -336,7 +333,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 if (_activity!.notes != null &&
                     _activity!.notes!.isNotEmpty) ...[
                   const SizedBox(height: 32.0),
-                  const ActivityDetailsSectionTitleWidget(title: "Anotações"),
+                  const ActivityDetailsSectionTitleWidget(title: 'Anotações'),
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(20.0),
@@ -348,15 +345,15 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                     child: Text(
                       _activity!.notes!,
                       style: GoogleFonts.plusJakartaSans(
+                        color: colorScheme.onSurface.withAlpha(200),
                         fontSize: 15.0,
                         height: 1.5,
-                        color: colorScheme.onSurface.withAlpha(200),
                       ),
                     ),
                   ),
                 ],
                 const SizedBox(height: 48.0),
-                const ActivityDetailsSectionTitleWidget(title: "Cronologia"),
+                const ActivityDetailsSectionTitleWidget(title: 'Cronologia'),
                 Container(
                   padding: const EdgeInsets.all(24.0),
                   decoration: BoxDecoration(
@@ -367,7 +364,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                     children: [
                       _buildMetadataInfo(
                         context,
-                        "Criada em",
+                        'Criada em',
                         _activity!.createdAt,
                         Icons.calendar_today_rounded,
                       ),
@@ -379,7 +376,7 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                       ),
                       _buildMetadataInfo(
                         context,
-                        "Atualizada",
+                        'Atualizada',
                         _activity!.updatedAt,
                         Icons.auto_awesome_rounded,
                       ),
@@ -414,9 +411,9 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 Text(
                   label,
                   style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.primary.withAlpha(180),
                     fontSize: 10.0,
                     fontWeight: FontWeight.w800,
-                    color: colorScheme.primary.withAlpha(180),
                     letterSpacing: 0.5,
                   ),
                 ),
@@ -424,9 +421,9 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 Text(
                   DateFormat('dd/MM/yyyy').format(date),
                   style: GoogleFonts.plusJakartaSans(
+                    color: colorScheme.onSurface,
                     fontSize: 13.0,
                     fontWeight: FontWeight.w800,
-                    color: colorScheme.onSurface,
                   ),
                 ),
               ],
@@ -439,9 +436,8 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
 }
 
 class ActivityDetailsSectionTitleWidget extends StatelessWidget {
+  const ActivityDetailsSectionTitleWidget({required this.title, super.key});
   final String title;
-
-  const ActivityDetailsSectionTitleWidget({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -450,9 +446,9 @@ class ActivityDetailsSectionTitleWidget extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: GoogleFonts.plusJakartaSans(
+          color: Theme.of(context).colorScheme.primary,
           fontSize: 11.0,
           fontWeight: FontWeight.w900,
-          color: Theme.of(context).colorScheme.primary,
           letterSpacing: 1.5,
         ),
       ),

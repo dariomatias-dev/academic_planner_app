@@ -1,20 +1,27 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
 
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
-
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_total_badge_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesTaskListTabWidget extends ConsumerStatefulWidget {
+  const ActivitiesTaskListTabWidget({
+    required this.description,
+    required this.emptyMessage,
+    required this.filter,
+    required this.onFetch,
+    super.key,
+  });
+
   final String description;
   final String emptyMessage;
   final ActivityFilter filter;
@@ -23,14 +30,6 @@ class ActivitiesTaskListTabWidget extends ConsumerStatefulWidget {
     required Pagination pagination,
   })
   onFetch;
-
-  const ActivitiesTaskListTabWidget({
-    super.key,
-    required this.description,
-    required this.emptyMessage,
-    required this.filter,
-    required this.onFetch,
-  });
 
   @override
   ConsumerState<ActivitiesTaskListTabWidget> createState() =>
@@ -54,13 +53,13 @@ class _ActivitiesTaskListTabWidgetState
   @override
   bool get wantKeepAlive => true;
 
-  void _onScroll() {
+  Future<void> _onScroll() async {
     if (_scrollController.position.pixels >=
             _scrollController.position.maxScrollExtent - 200.0 &&
         !_isLoadingMore &&
         _hasMore &&
         !_isLoading) {
-      _fetchMore();
+      await _fetchMore();
     }
   }
 
@@ -75,7 +74,7 @@ class _ActivitiesTaskListTabWidgetState
 
     final result = await widget.onFetch(
       filter: widget.filter,
-      pagination: const Pagination(page: 0, limit: _limit),
+      pagination: const Pagination(),
     );
 
     if (!mounted) return;
@@ -83,8 +82,9 @@ class _ActivitiesTaskListTabWidgetState
     result.fold(
       onSuccess: (data) {
         setState(() {
-          _activities.clear();
-          _activities.addAll(data);
+          _activities
+            ..clear()
+            ..addAll(data);
           _hasMore = data.length == _limit;
           _isLoading = false;
         });
@@ -106,7 +106,7 @@ class _ActivitiesTaskListTabWidgetState
     final nextPage = _currentPage + 1;
     final result = await widget.onFetch(
       filter: widget.filter,
-      pagination: Pagination(page: nextPage, limit: _limit),
+      pagination: Pagination(page: nextPage),
     );
 
     if (mounted) {
@@ -128,7 +128,7 @@ class _ActivitiesTaskListTabWidgetState
   void initState() {
     super.initState();
 
-    _fetchInitial();
+    unawaited(_fetchInitial());
 
     _scrollController.addListener(_onScroll);
   }
@@ -138,7 +138,7 @@ class _ActivitiesTaskListTabWidgetState
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.filter != widget.filter) {
-      _fetchInitial();
+      unawaited(_fetchInitial());
     }
   }
 
@@ -155,16 +155,15 @@ class _ActivitiesTaskListTabWidgetState
 
     final countAsync = ref.watch(activityCountProvider(widget.filter));
 
-    ref.listen(activityNotifierProvider, (prev, next) {
-      if (next is AsyncData && prev is! AsyncData) _fetchInitial();
+    ref.listen(activityNotifierProvider, (prev, next) async {
+      if (next is AsyncData && prev is! AsyncData) await _fetchInitial();
     });
 
     if (_isLoading) return const LoadingStateWidget();
 
     if (_hasError && _activities.isEmpty) {
       return ErrorStateWidget(
-        description: "Erro ao carregar atividades.",
-        actionLabel: "Tentar novamente",
+        description: 'Erro ao carregar atividades.',
         onActionPressed: _fetchInitial,
       );
     }
@@ -175,7 +174,7 @@ class _ActivitiesTaskListTabWidgetState
         Padding(
           padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
           child: ActivitiesTotalBadgeWidget(
-            title: "Atividades",
+            title: 'Atividades',
             subtitle: widget.description,
             state: countAsync,
           ),

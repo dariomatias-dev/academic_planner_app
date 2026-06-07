@@ -1,13 +1,14 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/tags/data/data_source/tag_local_datasource.dart';
 import 'package:academic_planner/src/features/tags/data/models/tag_model.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/domain/repositories/tag_repository.dart';
 
 class TagRepositoryImpl implements TagRepository {
+  TagRepositoryImpl(this.datasource);
+
   final TagLocalDataSource datasource;
 
   static const _defaultTags = <Tag>[
@@ -17,19 +18,25 @@ class TagRepositoryImpl implements TagRepository {
     Tag(name: 'Grupo'),
   ];
 
-  TagRepositoryImpl(this.datasource);
-
   @override
   Future<Result<List<Tag>>> getTags() async {
     try {
       final data = datasource.getAll();
 
-      if (data.isEmpty) return const Success(_defaultTags);
+      if (data.isEmpty) {
+        await datasource.saveAll(
+          _defaultTags.builder(
+            (e, _) => TagModel.fromEntity(e).toMap(),
+          ),
+        );
+
+        return const Success(_defaultTags);
+      }
 
       return Success(
         data.builder((e, index) => TagModel.fromMap(e).toEntity()),
       );
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -42,7 +49,7 @@ class TagRepositoryImpl implements TagRepository {
       );
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }

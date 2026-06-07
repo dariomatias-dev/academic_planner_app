@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesTotalBadgeWidget extends StatelessWidget {
-  final AsyncValue<int> state;
-  final String title;
-  final String subtitle;
-
   const ActivitiesTotalBadgeWidget({
-    super.key,
     required this.state,
     required this.title,
     required this.subtitle,
+    super.key,
   });
+
+  final AsyncValue<int> state;
+  final String title;
+  final String subtitle;
 
   @override
   Widget build(BuildContext context) {

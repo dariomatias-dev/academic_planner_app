@@ -1,20 +1,19 @@
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class ActionButtonWidget extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onPressed;
-  final AppButtonStyle style;
-
   const ActionButtonWidget({
-    super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
     required this.style,
+    super.key,
   });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+  final AppButtonStyle style;
 
   @override
   Widget build(BuildContext context) {

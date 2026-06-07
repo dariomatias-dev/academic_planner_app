@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DialogWidget extends StatelessWidget {
+  const DialogWidget({
+    required this.title,
+    required this.message,
+    required this.actions,
+    super.key,
+    this.icon,
+    this.iconColor,
+  });
+
   final String title;
   final String message;
   final Widget actions;
   final IconData? icon;
   final Color? iconColor;
-
-  const DialogWidget({
-    super.key,
-    required this.title,
-    required this.message,
-    required this.actions,
-    this.icon,
-    this.iconColor,
-  });
 
   @override
   Widget build(BuildContext context) {

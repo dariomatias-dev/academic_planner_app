@@ -1,24 +1,23 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:flutter/material.dart';
 
 enum IconButtonStyle { primary, secondary, neutral, outline }
 
 class IconButtonWidget extends StatelessWidget {
+  const IconButtonWidget({
+    required this.icon,
+    required this.onPressed,
+    super.key,
+    this.size = 48.0,
+    this.iconSize,
+    this.style = IconButtonStyle.neutral,
+  });
+
   final IconData icon;
   final VoidCallback? onPressed;
   final double size;
   final double? iconSize;
   final IconButtonStyle style;
-
-  const IconButtonWidget({
-    super.key,
-    required this.icon,
-    required this.onPressed,
-    this.size = 48.0,
-    this.iconSize,
-    this.style = IconButtonStyle.neutral,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +41,16 @@ class IconButtonWidget extends StatelessWidget {
         case IconButtonStyle.primary:
           backgroundColor = colorScheme.primary.withAlpha(20);
           iconColor = colorScheme.primary;
-          break;
         case IconButtonStyle.secondary:
           backgroundColor = colorScheme.primary.withAlpha(25);
           iconColor = colorScheme.primary;
-          break;
         case IconButtonStyle.neutral:
           backgroundColor = theme.scaffoldBackgroundColor;
           iconColor = colorScheme.onSurface;
-          break;
         case IconButtonStyle.outline:
           backgroundColor = AppColors.transparent;
           iconColor = colorScheme.onSurface;
           borderColor = theme.dividerTheme.color;
-          break;
       }
     }
 
@@ -68,7 +63,7 @@ class IconButtonWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
           side: borderColor != null
-              ? BorderSide(color: borderColor, width: 1.0)
+              ? BorderSide(color: borderColor)
               : BorderSide.none,
         ),
       ),

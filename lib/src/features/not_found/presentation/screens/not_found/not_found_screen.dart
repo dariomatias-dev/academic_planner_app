@@ -1,11 +1,9 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/text_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/text_button_widget.dart';
 
 class NotFoundScreen extends StatelessWidget {
   const NotFoundScreen({super.key});
@@ -37,7 +35,7 @@ class NotFoundScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32.0),
               Text(
-                "Tela não encontrada",
+                'Tela não encontrada',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.onSurface,
                   fontSize: 22.0,
@@ -47,7 +45,8 @@ class NotFoundScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12.0),
               Text(
-                "O caminho que você tentou acessar não existe\nou foi movido temporariamente.",
+                'O caminho que você tentou acessar não existe '
+                'ou foi movido temporariamente.',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.onSurface.withAlpha(160),
                   fontSize: 15.0,

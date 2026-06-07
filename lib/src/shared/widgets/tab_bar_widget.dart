@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TabBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  const TabBarWidget({
+    required this.controller,
+    required this.tabs,
+    super.key,
+    this.backgroundColor = Colors.transparent,
+  });
+
   final TabController controller;
   final List<Tab> tabs;
   final Color backgroundColor;
-
-  const TabBarWidget({
-    super.key,
-    required this.controller,
-    required this.tabs,
-    this.backgroundColor = Colors.transparent,
-  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

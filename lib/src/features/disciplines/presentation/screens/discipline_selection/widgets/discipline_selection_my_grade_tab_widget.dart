@@ -1,22 +1,19 @@
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
+import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
-
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-
 class DisciplineSelectionMyGradeTabWidget extends ConsumerWidget {
-  final TabController mainTabController;
-
   const DisciplineSelectionMyGradeTabWidget({
-    super.key,
     required this.mainTabController,
+    super.key,
   });
+
+  final TabController mainTabController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -29,10 +26,11 @@ class DisciplineSelectionMyGradeTabWidget extends ConsumerWidget {
     if (selected.isEmpty) {
       return EmptyStateWidget(
         icon: Icons.auto_stories_rounded,
-        title: "Sua grade está vazia",
+        title: 'Sua grade está vazia',
         description:
-            "Selecione as disciplinas que você está cursando para montar seu cronograma acadêmico.",
-        actionLabel: "Adicionar disciplinas",
+            'Selecione as disciplinas que você está cursando para montar '
+            'seu cronograma acadêmico.',
+        actionLabel: 'Adicionar disciplinas',
         onActionPressed: () {
           mainTabController.animateTo(1);
         },
@@ -63,8 +61,8 @@ class DisciplineSelectionMyGradeTabWidget extends ConsumerWidget {
         return DisciplineCardWidget(
           index: index,
           discipline: discipline,
-          onTap: () {
-            ref
+          onTap: () async {
+            await ref
                 .read(userDisciplinesNotifierProvider.notifier)
                 .toggleDiscipline(discipline.id);
           },

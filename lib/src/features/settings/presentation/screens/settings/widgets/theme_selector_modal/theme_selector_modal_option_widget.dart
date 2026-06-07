@@ -1,21 +1,20 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class ThemeSelectorModalOptionWidget extends StatelessWidget {
-  final VoidCallback onTap;
-  final String label;
-  final IconData icon;
-  final bool isSelected;
-
   const ThemeSelectorModalOptionWidget({
-    super.key,
     required this.onTap,
     required this.label,
     required this.icon,
     required this.isSelected,
+    super.key,
   });
+
+  final VoidCallback onTap;
+  final String label;
+  final IconData icon;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,6 @@ class ThemeSelectorModalOptionWidget extends StatelessWidget {
               color: isSelected
                   ? colorScheme.primary.withAlpha(50)
                   : (theme.dividerTheme.color ?? AppColors.transparent),
-              width: 1.0,
             ),
           ),
           child: Row(

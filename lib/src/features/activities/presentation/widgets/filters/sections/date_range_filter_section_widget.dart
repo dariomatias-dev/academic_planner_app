@@ -1,22 +1,21 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class DateRangeFilterSectionWidget extends StatelessWidget {
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final Function(DateTime? date) onStartDateChanged;
-  final Function(DateTime? date) onEndDateChanged;
-
   const DateRangeFilterSectionWidget({
-    super.key,
     required this.startDate,
     required this.endDate,
     required this.onStartDateChanged,
     required this.onEndDateChanged,
+    super.key,
   });
+
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final void Function(DateTime? date) onStartDateChanged;
+  final void Function(DateTime? date) onEndDateChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -78,11 +77,11 @@ class DateRangeFilterSectionWidget extends StatelessWidget {
 }
 
 class _DateTile extends StatelessWidget {
+  const _DateTile({required this.label, required this.onTap, this.date});
+
   final String label;
   final DateTime? date;
   final VoidCallback onTap;
-
-  const _DateTile({required this.label, this.date, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +97,6 @@ class _DateTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.0),
           border: Border.all(
             color: theme.dividerTheme.color ?? AppColors.transparent,
-            width: 1.0,
           ),
         ),
         child: Column(

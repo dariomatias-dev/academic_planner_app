@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PopupMenuActionWidget extends StatelessWidget {
+  const PopupMenuActionWidget({
+    required this.icon,
+    required this.label,
+    super.key,
+    this.color,
+  });
+
   final IconData icon;
   final String label;
   final Color? color;
-
-  const PopupMenuActionWidget({
-    super.key,
-    required this.icon,
-    required this.label,
-    this.color,
-  });
 
   @override
   Widget build(BuildContext context) {

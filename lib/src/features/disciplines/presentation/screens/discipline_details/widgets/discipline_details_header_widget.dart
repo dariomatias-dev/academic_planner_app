@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class DisciplineDetailsHeaderWidget extends StatelessWidget {
   const DisciplineDetailsHeaderWidget({
-    super.key,
     required this.acronym,
     required this.name,
     required this.period,
+    super.key,
   });
 
   final String acronym;
@@ -34,7 +34,7 @@ class DisciplineDetailsHeaderWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Text(
-              "$periodº PERÍODO",
+              '$periodº PERÍODO',
               style: GoogleFonts.plusJakartaSans(
                 color: colorScheme.primary,
                 fontSize: 10.0,

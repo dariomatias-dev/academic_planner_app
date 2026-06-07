@@ -1,25 +1,24 @@
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class EmptyStateWidget extends StatelessWidget {
+  const EmptyStateWidget({
+    required this.icon,
+    required this.title,
+    required this.description,
+    super.key,
+    this.actionLabel,
+    this.onActionPressed,
+    this.isCentered = true,
+  });
+
   final IconData icon;
   final String title;
   final String description;
   final String? actionLabel;
   final VoidCallback? onActionPressed;
   final bool isCentered;
-
-  const EmptyStateWidget({
-    super.key,
-    required this.icon,
-    required this.title,
-    required this.description,
-    this.actionLabel,
-    this.onActionPressed,
-    this.isCentered = true,
-  });
 
   TextStyle _textStyle(
     BuildContext context, {
@@ -75,16 +74,15 @@ class EmptyStateWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             style: _textStyle(
               context,
-              size: 15.0,
               color: colorScheme.onSurface.withAlpha(160),
-              weight: FontWeight.w500,
+              size: 15.0,
               height: 1.6,
             ),
           ),
           if (actionLabel != null && onActionPressed != null) ...[
             const SizedBox(height: 40.0),
             ButtonWidget(
-              onPressed: onActionPressed!,
+              onPressed: onActionPressed,
               label: actionLabel!,
               isFullWidth: true,
             ),

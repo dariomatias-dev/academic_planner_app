@@ -7,18 +7,18 @@ import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule
 import 'package:flutter/material.dart';
 
 class ScheduleDataCellWidget extends StatelessWidget {
-  final TimeSlot slot;
-  final int dayId;
-  final List<ScheduleEntry> entries;
-  final List<DisciplineModel> disciplines;
-
   const ScheduleDataCellWidget({
-    super.key,
     required this.slot,
     required this.dayId,
     required this.entries,
     required this.disciplines,
+    super.key,
   });
+
+  final TimeSlot slot;
+  final int dayId;
+  final List<ScheduleEntry> entries;
+  final List<DisciplineModel> disciplines;
 
   @override
   Widget build(BuildContext context) {

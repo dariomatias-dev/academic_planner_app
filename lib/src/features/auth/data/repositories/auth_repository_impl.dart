@@ -1,14 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/core/result/exception_mapper.dart';
-
+import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/auth/data/models/login_model.dart';
 import 'package:academic_planner/src/features/auth/data/models/register_model.dart';
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._service);
@@ -26,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final credential = await _service.signIn(model.email, model.password);
 
       return Success(credential);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
@@ -39,7 +37,7 @@ class AuthRepositoryImpl implements AuthRepository {
       final credential = await _service.signUp(model.email, model.password);
 
       return Success(credential);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
@@ -50,7 +48,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _service.signOut();
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
@@ -61,7 +59,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _service.deleteAccount();
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
@@ -72,7 +70,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _service.sendEmailVerification();
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
@@ -83,7 +81,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _service.reloadUser();
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }

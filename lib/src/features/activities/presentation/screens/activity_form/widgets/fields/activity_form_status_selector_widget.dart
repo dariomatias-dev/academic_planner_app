@@ -1,29 +1,26 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
+import 'package:flutter/material.dart';
 
 class ActivityFormStatusSelectorWidget extends StatelessWidget {
-  final ActivityStatus selectedStatus;
-  final void Function(ActivityStatus value) onSelect;
-
   const ActivityFormStatusSelectorWidget({
-    super.key,
     required this.selectedStatus,
     required this.onSelect,
+    super.key,
   });
+
+  final ActivityStatus selectedStatus;
+  final void Function(ActivityStatus value) onSelect;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormFieldLabelWidget(label: "Status", isRequired: true),
+        const FormFieldLabelWidget(label: 'Status', isRequired: true),
         const SizedBox(height: 12.0),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

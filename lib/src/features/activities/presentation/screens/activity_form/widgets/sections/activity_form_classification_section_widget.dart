@@ -1,9 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_category_selector_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_status_selector_widget.dart';
@@ -11,23 +6,13 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
-
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivityFormClassificationSectionWidget extends ConsumerWidget {
-  final ValueListenable<DisciplineModel?> discipline;
-  final void Function(DisciplineModel?) onDisciplineSelected;
-  final ValueListenable<ActivityStatus> status;
-  final void Function(ActivityStatus) onStatusSelected;
-  final ValueListenable<String?> category;
-  final void Function(String?) onCategorySelected;
-  final VoidCallback onCreateCategory;
-  final ValueListenable<List<String>> tags;
-  final void Function(String, bool) onTagToggled;
-  final VoidCallback onCreateTag;
-
   const ActivityFormClassificationSectionWidget({
-    super.key,
     required this.discipline,
     required this.onDisciplineSelected,
     required this.status,
@@ -38,7 +23,19 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
     required this.tags,
     required this.onTagToggled,
     required this.onCreateTag,
+    super.key,
   });
+
+  final ValueListenable<DisciplineModel?> discipline;
+  final void Function(DisciplineModel? value) onDisciplineSelected;
+  final ValueListenable<ActivityStatus> status;
+  final void Function(ActivityStatus value) onStatusSelected;
+  final ValueListenable<String?> category;
+  final void Function(String? value) onCategorySelected;
+  final VoidCallback onCreateCategory;
+  final ValueListenable<List<String>> tags;
+  final void Function(String, {bool value}) onTagToggled;
+  final VoidCallback onCreateTag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,7 +46,7 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const FormSectionTitleWidget(title: "Classificação"),
+        const FormSectionTitleWidget(title: 'Classificação'),
         ValueListenableBuilder<DisciplineModel?>(
           valueListenable: discipline,
           builder: (context, value, _) {

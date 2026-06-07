@@ -1,19 +1,17 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/users/di/user_providers.dart';
-import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
-
 class SettingsProfileHeaderWidget extends StatelessWidget {
   const SettingsProfileHeaderWidget({super.key});
 
-  static const _staticCourse = "Análise e Desenvolvimento de Sistemas";
-  static const _staticCampus = "Esperança";
+  static const _staticCourse = 'Análise e Desenvolvimento de Sistemas';
+  static const _staticCampus = 'Esperança';
 
   TextStyle _textStyle(
     BuildContext context, {
@@ -147,7 +145,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Entre na sua conta",
+                    'Entre na sua conta',
                     style: _textStyle(
                       context,
                       size: 20.0,
@@ -156,7 +154,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   Text(
-                    "Acesse seus dados acadêmicos",
+                    'Acesse seus dados acadêmicos',
                     style: _textStyle(
                       context,
                       color: colorScheme.onSurface.withAlpha(140),
@@ -314,7 +312,6 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                   _staticCourse,
                   style: _textStyle(
                     context,
-                    size: 14.0,
                     weight: FontWeight.w800,
                     letterSpacing: -0.2,
                   ),
@@ -322,7 +319,7 @@ class SettingsProfileHeaderWidget extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
                 Text(
-                  "IFPB Campus $_staticCampus",
+                  'IFPB Campus $_staticCampus',
                   style: _textStyle(
                     context,
                     color: AppColors.emerald600,

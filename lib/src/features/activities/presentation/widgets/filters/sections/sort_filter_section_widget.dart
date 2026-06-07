@@ -1,26 +1,23 @@
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_field.dart';
+import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
+import 'package:academic_planner/src/shared/widgets/forms/dropdown_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_field.dart';
-import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
-
-import 'package:academic_planner/src/shared/widgets/forms/dropdown_field_widget.dart';
-
 class SortFilterSectionWidget extends StatelessWidget {
-  final ActivitySortField? sortField;
-  final ActivitySortOrder? sortOrder;
-  final ValueChanged<ActivitySortField?> onFieldChanged;
-  final ValueChanged<ActivitySortOrder> onOrderChanged;
-
   const SortFilterSectionWidget({
-    super.key,
     required this.sortField,
     required this.sortOrder,
     required this.onFieldChanged,
     required this.onOrderChanged,
+    super.key,
   });
+
+  final ActivitySortField? sortField;
+  final ActivitySortOrder? sortOrder;
+  final ValueChanged<ActivitySortField?> onFieldChanged;
+  final ValueChanged<ActivitySortOrder> onOrderChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +39,7 @@ class SortFilterSectionWidget extends StatelessWidget {
         ),
         const SizedBox(height: 20.0),
         DropdownFieldWidget<ActivitySortField>(
-          hint: "Ordenar por",
+          hint: 'Ordenar por',
           value: sortField,
           prefixIcon: Icon(
             Icons.swap_vert_rounded,

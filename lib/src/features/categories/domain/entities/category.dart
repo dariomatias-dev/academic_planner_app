@@ -1,7 +1,7 @@
 class Category {
-  final String name;
-
   const Category({required this.name});
+
+  final String name;
 
   Category copyWith({String? name}) {
     return Category(name: name ?? this.name);

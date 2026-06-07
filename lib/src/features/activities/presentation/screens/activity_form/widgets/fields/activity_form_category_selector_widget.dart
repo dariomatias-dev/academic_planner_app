@@ -1,26 +1,24 @@
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
+import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
-
 class ActivityFormCategorySelectorWidget extends StatelessWidget {
+  const ActivityFormCategorySelectorWidget({
+    required this.categories,
+    required this.selectedCategory,
+    required this.onSelect,
+    required this.onCreate,
+    super.key,
+    this.isRequired = false,
+  });
+
   final List<String> categories;
   final String? selectedCategory;
   final void Function(String? value) onSelect;
   final VoidCallback onCreate;
   final bool isRequired;
-
-  const ActivityFormCategorySelectorWidget({
-    super.key,
-    required this.categories,
-    required this.selectedCategory,
-    required this.onSelect,
-    required this.onCreate,
-    this.isRequired = false,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +30,11 @@ class ActivityFormCategorySelectorWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            FormFieldLabelWidget(label: "Categoria", isRequired: isRequired),
+            FormFieldLabelWidget(label: 'Categoria', isRequired: isRequired),
             GestureDetector(
               onTap: onCreate,
               child: Text(
-                "+ Nova Categoria",
+                '+ Nova Categoria',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.primary,
                   fontSize: 11.0,

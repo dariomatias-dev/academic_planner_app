@@ -1,19 +1,18 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/app_colors.dart';
-
 class FilterChipWidget extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-  final ValueChanged<bool> onSelected;
-
   const FilterChipWidget({
-    super.key,
     required this.label,
     required this.isSelected,
     required this.onSelected,
+    super.key,
   });
+
+  final String label;
+  final bool isSelected;
+  final ValueChanged<bool> onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,6 @@ class FilterChipWidget extends StatelessWidget {
         color: isSelected
             ? colorScheme.primary
             : (Theme.of(context).dividerTheme.color ?? AppColors.transparent),
-        width: 1.0,
       ),
     );
   }

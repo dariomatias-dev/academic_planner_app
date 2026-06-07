@@ -1,15 +1,14 @@
 import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/users/data/models/user_model.dart';
 import 'package:academic_planner/src/features/users/data/services/user_firestore_service.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  final UserFirestoreService _service;
-
   UserRepositoryImpl(this._service);
+
+  final UserFirestoreService _service;
 
   @override
   Future<Result<void>> create(UserEntity user) async {
@@ -26,7 +25,7 @@ class UserRepositoryImpl implements UserRepository {
       await _service.saveUser(model);
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -40,7 +39,7 @@ class UserRepositoryImpl implements UserRepository {
       final users = await _service.getUsers(query: query, role: role);
 
       return Success(users);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -51,13 +50,13 @@ class UserRepositoryImpl implements UserRepository {
       final doc = await _service.getUserDoc(uid);
 
       if (doc.exists) {
-        final user = UserModel.fromMap(doc.data() as Map<String, dynamic>);
+        final user = UserModel.fromMap(doc.data()! as Map<String, dynamic>);
 
         return Success(user);
       }
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -77,7 +76,7 @@ class UserRepositoryImpl implements UserRepository {
       await _service.updateUser(model);
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -88,7 +87,7 @@ class UserRepositoryImpl implements UserRepository {
       await _service.deleteUser(uid);
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }

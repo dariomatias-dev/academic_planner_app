@@ -1,21 +1,18 @@
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
+import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
-import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
-
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-
 class ActivityCardActionsModalWidget extends ConsumerWidget {
-  final Activity activity;
+  const ActivityCardActionsModalWidget({required this.activity, super.key});
 
-  const ActivityCardActionsModalWidget({super.key, required this.activity});
+  final Activity activity;
 
   Future<void> _markAsCompleted(BuildContext context, WidgetRef ref) async {
     final notifier = ref.read(activityNotifierProvider.notifier);
@@ -25,13 +22,15 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
     );
 
     result.when(
-      onSuccess: (_) {
-        Fluttertoast.showToast(msg: 'Atividade concluída!');
+      onSuccess: (_) async {
+        await Fluttertoast.showToast(msg: 'Atividade concluída!');
+
+        if (!context.mounted) return;
 
         Navigator.pop(context);
       },
-      onFailure: (_) {
-        Fluttertoast.showToast(msg: 'Erro ao atualizar atividade');
+      onFailure: (_) async {
+        await Fluttertoast.showToast(msg: 'Erro ao atualizar atividade');
       },
     );
   }
@@ -48,10 +47,13 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
             icon: Icons.edit_note_rounded,
             label: 'Editar informações',
             color: colorScheme.primary,
-            onTap: () {
+            onTap: () async {
               Navigator.pop(context);
 
-              AppRoutes.goToActivityForm(context, activityId: activity.id);
+              await AppRoutes.goToActivityForm(
+                context,
+                activityId: activity.id,
+              );
             },
           ),
           if (activity.status != ActivityStatus.completed)
@@ -82,7 +84,7 @@ class ActivityCardActionsModalWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "AÇÕES DA ATIVIDADE",
+          'AÇÕES DA ATIVIDADE',
           style: GoogleFonts.plusJakartaSans(
             color: colorScheme.primary,
             fontSize: 11.0,

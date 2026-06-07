@@ -1,9 +1,9 @@
 import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
 
-final defaultTeacher = TeacherModel(
+const defaultTeacher = TeacherModel(
   id: 0,
-  name: "Professor não definido",
-  lattes: "",
+  name: 'Professor não definido',
+  lattes: '',
 );
 
 TeacherModel getTeacherById(int id, List<TeacherModel> teachers) {

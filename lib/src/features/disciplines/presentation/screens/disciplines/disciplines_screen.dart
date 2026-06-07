@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
-
-import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_widget.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DisciplinesScreen extends StatefulWidget {
   const DisciplinesScreen({super.key});
@@ -23,7 +20,8 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
     with SingleTickerProviderStateMixin {
   late final tabController = TabController(length: periods.length, vsync: this);
 
-  final periods = adsDisciplines.map((d) => d.period).toSet().toList()..sort();
+  final List<int> periods = adsDisciplines.map((d) => d.period).toSet().toList()
+    ..sort();
 
   @override
   void initState() {
@@ -51,7 +49,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Disciplinas",
+        title: 'Disciplinas',
         actions: [
           IconButtonWidget(
             icon: Icons.account_tree_rounded,
@@ -67,7 +65,7 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
             padding: const EdgeInsets.fromLTRB(24.0, 12.0, 24.0, 20.0),
             decoration: BoxDecoration(color: colorScheme.surface),
             child: Text(
-              "Análise e Desenvolvimento de Sistemas",
+              'Análise e Desenvolvimento de Sistemas',
               style: GoogleFonts.plusJakartaSans(
                 color: colorScheme.onSurface.withAlpha(160),
                 fontSize: 14.0,

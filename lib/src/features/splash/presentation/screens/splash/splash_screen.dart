@@ -1,15 +1,14 @@
+import 'dart:async';
+
+import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
+import 'package:academic_planner/src/features/users/di/user_providers.dart';
+import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/users/di/user_providers.dart';
-
-import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -58,12 +57,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w900),
         ]),
       ]);
-    } catch (err) {
+    } on Exception {
       if (mounted) {
         await ErrorDialogWidget.show(
           context,
           message:
-              "Não foi possível sincronizar seus dados. Verifique sua conexão e tente novamente.",
+              'Não foi possível sincronizar seus dados. '
+              'Verifique sua conexão e tente novamente.',
           onClose: _initializeResources,
         );
       }
@@ -75,7 +75,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     super.initState();
 
     _startAnimation();
-    _initializeResources();
+    unawaited(_initializeResources());
   }
 
   @override
@@ -171,7 +171,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                     child: Column(
                       children: [
                         Text(
-                          "ACADEMIC",
+                          'ACADEMIC',
                           style: GoogleFonts.plusJakartaSans(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w800,
@@ -181,7 +181,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                         ),
                         const SizedBox(height: 6.0),
                         Text(
-                          "Planner",
+                          'Planner',
                           style: GoogleFonts.plusJakartaSans(
                             fontSize: 46.0,
                             fontWeight: FontWeight.w900,
@@ -242,7 +242,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   ),
                   const SizedBox(height: 16.0),
                   Text(
-                    "Sincronizando seus dados...",
+                    'Sincronizando seus dados...',
                     style: GoogleFonts.plusJakartaSans(
                       fontSize: 12.0,
                       fontWeight: FontWeight.w600,

@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivityCardActionTileModalWidget extends StatelessWidget {
+  const ActivityCardActionTileModalWidget({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    super.key,
+    this.color,
+  });
+
   final IconData icon;
   final String label;
   final VoidCallback onTap;
   final Color? color;
-
-  const ActivityCardActionTileModalWidget({
-    super.key,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.color,
-  });
 
   @override
   Widget build(BuildContext context) {

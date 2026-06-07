@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SelectableChipWidget extends StatelessWidget {
-  final VoidCallback onTap;
-  final String label;
-  final bool isSelected;
-
   const SelectableChipWidget({
-    super.key,
     required this.onTap,
     required this.label,
     required this.isSelected,
+    super.key,
   });
+
+  final VoidCallback onTap;
+  final String label;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {

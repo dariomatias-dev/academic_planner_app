@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormFieldLabelWidget extends StatelessWidget {
-  final String label;
-  final bool isRequired;
-  final double fontSize;
-
   const FormFieldLabelWidget({
-    super.key,
     required this.label,
+    super.key,
     this.isRequired = false,
     this.fontSize = 14.0,
   });
+
+  final String label;
+  final bool isRequired;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {

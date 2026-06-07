@@ -5,9 +5,9 @@ import 'package:academic_planner/src/features/categories/domain/entities/categor
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 
 class CategoriesViewModel {
-  final CategoryRepository repository;
-
   CategoriesViewModel(this.repository);
+
+  final CategoryRepository repository;
 
   Future<Result<List<Category>>> load() async {
     return repository.getCategories();
@@ -31,7 +31,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 
@@ -57,7 +57,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 
@@ -71,7 +71,7 @@ class CategoriesViewModel {
 
     return result.fold(
       onSuccess: (_) => Success(updated),
-      onFailure: (f) => Failure(f),
+      onFailure: Failure.new,
     );
   }
 }

@@ -1,18 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_field.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_order.dart';
-import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/filter_modal_layout_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/category_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/date_range_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/discipline_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/sort_filter_section_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/filters/sections/tags_filter_section_widget.dart';
-
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ActivitiesFilterModalWidget extends ConsumerStatefulWidget {
   const ActivitiesFilterModalWidget({super.key});
@@ -53,7 +51,7 @@ class _ActivitiesFilterModalWidgetState
       sortOrder: _sortOrder,
     );
 
-    ref.read(activityFilterNotifierProvider.notifier).setFilter(filter);
+    ref.read(activityFilterNotifierProvider.notifier).filter = filter;
 
     Navigator.pop(context);
   }

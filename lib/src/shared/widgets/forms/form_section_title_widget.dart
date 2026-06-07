@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FormSectionTitleWidget extends StatelessWidget {
+  const FormSectionTitleWidget({required this.title, super.key, this.padding});
+
   final String title;
   final EdgeInsetsGeometry? padding;
-
-  const FormSectionTitleWidget({super.key, required this.title, this.padding});
 
   @override
   Widget build(BuildContext context) {

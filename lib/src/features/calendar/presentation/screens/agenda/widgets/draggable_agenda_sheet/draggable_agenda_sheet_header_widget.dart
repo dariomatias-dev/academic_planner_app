@@ -3,16 +3,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class DraggableAgendaSheetHeaderWidget extends StatelessWidget {
-  final DateTime date;
-  final String relativeText;
-  final int count;
-
   const DraggableAgendaSheetHeaderWidget({
-    super.key,
     required this.date,
     required this.relativeText,
     required this.count,
+    super.key,
   });
+
+  final DateTime date;
+  final String relativeText;
+  final int count;
 
   @override
   Widget build(BuildContext context) {

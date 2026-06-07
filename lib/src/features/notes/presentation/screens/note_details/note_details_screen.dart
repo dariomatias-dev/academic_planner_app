@@ -1,40 +1,38 @@
 import 'dart:convert';
 
+import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
+import 'package:academic_planner/src/features/notes/di/note_providers.dart';
+import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
+import 'package:academic_planner/src/shared/utils/open_url.dart';
+import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
+import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
+import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/routes/app_routes.dart';
+final FutureProvider<Note?> Function(String) noteDetailProvider =
+    FutureProvider.family<Note?, String>((
+      ref,
+      noteId,
+    ) async {
+      ref.watch(noteNotifierProvider);
 
-import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_discipline_widget.dart';
-import 'package:academic_planner/src/features/notes/di/note_providers.dart';
-import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
+      final notifier = ref.read(noteNotifierProvider.notifier);
+      final result = await notifier.getById(noteId);
 
-import 'package:academic_planner/src/shared/utils/open_url.dart';
-import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
-
-final noteDetailProvider = FutureProvider.family<Note?, String>((
-  ref,
-  noteId,
-) async {
-  ref.watch(noteNotifierProvider);
-
-  final notifier = ref.read(noteNotifierProvider.notifier);
-  final result = await notifier.getById(noteId);
-
-  return result.fold(onSuccess: (note) => note, onFailure: (_) => null);
-});
+      return result.fold(onSuccess: (note) => note, onFailure: (_) => null);
+    });
 
 class NoteDetailsScreen extends ConsumerWidget {
-  final String noteId;
+  const NoteDetailsScreen({required this.noteId, super.key});
 
-  const NoteDetailsScreen({super.key, required this.noteId});
+  final String noteId;
 
   Future<void> _deleteNote(
     BuildContext context,
@@ -68,8 +66,8 @@ class NoteDetailsScreen extends ConsumerWidget {
                 : PopupMenuWidget(
                     items: [
                       PopupMenuActions.edit(
-                        onTap: () {
-                          AppRoutes.goToNoteForm(
+                        onTap: () async {
+                          await AppRoutes.goToNoteForm(
                             context,
                             noteId: note.id,
                             disciplineId: note.disciplineId,
@@ -77,8 +75,8 @@ class NoteDetailsScreen extends ConsumerWidget {
                         },
                       ),
                       PopupMenuActions.delete(
-                        onTap: () {
-                          _deleteNote(context, ref, note);
+                        onTap: () async {
+                          await _deleteNote(context, ref, note);
                         },
                         color: colorScheme.error,
                       ),
@@ -95,9 +93,9 @@ class NoteDetailsScreen extends ConsumerWidget {
         error: (_, _) {
           return EmptyStateWidget(
             icon: Icons.error_outline_rounded,
-            title: "Erro ao carregar",
-            description: "Não foi possível carregar os detalhes desta nota.",
-            actionLabel: "Tentar novamente",
+            title: 'Erro ao carregar',
+            description: 'Não foi possível carregar os detalhes desta nota.',
+            actionLabel: 'Tentar novamente',
             onActionPressed: () {
               ref.invalidate(noteDetailProvider(noteId));
             },
@@ -107,8 +105,8 @@ class NoteDetailsScreen extends ConsumerWidget {
           if (note == null) {
             return const EmptyStateWidget(
               icon: Icons.notes_rounded,
-              title: "Anotação não encontrada",
-              description: "Os dados desta anotação não estão disponíveis.",
+              title: 'Anotação não encontrada',
+              description: 'Os dados desta anotação não estão disponíveis.',
             );
           }
 
@@ -153,15 +151,15 @@ class NoteDetailsScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                const _NoteSectionTitleWidget(title: "Conteúdo"),
+                const _NoteSectionTitleWidget(title: 'Conteúdo'),
                 NoteDetailsDescriptionWidget(description: note.content),
                 if (discipline != null) ...[
                   const SizedBox(height: 32.0),
-                  const _NoteSectionTitleWidget(title: "Disciplina"),
+                  const _NoteSectionTitleWidget(title: 'Disciplina'),
                   ActivityDetailsDisciplineWidget(discipline: discipline),
                 ],
                 const SizedBox(height: 48.0),
-                const _NoteSectionTitleWidget(title: "Metadados"),
+                const _NoteSectionTitleWidget(title: 'Metadados'),
                 Container(
                   padding: const EdgeInsets.all(24.0),
                   decoration: BoxDecoration(
@@ -172,7 +170,7 @@ class NoteDetailsScreen extends ConsumerWidget {
                     children: [
                       _buildMetadataInfo(
                         context,
-                        "Criada",
+                        'Criada',
                         note.createdAt,
                         Icons.calendar_today_rounded,
                       ),
@@ -184,7 +182,7 @@ class NoteDetailsScreen extends ConsumerWidget {
                       ),
                       _buildMetadataInfo(
                         context,
-                        "Editada",
+                        'Editada',
                         note.updatedAt,
                         Icons.edit_note_rounded,
                       ),
@@ -244,9 +242,9 @@ class NoteDetailsScreen extends ConsumerWidget {
 }
 
 class _NoteSectionTitleWidget extends StatelessWidget {
-  final String title;
-
   const _NoteSectionTitleWidget({required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -266,9 +264,9 @@ class _NoteSectionTitleWidget extends StatelessWidget {
 }
 
 class NoteDetailsDescriptionWidget extends ConsumerStatefulWidget {
-  final String description;
+  const NoteDetailsDescriptionWidget({required this.description, super.key});
 
-  const NoteDetailsDescriptionWidget({super.key, required this.description});
+  final String description;
 
   @override
   ConsumerState<NoteDetailsDescriptionWidget> createState() =>
@@ -283,7 +281,9 @@ class _NoteDetailsDescriptionWidgetState
     if (widget.description.startsWith('[') ||
         widget.description.startsWith('{')) {
       _quillController = QuillController(
-        document: Document.fromJson(jsonDecode(widget.description)),
+        document: Document.fromJson(
+          jsonDecode(widget.description) as List<dynamic>,
+        ),
         selection: const TextSelection.collapsed(offset: 0),
         readOnly: true,
       );
@@ -332,9 +332,9 @@ class _NoteDetailsDescriptionWidgetState
           color: colorScheme.onSurface.withAlpha(180),
           height: 1.6,
         ),
-        const HorizontalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
+        HorizontalSpacing.zero,
+        VerticalSpacing.zero,
+        VerticalSpacing.zero,
         null,
       ),
       link: GoogleFonts.plusJakartaSans(
@@ -350,13 +350,10 @@ class _NoteDetailsDescriptionWidgetState
       focusNode: FocusNode(),
       config: QuillEditorConfig(
         scrollable: false,
-        autoFocus: false,
-        expands: false,
         showCursor: false,
-        padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          openUrl(context, url);
+          await openUrl(context, url);
         },
       ),
     );

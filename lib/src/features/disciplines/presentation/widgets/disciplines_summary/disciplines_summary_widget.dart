@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/disciplines_summary/disciplines_summary_item_widget.dart';
+import 'package:flutter/material.dart';
 
 class DisciplinesSummaryWidget extends StatelessWidget {
   const DisciplinesSummaryWidget({
-    super.key,
     required this.count,
     required this.workload,
+    super.key,
   });
 
   final int count;
@@ -22,7 +22,6 @@ class DisciplinesSummaryWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(24.0),
         border: Border.all(
           color: theme.colorScheme.onSurface.withAlpha(15),
-          width: 1.0,
         ),
       ),
       child: Row(
@@ -30,7 +29,7 @@ class DisciplinesSummaryWidget extends StatelessWidget {
           Expanded(
             child: DisciplinesSummaryItemWidget(
               icon: Icons.grid_view_rounded,
-              label: "Disciplinas",
+              label: 'Disciplinas',
               value: count.toString(),
             ),
           ),
@@ -42,8 +41,8 @@ class DisciplinesSummaryWidget extends StatelessWidget {
           Expanded(
             child: DisciplinesSummaryItemWidget(
               icon: Icons.schedule_rounded,
-              label: "Horas Totais",
-              value: "${workload}h",
+              label: 'Horas Totais',
+              value: '${workload}h',
             ),
           ),
         ],

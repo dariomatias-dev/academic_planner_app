@@ -1,15 +1,18 @@
-import 'package:logging/logging.dart';
-
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
-import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
+import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
+import 'package:logging/logging.dart';
 
 class AuthViewModel {
+  AuthViewModel({
+    required this.authRepository,
+    required this.userRepository,
+  });
+
   static final _log = Logger('auth.AuthViewModel');
 
   final AuthRepository authRepository;
@@ -18,17 +21,12 @@ class AuthViewModel {
   UserEntity? user;
   bool isEmailVerified = false;
 
-  AuthViewModel({
-    required this.authRepository,
-    required this.userRepository,
-  });
-
   Future<Result<void>> signIn(LoginEntity entity) async {
     _log.info('signIn started: ${entity.email}');
 
     final result = await authRepository.signIn(entity);
 
-    return await result.fold<Future<Result<void>>>(
+    return result.fold<Future<Result<void>>>(
       onSuccess: (_) async {
         try {
           final current = authRepository.currentUser;
@@ -61,12 +59,12 @@ class AuthViewModel {
 
               return const Success(null);
             },
-            onFailure: (f) => Failure(f),
+            onFailure: Failure.new,
           );
-        } catch (err, stack) {
+        } on Exception catch (err, stack) {
           _log.severe('signIn processing error', err, stack);
 
-          return Failure(UnknownFailure('Erro ao processar login'));
+          return const Failure(UnknownFailure('Erro ao processar login'));
         }
       },
       onFailure: (f) async {
@@ -82,7 +80,7 @@ class AuthViewModel {
 
     final result = await authRepository.signUp(entity);
 
-    return await result.fold<Future<Result<void>>>(
+    return result.fold<Future<Result<void>>>(
       onSuccess: (credential) async {
         try {
           final firebaseUser = credential.user;
@@ -92,7 +90,6 @@ class AuthViewModel {
               id: firebaseUser.uid,
               email: entity.email,
               name: entity.name,
-              role: UserRole.student,
               createdAt: DateTime.now(),
               updatedAt: DateTime.now(),
             );
@@ -113,10 +110,10 @@ class AuthViewModel {
           _log.info('signUp completed: ${entity.email}');
 
           return const Success(null);
-        } catch (err, stack) {
+        } on Exception catch (err, stack) {
           _log.severe('signUp processing error', err, stack);
 
-          return Failure(
+          return const Failure(
             UnknownFailure('Erro ao processar cadastro'),
           );
         }

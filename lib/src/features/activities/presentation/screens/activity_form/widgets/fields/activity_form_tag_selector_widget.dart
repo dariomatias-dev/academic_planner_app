@@ -1,23 +1,21 @@
+import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
-import 'package:academic_planner/src/shared/widgets/filter_chip_widget.dart';
-
 class ActivityFormTagSelectorWidget extends StatelessWidget {
-  final List<String> availableTags;
-  final List<String> selectedTags;
-  final Function(String tag, bool value) onToggle;
-  final VoidCallback onCreate;
-
   const ActivityFormTagSelectorWidget({
-    super.key,
     required this.availableTags,
     required this.selectedTags,
     required this.onToggle,
     required this.onCreate,
+    super.key,
   });
+
+  final List<String> availableTags;
+  final List<String> selectedTags;
+  final void Function(String tag, {bool value}) onToggle;
+  final VoidCallback onCreate;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Tags",
+              'Tags',
               style: GoogleFonts.plusJakartaSans(
                 color: colorScheme.onSurface,
                 fontSize: 14.0,
@@ -40,7 +38,7 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
             GestureDetector(
               onTap: onCreate,
               child: Text(
-                "+ Nova Tag",
+                '+ Nova Tag',
                 style: GoogleFonts.plusJakartaSans(
                   color: colorScheme.primary,
                   fontSize: 11.0,
@@ -60,7 +58,7 @@ class ActivityFormTagSelectorWidget extends StatelessWidget {
             return FilterChipWidget(
               label: tag,
               isSelected: isSelected,
-              onSelected: (value) => onToggle(tag, value),
+              onSelected: (value) => onToggle(tag, value: value),
             );
           }),
         ),

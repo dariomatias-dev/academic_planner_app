@@ -1,23 +1,21 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/exception_mapper.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-
 import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/data/models/activity_model.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
+import 'package:flutter/foundation.dart';
 
 List<Activity> _map(List<Map<String, dynamic>> data) {
   return data.map((e) => ActivityModel.fromMap(e).toEntity()).toList();
 }
 
 class ActivityRepositoryImpl implements ActivityRepository {
-  final ActivityLocalDataSource datasource;
-
   ActivityRepositoryImpl(this.datasource);
+
+  final ActivityLocalDataSource datasource;
 
   @override
   Future<Result<void>> add(Activity activity) async {
@@ -25,7 +23,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       await datasource.insert(ActivityModel.fromEntity(activity).toMap());
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -44,7 +42,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       final activities = await compute(_map, data);
 
       return Success(activities);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -55,7 +53,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       final count = await datasource.count(filter: filter);
 
       return Success(count);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -68,7 +66,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       if (data == null) return const Success(null);
 
       return Success(ActivityModel.fromMap(data).toEntity());
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -82,7 +80,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       );
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -93,7 +91,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       await datasource.delete(id);
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }
@@ -104,7 +102,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
       await datasource.deleteAll();
 
       return const Success(null);
-    } catch (err) {
+    } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
   }

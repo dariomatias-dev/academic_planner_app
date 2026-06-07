@@ -1,19 +1,18 @@
 import 'dart:convert';
 
+import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'package:academic_planner/src/shared/utils/open_url.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ActivityDetailsDescriptionWidget extends ConsumerStatefulWidget {
-  final String description;
-
   const ActivityDetailsDescriptionWidget({
-    super.key,
     required this.description,
+    super.key,
   });
+
+  final String description;
 
   @override
   ConsumerState<ActivityDetailsDescriptionWidget> createState() =>
@@ -31,7 +30,9 @@ class _ActivityDetailsDescriptionWidgetState
     if (widget.description.startsWith('[') ||
         widget.description.startsWith('{')) {
       _quillController = QuillController(
-        document: Document.fromJson(jsonDecode(widget.description)),
+        document: Document.fromJson(
+          jsonDecode(widget.description) as List<dynamic>,
+        ),
         selection: const TextSelection.collapsed(offset: 0),
         readOnly: true,
       );
@@ -64,9 +65,9 @@ class _ActivityDetailsDescriptionWidgetState
           color: colorScheme.onSurface.withAlpha(180),
           height: 1.6,
         ),
-        const HorizontalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
-        const VerticalSpacing(0, 0),
+        HorizontalSpacing.zero,
+        VerticalSpacing.zero,
+        VerticalSpacing.zero,
         null,
       ),
       link: GoogleFonts.plusJakartaSans(
@@ -82,13 +83,10 @@ class _ActivityDetailsDescriptionWidgetState
       focusNode: FocusNode(),
       config: QuillEditorConfig(
         scrollable: false,
-        autoFocus: false,
-        expands: false,
         showCursor: false,
-        padding: EdgeInsets.zero,
         customStyles: defaultStyles,
         onLaunchUrl: (url) async {
-          openUrl(context, url);
+          await openUrl(context, url);
         },
       ),
     );

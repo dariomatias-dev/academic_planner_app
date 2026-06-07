@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DisciplineDetailsSectionTitleWidget extends StatelessWidget {
-  final String title;
-  final IconData icon;
-
   const DisciplineDetailsSectionTitleWidget({
-    super.key,
     required this.title,
     required this.icon,
+    super.key,
   });
+
+  final String title;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {

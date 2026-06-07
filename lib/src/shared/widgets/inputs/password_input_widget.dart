@@ -1,20 +1,19 @@
+import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-
 class PasswordInputWidget extends StatefulWidget {
+  const PasswordInputWidget({
+    required this.controller,
+    super.key,
+    this.hint = '••••••••',
+    this.validator,
+    this.style = InputStyle.primary,
+  });
+
   final TextEditingController controller;
   final String hint;
   final String? Function(String? value)? validator;
   final InputStyle style;
-
-  const PasswordInputWidget({
-    super.key,
-    required this.controller,
-    this.hint = "••••••••",
-    this.validator,
-    this.style = InputStyle.primary,
-  });
 
   @override
   State<PasswordInputWidget> createState() => _PasswordInputWidgetState();

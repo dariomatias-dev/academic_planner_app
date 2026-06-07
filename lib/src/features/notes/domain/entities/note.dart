@@ -1,11 +1,4 @@
 class Note {
-  final String id;
-  final String title;
-  final String content;
-  final int disciplineId;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-
   Note({
     required this.id,
     required this.title,
@@ -15,6 +8,13 @@ class Note {
     DateTime? updatedAt,
   }) : createdAt = createdAt ?? DateTime.now(),
        updatedAt = updatedAt ?? DateTime.now();
+
+  final String id;
+  final String title;
+  final String content;
+  final int disciplineId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Note copyWith({
     String? id,

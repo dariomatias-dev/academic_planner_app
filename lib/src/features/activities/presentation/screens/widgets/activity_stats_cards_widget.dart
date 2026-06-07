@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivityProgressCardWidget extends StatelessWidget {
-  final AsyncValue<double> state;
+  const ActivityProgressCardWidget({required this.state, super.key});
 
-  const ActivityProgressCardWidget({super.key, required this.state});
+  final AsyncValue<double> state;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class ActivityProgressCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Seu Progresso",
+            'Seu Progresso',
             style: GoogleFonts.plusJakartaSans(
               color: colorScheme.onPrimary.withAlpha(200),
               fontSize: 14.0,
@@ -51,7 +51,7 @@ class ActivityProgressCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${(progress * 100).toInt()}%",
+                    '${(progress * 100).toInt()}%',
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onPrimary,
                       fontSize: 32.0,
@@ -81,9 +81,9 @@ class ActivityProgressCardWidget extends StatelessWidget {
 }
 
 class ActivityUrgentCardWidget extends StatelessWidget {
-  final AsyncValue<int> state;
+  const ActivityUrgentCardWidget({required this.state, super.key});
 
-  const ActivityUrgentCardWidget({super.key, required this.state});
+  final AsyncValue<int> state;
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +106,17 @@ class ActivityUrgentCardWidget extends StatelessWidget {
           ),
           const SizedBox(height: 12.0),
           MetricCardValueWidget(
+            color: colorScheme.error,
             state: state,
             fontSize: 24.0,
-            color: colorScheme.error,
           ),
           const SizedBox(height: 8.0),
           Text(
-            "URGENTES",
+            'URGENTES',
             style: GoogleFonts.plusJakartaSans(
+              color: colorScheme.error.withAlpha(180),
               fontSize: 10.0,
               fontWeight: FontWeight.w700,
-              color: colorScheme.error.withAlpha(180),
             ),
           ),
         ],
@@ -126,20 +126,20 @@ class ActivityUrgentCardWidget extends StatelessWidget {
 }
 
 class MetricCardWidget extends StatelessWidget {
+  const MetricCardWidget({
+    required this.label,
+    required this.icon,
+    required this.color,
+    super.key,
+    this.state,
+    this.value,
+  });
+
   final String label;
   final IconData icon;
   final Color color;
   final AsyncValue<int>? state;
   final String? value;
-
-  const MetricCardWidget({
-    super.key,
-    required this.label,
-    required this.icon,
-    required this.color,
-    this.state,
-    this.value,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +177,7 @@ class MetricCardWidget extends StatelessWidget {
                   MetricCardValueWidget(state: state!)
                 else
                   Text(
-                    value ?? "0",
+                    value ?? '0',
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.onSurface,
                       fontSize: 18.0,
@@ -202,16 +202,15 @@ class MetricCardWidget extends StatelessWidget {
 }
 
 class MetricCardValueWidget extends StatelessWidget {
-  final AsyncValue<int> state;
-  final double fontSize;
-  final Color? color;
-
   const MetricCardValueWidget({
-    super.key,
     required this.state,
+    super.key,
     this.fontSize = 18.0,
     this.color,
   });
+  final AsyncValue<int> state;
+  final double fontSize;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {

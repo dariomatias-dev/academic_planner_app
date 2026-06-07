@@ -1,21 +1,18 @@
+import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
+import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
+import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import 'package:academic_planner/src/core/routes/app_routes.dart';
-
-import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
-
-import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
-
 enum NoteCardAction { edit, delete }
 
 class NoteCardWidget extends ConsumerWidget {
-  final Note note;
+  const NoteCardWidget({required this.note, super.key});
 
-  const NoteCardWidget({super.key, required this.note});
+  final Note note;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,8 +20,8 @@ class NoteCardWidget extends ConsumerWidget {
     final colorScheme = theme.colorScheme;
 
     return GestureDetector(
-      onTap: () {
-        AppRoutes.goToNoteDetails(context, noteId: note.id);
+      onTap: () async {
+        await AppRoutes.goToNoteDetails(context, noteId: note.id);
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 16.0),
@@ -57,8 +54,8 @@ class NoteCardWidget extends ConsumerWidget {
                 PopupMenuWidget(
                   items: [
                     PopupMenuActions.edit(
-                      onTap: () {
-                        AppRoutes.goToNoteForm(
+                      onTap: () async {
+                        await AppRoutes.goToNoteForm(
                           context,
                           noteId: note.id,
                           disciplineId: note.disciplineId,
@@ -81,7 +78,7 @@ class NoteCardWidget extends ConsumerWidget {
             ),
             const SizedBox(height: 8.0),
             Text(
-              "Toque para visualizar o conteúdo completo da anotação...",
+              'Toque para visualizar o conteúdo completo da anotação...',
               style: GoogleFonts.plusJakartaSans(
                 color: colorScheme.onSurface.withAlpha(160),
                 fontSize: 13.0,

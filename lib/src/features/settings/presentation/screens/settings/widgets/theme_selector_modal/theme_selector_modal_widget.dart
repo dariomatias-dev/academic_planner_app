@@ -1,17 +1,16 @@
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/theme_selector_modal/theme_selector_modal_option_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/theme_selector_modal/theme_selector_modal_option_widget.dart';
-
 class ThemeSelectorModalWidget extends StatelessWidget {
-  final ThemeMode currentMode;
-  final Function(ThemeMode) onModeSelected;
-
   const ThemeSelectorModalWidget({
-    super.key,
     required this.currentMode,
     required this.onModeSelected,
+    super.key,
   });
+
+  final ThemeMode currentMode;
+  final void Function(ThemeMode) onModeSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +21,8 @@ class ThemeSelectorModalWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Align(
-          alignment: AlignmentGeometry.center,
           child: Text(
-            "Escolha o tema",
+            'Escolha o tema',
             textAlign: TextAlign.center,
             style: GoogleFonts.plusJakartaSans(
               fontSize: 20.0,

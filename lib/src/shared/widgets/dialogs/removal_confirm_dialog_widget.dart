@@ -1,19 +1,18 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:flutter/material.dart';
 
 class RemovalConfirmDialogWidget extends StatelessWidget {
-  final String title;
-  final String message;
-  final Future<void> Function() onConfirm;
-
   const RemovalConfirmDialogWidget({
-    super.key,
     required this.title,
     required this.message,
     required this.onConfirm,
+    super.key,
   });
+
+  final String title;
+  final String message;
+  final Future<void> Function() onConfirm;
 
   static Future<void> show(
     BuildContext context, {

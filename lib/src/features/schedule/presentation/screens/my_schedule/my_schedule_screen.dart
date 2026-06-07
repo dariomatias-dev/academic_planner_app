@@ -1,16 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
-
 import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MyScheduleScreen extends ConsumerStatefulWidget {
   const MyScheduleScreen({super.key});
@@ -20,13 +17,13 @@ class MyScheduleScreen extends ConsumerStatefulWidget {
 }
 
 class _MyScheduleScreenState extends ConsumerState<MyScheduleScreen> {
-  final _globalKey = GlobalKey();
+  final GlobalKey<State<StatefulWidget>> _globalKey = GlobalKey();
 
   Future<void> _exportSchedule() async {
     await ImageExport.captureAndSave(
       context: context,
       containerKey: _globalKey,
-      fileName: "my_schedule",
+      fileName: 'my_schedule',
     );
   }
 
@@ -47,7 +44,7 @@ class _MyScheduleScreenState extends ConsumerState<MyScheduleScreen> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBarWidget(
-        title: "Minha Grade",
+        title: 'Minha Grade',
         actions: [
           IconButtonWidget(
             icon: Icons.download_rounded,

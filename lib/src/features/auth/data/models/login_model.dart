@@ -1,9 +1,6 @@
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 
 class LoginModel {
-  final String email;
-  final String password;
-
   LoginModel({required this.email, required this.password});
 
   factory LoginModel.fromEntity(LoginEntity entity) {
@@ -16,6 +13,9 @@ class LoginModel {
       password: map['password'] as String,
     );
   }
+
+  final String email;
+  final String password;
 
   Map<String, dynamic> toMap() {
     return {'email': email, 'password': password};

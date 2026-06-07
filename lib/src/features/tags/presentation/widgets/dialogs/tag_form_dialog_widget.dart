@@ -1,20 +1,20 @@
+import 'dart:async';
+
+import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
+import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
+import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
+import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
-import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
-
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
-
 class TagFormDialogWidget extends ConsumerStatefulWidget {
+  const TagFormDialogWidget({super.key, this.tag, this.index});
+
   final Tag? tag;
   final int? index;
-
-  const TagFormDialogWidget({super.key, this.tag, this.index});
 
   static Future<void> show(BuildContext context, {Tag? tag, int? index}) {
     return showDialog(
@@ -41,18 +41,17 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
     final isEditing = widget.tag != null;
     final notifier = ref.read(tagNotifierProvider.notifier);
 
-    final result = isEditing
-        ? await notifier.edit(widget.index!, name)
-        : await notifier.add(name);
-
-    result.when(
-      onSuccess: (_) {
-        if (context.mounted) Navigator.pop(context);
-      },
-      onFailure: (failure) {
-        Fluttertoast.showToast(msg: failure.message);
-      },
-    );
+    (isEditing
+            ? await notifier.edit(widget.index!, name)
+            : await notifier.add(name))
+        .when(
+          onSuccess: (_) {
+            if (context.mounted) Navigator.pop(context);
+          },
+          onFailure: (failure) {
+            unawaited(Fluttertoast.showToast(msg: failure.message));
+          },
+        );
   }
 
   @override
@@ -67,20 +66,20 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
     final isEditing = widget.tag != null;
 
     return DialogWidget(
-      title: isEditing ? "Editar Tag" : "Nova Tag",
-      message: "Defina um nome para rotular suas atividades de forma rápida.",
+      title: isEditing ? 'Editar Tag' : 'Nova Tag',
+      message: 'Defina um nome para rotular suas atividades de forma rápida.',
       icon: Icons.local_offer_rounded,
       actions: Column(
         children: [
-          const FormFieldLabelWidget(label: "Nome da Tag", isRequired: true),
+          const FormFieldLabelWidget(label: 'Nome da Tag', isRequired: true),
           const SizedBox(height: 8.0),
-          InputWidget(controller: _controller, hint: "Ex: Urgente"),
+          InputWidget(controller: _controller, hint: 'Ex: Urgente'),
           const SizedBox(height: 32.0),
           Row(
             children: [
               Expanded(
                 child: ButtonWidget(
-                  label: "Cancelar",
+                  label: 'Cancelar',
                   style: AppButtonStyle.neutral,
                   onPressed: () => Navigator.pop(context),
                 ),
@@ -88,8 +87,7 @@ class _TagFormDialogWidgetState extends ConsumerState<TagFormDialogWidget> {
               const SizedBox(width: 12.0),
               Expanded(
                 child: ButtonWidget(
-                  label: "Salvar",
-                  style: AppButtonStyle.primary,
+                  label: 'Salvar',
                   onPressed: _handleSave,
                 ),
               ),
