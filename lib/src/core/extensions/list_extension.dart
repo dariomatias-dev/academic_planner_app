@@ -12,7 +12,7 @@ extension ListExtension<R> on List<R> {
     Widget Function(R e, int index) itemBuilder,
   ) {
     return List.generate(isNotEmpty ? length * 2 - 1 : 0, (index) {
-      if (index % 2 == 1) {
+      if (index.isOdd) {
         return separatorBuilder();
       }
 

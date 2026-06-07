@@ -1,17 +1,15 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/core/app_colors.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
+import 'package:flutter/material.dart';
 
 extension ActivityStatusExtension on ActivityStatus {
   String get label {
     return switch (this) {
-      ActivityStatus.draft => "Rascunho",
-      ActivityStatus.pending => "Pendente",
-      ActivityStatus.inProgress => "Em Andamento",
-      ActivityStatus.completed => "Concluído",
-      ActivityStatus.canceled => "Cancelado",
+      ActivityStatus.draft => 'Rascunho',
+      ActivityStatus.pending => 'Pendente',
+      ActivityStatus.inProgress => 'Em Andamento',
+      ActivityStatus.completed => 'Concluído',
+      ActivityStatus.canceled => 'Cancelado',
     };
   }
 

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:flutter/material.dart';
 
 extension UserRoleExtension on UserRole {
   Color getColor(ColorScheme colorScheme) {
@@ -13,9 +12,9 @@ extension UserRoleExtension on UserRole {
 
   String get label {
     return switch (this) {
-      UserRole.admin => "administrador",
-      UserRole.teacher => "professor",
-      UserRole.student => "aluno",
+      UserRole.admin => 'administrador',
+      UserRole.teacher => 'professor',
+      UserRole.student => 'aluno',
     };
   }
 

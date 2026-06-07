@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:academic_planner/src/features/disciplines/domain/entities/announcement.dart';
+import 'package:flutter/material.dart';
 
 extension AnnouncementTypeExtension on AnnouncementType {
   Color color(ColorScheme colorScheme) {
@@ -23,10 +22,10 @@ extension AnnouncementTypeExtension on AnnouncementType {
 
   String get label {
     return switch (this) {
-      AnnouncementType.info => "INFORMATIVO",
-      AnnouncementType.reminder => "LEMBRETE",
-      AnnouncementType.poll => "ENQUETE",
-      AnnouncementType.alert => "ALERTA",
+      AnnouncementType.info => 'INFORMATIVO',
+      AnnouncementType.reminder => 'LEMBRETE',
+      AnnouncementType.poll => 'ENQUETE',
+      AnnouncementType.alert => 'ALERTA',
     };
   }
 }
