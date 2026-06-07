@@ -1,7 +1,7 @@
 sealed class AppFailure {
-  final String message;
-
   const AppFailure(this.message);
+
+  final String message;
 }
 
 final class AuthFailure extends AppFailure {

@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:academic_planner/src/core/shared_preferences_keys.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ThemeNotifier extends Notifier<ThemeMode> {
   late final SharedPreferencesService _preferences;
@@ -41,13 +40,10 @@ class ThemeNotifier extends Notifier<ThemeMode> {
     switch (mode) {
       case ThemeMode.light:
         value = 'light';
-        break;
       case ThemeMode.dark:
         value = 'dark';
-        break;
       case ThemeMode.system:
         value = 'system';
-        break;
     }
 
     await _preferences.setString(SharedPreferencesKeys.themeModeKey, value);

@@ -6,6 +6,6 @@ class AppVersionNotifier extends AsyncNotifier<String> {
   Future<String> build() async {
     final info = await PackageInfo.fromPlatform();
 
-    return "${info.version}+${info.buildNumber}";
+    return '${info.version}+${info.buildNumber}';
   }
 }

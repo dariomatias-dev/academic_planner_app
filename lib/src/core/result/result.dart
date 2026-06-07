@@ -1,4 +1,4 @@
-import 'failure.dart';
+import 'package:academic_planner/src/core/result/failure.dart';
 
 sealed class Result<T> {
   const Result();
@@ -24,17 +24,16 @@ sealed class Result<T> {
         onFailure(f);
     }
   }
-
 }
 
 final class Success<T> extends Result<T> {
-  final T value;
-
   const Success(this.value);
+
+  final T value;
 }
 
 final class Failure<T> extends Result<T> {
-  final AppFailure failure;
-
   const Failure(this.failure);
+
+  final AppFailure failure;
 }

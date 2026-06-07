@@ -1,8 +1,7 @@
 import 'dart:io';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ExceptionMapper {
   const ExceptionMapper._();

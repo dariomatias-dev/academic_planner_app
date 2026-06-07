@@ -11,14 +11,14 @@ class ImageExportService {
         key.currentContext?.findRenderObject() as RenderRepaintBoundary?;
 
     if (boundary == null) {
-      throw Exception("Falha ao localizar o componente para captura.");
+      throw Exception('Falha ao localizar o componente para captura.');
     }
 
     final image = await boundary.toImage(pixelRatio: 3.0);
     final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
 
     if (byteData == null) {
-      throw Exception("Falha ao processar dados da imagem.");
+      throw Exception('Falha ao processar dados da imagem.');
     }
 
     return byteData.buffer.asUint8List();
@@ -31,6 +31,6 @@ class ImageExportService {
       name: fileName,
     );
 
-    return result != null && result['isSuccess'] == true;
+    return result is Map && result['isSuccess'] == true;
   }
 }
