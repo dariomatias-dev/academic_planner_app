@@ -10,6 +10,7 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_due_date_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:academic_planner/src/shared/widgets/metadata_card/metadata_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 import 'package:academic_planner/src/shared/widgets/selectable_chip_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
@@ -17,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class ActivityDetailsScreen extends ConsumerStatefulWidget {
   const ActivityDetailsScreen({required this.activityId, super.key});
@@ -354,82 +354,14 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
                 ],
                 const SizedBox(height: 48.0),
                 const ActivityDetailsSectionTitleWidget(title: 'Cronologia'),
-                Container(
-                  padding: const EdgeInsets.all(24.0),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary.withAlpha(15),
-                    borderRadius: BorderRadius.circular(32.0),
-                  ),
-                  child: Row(
-                    children: [
-                      _buildMetadataInfo(
-                        context,
-                        'Criada em',
-                        _activity!.createdAt,
-                        Icons.calendar_today_rounded,
-                      ),
-                      Container(
-                        width: 1.0,
-                        height: 40.0,
-                        margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                        color: colorScheme.primary.withAlpha(40),
-                      ),
-                      _buildMetadataInfo(
-                        context,
-                        'Atualizada',
-                        _activity!.updatedAt,
-                        Icons.auto_awesome_rounded,
-                      ),
-                    ],
-                  ),
+                MetadataCardWidget(
+                  createdAt: _activity!.createdAt,
+                  updatedAt: _activity!.updatedAt,
                 ),
               ],
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildMetadataInfo(
-    BuildContext context,
-    String label,
-    DateTime date,
-    IconData icon,
-  ) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Expanded(
-      child: Row(
-        children: [
-          Icon(icon, size: 20.0, color: colorScheme.primary),
-          const SizedBox(width: 12.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.primary.withAlpha(180),
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-                const SizedBox(height: 2.0),
-                Text(
-                  DateFormat('dd/MM/yyyy').format(date),
-                  style: GoogleFonts.plusJakartaSans(
-                    color: colorScheme.onSurface,
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
