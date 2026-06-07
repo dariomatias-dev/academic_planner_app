@@ -1,7 +1,6 @@
-import 'package:sqflite/sqflite.dart';
-
 import 'package:academic_planner/src/core/database/migrations/migration.dart';
 import 'package:academic_planner/src/core/database/tables/note_table.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MigrationV2 implements Migration {
   @override
