@@ -12,12 +12,12 @@ Map<String, dynamic> _baseMap({
   String status = 'pending',
 }) => {
   'id': 'abc-123',
-  'title': 'Entrega do projeto',
-  'description': 'Descrição',
-  'notes': 'Anotações',
+  'title': 'Project submission',
+  'description': 'Description',
+  'notes': 'Notes',
   'disciplineId': 42,
   'dueDate': dueDate,
-  'category': 'Prova',
+  'category': 'Exam',
   'tags': tags,
   'reminders': reminders,
   'status': status,
@@ -27,48 +27,48 @@ Map<String, dynamic> _baseMap({
 
 void main() {
   group('ActivityModel.fromMap — tags', () {
-    test('tags null → lista vazia', () {
+    test('tags null → empty list', () {
       final model = ActivityModel.fromMap(_baseMap());
       expect(model.tags, isEmpty);
     });
 
-    test('tags string vazia → lista vazia', () {
+    test('empty string tags → empty list', () {
       final model = ActivityModel.fromMap(_baseMap(tags: ''));
       expect(model.tags, isEmpty);
     });
 
-    test('tags JSON válido → lista correta', () {
+    test('valid JSON tags → correct list', () {
       final model = ActivityModel.fromMap(
         _baseMap(tags: jsonEncode(['flutter', 'dart'])),
       );
       expect(model.tags, ['flutter', 'dart']);
     });
 
-    test('tags JSON array vazio → lista vazia', () {
+    test('empty JSON array tags → empty list', () {
       final model = ActivityModel.fromMap(_baseMap(tags: jsonEncode([])));
       expect(model.tags, isEmpty);
     });
 
-    test('tags com elemento único → lista com um item', () {
+    test('single-element tags → one-item list', () {
       final model = ActivityModel.fromMap(
-        _baseMap(tags: jsonEncode(['único'])),
+        _baseMap(tags: jsonEncode(['single'])),
       );
-      expect(model.tags, ['único']);
+      expect(model.tags, ['single']);
     });
   });
 
   group('ActivityModel.fromMap — reminders', () {
-    test('reminders null → lista vazia', () {
+    test('reminders null → empty list', () {
       final model = ActivityModel.fromMap(_baseMap());
       expect(model.reminders, isEmpty);
     });
 
-    test('reminders string vazia → lista vazia', () {
+    test('empty string reminders → empty list', () {
       final model = ActivityModel.fromMap(_baseMap(reminders: ''));
       expect(model.reminders, isEmpty);
     });
 
-    test('reminders JSON válido → lista de TimeOfDay', () {
+    test('valid JSON reminders → TimeOfDay list', () {
       final encoded = jsonEncode([
         {'hour': 9, 'minute': 30},
         {'hour': 14, 'minute': 0},
@@ -80,14 +80,14 @@ void main() {
       expect(model.reminders[1], const TimeOfDay(hour: 14, minute: 0));
     });
 
-    test('reminders JSON array vazio → lista vazia', () {
+    test('empty JSON array reminders → empty list', () {
       final model = ActivityModel.fromMap(
         _baseMap(reminders: jsonEncode([])),
       );
       expect(model.reminders, isEmpty);
     });
 
-    test('reminder midnight preservado (00:00)', () {
+    test('midnight reminder preserved (00:00)', () {
       final encoded = jsonEncode([
         {'hour': 0, 'minute': 0},
       ]);
@@ -104,24 +104,24 @@ void main() {
       });
     }
 
-    test('status desconhecido → draft', () {
+    test('unknown status → draft', () {
       final model = ActivityModel.fromMap(_baseMap(status: 'inexistente'));
       expect(model.status, ActivityStatus.draft);
     });
 
-    test('status vazio → draft', () {
+    test('empty status → draft', () {
       final model = ActivityModel.fromMap(_baseMap(status: ''));
       expect(model.status, ActivityStatus.draft);
     });
   });
 
   group('ActivityModel.fromMap — dueDate', () {
-    test('dueDate null → null preservado', () {
+    test('dueDate null → null preserved', () {
       final model = ActivityModel.fromMap(_baseMap());
       expect(model.dueDate, isNull);
     });
 
-    test('dueDate ISO 8601 → DateTime correto', () {
+    test('dueDate ISO 8601 → correct DateTime', () {
       final model = ActivityModel.fromMap(
         _baseMap(dueDate: '2024-06-15T23:59:00.000'),
       );
@@ -130,7 +130,7 @@ void main() {
   });
 
   group('ActivityModel.toMap', () {
-    test('tags lista → JSON string no map', () {
+    test('list tags → JSON string in map', () {
       final model = ActivityModel.fromMap(
         _baseMap(tags: jsonEncode(['a', 'b'])),
       );
@@ -138,13 +138,13 @@ void main() {
       expect(map['tags'], jsonEncode(['a', 'b']));
     });
 
-    test('tags vazia → JSON "[]" no map', () {
+    test('empty tags → JSON "[]" in map', () {
       final model = ActivityModel.fromMap(_baseMap());
       final map = model.toMap();
       expect(map['tags'], jsonEncode([]));
     });
 
-    test('reminders lista → JSON string no map', () {
+    test('list reminders → JSON string in map', () {
       final encoded = jsonEncode([
         {'hour': 7, 'minute': 15},
       ]);
@@ -153,31 +153,31 @@ void main() {
       expect(map['reminders'], encoded);
     });
 
-    test('reminders vazia → JSON "[]" no map', () {
+    test('empty reminders → JSON "[]" in map', () {
       final model = ActivityModel.fromMap(_baseMap());
       final map = model.toMap();
       expect(map['reminders'], jsonEncode([]));
     });
 
-    test('dueDate null → null no map', () {
+    test('dueDate null → null in map', () {
       final model = ActivityModel.fromMap(_baseMap());
       expect(model.toMap()['dueDate'], isNull);
     });
 
-    test('dueDate presente → ISO 8601 string no map', () {
+    test('dueDate present → ISO 8601 string in map', () {
       const iso = '2024-06-15T23:59:00.000';
       final model = ActivityModel.fromMap(_baseMap(dueDate: iso));
       expect(model.toMap()['dueDate'], iso);
     });
 
-    test('status → name string no map', () {
+    test('status → name string in map', () {
       final model = ActivityModel.fromMap(_baseMap(status: 'inProgress'));
       expect(model.toMap()['status'], 'inProgress');
     });
   });
 
   group('ActivityModel fromMap → toMap round-trip', () {
-    test('completo com tags, reminders e dueDate', () {
+    test('complete with tags, reminders and dueDate', () {
       final tags = jsonEncode(['dart', 'flutter']);
       final reminders = jsonEncode([
         {'hour': 8, 'minute': 0},

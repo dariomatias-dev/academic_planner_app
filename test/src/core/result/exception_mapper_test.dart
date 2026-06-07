@@ -61,11 +61,11 @@ void main() {
 
     test('unknown code with message → AuthFailure with exception message', () {
       final result = ExceptionMapper.mapAuth(
-        _authEx('some-unknown', message: 'Detalhe'),
+        _authEx('some-unknown', message: 'Detail'),
       );
 
       expect(result, isA<AuthFailure>());
-      expect(result.message, 'Detalhe');
+      expect(result.message, 'Detail');
     });
 
     test('unknown code without message → AuthFailure with default message', () {
@@ -76,7 +76,7 @@ void main() {
     });
   });
 
-  group('ExceptionMapper.mapAuth — outros tipos', () {
+  group('ExceptionMapper.mapAuth — other types', () {
     test('SocketException → NetworkFailure', () {
       final result = ExceptionMapper.mapAuth(
         const SocketException('no network'),
@@ -93,7 +93,7 @@ void main() {
       expect(result.message, 'Formato inválido');
     });
 
-    test('erro desconhecido → UnknownFailure', () {
+    test('unknown error → UnknownFailure', () {
       final result = ExceptionMapper.mapAuth(Exception('qualquer coisa'));
 
       expect(result, isA<UnknownFailure>());
@@ -138,7 +138,7 @@ void main() {
       expect(result.message, 'Formato inválido');
     });
 
-    test('erro desconhecido → UnknownFailure', () {
+    test('unknown error → UnknownFailure', () {
       final result = ExceptionMapper.mapDatabase(Exception('qualquer coisa'));
 
       expect(result, isA<UnknownFailure>());

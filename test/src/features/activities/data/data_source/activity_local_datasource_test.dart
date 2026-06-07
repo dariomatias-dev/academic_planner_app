@@ -13,8 +13,8 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 Map<String, dynamic> _row({
   required String id,
-  String title = 'Atividade',
-  String description = 'Descrição',
+  String title = 'Activity',
+  String description = 'Description',
   String? notes,
   int disciplineId = 1,
   String? dueDate,
@@ -65,14 +65,14 @@ void main() {
 
   group('insert / getById', () {
     test('insert → getById returns record', () async {
-      await sut.insert(_row(id: '1', title: 'Prova de Cálculo'));
+      await sut.insert(_row(id: '1', title: 'Calculus Exam'));
       final result = await sut.getById('1');
       expect(result, isNotNull);
-      expect(result!['title'], 'Prova de Cálculo');
+      expect(result!['title'], 'Calculus Exam');
     });
 
     test('getById for non-existent id → null', () async {
-      expect(await sut.getById('nao-existe'), isNull);
+      expect(await sut.getById('non-existent'), isNull);
     });
 
     test('insert duplicate id → throws', () async {
@@ -107,7 +107,7 @@ void main() {
 
     test('update non-existent id → completes without error', () async {
       await expectLater(
-        sut.update('nao-existe', {
+        sut.update('non-existent', {
           'title': 'X',
           'updatedAt': '2024-01-01T00:00:00.000',
         }),
@@ -131,7 +131,7 @@ void main() {
     });
 
     test('delete non-existent id → completes without error', () async {
-      await expectLater(sut.delete('nao-existe'), completes);
+      await expectLater(sut.delete('non-existent'), completes);
     });
   });
 
@@ -150,14 +150,14 @@ void main() {
 
   group('filter — search', () {
     setUp(() async {
-      await sut.insert(_row(id: '1', title: 'Prova de Cálculo'));
-      await sut.insert(_row(id: '2', title: 'Trabalho de Física'));
-      await sut.insert(_row(id: '3', title: 'Seminário de Arte'));
+      await sut.insert(_row(id: '1', title: 'Calculus Exam'));
+      await sut.insert(_row(id: '2', title: 'Physics Paper'));
+      await sut.insert(_row(id: '3', title: 'Art Seminar'));
     });
 
     test('partial search → returns match', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(search: 'Prova'),
+        filter: const ActivityFilter(search: 'Calculus'),
       );
       expect(result.length, 1);
       expect(result.first['id'], '1');
@@ -165,7 +165,7 @@ void main() {
 
     test('lowercase search → case-insensitive via LIKE', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(search: 'trabalho'),
+        filter: const ActivityFilter(search: 'physics'),
       );
       expect(result.length, 1);
       expect(result.first['id'], '2');
@@ -173,7 +173,7 @@ void main() {
 
     test('search with no match → empty list', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(search: 'Química'),
+        filter: const ActivityFilter(search: 'Chemistry'),
       );
       expect(result, isEmpty);
     });
@@ -185,7 +185,7 @@ void main() {
 
     test('substring in middle of title → finds record', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(search: 'de Fís'),
+        filter: const ActivityFilter(search: 'Paper'),
       );
       expect(result.length, 1);
       expect(result.first['id'], '2');
@@ -266,7 +266,7 @@ void main() {
 
     test('non-existent tag → empty list', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(tags: ['inexistente']),
+        filter: const ActivityFilter(tags: ['nonexistent']),
       );
       expect(result, isEmpty);
     });
@@ -366,17 +366,17 @@ void main() {
 
   group('filter — category', () {
     setUp(() async {
-      await sut.insert(_row(id: '1', category: 'Prova'));
-      await sut.insert(_row(id: '2', category: 'Trabalho'));
-      await sut.insert(_row(id: '3', category: 'Prova'));
+      await sut.insert(_row(id: '1', category: 'Exam'));
+      await sut.insert(_row(id: '2', category: 'Assignment'));
+      await sut.insert(_row(id: '3', category: 'Exam'));
     });
 
     test('category → returns only activities of that category', () async {
       final result = await sut.getAll(
-        filter: const ActivityFilter(category: 'Prova'),
+        filter: const ActivityFilter(category: 'Exam'),
       );
       expect(result.length, 2);
-      expect(result.every((r) => r['category'] == 'Prova'), isTrue);
+      expect(result.every((r) => r['category'] == 'Exam'), isTrue);
     });
   });
 
@@ -385,30 +385,30 @@ void main() {
       await sut.insert(
         _row(
           id: '1',
-          title: 'Prova de Cálculo',
+          title: 'Calculus Exam',
           tags: ['math'],
           dueDate: '2024-03-10T00:00:00.000',
-          category: 'Prova',
+          category: 'Exam',
         ),
       );
       await sut.insert(
         _row(
           id: '2',
-          title: 'Prova de Física',
+          title: 'Physics Exam',
           status: 'completed',
           tags: ['physics'],
           dueDate: '2024-03-20T00:00:00.000',
-          category: 'Prova',
+          category: 'Exam',
         ),
       );
       await sut.insert(
         _row(
           id: '3',
-          title: 'Trabalho de Arte',
+          title: 'Art Assignment',
           tags: ['art'],
           dueDate: '2024-04-05T00:00:00.000',
           disciplineId: 2,
-          category: 'Trabalho',
+          category: 'Assignment',
         ),
       );
     });
@@ -416,7 +416,7 @@ void main() {
     test('search + status → correct intersection', () async {
       final result = await sut.getAll(
         filter: const ActivityFilter(
-          search: 'Prova',
+          search: 'Exam',
           statuses: [ActivityStatus.pending],
         ),
       );
@@ -427,7 +427,7 @@ void main() {
     test('search + tags + dateRange → no false positives', () async {
       final result = await sut.getAll(
         filter: ActivityFilter(
-          search: 'Prova',
+          search: 'Exam',
           tags: const ['math'],
           startDate: DateTime(2024, 3),
           endDate: DateTime(2024, 3, 15),
@@ -452,7 +452,7 @@ void main() {
     test('category + status → returns only intersection', () async {
       final result = await sut.getAll(
         filter: const ActivityFilter(
-          category: 'Prova',
+          category: 'Exam',
           statuses: [ActivityStatus.completed],
         ),
       );
@@ -463,7 +463,7 @@ void main() {
     test('filter with no match → empty list', () async {
       final result = await sut.getAll(
         filter: const ActivityFilter(
-          search: 'Química',
+          search: 'Chemistry',
           statuses: [ActivityStatus.inProgress],
         ),
       );
@@ -473,11 +473,11 @@ void main() {
     test('all filters combined → unique result', () async {
       final result = await sut.getAll(
         filter: ActivityFilter(
-          search: 'Cálculo',
+          search: 'Calculus',
           statuses: const [ActivityStatus.pending],
           tags: const ['math'],
           disciplineId: 1,
-          category: 'Prova',
+          category: 'Exam',
           startDate: DateTime(2024, 3),
           endDate: DateTime(2024, 3, 31),
         ),

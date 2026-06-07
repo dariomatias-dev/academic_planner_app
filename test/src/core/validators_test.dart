@@ -29,8 +29,8 @@ void main() {
 
     test('custom message returned on failure', () {
       expect(
-        Validators.required(null, message: 'Campo vazio'),
-        equals('Campo vazio'),
+        Validators.required(null, message: 'Empty field'),
+        equals('Empty field'),
       );
     });
 
@@ -89,8 +89,8 @@ void main() {
 
     test('custom message returned on failure', () {
       expect(
-        Validators.email('invalid', message: 'E-mail inválido'),
-        equals('E-mail inválido'),
+        Validators.email('invalid', message: 'Invalid email'),
+        equals('Invalid email'),
       );
     });
 
@@ -153,8 +153,8 @@ void main() {
 
     test('custom message returned on failure', () {
       expect(
-        Validators.url('notaurl', message: 'Link inválido'),
-        equals('Link inválido'),
+        Validators.url('notaurl', message: 'Invalid link'),
+        equals('Invalid link'),
       );
     });
 
@@ -197,8 +197,8 @@ void main() {
 
     test('custom message returned on failure', () {
       expect(
-        Validators.compare('a', 'b', message: 'Não coincidem'),
-        equals('Não coincidem'),
+        Validators.compare('a', 'b', message: 'Do not match'),
+        equals('Do not match'),
       );
     });
 
@@ -274,9 +274,9 @@ void main() {
 
     test('custom messages propagate through multiple', () {
       final validator = Validators.multiple([
-        (v) => Validators.required(v, message: 'Preencha este campo'),
+        (v) => Validators.required(v, message: 'Fill in this field'),
       ]);
-      expect(validator(null), equals('Preencha este campo'));
+      expect(validator(null), equals('Fill in this field'));
     });
   });
 }
