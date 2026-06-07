@@ -1,7 +1,6 @@
+import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:academic_planner/src/core/app_colors.dart';
 
 class AppTheme {
   static ThemeData get light {
@@ -19,7 +18,6 @@ class AppTheme {
         onError: AppColors.white,
         errorContainer: AppColors.red50,
         onErrorContainer: AppColors.red700,
-        brightness: Brightness.light,
       ),
       textSelectionTheme: const TextSelectionThemeData(
         cursorColor: AppColors.emerald600,
@@ -45,14 +43,11 @@ class AppTheme {
         primary: AppColors.emerald500,
         secondary: AppColors.emerald600,
         surface: AppColors.zinc950,
-        onSurface: AppColors.white,
         onSurfaceVariant: AppColors.emerald400,
-        onPrimary: AppColors.black,
         error: AppColors.red600,
         onError: AppColors.white,
         errorContainer: AppColors.red950,
         onErrorContainer: AppColors.red500,
-        brightness: Brightness.dark,
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.black,
@@ -73,7 +68,7 @@ class AppTheme {
         elevation: 0.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24.0),
-          side: const BorderSide(color: AppColors.zinc900, width: 1.0),
+          side: const BorderSide(color: AppColors.zinc900),
         ),
       ),
     );
