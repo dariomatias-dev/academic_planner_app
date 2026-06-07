@@ -1,7 +1,6 @@
+import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-import 'package:academic_planner/src/core/routes/route_names.dart';
 
 class AppRoutes {
   static void goToHome(BuildContext context) {
@@ -12,15 +11,15 @@ class AppRoutes {
     context.goNamed(RouteNames.activities);
   }
 
-  static void goToAbout(BuildContext context) {
-    context.pushNamed(RouteNames.about);
+  static Future<void> goToAbout(BuildContext context) async {
+    await context.pushNamed(RouteNames.about);
   }
 
-  static void goToActivityDetails(
+  static Future<void> goToActivityDetails(
     BuildContext context, {
     required String activityId,
-  }) {
-    context.pushNamed(
+  }) async {
+    await context.pushNamed(
       RouteNames.activityDetails,
       pathParameters: <String, String>{'activityId': activityId},
     );
@@ -42,71 +41,77 @@ class AppRoutes {
     return result as bool?;
   }
 
-  static void goToAgenda(BuildContext context) {
-    context.pushNamed(RouteNames.agenda);
+  static Future<void> goToAgenda(BuildContext context) async {
+    await context.pushNamed(RouteNames.agenda);
   }
 
-  static void goToCategories(BuildContext context) {
-    context.pushNamed(RouteNames.categories);
+  static Future<void> goToCategories(BuildContext context) async {
+    await context.pushNamed(RouteNames.categories);
   }
 
-  static void goToCourseDetails(BuildContext context) {
-    context.pushNamed(RouteNames.courseDetails);
+  static Future<void> goToCourseDetails(BuildContext context) async {
+    await context.pushNamed(RouteNames.courseDetails);
   }
 
-  static void goToDisciplineDetails(
+  static Future<void> goToDisciplineDetails(
     BuildContext context, {
     required int disciplineId,
     int? tab,
-  }) {
-    context.pushNamed(
+  }) async {
+    await context.pushNamed(
       RouteNames.disciplineDetails,
       pathParameters: <String, String>{'disciplineId': disciplineId.toString()},
       queryParameters: <String, String>{if (tab != null) 'tab': tab.toString()},
     );
   }
 
-  static void goToDisciplineSelection(BuildContext context) {
-    context.pushNamed(RouteNames.disciplineSelection);
+  static Future<void> goToDisciplineSelection(BuildContext context) async {
+    await context.pushNamed(RouteNames.disciplineSelection);
   }
 
-  static void goToDisciplines(BuildContext context) {
-    context.pushNamed(RouteNames.disciplines);
+  static Future<void> goToDisciplines(BuildContext context) async {
+    await context.pushNamed(RouteNames.disciplines);
   }
 
-  static void goToEditProfile(BuildContext context) {
-    context.pushNamed(RouteNames.editProfile);
+  static Future<void> goToEditProfile(BuildContext context) async {
+    await context.pushNamed(RouteNames.editProfile);
   }
 
-  static void goToForgotPassword(BuildContext context) {
-    context.pushNamed(RouteNames.forgotPassword);
+  static Future<void> goToForgotPassword(BuildContext context) async {
+    await context.pushNamed(RouteNames.forgotPassword);
   }
 
-  static void goToLogin(BuildContext context, {bool replace = false}) {
+  static Future<void> goToLogin(
+    BuildContext context, {
+    bool replace = false,
+  }) async {
     if (replace) {
       context.goNamed(RouteNames.login);
     } else {
-      context.pushNamed(RouteNames.login);
+      await context.pushNamed(RouteNames.login);
     }
   }
 
-  static void goToMySchedule(BuildContext context) {
-    context.pushNamed(RouteNames.mySchedule);
+  static Future<void> goToMySchedule(BuildContext context) async {
+    await context.pushNamed(RouteNames.mySchedule);
   }
 
-  static void goToNoteDetails(BuildContext context, {required String noteId}) {
-    context.pushNamed(
+  static Future<void> goToNoteDetails(
+    BuildContext context, {
+    required String noteId,
+  }) async {
+    await context.pushNamed(
       RouteNames.noteDetails,
       pathParameters: <String, String>{'noteId': noteId},
     );
   }
 
-  static void goToNoteForm(
+  static Future<void> goToNoteForm(
     BuildContext context, {
-    String? noteId,
     required int disciplineId,
-  }) {
-    context.pushNamed(
+    String? noteId,
+  }) async {
+    await context.pushNamed(
       RouteNames.noteForm,
       queryParameters: <String, String>{
         'noteId': ?noteId,
@@ -115,27 +120,30 @@ class AppRoutes {
     );
   }
 
-  static void goToPdfViewer(
+  static Future<void> goToPdfViewer(
     BuildContext context, {
     required String url,
     required String title,
-  }) {
-    context.pushNamed(
+  }) async {
+    await context.pushNamed(
       RouteNames.pdfViewer,
       queryParameters: <String, String>{'url': url, 'title': title},
     );
   }
 
-  static void goToRegister(BuildContext context, {bool replace = false}) {
+  static Future<void> goToRegister(
+    BuildContext context, {
+    bool replace = false,
+  }) async {
     if (replace) {
       context.goNamed(RouteNames.register);
     } else {
-      context.pushNamed(RouteNames.register);
+      await context.pushNamed(RouteNames.register);
     }
   }
 
-  static void goToSchedule(BuildContext context, {int? period}) {
-    context.pushNamed(
+  static Future<void> goToSchedule(BuildContext context, {int? period}) async {
+    await context.pushNamed(
       RouteNames.schedule,
       queryParameters: <String, String>{
         if (period != null) 'period': period.toString(),
@@ -143,21 +151,21 @@ class AppRoutes {
     );
   }
 
-  static void goToTags(BuildContext context) {
-    context.pushNamed(RouteNames.tags);
+  static Future<void> goToTags(BuildContext context) async {
+    await context.pushNamed(RouteNames.tags);
   }
 
-  static void goToTeacherDetails(
+  static Future<void> goToTeacherDetails(
     BuildContext context, {
     required int teacherId,
-  }) {
-    context.pushNamed(
+  }) async {
+    await context.pushNamed(
       RouteNames.teacherDetails,
       pathParameters: <String, String>{'teacherId': teacherId.toString()},
     );
   }
 
-  static void goToUserManagement(BuildContext context) {
-    context.pushNamed(RouteNames.userManagement);
+  static Future<void> goToUserManagement(BuildContext context) async {
+    await context.pushNamed(RouteNames.userManagement);
   }
 }
