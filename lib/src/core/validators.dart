@@ -23,7 +23,7 @@ class Validators {
   static String? email(String? value, {String? message}) {
     if (value == null || value.trim().isEmpty) return null;
 
-    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final regex = RegExp(r'^[\w\-.+]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!regex.hasMatch(value)) {
       return message ?? 'Insira um e-mail válido';
     }
