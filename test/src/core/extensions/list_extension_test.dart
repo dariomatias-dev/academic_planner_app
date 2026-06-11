@@ -1,4 +1,5 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -43,6 +44,56 @@ void main() {
     test('preserves order of matched elements', () {
       final result = [5, 3, 8, 1, 6].filter((e) => e > 4);
       expect(result, [5, 8, 6]);
+    });
+  });
+
+  group('ListExtension.separated', () {
+    test('empty list → empty list', () {
+      final result = <int>[].separated(
+        () => const Text('sep'),
+        (e, i) => Text('$e'),
+      );
+      expect(result, isEmpty);
+    });
+
+    test('n items → 2n - 1 elements', () {
+      final result = [1, 2, 3].separated(
+        () => const Text('sep'),
+        (e, i) => Text('$e'),
+      );
+      expect(result.length, 5);
+    });
+
+    test('single item → 1 element, no separator', () {
+      final result = [42].separated(
+        () => const Text('sep'),
+        (e, i) => Text('$e'),
+      );
+      expect(result.length, 1);
+    });
+
+    test('correct indices passed to itemBuilder', () {
+      final capturedIndices = <int>[];
+      [10, 20, 30].separated(
+        () => const Text('sep'),
+        (e, i) {
+          capturedIndices.add(i);
+          return Text('$e');
+        },
+      );
+      expect(capturedIndices, [0, 1, 2]);
+    });
+
+    test('odd positions are separators, even are items', () {
+      final result = ['a', 'b', 'c'].separated(
+        () => const Text('|'),
+        (e, i) => Text(e),
+      );
+      expect((result[0] as Text).data, 'a');
+      expect((result[1] as Text).data, '|');
+      expect((result[2] as Text).data, 'b');
+      expect((result[3] as Text).data, '|');
+      expect((result[4] as Text).data, 'c');
     });
   });
 
