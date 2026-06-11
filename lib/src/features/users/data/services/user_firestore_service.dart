@@ -34,8 +34,11 @@ class UserFirestoreService {
     });
   }
 
-  Future<DocumentSnapshot> getUserDoc(String uid) async {
-    return _usersRef.doc(uid).get();
+  Future<UserModel?> getUser(String uid) async {
+    final doc = await _usersRef.doc(uid).get();
+    if (!doc.exists) return null;
+
+    return UserModel.fromMap(doc.data()! as Map<String, dynamic>);
   }
 
   Future<void> updateUser(UserModel user) async {

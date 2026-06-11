@@ -47,15 +47,9 @@ class UserRepositoryImpl implements UserRepository {
   @override
   Future<Result<UserEntity?>> getById(String uid) async {
     try {
-      final doc = await _service.getUserDoc(uid);
+      final user = await _service.getUser(uid);
 
-      if (doc.exists) {
-        final user = UserModel.fromMap(doc.data()! as Map<String, dynamic>);
-
-        return Success(user);
-      }
-
-      return const Success(null);
+      return Success(user);
     } on Exception catch (err) {
       return Failure(ExceptionMapper.mapDatabase(err));
     }
