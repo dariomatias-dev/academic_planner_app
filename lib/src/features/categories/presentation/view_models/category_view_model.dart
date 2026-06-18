@@ -4,8 +4,8 @@ import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 
-class CategoriesViewModel {
-  CategoriesViewModel(this.repository);
+class CategoryViewModel {
+  CategoryViewModel(this.repository);
 
   final CategoryRepository repository;
 
