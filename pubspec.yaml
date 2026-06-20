@@ -58,9 +58,9 @@ dependencies:
   uuid: ^4.5.3
 
 dev_dependencies:
+  fake_cloud_firestore: 4.1.0+1
   flutter_test:
     sdk: flutter
-
   mocktail: ^1.0.4
   sqflite_common_ffi: ^2.3.7+1
   very_good_analysis: ^10.2.0
