@@ -15,7 +15,7 @@ class CategoriesScreen extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     final categories =
-        ref.watch(categoriesNotifierProvider).asData?.value ?? [];
+        ref.watch(categoryNotifierProvider).asData?.value ?? [];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -101,7 +101,7 @@ class CategoriesScreen extends ConsumerWidget {
                           onDelete: () {
                             return resultToError(
                               ref
-                                  .read(categoriesNotifierProvider.notifier)
+                                  .read(categoryNotifierProvider.notifier)
                                   .remove(index),
                             );
                           },

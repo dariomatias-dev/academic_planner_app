@@ -47,7 +47,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       await Future.wait([
         ref.read(authNotifierProvider.future),
         ref.read(userNotifierProvider.future),
-        ref.read(categoriesNotifierProvider.future),
+        ref.read(categoryNotifierProvider.future),
         ref.read(tagNotifierProvider.future),
         GoogleFonts.pendingFonts([
           GoogleFonts.plusJakartaSans(fontWeight: FontWeight.w500),

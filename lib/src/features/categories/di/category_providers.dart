@@ -3,7 +3,7 @@ import 'package:academic_planner/src/features/categories/data/data_source/catego
 import 'package:academic_planner/src/features/categories/data/repositories/category_repository_impl.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
-import 'package:academic_planner/src/features/categories/presentation/providers/categories_notifier.dart';
+import 'package:academic_planner/src/features/categories/presentation/providers/category_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final categoryDataSourceProvider = Provider<CategoryLocalDataSource>((ref) {
@@ -18,7 +18,7 @@ final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {
   return CategoryRepositoryImpl(datasource);
 });
 
-final categoriesNotifierProvider =
-    AsyncNotifierProvider<CategoriesNotifier, List<Category>>(() {
-      return CategoriesNotifier();
-    });
+final categoryNotifierProvider =
+    AsyncNotifierProvider<CategoryNotifier, List<Category>>(
+      CategoryNotifier.new,
+    );

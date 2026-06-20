@@ -18,7 +18,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
   final ValueChanged<String?> onChanged;
 
   Future<void> _openModal(BuildContext context, WidgetRef ref) async {
-    final categories = ref.read(categoriesNotifierProvider).asData?.value ?? [];
+    final categories = ref.read(categoryNotifierProvider).asData?.value ?? [];
 
     await ModalBottomSheetWidget.show<void>(
       context: context,

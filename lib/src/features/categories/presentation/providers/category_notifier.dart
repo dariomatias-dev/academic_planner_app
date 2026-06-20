@@ -4,7 +4,7 @@ import 'package:academic_planner/src/features/categories/domain/entities/categor
 import 'package:academic_planner/src/features/categories/presentation/view_models/category_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CategoriesNotifier extends AsyncNotifier<List<Category>> {
+class CategoryNotifier extends AsyncNotifier<List<Category>> {
   late final CategoryViewModel _viewModel;
 
   @override
