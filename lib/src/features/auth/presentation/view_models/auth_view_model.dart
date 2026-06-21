@@ -21,6 +21,50 @@ class AuthViewModel {
   UserEntity? user;
   bool isEmailVerified = false;
 
+  Future<Result<UserEntity?>> restoreSession() async {
+    _log.info('restoreSession started');
+
+    final current = authRepository.currentUser;
+
+    if (current == null) return const Success(null);
+
+    final reloadResult = await authRepository.reloadUser();
+
+    if (reloadResult case Failure(failure: final f)) {
+      _log.warning('restoreSession: reloadUser failed: ${f.message}');
+
+      return Failure(f);
+    }
+
+    final refreshed = authRepository.currentUser ?? current;
+
+    if (!refreshed.emailVerified) {
+      await authRepository.signOut();
+
+      _log.info('restoreSession: email not verified, signed out');
+
+      return const Success(null);
+    }
+
+    final result = await userRepository.getById(refreshed.uid);
+
+    return result.fold(
+      onSuccess: (userData) {
+        user = userData;
+        isEmailVerified = true;
+
+        _log.info('restoreSession success');
+
+        return Success(userData);
+      },
+      onFailure: (f) {
+        _log.warning('restoreSession: getById failed: ${f.message}');
+
+        return Failure(f);
+      },
+    );
+  }
+
   Future<Result<void>> signIn(LoginEntity entity) async {
     _log.info('signIn started: ${entity.email}');
 
