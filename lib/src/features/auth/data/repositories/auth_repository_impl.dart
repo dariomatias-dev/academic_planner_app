@@ -3,6 +3,7 @@ import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/auth/data/models/login_model.dart';
 import 'package:academic_planner/src/features/auth/data/models/register_model.dart';
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
@@ -14,29 +15,29 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthService _service;
 
   @override
-  User? get currentUser => _service.currentUser;
+  AuthUserEntity? get currentUser => _toEntity(_service.currentUser);
 
   @override
-  Future<Result<UserCredential>> signIn(LoginEntity entity) async {
+  Future<Result<void>> signIn(LoginEntity entity) async {
     try {
       final model = LoginModel.fromEntity(entity);
 
-      final credential = await _service.signIn(model.email, model.password);
+      await _service.signIn(model.email, model.password);
 
-      return Success(credential);
+      return const Success(null);
     } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
   }
 
   @override
-  Future<Result<UserCredential>> signUp(RegisterEntity entity) async {
+  Future<Result<AuthUserEntity?>> signUp(RegisterEntity entity) async {
     try {
       final model = RegisterModel.fromEntity(entity);
 
       final credential = await _service.signUp(model.email, model.password);
 
-      return Success(credential);
+      return Success(_toEntity(credential.user));
     } on Exception catch (err) {
       return Failure(ExceptionMapper.mapAuth(err));
     }
@@ -87,7 +88,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Stream<User?> authStateChanges() {
-    return _service.authStateChanges();
+  Stream<AuthUserEntity?> authStateChanges() {
+    return _service.authStateChanges().map(_toEntity);
+  }
+
+  AuthUserEntity? _toEntity(User? user) {
+    if (user == null) return null;
+
+    return AuthUserEntity(uid: user.uid, emailVerified: user.emailVerified);
   }
 }

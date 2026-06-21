@@ -1,13 +1,13 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -15,10 +15,6 @@ import 'package:mocktail/mocktail.dart';
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockUserRepository extends Mock implements UserRepository {}
-
-class MockUser extends Mock implements User {}
-
-class MockUserCredential extends Mock implements UserCredential {}
 
 LoginEntity _loginEntity() => LoginEntity(email: 'a@b.com', password: '123456');
 
@@ -32,6 +28,9 @@ UserEntity _userEntity({String id = 'uid-1'}) => UserEntity(
   createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
   updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
 );
+
+AuthUserEntity _authUser({String uid = 'uid-1', bool emailVerified = true}) =>
+    AuthUserEntity(uid: uid, emailVerified: emailVerified);
 
 void main() {
   late MockAuthRepository mockAuthRepository;
@@ -62,14 +61,14 @@ void main() {
       final state = await container.read(authNotifierProvider.future);
 
       expect(state, isNull);
+      verifyNever(() => mockAuthRepository.reloadUser());
     });
 
     test('verified user → resolves to user from repository', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockUserRepository.getById('uid-1'),
       ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
@@ -81,10 +80,12 @@ void main() {
     });
 
     test('unverified user → signs out and resolves to null', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(false);
+      when(
+        () => mockAuthRepository.currentUser,
+      ).thenReturn(_authUser(emailVerified: false));
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockAuthRepository.signOut(),
       ).thenAnswer((_) async => const Success<void>(null));
@@ -95,12 +96,32 @@ void main() {
       verify(() => mockAuthRepository.signOut()).called(1);
     });
 
+    test('reloadUser failure → throws', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(() => mockAuthRepository.reloadUser()).thenAnswer(
+        (_) async => const Failure<void>(UnknownFailure('reload failed')),
+      );
+
+      final retryContainer = ProviderContainer(
+        retry: (_, _) => null,
+        overrides: [
+          authRepositoryProvider.overrideWithValue(mockAuthRepository),
+          userRepositoryProvider.overrideWithValue(mockUserRepository),
+        ],
+      );
+      addTearDown(retryContainer.dispose);
+
+      await expectLater(
+        retryContainer.read(authNotifierProvider.future),
+        throwsException,
+      );
+    });
+
     test('getById failure → throws', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(() => mockUserRepository.getById('uid-1')).thenAnswer(
         (_) async => const Failure<UserEntity?>(DatabaseFailure('not found')),
       );
@@ -126,15 +147,13 @@ void main() {
       when(() => mockAuthRepository.currentUser).thenReturn(null);
       await container.read(authNotifierProvider.future);
 
-      final mockUser = MockUser();
-      final mockCredential = MockUserCredential();
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(mockCredential),
-      );
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockUserRepository.getById('uid-1'),
       ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
@@ -154,9 +173,7 @@ void main() {
       await container.read(authNotifierProvider.future);
 
       when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => const Failure<UserCredential>(
-          AuthFailure('invalid credentials'),
-        ),
+        (_) async => const Failure<void>(AuthFailure('invalid credentials')),
       );
 
       final result = await container
@@ -174,11 +191,9 @@ void main() {
       when(() => mockAuthRepository.currentUser).thenReturn(null);
       await container.read(authNotifierProvider.future);
 
-      final mockCredential = MockUserCredential();
-      when(() => mockAuthRepository.signUp(any())).thenAnswer(
-        (_) async => Success<UserCredential>(mockCredential),
-      );
-      when(() => mockCredential.user).thenReturn(null);
+      when(
+        () => mockAuthRepository.signUp(any()),
+      ).thenAnswer((_) async => const Success<AuthUserEntity?>(null));
       when(
         () => mockAuthRepository.signOut(),
       ).thenAnswer((_) async => const Success<void>(null));
@@ -198,7 +213,7 @@ void main() {
       await container.read(authNotifierProvider.future);
 
       when(() => mockAuthRepository.signUp(any())).thenAnswer(
-        (_) async => const Failure<UserCredential>(
+        (_) async => const Failure<AuthUserEntity?>(
           AuthFailure('email already in use'),
         ),
       );
@@ -283,11 +298,10 @@ void main() {
 
   group('sendEmailVerification', () {
     test('success → state becomes AsyncData with current user', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockUserRepository.getById('uid-1'),
       ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));

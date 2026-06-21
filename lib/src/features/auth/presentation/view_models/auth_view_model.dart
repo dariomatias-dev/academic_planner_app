@@ -37,9 +37,17 @@ class AuthViewModel {
             return const Success(null);
           }
 
-          await current.reload();
+          final reloadResult = await authRepository.reloadUser();
 
-          if (!current.emailVerified) {
+          if (reloadResult case Failure(failure: final f)) {
+            _log.warning('signIn: reloadUser failed: ${f.message}');
+
+            return Failure(f);
+          }
+
+          final refreshed = authRepository.currentUser ?? current;
+
+          if (!refreshed.emailVerified) {
             await authRepository.signOut();
 
             _log.warning('Email not verified: ${entity.email}');
@@ -49,7 +57,7 @@ class AuthViewModel {
 
           isEmailVerified = true;
 
-          final userResult = await userRepository.getById(current.uid);
+          final userResult = await userRepository.getById(refreshed.uid);
 
           return userResult.fold(
             onSuccess: (userData) {
@@ -81,13 +89,11 @@ class AuthViewModel {
     final result = await authRepository.signUp(entity);
 
     return result.fold<Future<Result<void>>>(
-      onSuccess: (credential) async {
+      onSuccess: (authUser) async {
         try {
-          final firebaseUser = credential.user;
-
-          if (firebaseUser != null) {
+          if (authUser != null) {
             final newUser = UserEntity(
-              id: firebaseUser.uid,
+              id: authUser.uid,
               email: entity.email,
               name: entity.name,
               createdAt: DateTime.now(),
@@ -95,11 +101,11 @@ class AuthViewModel {
             );
 
             await userRepository.create(newUser);
-            await firebaseUser.sendEmailVerification();
+            await authRepository.sendEmailVerification();
 
             _log.info('User created and verification sent: ${entity.email}');
           } else {
-            _log.warning('signUp: firebaseUser is null');
+            _log.warning('signUp: authUser is null');
           }
 
           await authRepository.signOut();

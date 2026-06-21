@@ -21,15 +21,21 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
 
     if (current == null) return null;
 
-    await current.reload();
+    final reloadResult = await viewModel.authRepository.reloadUser();
 
-    if (!current.emailVerified) {
+    if (reloadResult case Failure(failure: final f)) {
+      throw Exception(f.message);
+    }
+
+    final refreshed = viewModel.authRepository.currentUser ?? current;
+
+    if (!refreshed.emailVerified) {
       await viewModel.authRepository.signOut();
 
       return null;
     }
 
-    final result = await viewModel.userRepository.getById(current.uid);
+    final result = await viewModel.userRepository.getById(refreshed.uid);
 
     return result.fold(
       onSuccess: (user) {

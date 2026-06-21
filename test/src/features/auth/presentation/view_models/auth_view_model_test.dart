@@ -1,22 +1,18 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/features/auth/domain/entities/auth_user_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/auth/presentation/view_models/auth_view_model.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
 class MockUserRepository extends Mock implements UserRepository {}
-
-class MockUser extends Mock implements User {}
-
-class MockUserCredential extends Mock implements UserCredential {}
 
 LoginEntity _loginEntity() => LoginEntity(email: 'a@b.com', password: '123456');
 
@@ -30,6 +26,9 @@ UserEntity _userEntity({String id = 'uid-1'}) => UserEntity(
   createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
   updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
 );
+
+AuthUserEntity _authUser({String uid = 'uid-1', bool emailVerified = true}) =>
+    AuthUserEntity(uid: uid, emailVerified: emailVerified);
 
 void main() {
   late MockAuthRepository mockAuthRepository;
@@ -53,14 +52,13 @@ void main() {
 
   group('signIn', () {
     test('success → sets user and isEmailVerified', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(MockUserCredential()),
-      );
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockUserRepository.getById('uid-1'),
       ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
@@ -74,9 +72,7 @@ void main() {
 
     test('repository failure → returns Failure', () async {
       when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => const Failure<UserCredential>(
-          AuthFailure('invalid credentials'),
-        ),
+        (_) async => const Failure<void>(AuthFailure('invalid credentials')),
       );
 
       final result = await sut.signIn(_loginEntity());
@@ -85,25 +81,28 @@ void main() {
     });
 
     test('currentUser null → returns Success without reload', () async {
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(MockUserCredential()),
-      );
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(() => mockAuthRepository.currentUser).thenReturn(null);
 
       final result = await sut.signIn(_loginEntity());
 
       expect(result, isA<Success<void>>());
+      verifyNever(() => mockAuthRepository.reloadUser());
       verifyNever(() => mockUserRepository.getById(any()));
     });
 
     test('email not verified → forces signOut and returns Failure', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(MockUserCredential()),
-      );
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(false);
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(
+        () => mockAuthRepository.currentUser,
+      ).thenReturn(_authUser(emailVerified: false));
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(
         () => mockAuthRepository.signOut(),
       ).thenAnswer((_) async => const Success<void>(null));
@@ -119,15 +118,34 @@ void main() {
       expect(sut.isEmailVerified, isFalse);
     });
 
-    test('getById failure → returns Failure', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(MockUserCredential()),
+    test('reloadUser failure → returns Failure', () async {
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(
+        () => mockAuthRepository.currentUser,
+      ).thenReturn(_authUser());
+      when(() => mockAuthRepository.reloadUser()).thenAnswer(
+        (_) async => const Failure<void>(UnknownFailure('reload failed')),
       );
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenAnswer((_) async {});
-      when(() => mockUser.emailVerified).thenReturn(true);
-      when(() => mockUser.uid).thenReturn('uid-1');
+
+      final result = await sut.signIn(_loginEntity());
+
+      expect(result, isA<Failure<void>>());
+      result.when(
+        onSuccess: (_) => fail('expected failure'),
+        onFailure: (f) => expect(f, isA<UnknownFailure>()),
+      );
+    });
+
+    test('getById failure → returns Failure', () async {
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
       when(() => mockUserRepository.getById('uid-1')).thenAnswer(
         (_) async => const Failure<UserEntity?>(DatabaseFailure('not found')),
       );
@@ -138,12 +156,16 @@ void main() {
     });
 
     test('exception during processing → returns UnknownFailure', () async {
-      final mockUser = MockUser();
-      when(() => mockAuthRepository.signIn(any())).thenAnswer(
-        (_) async => Success<UserCredential>(MockUserCredential()),
-      );
-      when(() => mockAuthRepository.currentUser).thenReturn(mockUser);
-      when(mockUser.reload).thenThrow(Exception('reload failed'));
+      when(
+        () => mockAuthRepository.signIn(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenThrow(Exception('lookup failed'));
 
       final result = await sut.signIn(_loginEntity());
 
@@ -157,19 +179,17 @@ void main() {
 
   group('signUp', () {
     test(
-      'success with firebaseUser → creates user and sends verification',
+      'success with authUser → creates user and sends verification',
       () async {
-        final mockUser = MockUser();
-        final mockCredential = MockUserCredential();
         when(
           () => mockAuthRepository.signUp(any()),
-        ).thenAnswer((_) async => Success<UserCredential>(mockCredential));
-        when(() => mockCredential.user).thenReturn(mockUser);
-        when(() => mockUser.uid).thenReturn('uid-1');
+        ).thenAnswer((_) async => Success<AuthUserEntity?>(_authUser()));
         when(
           () => mockUserRepository.create(any()),
         ).thenAnswer((_) async => const Success<void>(null));
-        when(mockUser.sendEmailVerification).thenAnswer((_) async {});
+        when(
+          () => mockAuthRepository.sendEmailVerification(),
+        ).thenAnswer((_) async => const Success<void>(null));
         when(
           () => mockAuthRepository.signOut(),
         ).thenAnswer((_) async => const Success<void>(null));
@@ -180,19 +200,17 @@ void main() {
         expect(sut.user, isNull);
         expect(sut.isEmailVerified, isFalse);
         verify(() => mockUserRepository.create(any())).called(1);
-        verify(mockUser.sendEmailVerification).called(1);
+        verify(() => mockAuthRepository.sendEmailVerification()).called(1);
         verify(() => mockAuthRepository.signOut()).called(1);
       },
     );
 
     test(
-      'firebaseUser null → skips create/sendEmailVerification but signs out',
+      'authUser null → skips create/sendEmailVerification but signs out',
       () async {
-        final mockCredential = MockUserCredential();
         when(
           () => mockAuthRepository.signUp(any()),
-        ).thenAnswer((_) async => Success<UserCredential>(mockCredential));
-        when(() => mockCredential.user).thenReturn(null);
+        ).thenAnswer((_) async => const Success<AuthUserEntity?>(null));
         when(
           () => mockAuthRepository.signOut(),
         ).thenAnswer((_) async => const Success<void>(null));
@@ -201,13 +219,14 @@ void main() {
 
         expect(result, isA<Success<void>>());
         verifyNever(() => mockUserRepository.create(any()));
+        verifyNever(() => mockAuthRepository.sendEmailVerification());
         verify(() => mockAuthRepository.signOut()).called(1);
       },
     );
 
     test('repository failure → returns Failure', () async {
       when(() => mockAuthRepository.signUp(any())).thenAnswer(
-        (_) async => const Failure<UserCredential>(
+        (_) async => const Failure<AuthUserEntity?>(
           AuthFailure('email already in use'),
         ),
       );
@@ -218,13 +237,9 @@ void main() {
     });
 
     test('exception during processing → returns UnknownFailure', () async {
-      final mockUser = MockUser();
-      final mockCredential = MockUserCredential();
       when(
         () => mockAuthRepository.signUp(any()),
-      ).thenAnswer((_) async => Success<UserCredential>(mockCredential));
-      when(() => mockCredential.user).thenReturn(mockUser);
-      when(() => mockUser.uid).thenReturn('uid-1');
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_authUser()));
       when(
         () => mockUserRepository.create(any()),
       ).thenThrow(Exception('create failed'));
