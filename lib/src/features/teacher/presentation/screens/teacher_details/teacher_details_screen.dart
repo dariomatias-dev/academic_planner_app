@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/features/teacher/domain/entities/teacher.dart';
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/widgets/teacher_details_header_widget.dart';
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/widgets/teacher_details_section_widget.dart';
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/widgets/teacher_details_timeline_item_widget.dart';
@@ -25,7 +25,7 @@ class TeacherDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
-  TeacherModel? _teacher;
+  Teacher? _teacher;
   bool _isLoading = true;
 
   Future<void> _fetchTeacher() async {
@@ -39,7 +39,7 @@ class _TeacherDetailsScreenState extends ConsumerState<TeacherDetailsScreen> {
     });
   }
 
-  Widget _buildFormationList(List<TeacherFormationModel> formations) {
+  Widget _buildFormationList(List<TeacherFormation> formations) {
     return Column(
       children: formations.builder((formation, _) {
         return TeacherDetailsTimelineItemWidget(

@@ -1,11 +1,11 @@
-import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/domain/entities/teacher.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TeacherDetailsHeaderWidget extends StatelessWidget {
   const TeacherDetailsHeaderWidget({required this.teacher, super.key});
 
-  final TeacherModel teacher;
+  final Teacher teacher;
 
   TextStyle _textStyle(
     BuildContext context, {

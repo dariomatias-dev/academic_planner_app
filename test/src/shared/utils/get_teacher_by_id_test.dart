@@ -1,11 +1,11 @@
-import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/domain/entities/teacher.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const teachers = [
-    TeacherModel(id: 1, name: 'Alice', lattes: 'lattes-1'),
-    TeacherModel(id: 2, name: 'Bob', lattes: 'lattes-2'),
+    Teacher(id: 1, name: 'Alice', lattes: 'lattes-1'),
+    Teacher(id: 2, name: 'Bob', lattes: 'lattes-2'),
   ];
 
   group('getTeacherById', () {

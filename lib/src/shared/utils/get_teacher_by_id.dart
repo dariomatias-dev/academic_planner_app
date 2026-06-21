@@ -1,11 +1,11 @@
-import 'package:academic_planner/src/features/teacher/data/models/teacher_model.dart';
+import 'package:academic_planner/src/features/teacher/domain/entities/teacher.dart';
 
-const defaultTeacher = TeacherModel(
+const defaultTeacher = Teacher(
   id: 0,
   name: 'Professor não definido',
   lattes: '',
 );
 
-TeacherModel getTeacherById(int id, List<TeacherModel> teachers) {
+Teacher getTeacherById(int id, List<Teacher> teachers) {
   return teachers.firstWhere((t) => t.id == id, orElse: () => defaultTeacher);
 }
