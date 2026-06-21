@@ -1,12 +1,12 @@
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ActivityDetailsDisciplineWidget extends StatelessWidget {
   const ActivityDetailsDisciplineWidget({required this.discipline, super.key});
 
-  final DisciplineModel discipline;
+  final Discipline discipline;
 
   @override
   Widget build(BuildContext context) {

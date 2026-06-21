@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesThird = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesThird = <Discipline>[
+  Discipline(
     id: 35,
     acronym: 'MPC',
     name: 'Metodologia da Pesquisa Científica',
@@ -20,7 +20,7 @@ final adsDisciplinesThird = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'metodologia.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 31,
     acronym: 'EDA',
     name: 'Estrutura de Dados e Algoritmos',
@@ -39,7 +39,7 @@ final adsDisciplinesThird = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Estrutura_de_Dados_e_Algoritmos.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 32,
     acronym: 'BD I',
     name: 'Banco de Dados I',
@@ -58,7 +58,7 @@ final adsDisciplinesThird = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Banco_de_Dados_I.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 34,
     acronym: 'DAW I',
     name: 'Desenvolvimento de Aplicações Web I',
@@ -78,7 +78,7 @@ final adsDisciplinesThird = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'DAW_I.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 33,
     acronym: 'PP',
     name: 'Padrões de Projeto',

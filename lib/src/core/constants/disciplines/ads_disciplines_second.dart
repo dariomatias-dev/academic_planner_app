@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesSecond = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesSecond = <Discipline>[
+  Discipline(
     id: 25,
     acronym: 'POO',
     name: 'Programação Orientada a Objetos',
@@ -19,7 +19,7 @@ final adsDisciplinesSecond = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'POO_HQ1Xogk.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 24,
     acronym: 'PE',
     name: 'Probabilidade e Estatística',
@@ -39,7 +39,7 @@ final adsDisciplinesSecond = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'probabilidade.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 23,
     acronym: 'LPT II',
     name: 'Práticas de Leitura e Produção de Textos II',
@@ -58,7 +58,7 @@ final adsDisciplinesSecond = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'PLPT_II.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 26,
     acronym: 'Redes',
     name: 'Introdução a Redes de Computadores',
@@ -77,7 +77,7 @@ final adsDisciplinesSecond = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'introdu%C3%A7%C3%A3o_a_rede_de_computadores.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 22,
     acronym: 'Inglês II',
     name: 'Inglês Instrumental II',
@@ -97,7 +97,7 @@ final adsDisciplinesSecond = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Ingl%C3%AAs_II.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 21,
     acronym: 'LTG',
     name: 'Lógica e Teoria dos Grafos',

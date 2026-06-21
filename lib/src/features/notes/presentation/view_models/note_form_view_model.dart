@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/result/result.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/providers/note_notifier.dart';
 import 'package:flutter/foundation.dart';
@@ -23,11 +23,11 @@ class NoteFormViewModel {
   final titleController = TextEditingController();
   final contentController = QuillController.basic();
 
-  final _disciplineNotifier = ValueNotifier<DisciplineModel?>(null);
+  final _disciplineNotifier = ValueNotifier<Discipline?>(null);
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _canSaveNotifier = ValueNotifier<bool>(false);
 
-  ValueListenable<DisciplineModel?> get discipline => _disciplineNotifier;
+  ValueListenable<Discipline?> get discipline => _disciplineNotifier;
   ValueListenable<bool> get isLoading => _isLoadingNotifier;
   ValueListenable<bool> get canSave => _canSaveNotifier;
 
@@ -73,7 +73,7 @@ class NoteFormViewModel {
     return _noteNotifier.add(newNote);
   }
 
-  void setDiscipline(DisciplineModel value) {
+  void setDiscipline(Discipline value) {
     _disciplineNotifier.value = value;
 
     updateChangeTracker();

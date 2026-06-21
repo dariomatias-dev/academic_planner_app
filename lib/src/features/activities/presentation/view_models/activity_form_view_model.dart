@@ -4,7 +4,7 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/providers/activity_notifier.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -25,7 +25,7 @@ class ActivityFormViewModel {
   final notesController = TextEditingController();
   final descriptionController = QuillController.basic();
 
-  final _disciplineNotifier = ValueNotifier<DisciplineModel?>(null);
+  final _disciplineNotifier = ValueNotifier<Discipline?>(null);
   final _dueDateNotifier = ValueNotifier<DateTime?>(null);
   final _statusNotifier = ValueNotifier<ActivityStatus>(ActivityStatus.draft);
   final _categoryNotifier = ValueNotifier<String?>(null);
@@ -34,7 +34,7 @@ class ActivityFormViewModel {
   final _isLoadingNotifier = ValueNotifier<bool>(false);
   final _canSaveNotifier = ValueNotifier<bool>(false);
 
-  ValueListenable<DisciplineModel?> get discipline => _disciplineNotifier;
+  ValueListenable<Discipline?> get discipline => _disciplineNotifier;
   ValueListenable<DateTime?> get dueDate => _dueDateNotifier;
   ValueListenable<ActivityStatus> get status => _statusNotifier;
   ValueListenable<String?> get category => _categoryNotifier;
@@ -153,7 +153,7 @@ class ActivityFormViewModel {
     return jsonEncode(descriptionController.document.toDelta().toJson());
   }
 
-  void setDiscipline(DisciplineModel? value) {
+  void setDiscipline(Discipline? value) {
     _disciplineNotifier.value = value;
 
     updateChangeTracker();

@@ -2,8 +2,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/day_names.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/schedule/data/models/schedule_entry.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
+import 'package:academic_planner/src/features/schedule/domain/entities/schedule_entry.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_data_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_header_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_time_cell_widget.dart';
@@ -22,7 +22,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
   final GlobalKey repaintKey;
   final List<TimeSlot> timeSlots;
   final List<ScheduleEntry> entries;
-  final List<DisciplineModel> disciplines;
+  final List<Discipline> disciplines;
 
   @override
   Widget build(BuildContext context) {

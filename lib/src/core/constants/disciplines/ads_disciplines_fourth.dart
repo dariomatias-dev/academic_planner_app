@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesFourth = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesFourth = <Discipline>[
+  Discipline(
     id: 44,
     acronym: 'Intr. Admin',
     name: 'Introdução à Administração',
@@ -20,7 +20,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'adm.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 42,
     acronym: 'BD II',
     name: 'Banco de Dados II',
@@ -39,7 +39,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Banco_de_dados_II.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 45,
     acronym: 'SO',
     name: 'Sistemas Operacionais',
@@ -57,7 +57,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Sistemas_Operacionais.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 41,
     acronym: 'APS',
     name: 'Análise e Projeto de Sistemas',
@@ -75,7 +75,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'aps.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 46,
     acronym: 'RHT',
     name: 'Relações Humanas no Trabalho',
@@ -93,7 +93,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'rht.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 43,
     acronym: 'DAW II',
     name: 'Desenvolvimento de Aplicações Web II',
@@ -112,7 +112,7 @@ final adsDisciplinesFourth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'DAW_II.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 47,
     acronym: 'STI',
     name: 'Sociedade e Tecnologia da Informação',

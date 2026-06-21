@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,13 +15,13 @@ class DisciplineListModalWidget extends StatelessWidget {
     this.onActionPressed,
   });
 
-  final List<DisciplineModel> disciplines;
+  final List<Discipline> disciplines;
   final int? selectedId;
   final String emptyTitle;
   final String emptyDescription;
   final String? actionLabel;
   final VoidCallback? onActionPressed;
-  final void Function(DisciplineModel value) onSelected;
+  final void Function(Discipline value) onSelected;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesFirst = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesFirst = <Discipline>[
+  Discipline(
     id: 15,
     acronym: 'Intr. Comp.',
     name: 'Introdução à Computação',
@@ -20,7 +20,7 @@ final adsDisciplinesFirst = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Introdu%C3%A7%C3%A3o_%C3%A0_computa%C3%A7%C3%A3o.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 14,
     acronym: 'Algo',
     name: 'Algoritmos e Lógica de Programação',
@@ -38,7 +38,7 @@ final adsDisciplinesFirst = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'ALgoritmos_e_L%C3%B3gica_de_Programa%C3%A7%C3%A3o.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 11,
     acronym: 'MAC',
     name: 'Matemática Aplicada à Computação',
@@ -56,7 +56,7 @@ final adsDisciplinesFirst = <DisciplineModel>[
     coursePlan:
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/mat.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 13,
     acronym: 'LPT I',
     name: 'Práticas de Leitura e Produção de Textos I',
@@ -75,7 +75,7 @@ final adsDisciplinesFirst = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'PLPT_I.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 12,
     acronym: 'Inglês I',
     name: 'Inglês Instrumental I',

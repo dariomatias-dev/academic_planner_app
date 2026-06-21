@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
+import 'package:academic_planner/src/core/constants/teachers.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +15,7 @@ class DisciplineCardWidget extends StatelessWidget {
   });
 
   final int index;
-  final DisciplineModel discipline;
+  final Discipline discipline;
   final VoidCallback? onTap;
   final Widget? trailing;
   final double opacity;

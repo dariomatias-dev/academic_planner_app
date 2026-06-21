@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class DisciplineCardItemWidget extends StatelessWidget {
   });
 
   final int index;
-  final DisciplineModel discipline;
+  final Discipline discipline;
   final int? initialTabIndex;
 
   @override

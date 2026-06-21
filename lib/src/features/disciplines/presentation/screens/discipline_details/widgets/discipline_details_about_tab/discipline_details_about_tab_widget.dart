@@ -1,12 +1,12 @@
+import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_requirement_expandable_tile_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_schedules_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_section_title_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_stats_grid_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_teacher_card_widget.dart';
-import 'package:academic_planner/src/features/teacher/data/services/teacher_mock_data.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,9 +19,9 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
     super.key,
   });
 
-  final DisciplineModel discipline;
-  final List<DisciplineModel> prerequisites;
-  final List<DisciplineModel> prerequisiteFor;
+  final Discipline discipline;
+  final List<Discipline> prerequisites;
+  final List<Discipline> prerequisiteFor;
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesFifth = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesFifth = <Discipline>[
+  Discipline(
     id: 52,
     acronym: 'PDM',
     name: 'Programação para Dispositivos Móveis',
@@ -20,7 +20,7 @@ final adsDisciplinesFifth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'PDM.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 53,
     acronym: 'PJ I',
     name: 'Projeto de Software I',
@@ -40,7 +40,7 @@ final adsDisciplinesFifth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Projeto_de_Software_I.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 55,
     acronym: 'Empreend.',
     name: 'Empreendedorismo',
@@ -59,7 +59,7 @@ final adsDisciplinesFifth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Empreendedorismo_AQmmK77.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 54,
     acronym: 'IA',
     name: 'Mediação de Conflitos',
@@ -78,7 +78,7 @@ final adsDisciplinesFifth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Intelig%C3%AAncia_artificial.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 51,
     acronym: 'DAW III',
     name: 'Desenvolvimento de Aplicações Web III',

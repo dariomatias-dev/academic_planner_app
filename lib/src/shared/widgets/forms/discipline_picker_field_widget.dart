@@ -2,8 +2,8 @@ import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
@@ -21,10 +21,10 @@ class DisciplinePickerFieldWidget extends ConsumerStatefulWidget {
     this.validator,
   });
 
-  final DisciplineModel? selectedDiscipline;
+  final Discipline? selectedDiscipline;
   final bool isRequired;
-  final String? Function(DisciplineModel?)? validator;
-  final void Function(DisciplineModel value) onSelected;
+  final String? Function(Discipline?)? validator;
+  final void Function(Discipline value) onSelected;
 
   @override
   ConsumerState<DisciplinePickerFieldWidget> createState() =>
@@ -34,7 +34,7 @@ class DisciplinePickerFieldWidget extends ConsumerStatefulWidget {
 class _DisciplinePickerFieldWidgetState
     extends ConsumerState<DisciplinePickerFieldWidget> {
   late final FocusNode _focusNode;
-  final _formFieldKey = GlobalKey<FormFieldState<DisciplineModel>>();
+  final _formFieldKey = GlobalKey<FormFieldState<Discipline>>();
 
   @override
   void initState() {
@@ -68,7 +68,7 @@ class _DisciplinePickerFieldWidgetState
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return FormField<DisciplineModel>(
+    return FormField<Discipline>(
       key: _formFieldKey,
       initialValue: widget.selectedDiscipline,
       validator: (value) {

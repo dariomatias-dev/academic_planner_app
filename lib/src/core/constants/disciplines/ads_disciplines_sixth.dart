@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 
-final adsDisciplinesSixth = <DisciplineModel>[
-  DisciplineModel(
+final adsDisciplinesSixth = <Discipline>[
+  Discipline(
     id: 63,
     acronym: 'PJ II',
     name: 'Projeto de Software II',
@@ -20,7 +20,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Projeto2.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 64,
     acronym: 'TT',
     name: 'Técnicas de Testes',
@@ -39,7 +39,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Testes.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 62,
     acronym: 'GCM',
     name: 'Gerência de Configuração e Mudanças',
@@ -58,7 +58,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'GERENCIA-CONFIGURACAO-CORRIGIDO.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 61,
     acronym: 'Segurança',
     name: 'Segurança da Informação',
@@ -76,7 +76,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Seguranca.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 65,
     acronym: 'CD',
     name: 'Ciência de Dados',
@@ -95,7 +95,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Ci%C3%AAncia_de_Dados.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 66,
     acronym: 'Jogos Digitais',
     name: 'Jogos Digitais',
@@ -114,7 +114,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'jogos_digitais.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 67,
     acronym: 'LIBRAS',
     name: 'LIBRAS (Língua Brasileira de Sinais)',
@@ -132,7 +132,7 @@ final adsDisciplinesSixth = <DisciplineModel>[
         'https://estudante.ifpb.edu.br/media/cursos/346/disciplina/'
         'Libras.pdf',
   ),
-  DisciplineModel(
+  Discipline(
     id: 68,
     acronym: 'IHC',
     name: 'Interação Humano-Computador',

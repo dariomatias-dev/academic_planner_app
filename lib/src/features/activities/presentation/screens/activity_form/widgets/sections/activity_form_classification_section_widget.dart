@@ -4,7 +4,7 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_status_selector_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/widgets/fields/activity_form_tag_selector_widget.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
-import 'package:academic_planner/src/features/disciplines/data/models/discipline_model.dart';
+import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/foundation.dart';
@@ -26,8 +26,8 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
     super.key,
   });
 
-  final ValueListenable<DisciplineModel?> discipline;
-  final void Function(DisciplineModel? value) onDisciplineSelected;
+  final ValueListenable<Discipline?> discipline;
+  final void Function(Discipline? value) onDisciplineSelected;
   final ValueListenable<ActivityStatus> status;
   final void Function(ActivityStatus value) onStatusSelected;
   final ValueListenable<String?> category;
@@ -47,7 +47,7 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const FormSectionTitleWidget(title: 'Classificação'),
-        ValueListenableBuilder<DisciplineModel?>(
+        ValueListenableBuilder<Discipline?>(
           valueListenable: discipline,
           builder: (context, value, _) {
             return DisciplinePickerFieldWidget(
