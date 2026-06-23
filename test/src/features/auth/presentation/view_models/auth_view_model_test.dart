@@ -30,6 +30,13 @@ UserEntity _userEntity({String id = 'uid-1'}) => UserEntity(
 AuthUserEntity _authUser({String uid = 'uid-1', bool emailVerified = true}) =>
     AuthUserEntity(uid: uid, emailVerified: emailVerified);
 
+AuthUserEntity _googleAuthUser({String uid = 'uid-1'}) => AuthUserEntity(
+  uid: uid,
+  emailVerified: true,
+  email: 'a@b.com',
+  displayName: 'Alice',
+);
+
 void main() {
   late MockAuthRepository mockAuthRepository;
   late MockUserRepository mockUserRepository;
@@ -47,6 +54,107 @@ void main() {
     sut = AuthViewModel(
       authRepository: mockAuthRepository,
       userRepository: mockUserRepository,
+    );
+  });
+
+  group('restoreSession', () {
+    test('no current user → returns Success(null) without reload', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
+
+      final result = await sut.restoreSession();
+
+      expect(result, isA<Success<UserEntity?>>());
+      result.when(
+        onSuccess: (user) => expect(user, isNull),
+        onFailure: (_) => fail('expected success'),
+      );
+      verifyNever(() => mockAuthRepository.reloadUser());
+    });
+
+    test('verified user → sets user and isEmailVerified', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
+
+      final result = await sut.restoreSession();
+
+      expect(result, isA<Success<UserEntity?>>());
+      expect(sut.isEmailVerified, isTrue);
+      expect(sut.user, isNotNull);
+    });
+
+    test('unverified user → signs out and returns Success(null)', () async {
+      when(
+        () => mockAuthRepository.currentUser,
+      ).thenReturn(_authUser(emailVerified: false));
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(
+        () => mockAuthRepository.signOut(),
+      ).thenAnswer((_) async => const Success<void>(null));
+
+      final result = await sut.restoreSession();
+
+      expect(result, isA<Success<UserEntity?>>());
+      result.when(
+        onSuccess: (user) => expect(user, isNull),
+        onFailure: (_) => fail('expected success'),
+      );
+      verify(() => mockAuthRepository.signOut()).called(1);
+    });
+
+    test('reloadUser failure → returns Failure', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(() => mockAuthRepository.reloadUser()).thenAnswer(
+        (_) async => const Failure<void>(UnknownFailure('reload failed')),
+      );
+
+      final result = await sut.restoreSession();
+
+      expect(result, isA<Failure<UserEntity?>>());
+    });
+
+    test('getById failure → returns Failure', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(_authUser());
+      when(
+        () => mockAuthRepository.reloadUser(),
+      ).thenAnswer((_) async => const Success<void>(null));
+      when(() => mockUserRepository.getById('uid-1')).thenAnswer(
+        (_) async => const Failure<UserEntity?>(DatabaseFailure('not found')),
+      );
+
+      final result = await sut.restoreSession();
+
+      expect(result, isA<Failure<UserEntity?>>());
+    });
+
+    test(
+      'reload clears currentUser → falls back to pre-reload user',
+      () async {
+        when(
+          () => mockAuthRepository.currentUser,
+        ).thenReturn(_authUser());
+        when(
+          () => mockAuthRepository.reloadUser(),
+        ).thenAnswer((_) async {
+          when(() => mockAuthRepository.currentUser).thenReturn(null);
+          return const Success<void>(null);
+        });
+        when(
+          () => mockUserRepository.getById('uid-1'),
+        ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
+
+        final result = await sut.restoreSession();
+
+        expect(result, isA<Success<UserEntity?>>());
+        expect(sut.isEmailVerified, isTrue);
+        verify(() => mockUserRepository.getById('uid-1')).called(1);
+      },
     );
   });
 
@@ -168,6 +276,116 @@ void main() {
       ).thenThrow(Exception('lookup failed'));
 
       final result = await sut.signIn(_loginEntity());
+
+      expect(result, isA<Failure<void>>());
+      result.when(
+        onSuccess: (_) => fail('expected failure'),
+        onFailure: (f) => expect(f, isA<UnknownFailure>()),
+      );
+    });
+  });
+
+  group('signInWithGoogle', () {
+    test(
+      'cancelled by user → returns Success(null) without side effects',
+      () async {
+        when(
+          () => mockAuthRepository.signInWithGoogle(),
+        ).thenAnswer((_) async => const Success<AuthUserEntity?>(null));
+
+        final result = await sut.signInWithGoogle();
+
+        expect(result, isA<Success<void>>());
+        verifyNever(() => mockUserRepository.getById(any()));
+        expect(sut.user, isNull);
+      },
+    );
+
+    test('existing user → sets user without creating a new one', () async {
+      when(
+        () => mockAuthRepository.signInWithGoogle(),
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_googleAuthUser()));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Success<void>>());
+      expect(sut.isEmailVerified, isTrue);
+      expect(sut.user, isNotNull);
+      verifyNever(() => mockUserRepository.create(any()));
+    });
+
+    test('new user → creates user from Google profile', () async {
+      when(
+        () => mockAuthRepository.signInWithGoogle(),
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_googleAuthUser()));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenAnswer((_) async => const Success<UserEntity?>(null));
+      when(
+        () => mockUserRepository.create(any()),
+      ).thenAnswer((_) async => const Success<void>(null));
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Success<void>>());
+      expect(sut.user?.email, 'a@b.com');
+      expect(sut.user?.name, 'Alice');
+      verify(() => mockUserRepository.create(any())).called(1);
+    });
+
+    test('repository failure → returns Failure', () async {
+      when(() => mockAuthRepository.signInWithGoogle()).thenAnswer(
+        (_) async => const Failure<AuthUserEntity?>(
+          AuthFailure('google sign-in failed'),
+        ),
+      );
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Failure<void>>());
+    });
+
+    test('getById failure → returns Failure', () async {
+      when(
+        () => mockAuthRepository.signInWithGoogle(),
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_googleAuthUser()));
+      when(() => mockUserRepository.getById('uid-1')).thenAnswer(
+        (_) async => const Failure<UserEntity?>(DatabaseFailure('not found')),
+      );
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Failure<void>>());
+    });
+
+    test('create failure for new user → returns Failure', () async {
+      when(
+        () => mockAuthRepository.signInWithGoogle(),
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_googleAuthUser()));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenAnswer((_) async => const Success<UserEntity?>(null));
+      when(() => mockUserRepository.create(any())).thenAnswer(
+        (_) async => const Failure<void>(DatabaseFailure('create failed')),
+      );
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Failure<void>>());
+    });
+
+    test('exception during processing → returns UnknownFailure', () async {
+      when(
+        () => mockAuthRepository.signInWithGoogle(),
+      ).thenAnswer((_) async => Success<AuthUserEntity?>(_googleAuthUser()));
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenThrow(Exception('lookup failed'));
+
+      final result = await sut.signInWithGoogle();
 
       expect(result, isA<Failure<void>>());
       result.when(

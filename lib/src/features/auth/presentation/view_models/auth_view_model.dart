@@ -127,6 +127,77 @@ class AuthViewModel {
     );
   }
 
+  Future<Result<void>> signInWithGoogle() async {
+    _log.info('signInWithGoogle started');
+
+    final result = await authRepository.signInWithGoogle();
+
+    return result.fold<Future<Result<void>>>(
+      onSuccess: (authUser) async {
+        try {
+          if (authUser == null) {
+            _log.info('signInWithGoogle: cancelled by user');
+
+            return const Success(null);
+          }
+
+          isEmailVerified = true;
+
+          final existingResult = await userRepository.getById(authUser.uid);
+
+          return await existingResult.fold<Future<Result<void>>>(
+            onSuccess: (existingUser) async {
+              if (existingUser != null) {
+                user = existingUser;
+
+                _log.info('signInWithGoogle success: existing user');
+
+                return const Success(null);
+              }
+
+              final newUser = UserEntity(
+                id: authUser.uid,
+                email: authUser.email ?? '',
+                name: authUser.displayName ?? '',
+                createdAt: DateTime.now(),
+                updatedAt: DateTime.now(),
+              );
+
+              final createResult = await userRepository.create(newUser);
+
+              return createResult.fold(
+                onSuccess: (_) {
+                  user = newUser;
+
+                  _log.info('signInWithGoogle success: new user created');
+
+                  return const Success(null);
+                },
+                onFailure: Failure.new,
+              );
+            },
+            onFailure: (f) async {
+              _log.warning('signInWithGoogle: getById failed: ${f.message}');
+
+              return Failure(f);
+            },
+          );
+        } on Exception catch (err, stack) {
+          _log.severe('signInWithGoogle processing error', err, stack);
+
+          return const Failure(
+            UnknownFailure('Erro ao processar login com Google'),
+          );
+        }
+      },
+      onFailure: (f) async {
+        _log.warning('signInWithGoogle failed: ${f.message}');
+
+        return Failure(f);
+      },
+    );
+  }
+
   Future<Result<void>> signUp(RegisterEntity entity) async {
     _log.info('signUp started: ${entity.email}');
 
