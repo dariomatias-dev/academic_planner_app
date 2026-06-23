@@ -38,6 +38,19 @@ class AuthNotifier extends AsyncNotifier<UserEntity?> {
     return result;
   }
 
+  Future<Result<void>> signInWithGoogle() async {
+    state = const AsyncLoading();
+
+    final result = await viewModel.signInWithGoogle();
+
+    state = result.fold(
+      onSuccess: (_) => AsyncData(viewModel.user),
+      onFailure: (f) => AsyncError(f, StackTrace.current),
+    );
+
+    return result;
+  }
+
   Future<Result<void>> register(RegisterEntity entity) async {
     state = const AsyncLoading();
 

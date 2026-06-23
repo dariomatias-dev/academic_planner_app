@@ -186,6 +186,48 @@ void main() {
     });
   });
 
+  group('signInWithGoogle', () {
+    test('success → state becomes AsyncData with user', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
+      await container.read(authNotifierProvider.future);
+
+      when(() => mockAuthRepository.signInWithGoogle()).thenAnswer(
+        (_) async => Success<AuthUserEntity?>(_authUser()),
+      );
+      when(
+        () => mockUserRepository.getById('uid-1'),
+      ).thenAnswer((_) async => Success<UserEntity?>(_userEntity()));
+
+      final result = await container
+          .read(authNotifierProvider.notifier)
+          .signInWithGoogle();
+
+      expect(result, isA<Success<void>>());
+      final state = container.read(authNotifierProvider);
+      expect(state.value, isNotNull);
+      expect(state.value!.id, 'uid-1');
+    });
+
+    test('failure → state becomes AsyncError', () async {
+      when(() => mockAuthRepository.currentUser).thenReturn(null);
+      await container.read(authNotifierProvider.future);
+
+      when(() => mockAuthRepository.signInWithGoogle()).thenAnswer(
+        (_) async => const Failure<AuthUserEntity?>(
+          AuthFailure('google sign-in failed'),
+        ),
+      );
+
+      final result = await container
+          .read(authNotifierProvider.notifier)
+          .signInWithGoogle();
+
+      expect(result, isA<Failure<void>>());
+      final state = container.read(authNotifierProvider);
+      expect(state.hasError, isTrue);
+    });
+  });
+
   group('register', () {
     test('success → state becomes AsyncData(null)', () async {
       when(() => mockAuthRepository.currentUser).thenReturn(null);
