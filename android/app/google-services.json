@@ -12,7 +12,20 @@
           "package_name": "br.com.dariomatias.academic_planner"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1015951109422-n48uv1vqb65sjdvrae1p5j1ef53rl03s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.dariomatias.academic_planner",
+            "certificate_hash": "ed358ff4fa515161c195d3019e1deb4363f0e55a"
+          }
+        },
+        {
+          "client_id": "1015951109422-9p9tha3kgp0emoqg0qa0mkoe0nhmc7sp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDnGsyj8zZ5hMHShOWtG3IIWvncFyvxifA"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015951109422-9p9tha3kgp0emoqg0qa0mkoe0nhmc7sp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
