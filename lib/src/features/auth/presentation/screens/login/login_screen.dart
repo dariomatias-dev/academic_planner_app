@@ -44,6 +44,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
+  Future<void> _onGoogleLoginPressed() async {
+    final auth = ref.read(authNotifierProvider.notifier);
+
+    _log.info('Google login attempt');
+
+    await auth.signInWithGoogle();
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -241,7 +249,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final colorScheme = Theme.of(context).colorScheme;
 
     return OutlinedButton(
-      onPressed: null,
+      onPressed: _onGoogleLoginPressed,
       style: OutlinedButton.styleFrom(
         fixedSize: const Size(double.maxFinite, 56.0),
         side: BorderSide(color: colorScheme.onSurface.withAlpha(30)),
