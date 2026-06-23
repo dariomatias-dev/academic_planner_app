@@ -5,11 +5,17 @@ import 'package:academic_planner/src/features/auth/domain/repositories/auth_repo
 import 'package:academic_planner/src/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+final googleSignInProvider = Provider<GoogleSignIn>((ref) {
+  return GoogleSignIn();
+});
 
 final authServiceProvider = Provider<AuthService>((ref) {
   final firebaseAuth = ref.watch(firebaseAuthProvider);
+  final googleSignIn = ref.watch(googleSignInProvider);
 
-  return AuthService(firebaseAuth);
+  return AuthService(firebaseAuth, googleSignIn);
 });
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {

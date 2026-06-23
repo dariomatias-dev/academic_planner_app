@@ -1,6 +1,7 @@
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mocktail/mocktail.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
@@ -9,13 +10,28 @@ class MockUser extends Mock implements User {}
 
 class MockUserCredential extends Mock implements UserCredential {}
 
+class MockGoogleSignIn extends Mock implements GoogleSignIn {}
+
+class MockGoogleSignInAccount extends Mock implements GoogleSignInAccount {}
+
+class MockGoogleSignInAuthentication extends Mock
+    implements GoogleSignInAuthentication {}
+
+class FakeAuthCredential extends Fake implements AuthCredential {}
+
 void main() {
   late MockFirebaseAuth mockFirebaseAuth;
+  late MockGoogleSignIn mockGoogleSignIn;
   late AuthService sut;
+
+  setUpAll(() {
+    registerFallbackValue(FakeAuthCredential());
+  });
 
   setUp(() {
     mockFirebaseAuth = MockFirebaseAuth();
-    sut = AuthService(mockFirebaseAuth);
+    mockGoogleSignIn = MockGoogleSignIn();
+    sut = AuthService(mockFirebaseAuth, mockGoogleSignIn);
   });
 
   group('signIn', () {
@@ -47,6 +63,38 @@ void main() {
       final result = await sut.signUp('a@b.com', '123456');
 
       expect(result, credential);
+    });
+  });
+
+  group('signInWithGoogle', () {
+    test('user cancels picker → returns null', () async {
+      when(() => mockGoogleSignIn.signIn()).thenAnswer((_) async => null);
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isNull);
+    });
+
+    test('success → signs in to Firebase with Google credential', () async {
+      final mockAccount = MockGoogleSignInAccount();
+      final mockAuthentication = MockGoogleSignInAuthentication();
+      final credential = MockUserCredential();
+      when(
+        () => mockGoogleSignIn.signIn(),
+      ).thenAnswer((_) async => mockAccount);
+      when(() => mockAccount.authentication).thenAnswer(
+        (_) async => mockAuthentication,
+      );
+      when(() => mockAuthentication.accessToken).thenReturn('access-token');
+      when(() => mockAuthentication.idToken).thenReturn('id-token');
+      when(
+        () => mockFirebaseAuth.signInWithCredential(any()),
+      ).thenAnswer((_) async => credential);
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, credential);
+      verify(() => mockFirebaseAuth.signInWithCredential(any())).called(1);
     });
   });
 
