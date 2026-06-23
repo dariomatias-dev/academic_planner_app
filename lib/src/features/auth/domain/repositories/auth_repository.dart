@@ -10,6 +10,8 @@ abstract class AuthRepository {
 
   Future<Result<AuthUserEntity?>> signUp(RegisterEntity entity);
 
+  Future<Result<AuthUserEntity?>> signInWithGoogle();
+
   Future<Result<void>> signOut();
 
   Future<Result<void>> deleteAccount();

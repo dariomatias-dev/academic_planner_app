@@ -102,6 +102,57 @@ void main() {
     });
   });
 
+  group('signInWithGoogle', () {
+    test('success with user → returns Success<AuthUserEntity>', () async {
+      final mockUser = MockUser();
+      final mockCredential = MockUserCredential();
+      when(() => mockUser.uid).thenReturn('uid-1');
+      when(() => mockUser.emailVerified).thenReturn(true);
+      when(() => mockUser.email).thenReturn('a@b.com');
+      when(() => mockUser.displayName).thenReturn('Alice');
+      when(() => mockCredential.user).thenReturn(mockUser);
+      when(
+        () => mockService.signInWithGoogle(),
+      ).thenAnswer((_) async => mockCredential);
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Success<AuthUserEntity?>>());
+      result.when(
+        onSuccess: (user) {
+          expect(user!.uid, 'uid-1');
+          expect(user.email, 'a@b.com');
+          expect(user.displayName, 'Alice');
+        },
+        onFailure: (_) => fail('expected success'),
+      );
+    });
+
+    test('user cancels picker → returns Success<null>', () async {
+      when(
+        () => mockService.signInWithGoogle(),
+      ).thenAnswer((_) async => null);
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Success<AuthUserEntity?>>());
+      result.when(
+        onSuccess: (user) => expect(user, isNull),
+        onFailure: (_) => fail('expected success'),
+      );
+    });
+
+    test('exception → returns Failure', () async {
+      when(
+        () => mockService.signInWithGoogle(),
+      ).thenThrow(Exception('auth error'));
+
+      final result = await sut.signInWithGoogle();
+
+      expect(result, isA<Failure<AuthUserEntity?>>());
+    });
+  });
+
   group('signOut', () {
     test('success → returns Success<void>', () async {
       when(() => mockService.signOut()).thenAnswer((_) async {});

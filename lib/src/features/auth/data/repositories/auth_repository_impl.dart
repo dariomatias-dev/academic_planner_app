@@ -44,6 +44,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<Result<AuthUserEntity?>> signInWithGoogle() async {
+    try {
+      final credential = await _service.signInWithGoogle();
+
+      return Success(_toEntity(credential?.user));
+    } on Exception catch (err) {
+      return Failure(ExceptionMapper.mapAuth(err));
+    }
+  }
+
+  @override
   Future<Result<void>> signOut() async {
     try {
       await _service.signOut();
@@ -95,6 +106,11 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthUserEntity? _toEntity(User? user) {
     if (user == null) return null;
 
-    return AuthUserEntity(uid: user.uid, emailVerified: user.emailVerified);
+    return AuthUserEntity(
+      uid: user.uid,
+      emailVerified: user.emailVerified,
+      email: user.email,
+      displayName: user.displayName,
+    );
   }
 }
