@@ -144,6 +144,30 @@ Existing features: `about`, `activities`, `auth`, `calendar`, `categories`, `cou
 - Dart SDK ^3.10.4
 - Firebase project configured (for authentication and Firestore)
 
+### Firebase Setup
+
+The project uses Firebase Authentication (email/password and Google) and Cloud Firestore for user data. With the Firebase project created and connected (see Prerequisites), the following configuration is required in the Firebase Console:
+
+**1. Enable the sign-in providers**
+
+Go to **Authentication → Sign-in method** and enable **Email/Password** and **Google**.
+
+**2. Register the app's SHA-1 fingerprint (required for Google sign-in on Android)**
+
+The Google provider validates the app using its signing certificate fingerprint. Without that fingerprint registered, Google sign-in fails with a generic error, even though the provider is configured as enabled.
+
+1. Get the SHA-1 fingerprint from the debug keystore:
+   ```bash
+   keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+   ```
+2. In **Project Settings → your Android app → Add fingerprint**, paste the `SHA1` value.
+3. Download the updated `google-services.json` and replace `android/app/google-services.json`.
+4. Run `flutter clean && flutter pub get`.
+
+> Before publishing the application, repeat this procedure with the **release** keystore's SHA-1; the debug fingerprint covers local builds only.
+
+**Justification:** until a SHA-1 fingerprint is registered, `google-services.json`'s `oauth_client` array remains empty, and every Google sign-in attempt results in `UnknownFailure`.
+
 ### Installation
 
 ```bash

@@ -50,13 +50,16 @@
 
 ## Authentication and Backend
 
-| Package                                                     | Version | Role in the project          |
-| ----------------------------------------------------------- | ------- | ---------------------------- |
-| [firebase_core](https://pub.dev/packages/firebase_core)     | 4.7.0   | Firebase initialization      |
-| [firebase_auth](https://pub.dev/packages/firebase_auth)     | 6.4.0   | User authentication          |
-| [cloud_firestore](https://pub.dev/packages/cloud_firestore) | 6.3.0   | Cloud database for user data |
+| Package                                                     | Version | Role in the project                        |
+| ----------------------------------------------------------- | ------- | ------------------------------------------ |
+| [firebase_core](https://pub.dev/packages/firebase_core)     | 4.7.0   | Firebase initialization                    |
+| [firebase_auth](https://pub.dev/packages/firebase_auth)     | 6.4.0   | User authentication                        |
+| [google_sign_in](https://pub.dev/packages/google_sign_in)   | 6.3.0   | Google account sign-in (via Firebase Auth) |
+| [cloud_firestore](https://pub.dev/packages/cloud_firestore) | 6.3.0   | Cloud database for user data               |
 
 The project adopts a **hybrid persistence architecture**: local data (activities, notes) lives in SQLite; user data and authentication live in Firebase. This ensures offline functionality for the core features.
+
+**Required Firebase configuration:** Google sign-in only works once the provider is enabled in Authentication → Sign-in method and the app's SHA-1 fingerprint is registered on the project. See [Firebase Setup](../../README.md#firebase-setup) in the README.
 
 ---
 

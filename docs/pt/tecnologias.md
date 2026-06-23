@@ -54,9 +54,12 @@
 | ----------------------------------------------------------- | ------ | --------------------------------------------- |
 | [firebase_core](https://pub.dev/packages/firebase_core)     | 4.7.0  | Inicialização do Firebase                     |
 | [firebase_auth](https://pub.dev/packages/firebase_auth)     | 6.4.0  | Autenticação de usuários                      |
+| [google_sign_in](https://pub.dev/packages/google_sign_in)   | 6.3.0  | Login com conta Google (via Firebase Auth)    |
 | [cloud_firestore](https://pub.dev/packages/cloud_firestore) | 6.3.0  | Banco de dados em nuvem para dados de usuário |
 
 O projeto adota uma arquitetura **híbrida de persistência**: dados locais (atividades, notas) ficam no SQLite; dados de usuário e autenticação ficam no Firebase. Isso garante funcionamento offline para as funcionalidades principais.
+
+**Configuração necessária no Firebase:** login com Google só funciona com o provedor habilitado em Authentication → Sign-in method e a fingerprint SHA-1 do app cadastrada no projeto. Ver [Configuração do Firebase](../../README.pt.md#configuração-do-firebase) no README.
 
 ---
 
@@ -99,12 +102,12 @@ Ver [navegacao.md](navegacao.md) para documentação completa do sistema de nave
 
 ## Dev e Ferramentas
 
-| Pacote                                                                            | Versão  | Papel no projeto                                                  |
-| --------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------- |
-| [flutter_lints](https://pub.dev/packages/flutter_lints)                           | 6.0.0   | Regras de lint recomendadas para Flutter                          |
-| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons)         | 0.14.4  | Geração de ícones do app para todas as plataformas                |
-| [flutter_localizations](https://flutter.dev/)                                     | SDK     | Suporte a localização e internacionalização                       |
-| [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)                 | 2.3.7+1 | Driver SQLite via FFI para rodar scripts de seed no desktop       |
+| Pacote                                                                    | Versão  | Papel no projeto                                            |
+| ------------------------------------------------------------------------- | ------- | ----------------------------------------------------------- |
+| [flutter_lints](https://pub.dev/packages/flutter_lints)                   | 6.0.0   | Regras de lint recomendadas para Flutter                    |
+| [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) | 0.14.4  | Geração de ícones do app para todas as plataformas          |
+| [flutter_localizations](https://flutter.dev/)                             | SDK     | Suporte a localização e internacionalização                 |
+| [sqflite_common_ffi](https://pub.dev/packages/sqflite_common_ffi)         | 2.3.7+1 | Driver SQLite via FFI para rodar scripts de seed no desktop |
 
 ---
 
