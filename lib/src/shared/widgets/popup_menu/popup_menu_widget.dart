@@ -24,7 +24,7 @@ class PopupMenuWidget<T> extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButtonWidget(
-          onPressed: _menuKey.currentState?.showButtonMenu,
+          onPressed: () => _menuKey.currentState?.showButtonMenu(),
           icon: icon,
           style: style,
         ),
