@@ -93,9 +93,14 @@ class DisciplinesScreenState extends State<DisciplinesScreen>
                   itemCount: periodDisciplines.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
-                      return DisciplinesSummaryWidget(
-                        count: periodDisciplines.length,
-                        workload: totalWorkload,
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 20.0,
+                        ),
+                        child: DisciplinesSummaryWidget(
+                          count: periodDisciplines.length,
+                          workload: totalWorkload,
+                        ),
                       );
                     }
 
