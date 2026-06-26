@@ -6,9 +6,9 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_total_badge_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_stats_cards_widget.dart';
-import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:flutter/material.dart';
