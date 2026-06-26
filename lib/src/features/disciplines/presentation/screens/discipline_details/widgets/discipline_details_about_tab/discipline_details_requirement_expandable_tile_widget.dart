@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
@@ -37,15 +39,13 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
   bool isExpanded = false;
 
   void toggleExpansion() {
-    setState(() async {
-      isExpanded = !isExpanded;
+    setState(() => isExpanded = !isExpanded);
 
-      if (isExpanded) {
-        await expandController.forward();
-      } else {
-        await expandController.reverse();
-      }
-    });
+    if (isExpanded) {
+      unawaited(expandController.forward());
+    } else {
+      unawaited(expandController.reverse());
+    }
   }
 
   @override
