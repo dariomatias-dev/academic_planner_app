@@ -90,8 +90,7 @@ void main() {
     testWidgets('tap "Fechar" closes the dialog', (tester) async {
       await tester.pumpWidget(
         _harness(
-          (_) =>
-              const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
+          (_) => const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
         ),
       );
 

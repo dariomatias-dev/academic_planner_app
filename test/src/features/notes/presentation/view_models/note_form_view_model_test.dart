@@ -13,7 +13,9 @@ import 'package:mocktail/mocktail.dart';
 
 class MockNoteRepository extends Mock implements NoteRepository {}
 
-String _encodeContent(String text) => jsonEncode([{'insert': '$text\n'}]);
+String _encodeContent(String text) => jsonEncode([
+  {'insert': '$text\n'},
+]);
 
 Note _note({
   String id = 'note-1',

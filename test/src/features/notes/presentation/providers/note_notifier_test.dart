@@ -178,11 +178,13 @@ void main() {
     test('builds a Note with the given fields and a generated id', () async {
       await readyNotifier();
 
-      final note = container.read(noteNotifierProvider.notifier).createNew(
-        title: 'Study',
-        content: 'Review chapter 1',
-        disciplineId: 3,
-      );
+      final note = container
+          .read(noteNotifierProvider.notifier)
+          .createNew(
+            title: 'Study',
+            content: 'Review chapter 1',
+            disciplineId: 3,
+          );
 
       expect(note.id, isNotEmpty);
       expect(note.title, 'Study');

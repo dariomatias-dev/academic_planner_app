@@ -14,8 +14,7 @@ class CategoriesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final categories =
-        ref.watch(categoryNotifierProvider).asData?.value ?? [];
+    final categories = ref.watch(categoryNotifierProvider).asData?.value ?? [];
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,

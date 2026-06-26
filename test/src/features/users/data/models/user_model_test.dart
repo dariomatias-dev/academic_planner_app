@@ -8,15 +8,14 @@ final _ts = Timestamp.fromDate(DateTime.parse('2024-01-01T00:00:00.000'));
 Map<String, dynamic> _baseMap({
   String role = 'student',
   bool withTimestamps = true,
-}) =>
-    {
-      'id': 'user-1',
-      'email': 'a@b.com',
-      'name': 'Alice',
-      'role': role,
-      'created_at': withTimestamps ? _ts : null,
-      'updated_at': withTimestamps ? _ts : null,
-    };
+}) => {
+  'id': 'user-1',
+  'email': 'a@b.com',
+  'name': 'Alice',
+  'role': role,
+  'created_at': withTimestamps ? _ts : null,
+  'updated_at': withTimestamps ? _ts : null,
+};
 
 void main() {
   group('UserModel.fromMap — role parsing', () {

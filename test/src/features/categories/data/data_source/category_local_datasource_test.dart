@@ -82,7 +82,9 @@ void main() {
           ]),
         },
       );
-      await sut.saveAll([{'name': 'New'}]);
+      await sut.saveAll([
+        {'name': 'New'},
+      ]);
       final result = sut.getAll();
       expect(result.length, 1);
       expect(result.first['name'], 'New');

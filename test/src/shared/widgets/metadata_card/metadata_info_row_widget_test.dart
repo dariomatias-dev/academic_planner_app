@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget _harness(Widget child) {
-  return MaterialApp(home: Scaffold(body: Row(children: [child])));
+  return MaterialApp(
+    home: Scaffold(body: Row(children: [child])),
+  );
 }
 
 void main() {

@@ -32,8 +32,9 @@ class _FakeActivityStatsNotifier extends ActivityStatsNotifier {
   Future<void> refresh() async {}
 }
 
-String _encodeDescription(String text) =>
-    jsonEncode([{'insert': '$text\n'}]);
+String _encodeDescription(String text) => jsonEncode([
+  {'insert': '$text\n'},
+]);
 
 Activity _activity({
   String id = 'act-1',

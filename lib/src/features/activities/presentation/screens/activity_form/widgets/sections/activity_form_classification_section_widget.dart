@@ -39,8 +39,7 @@ class ActivityFormClassificationSectionWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories =
-        ref.watch(categoryNotifierProvider).asData?.value ?? [];
+    final categories = ref.watch(categoryNotifierProvider).asData?.value ?? [];
     final availableTags = ref.watch(tagNotifierProvider).asData?.value ?? [];
 
     return Column(

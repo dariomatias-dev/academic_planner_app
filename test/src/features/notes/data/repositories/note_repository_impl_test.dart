@@ -66,8 +66,9 @@ void main() {
     });
 
     test('rows returned → Success with mapped notes', () async {
-      when(() => mockDs.getAll())
-          .thenAnswer((_) async => [_noteRow(id: '1'), _noteRow(id: '2')]);
+      when(
+        () => mockDs.getAll(),
+      ).thenAnswer((_) async => [_noteRow(id: '1'), _noteRow(id: '2')]);
 
       final result = await sut.getAll();
 

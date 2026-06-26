@@ -116,8 +116,7 @@ void main() {
 
   group('getById', () {
     test('row found → Success with mapped activity', () async {
-      when(() => mockDs.getById(any()))
-          .thenAnswer((_) async => _activityRow());
+      when(() => mockDs.getById(any())).thenAnswer((_) async => _activityRow());
 
       final result = await sut.getById('act-1');
 

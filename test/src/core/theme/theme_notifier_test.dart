@@ -83,8 +83,7 @@ void main() {
       tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
       expect(container.read(provider.notifier).isDarkMode, isTrue);
 
-      tester.platformDispatcher.platformBrightnessTestValue =
-          Brightness.light;
+      tester.platformDispatcher.platformBrightnessTestValue = Brightness.light;
       expect(container.read(provider.notifier).isDarkMode, isFalse);
     });
   });

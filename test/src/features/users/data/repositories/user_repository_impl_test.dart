@@ -9,21 +9,21 @@ import 'package:mocktail/mocktail.dart';
 class MockUserFirestoreService extends Mock implements UserFirestoreService {}
 
 UserModel _baseModel({String id = 'user-1'}) => UserModel(
-      id: id,
-      email: 'a@b.com',
-      name: 'Alice',
-      role: UserRole.student,
-      createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
-      updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
-    );
+  id: id,
+  email: 'a@b.com',
+  name: 'Alice',
+  role: UserRole.student,
+  createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
+  updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
+);
 
 UserEntity _baseEntity({String id = 'user-1'}) => UserEntity(
-      id: id,
-      email: 'a@b.com',
-      name: 'Alice',
-      createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
-      updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
-    );
+  id: id,
+  email: 'a@b.com',
+  name: 'Alice',
+  createdAt: DateTime.parse('2024-01-01T00:00:00.000'),
+  updatedAt: DateTime.parse('2024-01-01T00:00:00.000'),
+);
 
 void main() {
   late MockUserFirestoreService mockService;
@@ -49,8 +49,7 @@ void main() {
     });
 
     test('exception → returns Failure', () async {
-      when(() => mockService.saveUser(any()))
-          .thenThrow(Exception('db error'));
+      when(() => mockService.saveUser(any())).thenThrow(Exception('db error'));
 
       final result = await sut.create(_baseEntity());
 
@@ -103,8 +102,9 @@ void main() {
 
   group('getById', () {
     test('user found → Success with user', () async {
-      when(() => mockService.getUser(any()))
-          .thenAnswer((_) async => _baseModel());
+      when(
+        () => mockService.getUser(any()),
+      ).thenAnswer((_) async => _baseModel());
 
       final result = await sut.getById('user-1');
 
@@ -122,8 +122,7 @@ void main() {
     });
 
     test('exception → returns Failure', () async {
-      when(() => mockService.getUser(any()))
-          .thenThrow(Exception('db error'));
+      when(() => mockService.getUser(any())).thenThrow(Exception('db error'));
 
       final result = await sut.getById('user-1');
 
@@ -142,8 +141,9 @@ void main() {
     });
 
     test('exception → returns Failure', () async {
-      when(() => mockService.updateUser(any()))
-          .thenThrow(Exception('db error'));
+      when(
+        () => mockService.updateUser(any()),
+      ).thenThrow(Exception('db error'));
 
       final result = await sut.update(_baseEntity());
 
@@ -162,8 +162,9 @@ void main() {
     });
 
     test('exception → returns Failure', () async {
-      when(() => mockService.deleteUser(any()))
-          .thenThrow(Exception('db error'));
+      when(
+        () => mockService.deleteUser(any()),
+      ).thenThrow(Exception('db error'));
 
       final result = await sut.delete('user-1');
 
