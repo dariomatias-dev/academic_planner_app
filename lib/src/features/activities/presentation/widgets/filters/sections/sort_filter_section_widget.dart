@@ -110,15 +110,6 @@ class SortFilterSectionWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: isSelected ? colorScheme.surface : Colors.transparent,
             borderRadius: BorderRadius.circular(18.0),
-            boxShadow: isSelected
-                ? [
-                    BoxShadow(
-                      color: colorScheme.onSurface.withAlpha(15),
-                      blurRadius: 12.0,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
-                : null,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

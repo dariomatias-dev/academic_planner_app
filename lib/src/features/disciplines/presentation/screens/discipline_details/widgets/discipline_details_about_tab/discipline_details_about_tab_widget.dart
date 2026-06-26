@@ -30,7 +30,7 @@ class DisciplineDetailsAboutTabWidget extends StatelessWidget {
     final teacher = getTeacherById(discipline.responsibleProfessorId, teachers);
 
     return ColoredBox(
-      color: colorScheme.surface,
+      color: theme.scaffoldBackgroundColor,
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 40.0),
