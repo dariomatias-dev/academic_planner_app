@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/activities/presentation/screens/widgets/activity_section_header_widget.dart';
+import 'package:academic_planner/src/features/activities/presentation/widgets/activity_section_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
