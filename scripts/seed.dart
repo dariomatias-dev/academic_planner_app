@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/seeds/seed.dart';
 import 'package:academic_planner/src/core/seeds/seed_runner.dart';
-import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
-import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 import 'package:academic_planner/src/features/activities/data/seeds/activity_seed.dart';
 import 'package:logging/logging.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -34,7 +32,7 @@ Future<void> main() async {
 
   final runner = SeedRunner(
     seeds: <Seed>[
-      ActivitySeed(ActivityRepositoryImpl(ActivityLocalDataSource(db))),
+      ActivitySeed(db),
     ],
   );
 
