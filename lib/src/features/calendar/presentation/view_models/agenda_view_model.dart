@@ -1,5 +1,4 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/calendar/presentation/view_models/agenda_state.dart';
 

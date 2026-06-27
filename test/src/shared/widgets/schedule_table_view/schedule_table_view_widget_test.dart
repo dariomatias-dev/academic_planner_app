@@ -1,7 +1,7 @@
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
-import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
-import 'package:academic_planner/src/features/schedule/domain/entities/schedule_entry.dart';
+import 'package:academic_planner/src/core/domain/entities/discipline.dart';
+import 'package:academic_planner/src/core/domain/entities/schedule_entry.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/constants/teachers.dart';
-import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
+import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

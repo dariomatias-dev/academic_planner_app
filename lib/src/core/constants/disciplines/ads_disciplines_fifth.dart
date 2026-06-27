@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/disciplines/domain/entities/discipline.dart';
+import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 
 final adsDisciplinesFifth = <Discipline>[
   Discipline(
