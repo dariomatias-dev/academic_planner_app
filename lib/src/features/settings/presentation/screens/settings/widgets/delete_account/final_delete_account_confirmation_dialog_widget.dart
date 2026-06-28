@@ -31,26 +31,31 @@ class FinalDeleteAccountConfirmationDialogWidget extends ConsumerWidget {
       confirmStyle: AppButtonStyle.destructiveSolid,
       vertical: true,
       onConfirm: () async {
-        try {
-          await ref.read(authNotifierProvider.notifier).deleteAccount();
+        final result = await ref
+            .read(authNotifierProvider.notifier)
+            .deleteAccount();
 
-          if (context.mounted) {
-            Navigator.pop(context);
-          }
+        await result.fold(
+          onSuccess: (_) async {
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
 
-          await Fluttertoast.showToast(
-            msg: 'Sua conta foi excluída com sucesso',
-          );
-        } on Exception catch (_) {
-          if (context.mounted) {
-            await ErrorDialogWidget.show(
-              context,
-              message:
-                  'Ocorreu um erro ao tentar excluir sua conta. Por favor, '
-                  'tente novamente mais tarde.',
+            await Fluttertoast.showToast(
+              msg: 'Sua conta foi excluída com sucesso',
             );
-          }
-        }
+          },
+          onFailure: (_) async {
+            if (context.mounted) {
+              await ErrorDialogWidget.show(
+                context,
+                message:
+                    'Ocorreu um erro ao tentar excluir sua conta. Por favor, '
+                    'tente novamente mais tarde.',
+              );
+            }
+          },
+        );
       },
     );
   }
