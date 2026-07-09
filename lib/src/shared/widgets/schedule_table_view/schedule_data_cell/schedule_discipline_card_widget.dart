@@ -57,21 +57,24 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6.0,
-                    vertical: 2.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: colorScheme.primary,
-                    borderRadius: BorderRadius.circular(6.0),
-                  ),
-                  child: Text(
-                    discipline.acronym,
-                    style: GoogleFonts.plusJakartaSans(
-                      color: colorScheme.onPrimary,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 9.0,
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6.0,
+                      vertical: 2.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
+                      borderRadius: BorderRadius.circular(6.0),
+                    ),
+                    child: Text(
+                      discipline.acronym,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.plusJakartaSans(
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.w800,
+                        fontSize: 9.0,
+                      ),
                     ),
                   ),
                 ),
