@@ -37,11 +37,11 @@ void main() {
       expect(find.text('Fernanda Costa Ribeiro'), findsOneWidget);
       expect(find.text('FORMAÇÃO ACADÊMICA'), findsOneWidget);
       expect(
-        find.text('Doutorado em Engenharia de Materiais (em andamento)'),
+        find.text('Doutorado em Administração (em andamento)'),
         findsNWidgets(2),
       );
       expect(find.text('PÓS-GRADUAÇÃO'), findsOneWidget);
-      expect(find.text('Introdução à Sustentabilidade'), findsOneWidget);
+      expect(find.text('Planejamento Educacional'), findsOneWidget);
       expect(find.text('PÓS-DOUTORADO'), findsNothing);
       expect(find.text('FORMAÇÃO COMPLEMENTAR'), findsNothing);
     });
