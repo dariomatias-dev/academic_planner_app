@@ -1,29 +1,28 @@
+<br>
 <div align="center">
-
 <img src="https://img.shields.io/badge/Flutter-3.35.0-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
 <img src="https://img.shields.io/badge/Dart-SDK%20^3.10.4-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
 <img src="https://img.shields.io/badge/Riverpod-3.3.1-08479E?style=for-the-badge" alt="Riverpod">
 <img src="https://img.shields.io/badge/Architecture-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Architecture">
-
 </div>
-
 <br>
 
 <p align="center">
-<strong>Language:</strong>
-<strong>English</strong> | <a href="README.pt.md">Português</a>
+<strong>English</strong> · <a href="README.pt-BR.md">Português (BR)</a> · <a href="README.es.md">Español</a>
 </p>
 
 <h1 align="center">Academic Planner</h1>
 
 <p align="center">
-  Reference project for <strong>MVVM + Clean Architecture + Feature-First</strong> architecture in Flutter.
-  <br><br>
-  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Report Bug</a> ·
-  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Request Feature</a>
+Reference project for <strong>MVVM + Clean Architecture + Feature-First</strong> architecture in Flutter.
+<br>
+<a href="#about-the-project"><strong>Explore the docs »</strong></a>
+<br>
+<br>
+<a href="https://github.com/dariomatias-dev/academic-planner/issues">Report Bug</a>
+·
+<a href="https://github.com/dariomatias-dev/academic-planner/issues">Request Feature</a>
 </p>
-
----
 
 ## Table of Contents
 
@@ -36,8 +35,6 @@
 - [Documentation](#documentation)
 - [Author](#author)
 
----
-
 ## About the Project
 
 Academic Planner is a student routine management application that serves as an **architectural reference project**. The main goal is not just the functionality itself, but to demonstrate how to structure a medium/large Flutter application using:
@@ -47,8 +44,6 @@ Academic Planner is a student routine management application that serves as an *
 - **MVVM**: decoupling between UI and presentation logic
 
 Every architectural decision is documented with its rationale. The project is intentional: there are no shortcuts that compromise the structure to gain development speed.
-
----
 
 ## Features
 
@@ -63,8 +58,6 @@ Every architectural decision is documented with its rationale. The project is in
 | Authentication      | Sign in, sign up, and password recovery via Firebase Auth                                 |
 | Settings            | Light/dark theme toggle with local persistence                                            |
 | About               | App info with version and source code link                                                |
-
----
 
 ## Architecture
 
@@ -102,8 +95,6 @@ Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> Da
 
 > Full documentation with code examples: [docs/en/architecture.md](docs/en/architecture.md)
 
----
-
 ## Folder Structure
 
 ```text
@@ -116,8 +107,6 @@ lib/src/
 Existing features: `about`, `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `not_found`, `pdf_viewer`, `schedule`, `settings`, `splash`, `tags`, `teacher`, `users`.
 
 > Full annotated folder tree: [docs/en/structure.md](docs/en/structure.md)
-
----
 
 ## Key Technologies
 
@@ -133,8 +122,6 @@ Existing features: `about`, `activities`, `auth`, `calendar`, `categories`, `cou
 | flutter_quill    | 11.5.0  | Rich text editor           |
 
 > Full list with exact versions and rationale for each choice: [docs/en/technologies.md](docs/en/technologies.md)
-
----
 
 ## Getting Started
 
@@ -193,8 +180,6 @@ flutter run --dart-define=SEED_ENABLED=true
 dart run scripts/seed.dart
 ```
 
----
-
 ## Documentation
 
 Documentation is organized into separate files by topic for easier navigation:
@@ -206,14 +191,12 @@ Documentation is organized into separate files by topic for easier navigation:
 | [Navigation](docs/en/navigation.md)       | How the routing system works with GoRouter, complete route reference, and a guide for adding new routes                                       |
 | [Technologies](docs/en/technologies.md)   | All dependencies with exact versions (from `pubspec.lock`) and reason for each choice                                                         |
 
----
-
 ## Author
 
 Developed by **Dário Matias**:
 
-- Portfolio: [https://dariomatias-dev.com](https://dariomatias-dev.com)
-- GitHub: [https://github.com/dariomatias-dev](https://github.com/dariomatias-dev)
-- Email: [matiasdario75@gmail.com](mailto:matiasdario75@gmail.com)
-- Instagram: [https://instagram.com/dariomatias_dev](https://instagram.com/dariomatias_dev)
-- LinkedIn: [https://linkedin.com/in/dariomatias-dev](https://linkedin.com/in/dariomatias-dev)
+- **Portfolio**: [dariomatias-dev](https://dariomatias-dev.com)
+- **GitHub**: [dariomatias-dev](https://github.com/dariomatias-dev)
+- **Email**: [dariomatias.dev@gmail.com](mailto:dariomatias.dev@gmail.com)
+- **Instagram**: [@dariomatias_dev](https://instagram.com/dariomatias_dev)
+- **LinkedIn**: [linkedin.com/in/dariomatias-dev](https://linkedin.com/in/dariomatias-dev)

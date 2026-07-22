@@ -1,29 +1,28 @@
+<br>
 <div align="center">
-
 <img src="https://img.shields.io/badge/Flutter-3.35.0-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
 <img src="https://img.shields.io/badge/Dart-SDK%20^3.10.4-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
 <img src="https://img.shields.io/badge/Riverpod-3.3.1-08479E?style=for-the-badge" alt="Riverpod">
 <img src="https://img.shields.io/badge/Arquitetura-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Arquitetura">
-
 </div>
-
 <br>
 
 <p align="center">
-<strong>Idioma:</strong>
-<a href="README.md">English</a> | <strong>Português</strong>
+<a href="README.md">English</a> · <strong>Português (BR)</strong> · <a href="README.es.md">Español</a>
 </p>
 
 <h1 align="center">Planejador Acadêmico</h1>
 
 <p align="center">
-  Projeto de referência para arquitetura <strong>MVVM + Clean Architecture + Feature-First</strong> em Flutter.
-  <br><br>
-  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Reportar Bug</a> ·
-  <a href="https://github.com/dariomatias-dev/academic-planner/issues">Solicitar Funcionalidade</a>
+Projeto de referência para arquitetura <strong>MVVM + Clean Architecture + Feature-First</strong> em Flutter.
+<br>
+<a href="#sobre-o-projeto"><strong>Explore a documentação »</strong></a>
+<br>
+<br>
+<a href="https://github.com/dariomatias-dev/academic-planner/issues">Reportar Bug</a>
+·
+<a href="https://github.com/dariomatias-dev/academic-planner/issues">Solicitar Funcionalidade</a>
 </p>
-
----
 
 ## Sumário
 
@@ -36,8 +35,6 @@
 - [Documentação](#documentação)
 - [Autor](#autor)
 
----
-
 ## Sobre o Projeto
 
 O Planejador Acadêmico é um aplicativo de gestão de rotina estudantil que serve como **projeto de referência arquitetural**. O objetivo principal não é apenas a funcionalidade em si, é demonstrar como estruturar uma aplicação Flutter de médio/grande porte utilizando:
@@ -47,8 +44,6 @@ O Planejador Acadêmico é um aplicativo de gestão de rotina estudantil que ser
 - **MVVM**: desacoplamento entre UI e lógica de apresentação
 
 Cada decisão arquitetural está documentada com justificativa. O projeto é intencional: não há atalhos que comprometam a estrutura para ganhar velocidade de desenvolvimento.
-
----
 
 ## Funcionalidades
 
@@ -63,8 +58,6 @@ Cada decisão arquitetural está documentada com justificativa. O projeto é int
 | Autenticação      | Login, cadastro e recuperação de senha via Firebase Auth                                      |
 | Configurações     | Alternância de tema claro/escuro com persistência local                                       |
 | Sobre             | Informações do app com versão e link para o código-fonte                                      |
-
----
 
 ## Arquitetura
 
@@ -102,8 +95,6 @@ Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> Da
 
 > Documentação completa com exemplos de código: [docs/pt/arquitetura.md](docs/pt/arquitetura.md)
 
----
-
 ## Estrutura de Pastas
 
 ```text
@@ -116,8 +107,6 @@ lib/src/
 Features existentes: `about`, `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `not_found`, `pdf_viewer`, `schedule`, `settings`, `splash`, `tags`, `teacher`, `users`.
 
 > Árvore completa comentada com detalhamento de cada pasta: [docs/pt/estrutura.md](docs/pt/estrutura.md)
-
----
 
 ## Tecnologias Principais
 
@@ -133,8 +122,6 @@ Features existentes: `about`, `activities`, `auth`, `calendar`, `categories`, `c
 | flutter_quill    | 11.5.0  | Editor rich text             |
 
 > Lista completa com versões exatas e justificativa de cada escolha: [docs/pt/tecnologias.md](docs/pt/tecnologias.md)
-
----
 
 ## Primeiros Passos
 
@@ -193,8 +180,6 @@ flutter run --dart-define=SEED_ENABLED=true
 dart run scripts/seed.dart
 ```
 
----
-
 ## Documentação
 
 A documentação está organizada em arquivos separados por tema para facilitar a navegação:
@@ -206,14 +191,12 @@ A documentação está organizada em arquivos separados por tema para facilitar 
 | [Navegação](docs/pt/navegacao.md)            | Como o sistema de rotas funciona com GoRouter, referência completa de rotas e guia para adicionar novas                                     |
 | [Tecnologias](docs/pt/tecnologias.md)        | Todas as dependências com versões exatas (do `pubspec.lock`) e motivo de cada escolha                                                       |
 
----
-
 ## Autor
 
 Desenvolvido por **Dário Matias**:
 
-- Portfolio: [https://dariomatias-dev.com](https://dariomatias-dev.com)
-- GitHub: [https://github.com/dariomatias-dev](https://github.com/dariomatias-dev)
-- Email: [matiasdario75@gmail.com](mailto:matiasdario75@gmail.com)
-- Instagram: [https://instagram.com/dariomatias_dev](https://instagram.com/dariomatias_dev)
-- LinkedIn: [https://linkedin.com/in/dariomatias-dev](https://linkedin.com/in/dariomatias-dev)
+- **Portfólio**: [dariomatias-dev](https://dariomatias-dev.com)
+- **GitHub**: [dariomatias-dev](https://github.com/dariomatias-dev)
+- **Email**: [dariomatias.dev@gmail.com](mailto:dariomatias.dev@gmail.com)
+- **Instagram**: [@dariomatias_dev](https://instagram.com/dariomatias_dev)
+- **LinkedIn**: [linkedin.com/in/dariomatias-dev](https://linkedin.com/in/dariomatias-dev)

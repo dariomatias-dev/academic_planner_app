@@ -59,7 +59,7 @@
 
 O projeto adota uma arquitetura **híbrida de persistência**: dados locais (atividades, notas) ficam no SQLite; dados de usuário e autenticação ficam no Firebase. Isso garante funcionamento offline para as funcionalidades principais.
 
-**Configuração necessária no Firebase:** login com Google só funciona com o provedor habilitado em Authentication → Sign-in method e a fingerprint SHA-1 do app cadastrada no projeto. Ver [Configuração do Firebase](../../README.pt.md#configuração-do-firebase) no README.
+**Configuração necessária no Firebase:** login com Google só funciona com o provedor habilitado em Authentication → Sign-in method e a fingerprint SHA-1 do app cadastrada no projeto. Ver [Configuração do Firebase](../../README.pt-BR.md#configuração-do-firebase) no README.
 
 ---
 
