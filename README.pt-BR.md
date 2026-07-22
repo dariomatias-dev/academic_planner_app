@@ -31,7 +31,9 @@ Projeto de referência para arquitetura <strong>MVVM + Clean Architecture + Feat
 - [Arquitetura](#arquitetura)
 - [Estrutura de Pastas](#estrutura-de-pastas)
 - [Tecnologias Principais](#tecnologias-principais)
+- [Capturas de Tela](#capturas-de-tela)
 - [Primeiros Passos](#primeiros-passos)
+- [Scripts](#scripts)
 - [Documentação](#documentação)
 - [Contribuindo](#contribuindo)
 - [Autor](#autor)
@@ -124,6 +126,21 @@ Features existentes: `about`, `activities`, `auth`, `calendar`, `categories`, `c
 
 > Lista completa com versões exatas e justificativa de cada escolha: [docs/pt/tecnologias.md](docs/pt/tecnologias.md)
 
+## Capturas de Tela
+
+<div align="center">
+<img src="screenshots/01_home.png" width="200" alt="Início"/>
+<img src="screenshots/02_agenda.png" width="200" alt="Agenda"/>
+<img src="screenshots/03_activities.png" width="200" alt="Atividades"/>
+<img src="screenshots/04_activity_details.png" width="200" alt="Detalhes da atividade"/>
+<img src="screenshots/05_my_disciplines.png" width="200" alt="Minhas disciplinas"/>
+<img src="screenshots/06_discipline_details.png" width="200" alt="Detalhes da disciplina"/>
+<img src="screenshots/07_settings.png" width="200" alt="Configurações"/>
+<img src="screenshots/08_categories.png" width="200" alt="Categorias"/>
+<img src="screenshots/09_tags.png" width="200" alt="Tags"/>
+<img src="screenshots/10_about.png" width="200" alt="Sobre"/>
+</div>
+
 ## Primeiros Passos
 
 ### Pré-requisitos
@@ -180,6 +197,15 @@ flutter run --dart-define=SEED_ENABLED=true
 # Rodar seeds como script standalone (sem emulador)
 dart run scripts/seed.dart
 ```
+
+## Scripts
+
+Scripts utilitários ficam em `scripts/`.
+
+| Script       | Comando                             | Descrição                                                                                                                                                    |
+| ------------ | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `seed`       | `dart run scripts/seed.dart`        | Popula o banco com dados de exemplo para desenvolvimento local (ver [Seeds de Desenvolvimento](#seeds-de-desenvolvimento)).                                 |
+| `screenshot` | `scripts/screenshot.sh [device-id]` | Percorre as principais telas do app em um dispositivo ou emulador conectado e salva uma captura de cada uma em `screenshots/`, usadas no README. Rode `fvm flutter devices` para listar os ids de dispositivos disponíveis. |
 
 ## Documentação
 
