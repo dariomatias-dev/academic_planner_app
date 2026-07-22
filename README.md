@@ -33,6 +33,7 @@ Reference project for <strong>MVVM + Clean Architecture + Feature-First</strong>
 - [Key Technologies](#key-technologies)
 - [Getting Started](#getting-started)
 - [Documentation](#documentation)
+- [Contributing](#contributing)
 - [Author](#author)
 
 ## About the Project
@@ -190,6 +191,12 @@ Documentation is organized into separate files by topic for easier navigation:
 | [Project Structure](docs/en/structure.md) | Full annotated folder tree, details of each section, and a table with all existing features                                                   |
 | [Navigation](docs/en/navigation.md)       | How the routing system works with GoRouter, complete route reference, and a guide for adding new routes                                       |
 | [Technologies](docs/en/technologies.md)   | All dependencies with exact versions (from `pubspec.lock`) and reason for each choice                                                         |
+
+## Contributing
+
+Contributions make the open-source community an amazing place to learn and create. Any contributions you make are greatly appreciated.
+
+Before opening a pull request, see [CONTRIBUTING.md](CONTRIBUTING.md) for the local setup, commit message convention (Conventional Commits), and branching rules this project follows.
 
 ## Author
 

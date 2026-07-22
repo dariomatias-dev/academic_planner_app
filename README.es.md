@@ -33,6 +33,7 @@ Proyecto de referencia para la arquitectura <strong>MVVM + Clean Architecture + 
 - [Tecnologías Principales](#tecnologías-principales)
 - [Primeros Pasos](#primeros-pasos)
 - [Documentación](#documentación)
+- [Contribuir](#contribuir)
 - [Autor](#autor)
 
 ## Sobre el Proyecto
@@ -190,6 +191,12 @@ La documentación está organizada en archivos separados por tema para facilitar
 | [Estructura del Proyecto](docs/en/structure.md) | Árbol de carpetas completo y comentado, detalle de cada sección y tabla con todas las features existentes                                       |
 | [Navegación](docs/en/navigation.md)       | Cómo funciona el sistema de rutas con GoRouter, referencia completa de rutas y guía para agregar nuevas                                        |
 | [Tecnologías](docs/en/technologies.md)    | Todas las dependencias con versiones exactas (de `pubspec.lock`) y motivo de cada elección                                                     |
+
+## Contribuir
+
+Las contribuciones hacen que la comunidad de código abierto sea un lugar increíble para aprender y crear. Cualquier contribución que hagas será muy apreciada.
+
+Antes de abrir un pull request, consulta [CONTRIBUTING.md](CONTRIBUTING.md) (en inglés) para la configuración local, la convención de mensajes de commit (Conventional Commits) y las reglas de branch de este proyecto.
 
 ## Autor
 
