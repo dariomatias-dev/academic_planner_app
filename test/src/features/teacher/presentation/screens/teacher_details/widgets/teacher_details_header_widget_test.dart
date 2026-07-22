@@ -29,7 +29,7 @@ void main() {
         _harness(const TeacherDetailsHeaderWidget(teacher: teacher)),
       );
 
-      expect(find.text('A'), findsOneWidget);
+      expect(find.text('F'), findsOneWidget);
       expect(find.text('Fernanda Costa Ribeiro'), findsOneWidget);
       expect(
         find.text('Doutorado em Ciências da Computação'),

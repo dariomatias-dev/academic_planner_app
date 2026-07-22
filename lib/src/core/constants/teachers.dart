@@ -734,7 +734,7 @@ const teachers = <Teacher>[
   Teacher(
     id: 31,
     name: 'Eduardo Santos Monteiro',
-    lattes: 'http://lattes.cnpq.br/0000000000000010',
+    lattes: 'http://lattes.cnpq.br/0000000000000031',
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
@@ -866,7 +866,7 @@ const teachers = <Teacher>[
   Teacher(
     id: 35,
     name: 'Leonardo Matos Guedes',
-    lattes: 'http://lattes.cnpq.br/0000000000000022',
+    lattes: 'http://lattes.cnpq.br/0000000000000035',
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
