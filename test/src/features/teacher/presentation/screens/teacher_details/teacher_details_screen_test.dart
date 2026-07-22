@@ -41,7 +41,7 @@ void main() {
         findsNWidgets(2),
       );
       expect(find.text('PÓS-GRADUAÇÃO'), findsOneWidget);
-      expect(find.text('Planejamento Educacional'), findsOneWidget);
+      expect(find.text('Direito Educacional'), findsOneWidget);
       expect(find.text('PÓS-DOUTORADO'), findsNothing);
       expect(find.text('FORMAÇÃO COMPLEMENTAR'), findsNothing);
     });
