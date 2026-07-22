@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 PreferredSizeWidget _tabBar({Key? key}) {
-  return TabBar(key: key, tabs: const [Tab(text: 'Sobre')]);
+  return TabBar(
+    key: key,
+    tabs: const [Tab(text: 'Sobre')],
+  );
 }
 
 void main() {

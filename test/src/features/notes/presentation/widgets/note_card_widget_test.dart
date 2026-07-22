@@ -17,7 +17,9 @@ Note _note() => Note(
 );
 
 Widget _harness(Widget child) {
-  return ProviderScope(child: MaterialApp(home: Scaffold(body: child)));
+  return ProviderScope(
+    child: MaterialApp(home: Scaffold(body: child)),
+  );
 }
 
 void main() {

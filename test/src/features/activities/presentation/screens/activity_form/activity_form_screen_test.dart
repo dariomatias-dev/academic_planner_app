@@ -31,8 +31,7 @@ class _FakeActivityNotifier extends ActivityNotifier {
 
   @override
   Future<Result<Activity?>> getById(String id) {
-    return onGetById?.call(id) ??
-        Future.value(const Success<Activity?>(null));
+    return onGetById?.call(id) ?? Future.value(const Success<Activity?>(null));
   }
 
   @override

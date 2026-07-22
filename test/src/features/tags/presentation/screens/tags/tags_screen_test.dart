@@ -24,8 +24,7 @@ class _FakeTagNotifier extends TagNotifier {
 
   @override
   Future<Result<List<Tag>>> remove(int index) {
-    return onRemove?.call(index) ??
-        Future.value(Success<List<Tag>>([...tags]));
+    return onRemove?.call(index) ?? Future.value(Success<List<Tag>>([...tags]));
   }
 }
 
@@ -71,7 +70,10 @@ void main() {
       tester,
     ) async {
       final container = await _buildContainer(
-        tags: const [Tag(name: 'Urgente'), Tag(name: 'Prova')],
+        tags: const [
+          Tag(name: 'Urgente'),
+          Tag(name: 'Prova'),
+        ],
       );
       addTearDown(container.dispose);
 
