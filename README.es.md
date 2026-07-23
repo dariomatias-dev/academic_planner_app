@@ -96,7 +96,7 @@ Flujo de datos:
 Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> DataSource
 ```
 
-> Documentación completa con ejemplos de código: [docs/en/architecture.md](docs/en/architecture.md)
+> Documentación completa con ejemplos de código: [docs/es/arquitectura.md](docs/es/arquitectura.md)
 
 ## Estructura de Carpetas
 
@@ -109,7 +109,7 @@ lib/src/
 
 Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
 
-> Árbol de carpetas completo y comentado: [docs/en/structure.md](docs/en/structure.md)
+> Árbol de carpetas completo y comentado: [docs/es/estructura.md](docs/es/estructura.md)
 
 ## Tecnologías Principales
 
@@ -124,7 +124,7 @@ Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_det
 | cloud_firestore  | 6.3.0   | Backend en la nube            |
 | flutter_quill    | 11.5.0  | Editor de texto enriquecido   |
 
-> Lista completa con versiones exactas y justificación de cada elección: [docs/en/technologies.md](docs/en/technologies.md)
+> Lista completa con versiones exactas y justificación de cada elección: [docs/es/tecnologias.md](docs/es/tecnologias.md)
 
 ## Capturas de Pantalla
 
@@ -213,10 +213,10 @@ La documentación está organizada en archivos separados por tema para facilitar
 
 | Documento                                  | Qué encontrarás                                                                                                                                |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Arquitectura](docs/en/architecture.md)   | Explicación detallada de MVVM, Clean Architecture y Feature-First, con ejemplos de código del propio proyecto y justificación de cada elección |
-| [Estructura del Proyecto](docs/en/structure.md) | Árbol de carpetas completo y comentado, detalle de cada sección y tabla con todas las features existentes                                       |
-| [Navegación](docs/en/navigation.md)       | Cómo funciona el sistema de rutas con GoRouter, referencia completa de rutas y guía para agregar nuevas                                        |
-| [Tecnologías](docs/en/technologies.md)    | Todas las dependencias con versiones exactas (de `pubspec.lock`) y motivo de cada elección                                                     |
+| [Arquitectura](docs/es/arquitectura.md)   | Explicación detallada de MVVM, Clean Architecture y Feature-First, con ejemplos de código del propio proyecto y justificación de cada elección |
+| [Estructura del Proyecto](docs/es/estructura.md) | Árbol de carpetas completo y comentado, detalle de cada sección y tabla con todas las features existentes                                       |
+| [Navegación](docs/es/navegacion.md)       | Cómo funciona el sistema de rutas con GoRouter, referencia completa de rutas y guía para agregar nuevas                                        |
+| [Tecnologías](docs/es/tecnologias.md)    | Todas las dependencias con versiones exactas (de `pubspec.lock`) y motivo de cada elección                                                     |
 
 ## Contribuir
 
