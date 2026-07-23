@@ -8,17 +8,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFF',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1998 - 2003',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UnB',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1988 - 1991',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'UFC',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1990 - 1992',
       ),
     ],
@@ -30,29 +30,29 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Administração (em andamento)',
-        institution: 'UFSCar',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1994 - 1996',
       ),
       TeacherFormation(
         degree: 'Mestrado Profissional em Administração',
-        institution: 'UFPR',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '1996 - 2001',
       ),
       TeacherFormation(
         degree: 'Graduação em Matemática Aplicada',
-        institution: 'UFAL',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '1990 - 1994',
       ),
       TeacherFormation(
         degree: 'Curso técnico/profissionalizante em Engenharia Mecânica',
-        institution: 'UFPR',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '2005 - 2009',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Direito Educacional',
-        institution: 'Faculdade Horizonte (FH)',
+        name: 'Formação em Tutoria Acadêmica',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2006 - 2007',
         workload: '372h',
       ),
@@ -65,17 +65,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Educação Física',
-        institution: 'UFC',
+        institution: 'Faculdade Pioneira (FP)',
         period: '2020 - 2025',
       ),
       TeacherFormation(
         degree: 'Mestrado em Engenharia Civil',
-        institution: 'UnB',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2015 - 2017',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'UnB',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '2000 - 2004',
       ),
     ],
@@ -87,17 +87,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia de Produção',
-        institution: 'UFG',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1990 - 1995',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFAL',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '2006 - 2011',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFRJ',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2019 - 2023',
       ),
     ],
@@ -109,17 +109,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFRJ',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1986 - 1990',
       ),
       TeacherFormation(
         degree: 'Mestrado em Química',
-        institution: 'UFG',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '2021 - 2023',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFSC',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2000 - 2002',
       ),
     ],
@@ -131,12 +131,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Pedagogia',
-        institution: 'UFSCar',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '2003 - 2005',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'UNIFESP',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '1993 - 1997',
       ),
     ],
@@ -148,12 +148,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFU',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '1995 - 1998',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1993 - 1997',
       ),
     ],
@@ -165,17 +165,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Química',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '2020 - 2022',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFU',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2000 - 2002',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UNIFESP',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1995 - 1999',
       ),
     ],
@@ -187,12 +187,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Administração',
-        institution: 'UFES',
+        institution: 'Faculdade Estrela do Norte (FEN)',
         period: '2001 - 2005',
       ),
       TeacherFormation(
         degree: 'Graduação em Estatística',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1992 - 1995',
       ),
     ],
@@ -204,17 +204,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Ciências Sociais',
-        institution: 'UFMG',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1996 - 1997',
       ),
       TeacherFormation(
         degree: 'Mestrado em Educação',
-        institution: 'UnB',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '1997 - 2002',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UnB',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '1996 - 1997',
       ),
     ],
@@ -226,17 +226,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFSC',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '1992 - 1994',
       ),
       TeacherFormation(
         degree: 'Mestrado em Engenharia Mecânica',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1995 - 1997',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'UNIFESP',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '2010 - 2015',
       ),
     ],
@@ -248,12 +248,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Educação',
-        institution: 'UFSCar',
+        institution: 'Faculdade Pioneira (FP)',
         period: '2003 - 2005',
       ),
       TeacherFormation(
         degree: 'Graduação em Matemática Aplicada',
-        institution: 'UnB',
+        institution: 'Instituto Politécnico Aurora (IPA)',
         period: '1995 - 1998',
       ),
     ],
@@ -265,12 +265,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Química',
-        institution: 'UFSCar',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '2001 - 2004',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1998 - 2003',
       ),
     ],
@@ -282,17 +282,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFMG',
+        institution: 'Instituto Politécnico Aurora (IPA)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Mestrado em Engenharia Civil',
-        institution: 'UFSCar',
+        institution: 'Faculdade Estrela do Norte (FEN)',
         period: '2010 - 2015',
       ),
       TeacherFormation(
         degree: 'Graduação em Sistemas de Informação',
-        institution: 'UFG',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '1992 - 1995',
       ),
     ],
@@ -304,14 +304,14 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFMA',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2019 - 2023',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Libras',
-        institution: 'UFC',
+        name: 'Ferramentas Digitais para Educação',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1996 - 1998',
         workload: '720h',
       ),
@@ -324,17 +324,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Biologia',
-        institution: 'UFF',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '2010 - 2013',
       ),
       TeacherFormation(
         degree: 'Mestrado em Biologia',
-        institution: 'UnB',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2001 - 2004',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'UFU',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '1991 - 1995',
       ),
     ],
@@ -346,25 +346,25 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado Profissional em Educação',
-        institution: 'UFSCar',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2005 - 2009',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2020 - 2023',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Libras',
-        institution: 'UFG',
+        name: 'Comunicação Institucional',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2019 - 2023',
         workload: '420h',
       ),
       TeacherSpecialization(
-        name: 'Ciência de Dados',
-        institution: 'UFES',
+        name: 'Fundamentos de Análise de Dados',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1997 - 1998',
         workload: '360h',
       ),
@@ -377,24 +377,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Estatística',
-        institution: 'UFPR',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1990 - 1992',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1996 - 1998',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Fundamentos de Análise de Dados',
-        institution: 'UFF',
+        name: 'Acessibilidade e Inclusão',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2001 - 2004',
         workload: '510h',
       ),
@@ -407,19 +407,19 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Graduação em Sistemas de Informação',
-        institution: 'UFMG',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '1996 - 2000',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UnB',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '2021 - 2025',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Gestão Escolar',
-        institution: 'UFPR',
+        name: 'Acessibilidade e Inclusão',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2020 - 2023',
         workload: '450h',
       ),
@@ -432,24 +432,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Educação Física',
-        institution: 'UnB',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2003 - 2005',
       ),
       TeacherFormation(
         degree: 'Mestrado em Letras',
-        institution: 'UFV',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '1988 - 1992',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'UFAL',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '2001 - 2004',
       ),
     ],
     complementaryEducation: [
       TeacherComplementaryFormation(
-        name: 'Gestão Escolar',
-        institution: 'UFAL',
+        name: 'Planejamento Educacional',
+        institution: 'Faculdade Boa Vista (FBV)',
         year: '2003 - 2005',
         workload: 'N/A',
       ),
@@ -462,17 +462,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Biologia',
-        institution: 'UFPR',
+        institution: 'Instituto Politécnico Aurora (IPA)',
         period: '2021 - 2023',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFAL',
+        institution: 'Faculdade Estrela do Norte (FEN)',
         period: '1993 - 1995',
       ),
       TeacherFormation(
         degree: 'Graduação em Matemática Aplicada',
-        institution: 'UFU',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '2019 - 2023',
       ),
     ],
@@ -484,24 +484,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFC',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2007 - 2011',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFC',
+        institution: 'Faculdade Estrela do Norte (FEN)',
         period: '1990 - 1994',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFPR',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1998 - 2000',
       ),
     ],
     postDoctorate: [
       TeacherFormation(
         degree: 'Pós-Doutorado em Letras',
-        institution: 'UFU',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '2001 - 2004',
       ),
     ],
@@ -513,40 +513,40 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UnB',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2019 - 2023',
       ),
       TeacherFormation(
         degree: 'Mestrado em Administração',
-        institution: 'UNIFESP',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '1986 - 1990',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFSCar',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '1990 - 1992',
       ),
       TeacherFormation(
         degree: 'Graduação em Sistemas de Informação',
-        institution: 'UFG',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '1992 - 1995',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'UnB',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2021 - 2025',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Gestão Escolar',
-        institution: 'UFMA',
+        name: 'Comunicação Institucional',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '1992 - 1994',
         workload: '360h',
       ),
       TeacherSpecialization(
-        name: 'Ciência de Dados',
-        institution: 'UFU',
+        name: 'Planejamento Educacional',
+        institution: 'Faculdade Pioneira (FP)',
         period: '2001 - 2004',
         workload: '390h',
       ),
@@ -554,7 +554,7 @@ const teachers = <Teacher>[
     postDoctorate: [
       TeacherFormation(
         degree: 'Pós-Doutorado em Estatística',
-        institution: 'UFMA',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '2021 - 2025',
       ),
     ],
@@ -566,22 +566,22 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Biologia',
-        institution: 'UFMG',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '1998 - 2003',
       ),
       TeacherFormation(
         degree: 'Mestrado em Química',
-        institution: 'UFRJ',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1997 - 1998',
       ),
       TeacherFormation(
         degree: 'Graduação em Biologia',
-        institution: 'UFF',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1992 - 1994',
       ),
       TeacherFormation(
         degree: 'Graduação em Biologia',
-        institution: 'UFSC',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2003 - 2005',
       ),
     ],
@@ -593,19 +593,19 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Química',
-        institution: 'UFSCar',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '1996 - 1997',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'UFSC',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '1996 - 1998',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Metodologia do Ensino',
-        institution: 'Faculdade Horizonte (FH)',
+        name: 'Mediação de Conflitos',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2006 - 2007',
         workload: '390h',
       ),
@@ -618,12 +618,12 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Engenharia Civil',
-        institution: 'UnB',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2021 - 2025',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'UnB',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2000 - 2002',
       ),
     ],
@@ -635,24 +635,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFAL',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '2001 - 2005',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFES',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1991 - 1996',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1988 - 1992',
       ),
     ],
     postDoctorate: [
       TeacherFormation(
         degree: 'Pós-Doutorado em Física',
-        institution: 'UFV',
+        institution: 'Instituto Politécnico Aurora (IPA)',
         period: '2001 - 2005',
       ),
     ],
@@ -664,17 +664,17 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Estatística',
-        institution: 'UFU',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2005 - 2009',
       ),
       TeacherFormation(
         degree: 'Mestrado em Sistemas de Informação',
-        institution: 'UnB',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2000 - 2002',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'UFV',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '1996 - 2000',
       ),
     ],
@@ -686,19 +686,19 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado Profissional em Educação Física',
-        institution: 'UnB',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '1992 - 1997',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'Instituto Politécnico Aurora (IPA)',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2020 - 2024',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Ensino a Distância',
-        institution: 'UFAL',
+        name: 'Introdução à Sustentabilidade',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2000 - 2002',
         workload: '390h',
       ),
@@ -711,22 +711,22 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFPR',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '2019 - 2023',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UnB',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Produção',
-        institution: 'UFAL',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Graduação em Engenharia de Materiais',
-        institution: 'UFPR',
+        institution: 'Faculdade Pioneira (FP)',
         period: '1991 - 1993',
       ),
     ],
@@ -738,30 +738,30 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFES',
+        institution: 'Instituto Politécnico Aurora (IPA)',
         period: '2000 - 2002',
       ),
       TeacherFormation(
         degree: 'Mestrado em Sistemas de Informação',
-        institution: 'UFAL',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '2011 - 2016',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'UFSCar',
+        institution: 'Faculdade Estrela do Norte (FEN)',
         period: '1994 - 1996',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Gestão Escolar',
-        institution: 'UnB',
+        name: 'Comunicação Institucional',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2007 - 2011',
         workload: '360h',
       ),
       TeacherSpecialization(
-        name: 'Direito Educacional',
-        institution: 'UNIFESP',
+        name: 'Ferramentas Digitais para Educação',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '2015 - 2017',
         workload: '360h',
       ),
@@ -774,30 +774,30 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia Civil',
-        institution: 'UFPR',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1988 - 1992',
       ),
       TeacherFormation(
         degree: 'Mestrado em Química',
-        institution: 'UFMA',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1997 - 2001',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'UFU',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1992 - 1996',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Gestão Pública',
-        institution: 'UFC',
+        name: 'Metodologias Ativas de Ensino',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2001 - 2004',
         workload: '680h',
       ),
       TeacherSpecialization(
-        name: 'Ciência de Dados',
-        institution: 'UFV',
+        name: 'Acessibilidade e Inclusão',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '1996 - 2000',
         workload: '380h',
       ),
@@ -810,19 +810,19 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado Profissional em Geografia',
-        institution: 'UFV',
+        institution: 'Instituto Vale Verde (IVV)',
         period: '1986 - 1990',
       ),
       TeacherFormation(
         degree: 'Graduação em Matemática Aplicada',
-        institution: 'UFPR',
+        institution: 'Instituto Técnico Rio Claro (ITRC)',
         period: '1995 - 1998',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Docência do Ensino Superior',
-        institution: 'UnB',
+        name: 'Gestão de Equipes e Processos',
+        institution: 'Instituto Técnico Rio Claro (ITRC)',
         period: '1997 - 2002',
         workload: '405h',
       ),
@@ -835,29 +835,29 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Pedagogia',
-        institution: 'UFPR',
+        institution: 'Faculdade Pioneira (FP)',
         period: '2016 - 2021',
       ),
       TeacherFormation(
         degree: 'Mestrado em Sistemas de Informação',
-        institution: 'UnB',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '1992 - 1994',
       ),
       TeacherFormation(
         degree: 'Graduação em Estatística',
-        institution: 'UFMA',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '1986 - 1990',
       ),
       TeacherFormation(
         degree: 'Graduação em Matemática Aplicada',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '2010 - 2013',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Gestão Ambiental',
-        institution: 'Faculdade Horizonte (FH)',
+        name: 'Metodologias Ativas de Ensino',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '1986 - 1990',
         workload: '710h',
       ),
@@ -870,25 +870,25 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Educação',
-        institution: 'UnB',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '1985 - 1986',
       ),
       TeacherFormation(
         degree: 'Mestrado em Matemática Aplicada',
-        institution: 'UFF',
+        institution: 'Instituto Superior Horizonte (ISH)',
         period: '1995 - 1998',
       ),
       TeacherFormation(
         degree:
             'Graduação em Licenciatura e Bacharelado em Ciências Biológicas',
-        institution: 'UnB',
+        institution: 'Centro Universitário Vale do Sol (CUVS)',
         period: '2011 - 2015',
       ),
     ],
     postDoctorate: [
       TeacherFormation(
         degree: 'Pós-Doutorado em Administração',
-        institution: 'UnB',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '2010 - 2014',
       ),
     ],
@@ -900,24 +900,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFSC',
+        institution: 'Universidade Metropolitana do Sul (UMS)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'UFPR',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2006 - 2007',
       ),
       TeacherFormation(
         degree: 'Graduação em Educação',
-        institution: 'Faculdade Horizonte (FH)',
+        institution: 'Centro Educacional Serra Alta (CESA)',
         period: '2015 - 2017',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Ensino a Distância',
-        institution: 'UFPR',
+        name: 'Fundamentos de Análise de Dados',
+        institution: 'Faculdade Boa Vista (FBV)',
         period: '2020 - 2023',
         workload: '480h',
       ),
@@ -932,19 +932,19 @@ const teachers = <Teacher>[
         degree:
             'Mestrado Profissional em Propriedade Intelectual e Transferência '
             'de Tecnologia para Inovação (PROFNIT)',
-        institution: 'UFRJ',
+        institution: 'Universidade Comunitária Bela Vista (UCBV)',
         period: '1998 - 2000',
       ),
       TeacherFormation(
         degree: 'Graduação em Ciências Sociais',
-        institution: 'UFES',
+        institution: 'Instituto Superior do Vale (ISV)',
         period: '2006 - 2007',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Ciência de Dados',
-        institution: 'Faculdade Horizonte (FH)',
+        name: 'Introdução à Sustentabilidade',
+        institution: 'Faculdade Nova Aliança (FNA)',
         period: '1987 - 1989',
         workload: '360h',
       ),
@@ -957,24 +957,24 @@ const teachers = <Teacher>[
     academicBackground: [
       TeacherFormation(
         degree: 'Doutorado em Engenharia de Produção',
-        institution: 'UnB',
+        institution: 'Centro Universitário Novo Horizonte (CUNH)',
         period: '1992 - 1996',
       ),
       TeacherFormation(
         degree: 'Mestrado em Ciências Sociais',
-        institution: 'UFMA',
+        institution: 'Centro Universitário Aurora (CUA)',
         period: '2010 - 2014',
       ),
       TeacherFormation(
         degree: 'Graduação em Sistemas de Informação',
-        institution: 'UFMA',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '1990 - 1995',
       ),
     ],
     postGraduation: [
       TeacherSpecialization(
-        name: 'Ciência de Dados',
-        institution: 'UFU',
+        name: 'Ferramentas Digitais para Educação',
+        institution: 'Universidade Regional do Litoral (URL)',
         period: '2020 - 2023',
         workload: '420h',
       ),
