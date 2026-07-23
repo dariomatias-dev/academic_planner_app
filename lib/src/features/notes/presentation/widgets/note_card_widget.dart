@@ -1,11 +1,11 @@
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/actions/delete_note_flow.dart';
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 enum NoteCardAction { edit, delete }
 
@@ -108,10 +108,7 @@ class NoteCardWidget extends ConsumerWidget {
                   ),
                   const SizedBox(width: 6.0),
                   Text(
-                    DateFormat(
-                      "dd 'de' MMMM, yyyy",
-                      'pt_BR',
-                    ).format(note.updatedAt),
+                    DateUtilsHelper.formatFullDate(note.updatedAt),
                     style: GoogleFonts.plusJakartaSans(
                       color: colorScheme.primary,
                       fontSize: 11.0,

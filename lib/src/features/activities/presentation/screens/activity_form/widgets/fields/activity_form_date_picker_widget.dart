@@ -1,8 +1,8 @@
 import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class ActivityFormDatePickerWidget extends StatelessWidget {
   const ActivityFormDatePickerWidget({
@@ -60,7 +60,7 @@ class ActivityFormDatePickerWidget extends StatelessWidget {
                 Text(
                   dueDate == null
                       ? 'Definir prazo'
-                      : DateFormat('dd / MM / yyyy').format(dueDate!),
+                      : DateUtilsHelper.formatSlashDate(dueDate!),
                   style: GoogleFonts.plusJakartaSans(
                     color: colorScheme.onSurface,
                     fontSize: 16.0,

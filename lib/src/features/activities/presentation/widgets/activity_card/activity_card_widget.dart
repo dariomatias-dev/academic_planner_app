@@ -3,10 +3,10 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/extensions/activity_status_extension.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_actions_modal/activity_card_actions_modal_widget.dart';
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class ActivityCardWidget extends StatelessWidget {
   const ActivityCardWidget({required this.activity, super.key});
@@ -123,7 +123,7 @@ class ActivityCardWidget extends StatelessWidget {
                         ),
                         const SizedBox(width: 4.0),
                         Text(
-                          DateFormat('dd MMM').format(activity.dueDate!),
+                          DateUtilsHelper.formatDayMonth(activity.dueDate!),
                           style: GoogleFonts.plusJakartaSans(
                             color: colorScheme.onSurface.withAlpha(160),
                             fontSize: 11.0,

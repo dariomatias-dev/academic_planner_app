@@ -1,8 +1,8 @@
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
+import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class UserCardWidget extends StatelessWidget {
   const UserCardWidget({required this.user, super.key});
@@ -77,7 +77,7 @@ class UserCardWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 4.0),
                     Text(
-                      DateFormat('dd/MM/yy').format(user.createdAt),
+                      DateUtilsHelper.formatShortDate(user.createdAt),
                       style: GoogleFonts.plusJakartaSans(
                         color: colorScheme.onSurface.withAlpha(120),
                         fontSize: 11.0,
