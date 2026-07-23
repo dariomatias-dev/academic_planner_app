@@ -3,7 +3,7 @@ import 'package:academic_planner/src/core/extensions/theme_mode_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/delete_account_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/logout_confirmation_dialog_widget.dart';
-import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_profile_header_widget.dart';
+import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_profile_header/settings_profile_header_widget.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_section_widget.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_tile_widget.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/theme_selector_modal/theme_selector_modal_widget.dart';
