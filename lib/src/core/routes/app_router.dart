@@ -1,7 +1,6 @@
 import 'package:academic_planner/src/core/root_navigation.dart';
 import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/core/routes/route_paths.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/about_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/activity_details_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/activity_form_screen.dart';
@@ -16,18 +15,19 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/disciplines_screen.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/my_disciplines/my_disciplines_screen.dart';
 import 'package:academic_planner/src/features/home/presentation/screens/dashboard/dashboard_screen.dart';
-import 'package:academic_planner/src/features/not_found/presentation/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/features/notes/presentation/screens/note_details/note_details_screen.dart';
 import 'package:academic_planner/src/features/notes/presentation/screens/note_form/note_form_screen.dart';
-import 'package:academic_planner/src/features/pdf_viewer/presentation/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/my_schedule/my_schedule_screen.dart';
 import 'package:academic_planner/src/features/schedule/presentation/screens/schedule/schedule_screen.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/settings_screen.dart';
-import 'package:academic_planner/src/features/splash/presentation/screens/splash/splash_screen.dart';
 import 'package:academic_planner/src/features/tags/presentation/screens/tags/tags_screen.dart';
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/teacher_details_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/edit_profile/edit_profile_screen.dart';
 import 'package:academic_planner/src/features/users/presentation/screens/user_management/user_management_screen.dart';
+import 'package:academic_planner/src/shared/screens/about/about_screen.dart';
+import 'package:academic_planner/src/shared/screens/not_found/not_found_screen.dart';
+import 'package:academic_planner/src/shared/screens/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:academic_planner/src/shared/screens/splash/splash_screen.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {

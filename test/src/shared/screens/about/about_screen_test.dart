@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/about/presentation/screens/about/about_screen.dart';
+import 'package:academic_planner/src/shared/screens/about/about_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

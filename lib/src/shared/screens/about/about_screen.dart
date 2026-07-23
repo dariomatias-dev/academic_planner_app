@@ -1,11 +1,11 @@
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_benefit_list_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_branding_section_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_metric_badges_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_mission_statement_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_professional_footer_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_section_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_source_code_card_widget.dart';
-import 'package:academic_planner/src/features/about/presentation/screens/about/widgets/about_technical_sheet_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_benefit_list_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_branding_section_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_metric_badges_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_mission_statement_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_professional_footer_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_section_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_source_code_card_widget.dart';
+import 'package:academic_planner/src/shared/screens/about/widgets/about_technical_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:flutter/material.dart';
 

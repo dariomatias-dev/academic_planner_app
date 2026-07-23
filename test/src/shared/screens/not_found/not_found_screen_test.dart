@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/not_found/presentation/screens/not_found/not_found_screen.dart';
+import 'package:academic_planner/src/shared/screens/not_found/not_found_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';

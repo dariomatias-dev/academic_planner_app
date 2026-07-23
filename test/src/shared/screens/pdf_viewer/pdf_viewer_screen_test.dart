@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/features/pdf_viewer/presentation/screens/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:academic_planner/src/shared/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
