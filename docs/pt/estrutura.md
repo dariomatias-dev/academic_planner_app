@@ -118,6 +118,7 @@ lib/
     │
     └── shared/                      # Recursos globais reutilizáveis
         ├── models/                  # Models compartilhados entre features
+        ├── screens/                 # Telas sem feature dona (about, splash, not_found, pdf_viewer)
         ├── utils/                   # Funções utilitárias sem UI
         └── widgets/                 # Design System - componentes genéricos
             ├── buttons/
@@ -171,6 +172,7 @@ Componentes sem conhecimento de domínio de negócio. Qualquer feature pode usar
 - **`shared/widgets/`**: Design System - botões, inputs, diálogos, estados vazios, tab bars.
 - **`shared/utils/`**: Funções puras sem UI.
 - **`shared/models/`**: Models reutilizados entre múltiplas features.
+- **`shared/screens/`**: Telas que não pertencem a nenhuma feature de negócio - sem domínio próprio (`about`, `splash`, `not_found`, `pdf_viewer`). Ficam fora de `features/` pra não simular um domínio que não existe; as subpastas `widgets/` aqui seguem a mesma convenção de decomposição local de tela usada em `features/<feature>/presentation/screens/<tela>/widgets/`.
 
 ### Seeds
 
@@ -200,7 +202,6 @@ Future<void> runDevSeeds(Database db) async {
 
 | Feature          | Descrição                                                         | Camadas                                |
 | ---------------- | ----------------------------------------------------------------- | -------------------------------------- |
-| `about`          | Tela sobre o app e código-fonte                                   | `presentation`                         |
 | `activities`     | CRUD de atividades acadêmicas com filtros e estatísticas          | `data`, `domain`, `presentation`, `di` |
 | `auth`           | Autenticação com Firebase (login, registro, recuperação de senha) | `data`, `domain`, `presentation`, `di` |
 | `calendar`       | Visão de agenda com calendário e atividades por data              | `presentation`, `di`                   |
@@ -209,14 +210,13 @@ Future<void> runDevSeeds(Database db) async {
 | `disciplines`    | Gerenciamento de disciplinas e seleção por período                | `data`, `domain`, `presentation`, `di` |
 | `home`           | Dashboard com resumo geral                                        | `presentation`                         |
 | `notes`          | CRUD de anotações com editor rich text                            | `data`, `domain`, `presentation`, `di` |
-| `not_found`      | Tela 404 para rotas inválidas                                     | `presentation`                         |
-| `pdf_viewer`     | Visualizador de PDFs integrado                                    | `presentation`                         |
 | `schedule`       | Grade de horários das disciplinas                                 | `data`, `presentation`                 |
 | `settings`       | Configurações do usuário (tema, exclusão de conta)                | `presentation`                         |
-| `splash`         | Tela inicial com verificação de autenticação                      | `presentation`                         |
 | `tags`           | Gerenciamento de tags de atividades                               | `data`, `domain`, `presentation`, `di` |
 | `teacher`        | Informações sobre professores das disciplinas                     | `data`, `presentation`                 |
 | `users`          | Perfil do usuário e gerenciamento de conta                        | `data`, `domain`, `presentation`, `di` |
+
+Telas sem feature dona (`about`, `splash`, `not_found`, `pdf_viewer`) vivem em `shared/screens/` - ver [Detalhamento por Seção](#shared) acima.
 
 ---
 

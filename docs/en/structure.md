@@ -118,6 +118,7 @@ lib/
     │
     └── shared/                      # Reusable global resources
         ├── models/                  # Models shared across features
+        ├── screens/                 # Screens with no owning feature (about, splash, not_found, pdf_viewer)
         ├── utils/                   # Utility functions without UI
         └── widgets/                 # Design System - generic components
             ├── buttons/
@@ -171,6 +172,7 @@ Components with no knowledge of business domain. Any feature can use them.
 - **`shared/widgets/`**: Design System - buttons, inputs, dialogs, empty states, tab bars.
 - **`shared/utils/`**: Pure functions without UI.
 - **`shared/models/`**: Models reused across multiple features.
+- **`shared/screens/`**: Screens that don't belong to any business feature - no domain of their own (`about`, `splash`, `not_found`, `pdf_viewer`). Kept out of `features/` to avoid faking a domain that doesn't exist; internal `widgets/` subfolders here follow the same screen-local decomposition convention as `features/<feature>/presentation/screens/<screen>/widgets/`.
 
 ### Seeds
 
@@ -200,7 +202,6 @@ Future<void> runDevSeeds(Database db) async {
 
 | Feature          | Description                                                  | Layers                                 |
 | ---------------- | ------------------------------------------------------------ | -------------------------------------- |
-| `about`          | App info screen with source code link                        | `presentation`                         |
 | `activities`     | Academic activity CRUD with filters and statistics           | `data`, `domain`, `presentation`, `di` |
 | `auth`           | Firebase authentication (login, register, password recovery) | `data`, `domain`, `presentation`, `di` |
 | `calendar`       | Agenda view with calendar and activities by date             | `presentation`, `di`                   |
@@ -209,14 +210,13 @@ Future<void> runDevSeeds(Database db) async {
 | `disciplines`    | Discipline management and selection by academic period       | `data`, `domain`, `presentation`, `di` |
 | `home`           | Dashboard with general summary                               | `presentation`                         |
 | `notes`          | Note CRUD with rich text editor                              | `data`, `domain`, `presentation`, `di` |
-| `not_found`      | 404 screen for invalid routes                                | `presentation`                         |
-| `pdf_viewer`     | Built-in PDF viewer                                          | `presentation`                         |
 | `schedule`       | Weekly class schedule grid                                   | `data`, `presentation`                 |
 | `settings`       | User settings (theme, account deletion)                      | `presentation`                         |
-| `splash`         | Initial screen with authentication check                     | `presentation`                         |
 | `tags`           | Activity tag management                                      | `data`, `domain`, `presentation`, `di` |
 | `teacher`        | Discipline teacher information                               | `data`, `presentation`                 |
 | `users`          | User profile and account management                          | `data`, `domain`, `presentation`, `di` |
+
+Screens with no owning feature (`about`, `splash`, `not_found`, `pdf_viewer`) live in `shared/screens/` instead - see [Section Details](#shared) above.
 
 ---
 

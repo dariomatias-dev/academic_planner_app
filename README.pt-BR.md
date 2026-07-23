@@ -103,11 +103,11 @@ Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> Da
 ```text
 lib/src/
 ├── core/        # Infraestrutura global (banco, rotas, tema, DI, logging, seeds)
-├── features/    # 17 módulos de negócio isolados
+├── features/    # 13 módulos de negócio isolados
 └── shared/      # Design System e utilitários globais
 ```
 
-Features existentes: `about`, `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `not_found`, `pdf_viewer`, `schedule`, `settings`, `splash`, `tags`, `teacher`, `users`.
+Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
 
 > Árvore completa comentada com detalhamento de cada pasta: [docs/pt/estrutura.md](docs/pt/estrutura.md)
 
