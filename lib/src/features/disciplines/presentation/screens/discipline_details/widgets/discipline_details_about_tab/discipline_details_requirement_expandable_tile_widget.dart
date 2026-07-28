@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_widget.dart';
+import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -138,7 +138,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
             padding: const EdgeInsets.only(top: 16.0),
             child: Column(
               children: widget.linkedDisciplines.builder((discipline, index) {
-                return DisciplineCardWidget(
+                return DisciplineCardItemWidget(
                   index: index + 1,
                   discipline: discipline,
                 );
