@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.slate50,
+      scaffoldBackgroundColor: AppColors.slate100,
       textTheme: GoogleFonts.plusJakartaSansTextTheme(),
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.emerald600,
@@ -42,7 +42,7 @@ class AppTheme {
       colorScheme: const ColorScheme.dark(
         primary: AppColors.emerald500,
         secondary: AppColors.emerald600,
-        surface: AppColors.zinc950,
+        surface: AppColors.zinc900,
         onSurfaceVariant: AppColors.emerald400,
         error: AppColors.red600,
         onError: AppColors.white,
@@ -64,11 +64,11 @@ class AppTheme {
         thickness: 1.0,
       ),
       cardTheme: CardThemeData(
-        color: AppColors.zinc950,
+        color: AppColors.zinc900,
         elevation: 0.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24.0),
-          side: const BorderSide(color: AppColors.zinc900),
+          side: const BorderSide(color: AppColors.zinc800),
         ),
       ),
     );
