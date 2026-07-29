@@ -26,7 +26,7 @@ class AppButtonStyles {
         );
       case AppButtonStyle.neutral:
         return AppButtonStyles(
-          backgroundColor: theme.scaffoldBackgroundColor,
+          backgroundColor: colorScheme.onSurface.withAlpha(12),
           textColor: colorScheme.onSurface,
           borderColor: theme.dividerTheme.color,
         );

@@ -9,8 +9,8 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.slate100,
       textTheme: GoogleFonts.plusJakartaSansTextTheme(),
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.emerald600,
-        primary: AppColors.emerald600,
+        seedColor: AppColors.emerald700,
+        primary: AppColors.emerald700,
         secondary: AppColors.emerald500,
         surface: AppColors.white,
         onSurface: AppColors.slate800,
@@ -35,14 +35,14 @@ class AppTheme {
     final baseDark = ThemeData.dark();
     return ThemeData(
       useMaterial3: true,
-      scaffoldBackgroundColor: AppColors.black,
+      scaffoldBackgroundColor: AppColors.zinc950,
       textTheme: GoogleFonts.plusJakartaSansTextTheme(
         baseDark.textTheme,
       ).apply(bodyColor: AppColors.slate300, displayColor: AppColors.white),
       colorScheme: const ColorScheme.dark(
         primary: AppColors.emerald500,
         secondary: AppColors.emerald600,
-        surface: AppColors.zinc900,
+        surface: AppColors.black,
         onSurfaceVariant: AppColors.emerald400,
         error: AppColors.red600,
         onError: AppColors.white,
@@ -50,7 +50,7 @@ class AppTheme {
         onErrorContainer: AppColors.red500,
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.black,
+        backgroundColor: AppColors.zinc950,
         surfaceTintColor: AppColors.transparent,
         elevation: 0.0,
       ),
@@ -60,11 +60,11 @@ class AppTheme {
         selectionHandleColor: AppColors.emerald500,
       ),
       dividerTheme: const DividerThemeData(
-        color: AppColors.zinc900,
+        color: AppColors.zinc800,
         thickness: 1.0,
       ),
       cardTheme: CardThemeData(
-        color: AppColors.zinc900,
+        color: AppColors.black,
         elevation: 0.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(24.0),

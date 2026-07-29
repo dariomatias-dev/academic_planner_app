@@ -48,7 +48,7 @@ void main() {
       expect(iconButton.onPressed, isNull);
       expect(
         iconButton.style?.backgroundColor?.resolve({}),
-        colorScheme.onSurface.withAlpha(255),
+        colorScheme.onSurface.withAlpha(12),
       );
 
       final icon = tester.widget<Icon>(find.byIcon(Icons.add));
@@ -178,7 +178,7 @@ void main() {
 
         expect(
           iconButton.style?.backgroundColor?.resolve({}),
-          theme.scaffoldBackgroundColor,
+          theme.colorScheme.onSurface.withAlpha(12),
         );
         expect(
           tester.widget<Icon>(find.byIcon(Icons.add)).color,

@@ -30,10 +30,11 @@ void main() {
       expect(styles.iconBackgroundColor, isNull);
     });
 
-    test('neutral → scaffold background, onSurface text, divider border', () {
+    test('neutral → subtle onSurface background, onSurface text, divider '
+        'border', () {
       final styles = AppButtonStyles.fromStyle(AppButtonStyle.neutral, theme);
 
-      expect(styles.backgroundColor, theme.scaffoldBackgroundColor);
+      expect(styles.backgroundColor, colorScheme.onSurface.withAlpha(12));
       expect(styles.textColor, colorScheme.onSurface);
       expect(styles.borderColor, theme.dividerTheme.color);
       expect(styles.iconBackgroundColor, isNull);

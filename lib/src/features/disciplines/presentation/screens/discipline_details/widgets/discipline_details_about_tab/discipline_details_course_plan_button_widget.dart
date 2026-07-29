@@ -21,8 +21,8 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
       width: double.infinity,
       height: 64.0,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colorScheme.primary, colorScheme.secondary],
+        gradient: const LinearGradient(
+          colors: [AppColors.emerald700, AppColors.emerald800],
         ),
         borderRadius: BorderRadius.circular(24.0),
         boxShadow: [

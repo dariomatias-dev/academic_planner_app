@@ -172,7 +172,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: const AppBarWidget(title: 'Ajustes do App'),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 140.0),
+        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 140.0),
         physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

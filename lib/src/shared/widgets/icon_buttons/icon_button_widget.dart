@@ -24,13 +24,14 @@ class IconButtonWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isDisabled = onPressed == null;
+    final isDark = theme.brightness == Brightness.dark;
 
     late Color backgroundColor;
     late Color iconColor;
     Color? borderColor;
 
     if (isDisabled) {
-      backgroundColor = colorScheme.onSurface.withAlpha(255);
+      backgroundColor = colorScheme.onSurface.withAlpha(12);
       iconColor = colorScheme.onSurface.withAlpha(60);
 
       if (style == IconButtonStyle.outline) {
@@ -39,13 +40,13 @@ class IconButtonWidget extends StatelessWidget {
     } else {
       switch (style) {
         case IconButtonStyle.primary:
-          backgroundColor = colorScheme.primary.withAlpha(20);
+          backgroundColor = colorScheme.primary.withAlpha(isDark ? 30 : 20);
           iconColor = colorScheme.primary;
         case IconButtonStyle.secondary:
-          backgroundColor = colorScheme.primary.withAlpha(25);
+          backgroundColor = colorScheme.primary.withAlpha(isDark ? 45 : 25);
           iconColor = colorScheme.primary;
         case IconButtonStyle.neutral:
-          backgroundColor = theme.scaffoldBackgroundColor;
+          backgroundColor = colorScheme.onSurface.withAlpha(12);
           iconColor = colorScheme.onSurface;
         case IconButtonStyle.outline:
           backgroundColor = AppColors.transparent;

@@ -6,7 +6,8 @@ class SettingsProfileHeaderAvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
 
     return Stack(
       alignment: Alignment.bottomRight,
@@ -34,12 +35,15 @@ class SettingsProfileHeaderAvatarWidget extends StatelessWidget {
           height: 30.0,
           width: 30.0,
           decoration: BoxDecoration(
-            color: AppColors.emerald500,
+            color: AppColors.emerald700,
             shape: BoxShape.circle,
-            border: Border.all(color: colorScheme.surface, width: 3.5),
+            border: Border.all(
+              color: theme.scaffoldBackgroundColor,
+              width: 3.5,
+            ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.emerald500.withAlpha(60),
+                color: AppColors.emerald700.withAlpha(60),
                 blurRadius: 10.0,
                 offset: const Offset(0.0, 4.0),
               ),
