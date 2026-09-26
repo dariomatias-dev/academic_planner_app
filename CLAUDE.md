@@ -1,0 +1,130 @@
+# CLAUDE.md
+
+Working agreement for agents (and humans) working in this repository. Describes
+the state as it exists today — not what is planned. Update it in the same
+commit as any change that makes a section below stale.
+
+## Commands
+
+All Dart/Flutter commands go through [fvm](https://fvm.app/) (`.fvmrc` pins
+the SDK version).
+
+```bash
+fvm flutter pub get                # install dependencies
+fvm flutter run                    # run the app
+fvm dart format lib test           # format
+fvm flutter analyze                # static analysis (very_good_analysis)
+fvm flutter test                   # run all tests
+fvm flutter test --coverage        # run tests with lcov coverage
+scripts/verify.sh                  # local gate: format + analyze (pending changes) + test + coverage floor
+scripts/verify.sh --all            # same, but scoped to the whole repo (mirrors CI); skipped if nothing changed since the last successful --all run
+scripts/verify.sh --skip-tests     # format + analyze only
+scripts/check_coverage.sh <lcov> <min>  # fail if lcov coverage is below <min>, excluding *.g.dart
+scripts/screenshot.sh [device-id]  # capture README/store screenshots via integration_test
+dart run scripts/seed.dart         # populate the local db with sample data (standalone, no device)
+```
+
+See the Scripts table in [README.md](README.md#scripts) for full descriptions.
+
+## Where code goes
+
+Feature-first + Clean Architecture + MVVM. Each feature under
+`lib/src/features/<feature>/` has up to four layers, present only where there
+is content for them:
+
+```
+<feature>/
+  data/           # data sources, repository implementations, DTOs/models
+    data_source/
+    models/
+    repositories/
+  di/             # riverpod providers wiring this feature's dependencies
+  domain/         # entities, repository interfaces, value objects — pure Dart
+    entities/
+    repositories/
+    value_objects/
+  presentation/   # screens, widgets, view models, riverpod notifiers
+    providers/
+    screens/
+    view_models/
+    widgets/
+```
+
+Rules:
+- `domain/` never imports Flutter or any other layer.
+- No feature imports another feature's `presentation/`.
+- A use case class is only introduced when it composes more than one
+  repository call; a single passthrough call goes straight from the
+  ViewModel/Notifier to the repository.
+- Cross-feature shared UI/utilities live in `lib/src/shared/`; app-wide
+  concerns (database, logging, error handling, theming, routing) live in
+  `lib/src/core/`.
+- State is `Notifier`/`AsyncNotifier` (Riverpod), state is immutable, derived
+  state is a getter — not restored/recomputed in `build()`.
+- Screens are thin: no `_buildX()` methods, one public widget per file.
+
+## Tests
+
+- `test/` mirrors `lib/` path-for-path.
+- Shared helpers live in `test/helpers/`:
+  - `pump_app.dart` — `pumpApp` (MaterialApp+Scaffold, optional
+    `ProviderContainer`, optional Quill localizations) and `pumpScopedApp`
+    (MaterialApp+Scaffold+Builder+button, for widgets that trigger an
+    overlay — dialog, bottom sheet — and need a real `BuildContext` under a
+    `Navigator`).
+  - `shared_preferences_test_helper.dart` — `fakeSharedPreferences()`.
+  - `fakes.dart` — the repository/service mocks duplicated across the most
+    test files (`MockActivityRepository`, `MockNoteRepository`, etc.).
+  Not every widget test's setup fits these helpers exactly (extra
+  parameters, `ProviderScope` instead of `UncontrolledProviderScope`,
+  non-standard layout) — those are left as local, file-scoped harnesses
+  rather than forced into a shape that doesn't match.
+- `test/provider_graph_smoke_test.dart` resolves every top-level Riverpod
+  provider in the app against minimal overrides (in-memory sqflite with real
+  migrations, fake `SharedPreferences`, a `FirebaseAuth` mock with no signed
+  in user, `FakeFirebaseFirestore`) — catches wiring mistakes a single
+  provider's own unit test wouldn't.
+- Coverage floor is enforced by `scripts/check_coverage.sh`, currently
+  **93%** (measured baseline, rounded down; rises as features get aligned to
+  the checklist in progress — see git history for `refactor: align *
+  layers and cover failure paths`-style commits). `*.g.dart` is excluded.
+- Integration tests live in `integration_test/`; `scripts/screenshot.sh`
+  drives them to capture README/store screenshots.
+
+## Side effects
+
+If a change is visible to the user, changes the folder structure, the
+scripts, or CI, update in the same commit:
+- `README.md`, `README.es.md`, `README.pt-BR.md` (kept in sync — same
+  section skeleton, badges, scripts table).
+- `CONTRIBUTING.md`.
+- This file, if the change makes a section above stale.
+
+## Commits
+
+- Conventional Commits, enforced by `.githooks/commit-msg` (see
+  [CONTRIBUTING.md](CONTRIBUTING.md) for the type/scope/subject rules).
+- `.githooks/pre-push` runs `scripts/verify.sh --all` before every push.
+- Every change is scoped to one thing: don't mix an unrelated refactor,
+  formatting pass, or dependency bump into a commit about something else.
+
+## Working protocol
+
+This codebase is worked on in small, independently verified steps, whether
+by an agent or a person:
+
+1. Do only what was asked for this step — nothing that depends on work that
+   hasn't happened yet, nothing "while I'm here" beyond its stated scope.
+2. Verify before calling it done: `fvm dart format --output=none
+   --set-exit-if-changed lib test`, `fvm flutter analyze`, `fvm flutter
+   test` (or `scripts/verify.sh` once a step depends on it existing —
+   it wraps the same three checks plus the coverage floor).
+3. The repository must build, analyze clean, and pass its test suite after
+   the step — never leave it red for a "later" step to fix.
+4. Report what changed, what was verified, and what was deliberately left
+   out, then stop — don't keep going past what was asked.
+
+Local hooks enforce parts of this automatically (see `.claude/settings.json`
+and `.claude/hooks/`): `format-dart.sh` formats a file right after it's
+written or edited, and `verify-gate.sh` runs `scripts/verify.sh` before the
+agent finishes and blocks (with the failure output) if it's red.
