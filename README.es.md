@@ -96,7 +96,7 @@ Flujo de datos:
 Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> DataSource
 ```
 
-> Documentación completa con ejemplos de código: [docs/es/arquitectura.md](docs/es/arquitectura.md)
+> Documentación completa con ejemplos de código: [docs/architecture.es.md](docs/architecture.es.md#visión-general)
 
 ## Estructura de Carpetas
 
@@ -109,22 +109,22 @@ lib/src/
 
 Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
 
-> Árbol de carpetas completo y comentado: [docs/es/estructura.md](docs/es/estructura.md)
+> Árbol de carpetas completo y comentado: [docs/architecture.es.md](docs/architecture.es.md#árbol-de-carpetas)
 
 ## Tecnologías Principales
 
-| Tecnología       | Versión | Rol                          |
-| ---------------- | ------- | ----------------------------- |
-| Flutter          | 3.35.0  | Framework de UI               |
-| Dart SDK         | ^3.10.4 | Lenguaje                      |
-| flutter_riverpod | 3.3.1   | Gestión de estado e inyección de dependencias |
-| go_router        | 17.1.0  | Navegación declarativa        |
-| sqflite          | 2.4.2   | Persistencia local (SQLite)   |
-| firebase_auth    | 6.4.0   | Autenticación                 |
-| cloud_firestore  | 6.3.0   | Backend en la nube            |
-| flutter_quill    | 11.5.0  | Editor de texto enriquecido   |
+| Tecnología       | Versión     | Rol                          |
+| ----------------- | ------------- | ------------------------------- |
+| Flutter          | 3.44.9      | Framework de UI               |
+| Dart SDK         | ^3.12.2     | Lenguaje                      |
+| flutter_riverpod | 3.4.3       | Gestión de estado e inyección de dependencias |
+| go_router        | 18.0.1      | Navegación declarativa        |
+| sqflite          | 2.4.4       | Persistencia local (SQLite)   |
+| firebase_auth    | 6.7.0       | Autenticación                 |
+| cloud_firestore  | 6.10.0      | Backend en la nube            |
+| flutter_quill    | 11.6.0      | Editor de texto enriquecido   |
 
-> Lista completa con versiones exactas y justificación de cada elección: [docs/es/tecnologias.md](docs/es/tecnologias.md)
+> Lista completa con versiones exactas y justificación de cada elección: [docs/architecture.es.md](docs/architecture.es.md#tecnologías)
 
 ## Capturas de Pantalla
 
@@ -214,12 +214,9 @@ Los scripts utilitarios están en `scripts/`.
 
 La documentación está organizada en archivos separados por tema para facilitar la navegación:
 
-| Documento                                  | Qué encontrarás                                                                                                                                |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Arquitectura](docs/es/arquitectura.md)   | Explicación detallada de MVVM, Clean Architecture y Feature-First, con ejemplos de código del propio proyecto y justificación de cada elección |
-| [Estructura del Proyecto](docs/es/estructura.md) | Árbol de carpetas completo y comentado, detalle de cada sección y tabla con todas las features existentes                                       |
-| [Navegación](docs/es/navegacion.md)       | Cómo funciona el sistema de rutas con GoRouter, referencia completa de rutas y guía para agregar nuevas                                        |
-| [Tecnologías](docs/es/tecnologias.md)    | Todas las dependencias con versiones exactas (de `pubspec.lock`) y motivo de cada elección                                                     |
+| Documento                              | Qué encontrarás                                                                                                                                                                                              |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Arquitectura](docs/architecture.es.md) | MVVM, Clean Architecture y Feature-First con ejemplos de código y justificación; el árbol de carpetas completo; el sistema de navegación con GoRouter y referencia completa de rutas; y cada dependencia con versión exacta y rol |
 
 ## Contribuir
 

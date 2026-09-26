@@ -96,7 +96,7 @@ Fluxo de dados:
 Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> DataSource
 ```
 
-> Documentação completa com exemplos de código: [docs/pt/arquitetura.md](docs/pt/arquitetura.md)
+> Documentação completa com exemplos de código: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#visão-geral)
 
 ## Estrutura de Pastas
 
@@ -109,22 +109,22 @@ lib/src/
 
 Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
 
-> Árvore completa comentada com detalhamento de cada pasta: [docs/pt/estrutura.md](docs/pt/estrutura.md)
+> Árvore completa comentada com detalhamento de cada pasta: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#árvore-de-pastas)
 
 ## Tecnologias Principais
 
-| Tecnologia       | Versão  | Papel                        |
-| ---------------- | ------- | ---------------------------- |
-| Flutter          | 3.35.0  | Framework UI                 |
-| Dart SDK         | ^3.10.4 | Linguagem                    |
-| flutter_riverpod | 3.3.1   | Gerenciamento de estado e DI |
-| go_router        | 17.1.0  | Navegação declarativa        |
-| sqflite          | 2.4.2   | Persistência local (SQLite)  |
-| firebase_auth    | 6.4.0   | Autenticação                 |
-| cloud_firestore  | 6.3.0   | Backend em nuvem             |
-| flutter_quill    | 11.5.0  | Editor rich text             |
+| Tecnologia       | Versão      | Papel                        |
+| ----------------- | ------------- | ------------------------------ |
+| Flutter          | 3.44.9      | Framework UI                 |
+| Dart SDK         | ^3.12.2     | Linguagem                    |
+| flutter_riverpod | 3.4.3       | Gerenciamento de estado e DI |
+| go_router        | 18.0.1      | Navegação declarativa        |
+| sqflite          | 2.4.4       | Persistência local (SQLite)  |
+| firebase_auth    | 6.7.0       | Autenticação                 |
+| cloud_firestore  | 6.10.0      | Backend em nuvem             |
+| flutter_quill    | 11.6.0      | Editor rich text             |
 
-> Lista completa com versões exatas e justificativa de cada escolha: [docs/pt/tecnologias.md](docs/pt/tecnologias.md)
+> Lista completa com versões exatas e justificativa de cada escolha: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#tecnologias)
 
 ## Capturas de Tela
 
@@ -214,12 +214,9 @@ Scripts utilitários ficam em `scripts/`.
 
 A documentação está organizada em arquivos separados por tema para facilitar a navegação:
 
-| Documento                                    | O que você encontra                                                                                                                         |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Arquitetura](docs/pt/arquitetura.md)        | Explicação detalhada de MVVM, Clean Architecture e Feature-First, com exemplos de código do próprio projeto e justificativa de cada escolha |
-| [Estrutura do Projeto](docs/pt/estrutura.md) | Árvore de pastas completa e comentada, detalhamento de cada seção e tabela com todas as features existentes                                 |
-| [Navegação](docs/pt/navegacao.md)            | Como o sistema de rotas funciona com GoRouter, referência completa de rotas e guia para adicionar novas                                     |
-| [Tecnologias](docs/pt/tecnologias.md)        | Todas as dependências com versões exatas (do `pubspec.lock`) e motivo de cada escolha                                                       |
+| Documento                                | O que você encontra                                                                                                                                                                                              |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Arquitetura](docs/architecture.pt-BR.md) | MVVM, Clean Architecture e Feature-First com exemplos de código e justificativa; a árvore de pastas completa; o sistema de navegação com GoRouter e referência completa de rotas; e cada dependência com versão exata e papel |
 
 ## Contribuindo
 

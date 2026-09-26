@@ -96,7 +96,7 @@ Data flow:
 Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> DataSource
 ```
 
-> Full documentation with code examples: [docs/en/architecture.md](docs/en/architecture.md)
+> Full documentation with code examples: [docs/architecture.md](docs/architecture.md#overview)
 
 ## Folder Structure
 
@@ -109,22 +109,22 @@ lib/src/
 
 Existing features: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
 
-> Full annotated folder tree: [docs/en/structure.md](docs/en/structure.md)
+> Full annotated folder tree: [docs/architecture.md](docs/architecture.md#folder-tree)
 
 ## Key Technologies
 
-| Technology       | Version | Role                       |
-| ---------------- | ------- | -------------------------- |
-| Flutter          | 3.35.0  | UI Framework               |
-| Dart SDK         | ^3.10.4 | Language                   |
-| flutter_riverpod | 3.3.1   | State management and DI    |
-| go_router        | 17.1.0  | Declarative navigation     |
-| sqflite          | 2.4.2   | Local persistence (SQLite) |
-| firebase_auth    | 6.4.0   | Authentication             |
-| cloud_firestore  | 6.3.0   | Cloud backend              |
-| flutter_quill    | 11.5.0  | Rich text editor           |
+| Technology       | Version     | Role                       |
+| ----------------- | ------------- | ---------------------------- |
+| Flutter          | 3.44.9      | UI Framework               |
+| Dart SDK         | ^3.12.2     | Language                   |
+| flutter_riverpod | 3.4.3       | State management and DI    |
+| go_router        | 18.0.1      | Declarative navigation     |
+| sqflite          | 2.4.4       | Local persistence (SQLite) |
+| firebase_auth    | 6.7.0       | Authentication             |
+| cloud_firestore  | 6.10.0      | Cloud backend              |
+| flutter_quill    | 11.6.0      | Rich text editor           |
 
-> Full list with exact versions and rationale for each choice: [docs/en/technologies.md](docs/en/technologies.md)
+> Full list with exact versions and rationale for each choice: [docs/architecture.md](docs/architecture.md#technologies)
 
 ## Screenshots
 
@@ -214,12 +214,9 @@ Utility scripts live under `scripts/`.
 
 Documentation is organized into separate files by topic for easier navigation:
 
-| Document                                  | What you will find                                                                                                                            |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Architecture](docs/en/architecture.md)   | Detailed explanation of MVVM, Clean Architecture, and Feature-First, with code examples from the project itself and rationale for each choice |
-| [Project Structure](docs/en/structure.md) | Full annotated folder tree, details of each section, and a table with all existing features                                                   |
-| [Navigation](docs/en/navigation.md)       | How the routing system works with GoRouter, complete route reference, and a guide for adding new routes                                       |
-| [Technologies](docs/en/technologies.md)   | All dependencies with exact versions (from `pubspec.lock`) and reason for each choice                                                         |
+| Document                              | What you will find                                                                                                                                                                                                     |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Architecture](docs/architecture.md) | MVVM, Clean Architecture and Feature-First with code examples and rationale; the full folder tree; the GoRouter navigation system with a complete route reference; and every dependency with its exact version and role |
 
 ## Contributing
 
