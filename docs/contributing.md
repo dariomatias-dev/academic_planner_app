@@ -37,13 +37,15 @@ Mirrors what CI checks: formatting, analysis, tests and the coverage floor. See 
 
 ## What CI checks
 
-| Job                | What it does                                          | Gates merge? |
-| -------------------- | -------------------------------------------------------- | --------------- |
-| `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test` | Yes           |
+| Job                | What it does                                                                                                          | Gates merge? |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
+| `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, then a 93% coverage floor check (`scripts/check_coverage.sh`) | Yes           |
+
+It runs on every push and pull request to `main`, and can also be triggered manually (`workflow_dispatch`). The Flutter version is read from `.fvmrc`, so it always matches what's pinned locally. Superseded runs on the same branch are cancelled automatically.
 
 ## Reproducing CI locally
 
-`scripts/verify.sh --all` approximates the `analyze-and-test` job (plus a coverage floor CI doesn't check yet). A green local run is a strong signal, not a guarantee — CI installs its own toolchain from scratch and can surface issues a warm local environment hides.
+`scripts/verify.sh --all` runs the same checks, in the same order, as the `analyze-and-test` job. A green local run is a strong signal, not a guarantee — CI installs its own toolchain from scratch and can surface issues a warm local environment hides.
 
 ## Working with an AI agent
 

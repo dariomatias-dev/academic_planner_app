@@ -37,13 +37,15 @@ Refleja lo que verifica el CI: formato, análisis, tests y el piso de cobertura.
 
 ## Qué verifica el CI
 
-| Job                | Qué hace                                               | ¿Bloquea el merge? |
-| -------------------- | ----------------------------------------------------------- | --------------------- |
-| `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test` | Sí                  |
+| Job                | Qué hace                                                                                                              | ¿Bloquea el merge? |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, y luego verifica el piso de cobertura del 93% (`scripts/check_coverage.sh`) | Sí                  |
+
+Se ejecuta en cada push y pull request a `main`, y también puede dispararse manualmente (`workflow_dispatch`). La versión de Flutter se lee de `.fvmrc`, así que siempre coincide con lo fijado localmente. Las ejecuciones superadas en la misma branch se cancelan automáticamente.
 
 ## Reproduciendo el CI localmente
 
-`scripts/verify.sh --all` se aproxima al job `analyze-and-test` (más un piso de cobertura que el CI todavía no verifica). Una ejecución local en verde es una señal fuerte, no una garantía - el CI instala su propio toolchain desde cero y puede revelar problemas que un entorno local "caliente" oculta.
+`scripts/verify.sh --all` ejecuta las mismas verificaciones, en el mismo orden, que el job `analyze-and-test`. Una ejecución local en verde es una señal fuerte, no una garantía - el CI instala su propio toolchain desde cero y puede revelar problemas que un entorno local "caliente" oculta.
 
 ## Trabajar con un agente de IA
 
