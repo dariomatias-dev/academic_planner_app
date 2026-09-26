@@ -14,9 +14,6 @@ class MockGoogleSignIn extends Mock implements GoogleSignIn {}
 
 class MockGoogleSignInAccount extends Mock implements GoogleSignInAccount {}
 
-class MockGoogleSignInAuthentication extends Mock
-    implements GoogleSignInAuthentication {}
-
 class FakeAuthCredential extends Fake implements AuthCredential {}
 
 void main() {
@@ -68,25 +65,34 @@ void main() {
 
   group('signInWithGoogle', () {
     test('user cancels picker → returns null', () async {
-      when(() => mockGoogleSignIn.signIn()).thenAnswer((_) async => null);
+      when(() => mockGoogleSignIn.authenticate()).thenThrow(
+        const GoogleSignInException(code: GoogleSignInExceptionCode.canceled),
+      );
 
       final result = await sut.signInWithGoogle();
 
       expect(result, isNull);
     });
 
+    test('other GoogleSignInException → rethrows', () async {
+      when(() => mockGoogleSignIn.authenticate()).thenThrow(
+        const GoogleSignInException(
+          code: GoogleSignInExceptionCode.unknownError,
+        ),
+      );
+
+      expect(sut.signInWithGoogle, throwsA(isA<GoogleSignInException>()));
+    });
+
     test('success → signs in to Firebase with Google credential', () async {
       final mockAccount = MockGoogleSignInAccount();
-      final mockAuthentication = MockGoogleSignInAuthentication();
       final credential = MockUserCredential();
       when(
-        () => mockGoogleSignIn.signIn(),
+        () => mockGoogleSignIn.authenticate(),
       ).thenAnswer((_) async => mockAccount);
-      when(() => mockAccount.authentication).thenAnswer(
-        (_) async => mockAuthentication,
+      when(() => mockAccount.authentication).thenReturn(
+        const GoogleSignInAuthentication(idToken: 'id-token'),
       );
-      when(() => mockAuthentication.accessToken).thenReturn('access-token');
-      when(() => mockAuthentication.idToken).thenReturn('id-token');
       when(
         () => mockFirebaseAuth.signInWithCredential(any()),
       ).thenAnswer((_) async => credential);
