@@ -1,9 +1,11 @@
 <br>
 <div align="center">
-<img src="https://img.shields.io/badge/Flutter-3.44.9-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
-<img src="https://img.shields.io/badge/Dart-SDK%20^3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
-<img src="https://img.shields.io/badge/Riverpod-3.3.1-08479E?style=for-the-badge" alt="Riverpod">
-<img src="https://img.shields.io/badge/Arquitetura-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Arquitetura">
+<img src="https://img.shields.io/badge/Flutter-3.44.9-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter: 3.44.9">
+<img src="https://img.shields.io/badge/Dart-SDK%20^3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart: SDK ^3.12.2">
+<img src="https://img.shields.io/badge/Riverpod-3.4.3-08479E?style=for-the-badge" alt="Riverpod: 3.4.3">
+<img src="https://img.shields.io/badge/Arquitetura-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Arquitetura: MVVM + Clean + Feature-First">
+<img src="https://github.com/dariomatias-dev/academic-planner/actions/workflows/ci.yaml/badge.svg?branch=main&style=for-the-badge" alt="CI: status">
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licença: MIT">
 </div>
 <br>
 
@@ -27,15 +29,17 @@ Projeto de referência para arquitetura <strong>MVVM + Clean Architecture + Feat
 ## Sumário
 
 - [Sobre o Projeto](#sobre-o-projeto)
+- [Prévia](#prévia)
 - [Funcionalidades](#funcionalidades)
+- [Stack Tecnológica](#stack-tecnológica)
 - [Arquitetura](#arquitetura)
-- [Estrutura de Pastas](#estrutura-de-pastas)
-- [Tecnologias Principais](#tecnologias-principais)
-- [Capturas de Tela](#capturas-de-tela)
 - [Primeiros Passos](#primeiros-passos)
 - [Scripts](#scripts)
+- [Testes](#testes)
 - [Documentação](#documentação)
 - [Contribuindo](#contribuindo)
+- [Segurança](#segurança)
+- [Licença](#licença)
 - [Autor](#autor)
 
 ## Sobre o Projeto
@@ -48,85 +52,7 @@ O Planejador Acadêmico é um aplicativo de gestão de rotina estudantil que ser
 
 Cada decisão arquitetural está documentada com justificativa. O projeto é intencional: não há atalhos que comprometam a estrutura para ganhar velocidade de desenvolvimento.
 
-## Funcionalidades
-
-| Funcionalidade    | Descrição                                                                                     |
-| ----------------- | --------------------------------------------------------------------------------------------- |
-| Atividades        | Criação, edição e exclusão de atividades acadêmicas com filtros por status, data e disciplina |
-| Disciplinas       | Gerenciamento de disciplinas por período com detalhes de horário e professor                  |
-| Agenda            | Visão de calendário com atividades agrupadas por data                                         |
-| Anotações         | Editor rich text para criação de notas vinculadas a disciplinas                               |
-| Grade de Horários | Visualização da grade semanal de aulas                                                        |
-| Categorias e Tags | Organização de atividades por categorias e tags personalizadas                                |
-| Autenticação      | Login, cadastro e recuperação de senha via Firebase Auth                                      |
-| Configurações     | Alternância de tema claro/escuro com persistência local                                       |
-| Sobre             | Informações do app com versão e link para o código-fonte                                      |
-
-## Arquitetura
-
-O projeto combina três abordagens complementares:
-
-```
-Feature-First  ->  como o código é organizado em pastas
-Clean Arch     ->  como as camadas se comunicam (regras de dependência)
-MVVM           ->  como a UI se conecta à lógica de negócio
-```
-
-### Por que essas três?
-
-**Feature-First** resolve o problema de organização: em vez de agrupar arquivos por tipo técnico (todos os models juntos, todas as telas juntas), agrupa por domínio de negócio. Cada feature é um módulo isolado - alterar `activities` não exige abrir pastas de outras funcionalidades.
-
-**Clean Architecture** resolve o problema de dependências: define regras explícitas sobre qual camada pode depender de qual. O Domain (regras de negócio) é Dart puro, sem dependências externas. A UI nunca acessa o banco de dados diretamente.
-
-**MVVM** resolve o problema de acoplamento na UI: a tela nunca contém lógica. O ViewModel gerencia o estado da tela sem depender de `BuildContext` - é testável isoladamente.
-
-Dentro de cada feature:
-
-```text
-features/activities/
-├── domain/          # Entidades e contratos (Dart puro, zero dependências)
-├── data/            # Models, datasources e implementações dos repositórios
-├── presentation/    # Screens, ViewModels, Providers e Widgets
-└── di/              # Injeção de dependência da feature
-```
-
-Fluxo de dados:
-
-```
-Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> DataSource
-```
-
-> Documentação completa com exemplos de código: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#visão-geral)
-
-## Estrutura de Pastas
-
-```text
-lib/src/
-├── core/        # Infraestrutura global (banco, rotas, tema, DI, logging, seeds)
-├── features/    # 13 módulos de negócio isolados
-└── shared/      # Design System e utilitários globais
-```
-
-Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
-
-> Árvore completa comentada com detalhamento de cada pasta: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#árvore-de-pastas)
-
-## Tecnologias Principais
-
-| Tecnologia       | Versão      | Papel                        |
-| ----------------- | ------------- | ------------------------------ |
-| Flutter          | 3.44.9      | Framework UI                 |
-| Dart SDK         | ^3.12.2     | Linguagem                    |
-| flutter_riverpod | 3.4.3       | Gerenciamento de estado e DI |
-| go_router        | 18.0.1      | Navegação declarativa        |
-| sqflite          | 2.4.4       | Persistência local (SQLite)  |
-| firebase_auth    | 6.7.0       | Autenticação                 |
-| cloud_firestore  | 6.10.0      | Backend em nuvem             |
-| flutter_quill    | 11.6.0      | Editor rich text             |
-
-> Lista completa com versões exatas e justificativa de cada escolha: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#tecnologias)
-
-## Capturas de Tela
+## Prévia
 
 <div align="center">
 <img src="screenshots/01_home.png" width="200" alt="Início"/>
@@ -141,12 +67,49 @@ Features existentes: `activities`, `auth`, `calendar`, `categories`, `course_det
 <img src="screenshots/10_about.png" width="200" alt="Sobre"/>
 </div>
 
+## Funcionalidades
+
+| Funcionalidade    | Descrição                                                                                     |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| Atividades        | Criação, edição e exclusão de atividades acadêmicas com filtros por status, data e disciplina |
+| Disciplinas       | Gerenciamento de disciplinas por período com detalhes de horário e professor                  |
+| Agenda            | Visão de calendário com atividades agrupadas por data                                         |
+| Anotações         | Editor rich text para criação de notas vinculadas a disciplinas                               |
+| Grade de Horários | Visualização da grade semanal de aulas                                                        |
+| Categorias e Tags | Organização de atividades por categorias e tags personalizadas                                |
+| Autenticação      | Login, cadastro e recuperação de senha via Firebase Auth                                      |
+| Configurações     | Alternância de tema claro/escuro com persistência local                                       |
+| Sobre             | Informações do app com versão e link para o código-fonte                                      |
+
+## Stack Tecnológica
+
+| Papel                   | Tecnologia                                               |
+| -------------------------- | ------------------------------------------------------------ |
+| Framework               | Flutter 3.44.9, Dart SDK ^3.12.2                        |
+| Estado e DI             | flutter_riverpod                                        |
+| Persistência local      | sqflite (SQLite), shared_preferences                    |
+| Backend e Autenticação  | firebase_auth, google_sign_in, cloud_firestore           |
+| Navegação               | go_router                                                |
+| UI rica                 | flutter_quill, syncfusion_flutter_calendar, google_fonts |
+
+> Cada dependência com sua versão exata resolvida e papel: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md#tecnologias)
+
+## Arquitetura
+
+Feature-First + Clean Architecture + MVVM. Cada feature em `lib/src/features/<feature>/` tem suas próprias camadas `domain/` (Dart puro, zero dependências), `data/`, `presentation/` e `di/`, e nenhuma feature importa a `presentation/` de outra:
+
+```
+Screen -> Provider -> ViewModel -> Repository (contrato) -> RepositoryImpl -> DataSource
+```
+
+> Explicação completa com exemplos de código, a árvore de pastas comentada e o sistema de navegação com GoRouter: [docs/architecture.pt-BR.md](docs/architecture.pt-BR.md)
+
 ## Primeiros Passos
 
 ### Pré-requisitos
 
-- Flutter 3.35.0+
-- Dart SDK ^3.10.4
+- Flutter 3.44.9+ (fixado via [fvm](https://fvm.app/), ver `.fvmrc`)
+- Dart SDK ^3.12.2
 - Projeto Firebase configurado (para autenticação e Firestore)
 
 ### Configuração do Firebase
@@ -167,7 +130,7 @@ O provedor Google valida o app pela fingerprint do certificado de assinatura. Se
    ```
 2. Em **Project Settings → seu app Android → Add fingerprint**, insira o valor de `SHA1`.
 3. Faça o download do `google-services.json` atualizado e substitua `android/app/google-services.json`.
-4. Execute `flutter clean && flutter pub get`.
+4. Execute `fvm flutter clean && fvm flutter pub get`.
 
 > Antes de publicar o aplicativo, repita este procedimento com a SHA-1 da keystore de **release**; a fingerprint de debug cobre apenas builds locais.
 
@@ -177,13 +140,14 @@ O provedor Google valida o app pela fingerprint do certificado de assinatura. Se
 
 ```bash
 # Clone o repositório
-git clone https://github.com/dariomatias-dev/academic_planner_app.git
+git clone https://github.com/dariomatias-dev/academic-planner.git
+cd academic-planner
 
 # Instale as dependências
-flutter pub get
+fvm flutter pub get
 
 # Execute o aplicativo
-flutter run
+fvm flutter run
 ```
 
 ### Seeds de Desenvolvimento
@@ -192,7 +156,7 @@ Seeds populam o banco com dados de exemplo para desenvolvimento. Inativas por pa
 
 ```bash
 # Rodar o app com seeds no primeiro launch (somente debug)
-flutter run --dart-define=SEED_ENABLED=true
+fvm flutter run --dart-define=SEED_ENABLED=true
 
 # Rodar seeds como script standalone (sem emulador)
 dart run scripts/seed.dart
@@ -210,6 +174,21 @@ Scripts utilitários ficam em `scripts/`.
 | `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Gate de verificação local que espelha o CI: format, analyze, test e o piso de cobertura. Por padrão escopado às mudanças pendentes; `--all` verifica o repositório inteiro e é pulado se nada mudou desde a última execução bem-sucedida (ver [The local gate](docs/contributing.pt-BR.md#o-gate-local)). |
 | `workspace_hash` | `scripts/workspace_hash.sh` | Imprime um hash que representa o estado atual do workspace (último commit mais mudanças pendentes), usado pelo `verify.sh` para detectar execuções redundantes. |
 
+## Testes
+
+```bash
+fvm flutter test              # testes unitários e de widget
+fvm flutter test --coverage   # com relatório de cobertura lcov
+```
+
+`test/` espelha `lib/` caminho a caminho. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resolve todos os providers do Riverpod do app com overrides mínimos, pra pegar erros de wiring que o teste de um provider isolado não pegaria. `integration_test/` cobre fluxos ponta a ponta e gera as capturas de tela acima via `scripts/screenshot.sh`.
+
+```bash
+scripts/verify.sh --all
+```
+
+roda as mesmas verificações do CI — format, analyze, test — mais um piso de cobertura de linhas de 93% que o CI ainda não aplica.
+
 ## Documentação
 
 A documentação está organizada em arquivos separados por tema para facilitar a navegação:
@@ -220,9 +199,19 @@ A documentação está organizada em arquivos separados por tema para facilitar 
 
 ## Contribuindo
 
-Contribuições tornam a comunidade de código aberto um lugar excelente para aprender e criar. Toda contribuição é bem-vinda.
+Contribuições são bem-vindas. Veja [docs/contributing.pt-BR.md](docs/contributing.pt-BR.md) para o setup local, o checklist pré-PR e as convenções de mensagens de commit e branching deste projeto:
 
-Antes de abrir um pull request, consulte [docs/contributing.pt-BR.md](docs/contributing.pt-BR.md) para o setup local, o checklist pré-PR e as convenções de mensagens de commit e branching deste projeto.
+```bash
+scripts/verify.sh --all
+```
+
+## Segurança
+
+Encontrou uma vulnerabilidade? Não abra uma issue pública — veja [docs/security.pt-BR.md](docs/security.pt-BR.md) para como reportá-la em particular.
+
+## Licença
+
+Distribuído sob a Licença MIT. Veja [LICENSE](LICENSE) para o texto completo.
 
 ## Autor
 

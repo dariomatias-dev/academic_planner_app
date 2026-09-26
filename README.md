@@ -1,9 +1,11 @@
 <br>
 <div align="center">
-<img src="https://img.shields.io/badge/Flutter-3.44.9-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
-<img src="https://img.shields.io/badge/Dart-SDK%20^3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart">
-<img src="https://img.shields.io/badge/Riverpod-3.3.1-08479E?style=for-the-badge" alt="Riverpod">
-<img src="https://img.shields.io/badge/Architecture-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Architecture">
+<img src="https://img.shields.io/badge/Flutter-3.44.9-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter: 3.44.9">
+<img src="https://img.shields.io/badge/Dart-SDK%20^3.12.2-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart: SDK ^3.12.2">
+<img src="https://img.shields.io/badge/Riverpod-3.4.3-08479E?style=for-the-badge" alt="Riverpod: 3.4.3">
+<img src="https://img.shields.io/badge/Architecture-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Architecture: MVVM + Clean + Feature-First">
+<img src="https://github.com/dariomatias-dev/academic-planner/actions/workflows/ci.yaml/badge.svg?branch=main&style=for-the-badge" alt="CI: status">
+<img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="License: MIT">
 </div>
 <br>
 
@@ -27,15 +29,17 @@ Reference project for <strong>MVVM + Clean Architecture + Feature-First</strong>
 ## Table of Contents
 
 - [About the Project](#about-the-project)
+- [Preview](#preview)
 - [Features](#features)
+- [Tech Stack](#tech-stack)
 - [Architecture](#architecture)
-- [Folder Structure](#folder-structure)
-- [Key Technologies](#key-technologies)
-- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
 - [Scripts](#scripts)
+- [Testing](#testing)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 - [Author](#author)
 
 ## About the Project
@@ -48,85 +52,7 @@ Academic Planner is a student routine management application that serves as an *
 
 Every architectural decision is documented with its rationale. The project is intentional: there are no shortcuts that compromise the structure to gain development speed.
 
-## Features
-
-| Feature             | Description                                                                               |
-| ------------------- | ----------------------------------------------------------------------------------------- |
-| Activities          | Create, edit, and delete academic activities with filters by status, date, and discipline |
-| Disciplines         | Manage disciplines by academic period with schedule and teacher details                   |
-| Agenda              | Calendar view with activities grouped by date                                             |
-| Notes               | Rich text editor for creating notes linked to disciplines                                 |
-| Schedule            | Weekly class schedule grid view                                                           |
-| Categories and Tags | Organize activities with custom categories and tags                                       |
-| Authentication      | Sign in, sign up, and password recovery via Firebase Auth                                 |
-| Settings            | Light/dark theme toggle with local persistence                                            |
-| About               | App info with version and source code link                                                |
-
-## Architecture
-
-The project combines three complementary approaches:
-
-```
-Feature-First  ->  how code is organized into folders
-Clean Arch     ->  how layers communicate (dependency rules)
-MVVM           ->  how the UI connects to business logic
-```
-
-### Why these three?
-
-**Feature-First** solves the organization problem: instead of grouping files by technical type (all models together, all screens together), it groups by business domain. Each feature is an isolated module - changing `activities` does not require opening other feature folders.
-
-**Clean Architecture** solves the dependency problem: it defines explicit rules about which layer can depend on which. The Domain (business rules) is pure Dart, with no external dependencies. The UI never accesses the database directly.
-
-**MVVM** solves the UI coupling problem: the screen never contains logic. The ViewModel manages screen state without depending on `BuildContext` - it is testable in isolation.
-
-Inside each feature:
-
-```text
-features/activities/
-├── domain/          # Entities and contracts (pure Dart, zero dependencies)
-├── data/            # Models, datasources, and repository implementations
-├── presentation/    # Screens, ViewModels, Providers, and Widgets
-└── di/              # Feature-specific dependency injection
-```
-
-Data flow:
-
-```
-Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> DataSource
-```
-
-> Full documentation with code examples: [docs/architecture.md](docs/architecture.md#overview)
-
-## Folder Structure
-
-```text
-lib/src/
-├── core/        # Global infrastructure (database, routes, theme, DI, logging, seeds)
-├── features/    # 13 isolated business modules
-└── shared/      # Design System and global utilities
-```
-
-Existing features: `activities`, `auth`, `calendar`, `categories`, `course_details`, `disciplines`, `home`, `notes`, `schedule`, `settings`, `tags`, `teacher`, `users`.
-
-> Full annotated folder tree: [docs/architecture.md](docs/architecture.md#folder-tree)
-
-## Key Technologies
-
-| Technology       | Version     | Role                       |
-| ----------------- | ------------- | ---------------------------- |
-| Flutter          | 3.44.9      | UI Framework               |
-| Dart SDK         | ^3.12.2     | Language                   |
-| flutter_riverpod | 3.4.3       | State management and DI    |
-| go_router        | 18.0.1      | Declarative navigation     |
-| sqflite          | 2.4.4       | Local persistence (SQLite) |
-| firebase_auth    | 6.7.0       | Authentication             |
-| cloud_firestore  | 6.10.0      | Cloud backend              |
-| flutter_quill    | 11.6.0      | Rich text editor           |
-
-> Full list with exact versions and rationale for each choice: [docs/architecture.md](docs/architecture.md#technologies)
-
-## Screenshots
+## Preview
 
 <div align="center">
 <img src="screenshots/01_home.png" width="200" alt="Home"/>
@@ -141,12 +67,49 @@ Existing features: `activities`, `auth`, `calendar`, `categories`, `course_detai
 <img src="screenshots/10_about.png" width="200" alt="About"/>
 </div>
 
+## Features
+
+| Feature             | Description                                                                               |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| Activities          | Create, edit, and delete academic activities with filters by status, date, and discipline |
+| Disciplines         | Manage disciplines by academic period with schedule and teacher details                   |
+| Agenda              | Calendar view with activities grouped by date                                             |
+| Notes               | Rich text editor for creating notes linked to disciplines                                 |
+| Schedule            | Weekly class schedule grid view                                                           |
+| Categories and Tags | Organize activities with custom categories and tags                                       |
+| Authentication      | Sign in, sign up, and password recovery via Firebase Auth                                 |
+| Settings            | Light/dark theme toggle with local persistence                                            |
+| About               | App info with version and source code link                                                |
+
+## Tech Stack
+
+| Role              | Technology                                              |
+| ------------------ | ----------------------------------------------------------- |
+| Framework         | Flutter 3.44.9, Dart SDK ^3.12.2                        |
+| State & DI        | flutter_riverpod                                        |
+| Local persistence | sqflite (SQLite), shared_preferences                    |
+| Backend & Auth    | firebase_auth, google_sign_in, cloud_firestore           |
+| Navigation        | go_router                                                |
+| Rich UI           | flutter_quill, syncfusion_flutter_calendar, google_fonts |
+
+> Every dependency with its exact resolved version and role: [docs/architecture.md](docs/architecture.md#technologies)
+
+## Architecture
+
+Feature-First + Clean Architecture + MVVM. Each feature under `lib/src/features/<feature>/` has its own `domain/` (pure Dart, zero dependencies), `data/`, `presentation/` and `di/` layers, and no feature imports another feature's `presentation/`:
+
+```
+Screen -> Provider -> ViewModel -> Repository (contract) -> RepositoryImpl -> DataSource
+```
+
+> Full explanation with code examples, the annotated folder tree, and the GoRouter navigation system: [docs/architecture.md](docs/architecture.md)
+
 ## Getting Started
 
 ### Prerequisites
 
-- Flutter 3.35.0+
-- Dart SDK ^3.10.4
+- Flutter 3.44.9+ (pinned via [fvm](https://fvm.app/), see `.fvmrc`)
+- Dart SDK ^3.12.2
 - Firebase project configured (for authentication and Firestore)
 
 ### Firebase Setup
@@ -167,7 +130,7 @@ The Google provider validates the app using its signing certificate fingerprint.
    ```
 2. In **Project Settings → your Android app → Add fingerprint**, paste the `SHA1` value.
 3. Download the updated `google-services.json` and replace `android/app/google-services.json`.
-4. Run `flutter clean && flutter pub get`.
+4. Run `fvm flutter clean && fvm flutter pub get`.
 
 > Before publishing the application, repeat this procedure with the **release** keystore's SHA-1; the debug fingerprint covers local builds only.
 
@@ -178,12 +141,13 @@ The Google provider validates the app using its signing certificate fingerprint.
 ```bash
 # Clone the repository
 git clone https://github.com/dariomatias-dev/academic-planner.git
+cd academic-planner
 
 # Install dependencies
-flutter pub get
+fvm flutter pub get
 
 # Run the application
-flutter run
+fvm flutter run
 ```
 
 ### Development Seeds
@@ -192,7 +156,7 @@ Seeds populate the database with sample data for development. Inactive by defaul
 
 ```bash
 # Run app with seeds on first launch (debug only)
-flutter run --dart-define=SEED_ENABLED=true
+fvm flutter run --dart-define=SEED_ENABLED=true
 
 # Run seeds as a standalone script (no emulator needed)
 dart run scripts/seed.dart
@@ -210,6 +174,21 @@ Utility scripts live under `scripts/`.
 | `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Local verification gate mirroring CI: format, analyze, test and the coverage floor. Scoped to pending changes by default; `--all` checks the whole repository and is skipped if nothing changed since the last successful run (see [The local gate](docs/contributing.md#the-local-gate)). |
 | `workspace_hash` | `scripts/workspace_hash.sh` | Prints a hash fingerprinting the workspace's current state (last commit plus pending changes), used by `verify.sh` to detect no-op runs. |
 
+## Testing
+
+```bash
+fvm flutter test              # unit and widget tests
+fvm flutter test --coverage   # with an lcov coverage report
+```
+
+`test/` mirrors `lib/` path-for-path. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resolves every Riverpod provider in the app against minimal overrides, to catch wiring mistakes a single provider's own test wouldn't. `integration_test/` covers end-to-end flows and drives the screenshots above via `scripts/screenshot.sh`.
+
+```bash
+scripts/verify.sh --all
+```
+
+runs the same checks as CI — format, analyze, test — plus a 93% line coverage floor CI doesn't enforce yet.
+
 ## Documentation
 
 Documentation is organized into separate files by topic for easier navigation:
@@ -220,9 +199,19 @@ Documentation is organized into separate files by topic for easier navigation:
 
 ## Contributing
 
-Contributions make the open-source community an amazing place to learn and create. Any contributions you make are greatly appreciated.
+Contributions are welcome. See [docs/contributing.md](docs/contributing.md) for the local setup, the pre-PR checklist, and the commit message and branching conventions this project follows:
 
-Before opening a pull request, see [docs/contributing.md](docs/contributing.md) for the local setup, the pre-PR checklist, and the commit message and branching conventions this project follows.
+```bash
+scripts/verify.sh --all
+```
+
+## Security
+
+Found a vulnerability? Please don't open a public issue — see [docs/security.md](docs/security.md) for how to report it privately.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for the full text.
 
 ## Author
 
