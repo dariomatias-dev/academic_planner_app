@@ -29,33 +29,36 @@ class ModalBottomSheetWidget extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(32.0)),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 40.0,
-            height: 4.0,
-            decoration: BoxDecoration(
-              color:
-                  Theme.of(context).dividerTheme.color ??
-                  colorScheme.onSurface.withAlpha(30),
-              borderRadius: BorderRadius.circular(2.0),
-            ),
-          ),
-          if (title != null) ...[
-            const SizedBox(height: 24.0),
-            Text(
-              title!,
-              style: GoogleFonts.plusJakartaSans(
-                color: colorScheme.onSurface,
-                fontSize: 18.0,
-                fontWeight: FontWeight.w800,
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40.0,
+              height: 4.0,
+              decoration: BoxDecoration(
+                color:
+                    Theme.of(context).dividerTheme.color ??
+                    colorScheme.onSurface.withAlpha(30),
+                borderRadius: BorderRadius.circular(2.0),
               ),
             ),
+            if (title != null) ...[
+              const SizedBox(height: 24.0),
+              Text(
+                title!,
+                style: GoogleFonts.plusJakartaSans(
+                  color: colorScheme.onSurface,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+            const SizedBox(height: 20.0),
+            Flexible(child: child),
           ],
-          const SizedBox(height: 20.0),
-          Flexible(child: child),
-        ],
+        ),
       ),
     );
   }

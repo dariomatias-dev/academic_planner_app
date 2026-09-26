@@ -4,8 +4,7 @@ enum ActivitySortField {
   title,
   dueDate,
   createdAt,
-  updatedAt
-  ;
+  updatedAt;
 
   String get label {
     return switch (this) {

@@ -133,7 +133,7 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
         ),
         SizeTransition(
           sizeFactor: animation,
-          axisAlignment: 1.0,
+          alignment: Alignment.bottomLeft,
           child: Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Column(
