@@ -3,19 +3,12 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../../helpers/pump_app.dart';
 
 void main() {
   group('ButtonWidget', () {
     testWidgets('renders the label', (tester) async {
-      await tester.pumpWidget(
-        _harness(ButtonWidget(label: 'Salvar', onPressed: () {})),
-      );
+      await pumpApp(tester, ButtonWidget(label: 'Salvar', onPressed: () {}));
 
       expect(find.text('Salvar'), findsOneWidget);
     });
@@ -23,14 +16,13 @@ void main() {
     testWidgets('renders leading and trailing icons when provided', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          ButtonWidget(
-            label: 'Avançar',
-            icon: Icons.add,
-            trailingIcon: Icons.arrow_forward,
-            onPressed: () {},
-          ),
+      await pumpApp(
+        tester,
+        ButtonWidget(
+          label: 'Avançar',
+          icon: Icons.add,
+          trailingIcon: Icons.arrow_forward,
+          onPressed: () {},
         ),
       );
 
@@ -42,10 +34,9 @@ void main() {
       tester,
     ) async {
       for (final style in AppButtonStyle.values) {
-        await tester.pumpWidget(
-          _harness(
-            ButtonWidget(label: 'Botão', style: style, onPressed: () {}),
-          ),
+        await pumpApp(
+          tester,
+          ButtonWidget(label: 'Botão', style: style, onPressed: () {}),
         );
 
         expect(find.text('Botão'), findsOneWidget);
@@ -55,8 +46,9 @@ void main() {
     testWidgets('tap calls onPressed', (tester) async {
       var calls = 0;
 
-      await tester.pumpWidget(
-        _harness(ButtonWidget(label: 'Salvar', onPressed: () => calls++)),
+      await pumpApp(
+        tester,
+        ButtonWidget(label: 'Salvar', onPressed: () => calls++),
       );
 
       await tester.tap(find.text('Salvar'));
@@ -66,8 +58,9 @@ void main() {
     });
 
     testWidgets('onPressed null → button is disabled', (tester) async {
-      await tester.pumpWidget(
-        _harness(const ButtonWidget(label: 'Salvar', onPressed: null)),
+      await pumpApp(
+        tester,
+        const ButtonWidget(label: 'Salvar', onPressed: null),
       );
 
       final button = tester.widget<ElevatedButton>(
@@ -84,16 +77,15 @@ void main() {
         final completer = Completer<void>();
         var calls = 0;
 
-        await tester.pumpWidget(
-          _harness(
-            ButtonWidget(
-              label: 'Salvar',
-              onPressed: () {
-                calls++;
+        await pumpApp(
+          tester,
+          ButtonWidget(
+            label: 'Salvar',
+            onPressed: () {
+              calls++;
 
-                return completer.future;
-              },
-            ),
+              return completer.future;
+            },
           ),
         );
 

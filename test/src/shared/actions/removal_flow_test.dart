@@ -1,23 +1,9 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/shared/actions/removal_flow.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _harness(Future<void> Function(BuildContext context) onPressed) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () => onPressed(context),
-            child: const Text('trigger'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../helpers/pump_app.dart';
 
 void main() {
   group('resultToError', () {
@@ -45,19 +31,17 @@ void main() {
       bool? result;
       var deleteCalls = 0;
 
-      await tester.pumpWidget(
-        _harness((context) async {
-          result = await removalFlow(
-            context: context,
-            confirmTitle: 'Excluir item',
-            confirmMessage: 'Tem certeza?',
-            onDelete: () async {
-              deleteCalls++;
-              return null;
-            },
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        result = await removalFlow(
+          context: context,
+          confirmTitle: 'Excluir item',
+          confirmMessage: 'Tem certeza?',
+          onDelete: () async {
+            deleteCalls++;
+            return null;
+          },
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -78,17 +62,15 @@ void main() {
         bool? result;
         var onSuccessCalls = 0;
 
-        await tester.pumpWidget(
-          _harness((context) async {
-            result = await removalFlow(
-              context: context,
-              confirmTitle: 'Excluir item',
-              confirmMessage: 'Tem certeza?',
-              onDelete: () async => null,
-              onSuccess: () => onSuccessCalls++,
-            );
-          }),
-        );
+        await pumpScopedApp(tester, (context) async {
+          result = await removalFlow(
+            context: context,
+            confirmTitle: 'Excluir item',
+            confirmMessage: 'Tem certeza?',
+            onDelete: () async => null,
+            onSuccess: () => onSuccessCalls++,
+          );
+        });
 
         await tester.tap(find.text('trigger'));
         await tester.pumpAndSettle();
@@ -108,19 +90,17 @@ void main() {
         bool? result;
         var onSuccessCalls = 0;
 
-        await tester.pumpWidget(
-          _harness((context) async {
-            result = await removalFlow(
-              context: context,
-              confirmTitle: 'Excluir item',
-              confirmMessage: 'Tem certeza?',
-              onDelete: () async => null,
-              onSuccess: () => onSuccessCalls++,
-              successTitle: 'Removido',
-              successMessage: 'Item removido com sucesso.',
-            );
-          }),
-        );
+        await pumpScopedApp(tester, (context) async {
+          result = await removalFlow(
+            context: context,
+            confirmTitle: 'Excluir item',
+            confirmMessage: 'Tem certeza?',
+            onDelete: () async => null,
+            onSuccess: () => onSuccessCalls++,
+            successTitle: 'Removido',
+            successMessage: 'Item removido com sucesso.',
+          );
+        });
 
         await tester.tap(find.text('trigger'));
         await tester.pumpAndSettle();
@@ -145,16 +125,14 @@ void main() {
     testWidgets('delete failure → shows failure dialog with error message', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness((context) async {
-          await removalFlow(
-            context: context,
-            confirmTitle: 'Excluir item',
-            confirmMessage: 'Tem certeza?',
-            onDelete: () async => 'network error',
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        await removalFlow(
+          context: context,
+          confirmTitle: 'Excluir item',
+          confirmMessage: 'Tem certeza?',
+          onDelete: () async => 'network error',
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -179,19 +157,17 @@ void main() {
       bool? result;
       var deleteCalls = 0;
 
-      await tester.pumpWidget(
-        _harness((context) async {
-          result = await removalFlow(
-            context: context,
-            confirmTitle: 'Excluir item',
-            confirmMessage: 'Tem certeza?',
-            onDelete: () async {
-              deleteCalls++;
-              return 'network error';
-            },
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        result = await removalFlow(
+          context: context,
+          confirmTitle: 'Excluir item',
+          confirmMessage: 'Tem certeza?',
+          onDelete: () async {
+            deleteCalls++;
+            return 'network error';
+          },
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -214,20 +190,18 @@ void main() {
       bool? result;
       var deleteCalls = 0;
 
-      await tester.pumpWidget(
-        _harness((context) async {
-          result = await removalFlow(
-            context: context,
-            confirmTitle: 'Excluir item',
-            confirmMessage: 'Tem certeza?',
-            onDelete: () async {
-              deleteCalls++;
+      await pumpScopedApp(tester, (context) async {
+        result = await removalFlow(
+          context: context,
+          confirmTitle: 'Excluir item',
+          confirmMessage: 'Tem certeza?',
+          onDelete: () async {
+            deleteCalls++;
 
-              return deleteCalls == 1 ? 'network error' : null;
-            },
-          );
-        }),
-      );
+            return deleteCalls == 1 ? 'network error' : null;
+          },
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();

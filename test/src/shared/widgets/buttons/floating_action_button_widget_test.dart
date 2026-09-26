@@ -1,20 +1,14 @@
 import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('FloatingActionButtonWidget', () {
     testWidgets('renders the icon', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          FloatingActionButtonWidget(icon: Icons.add, onPressed: () {}),
-        ),
+      await pumpApp(
+        tester,
+        FloatingActionButtonWidget(icon: Icons.add, onPressed: () {}),
       );
 
       expect(find.byIcon(Icons.add), findsOneWidget);
@@ -23,12 +17,11 @@ void main() {
     testWidgets('tap calls onPressed', (tester) async {
       var calls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          FloatingActionButtonWidget(
-            icon: Icons.add,
-            onPressed: () => calls++,
-          ),
+      await pumpApp(
+        tester,
+        FloatingActionButtonWidget(
+          icon: Icons.add,
+          onPressed: () => calls++,
         ),
       );
 
@@ -39,10 +32,9 @@ void main() {
     });
 
     testWidgets('uses colorScheme.primary as background', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          FloatingActionButtonWidget(icon: Icons.add, onPressed: () {}),
-        ),
+      await pumpApp(
+        tester,
+        FloatingActionButtonWidget(icon: Icons.add, onPressed: () {}),
       );
 
       final context = tester.element(find.byType(FloatingActionButton));
@@ -59,13 +51,12 @@ void main() {
     });
 
     testWidgets('forwards heroTag', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          FloatingActionButtonWidget(
-            icon: Icons.add,
-            heroTag: 'fab-tag',
-            onPressed: () {},
-          ),
+      await pumpApp(
+        tester,
+        FloatingActionButtonWidget(
+          icon: Icons.add,
+          heroTag: 'fab-tag',
+          onPressed: () {},
         ),
       );
 

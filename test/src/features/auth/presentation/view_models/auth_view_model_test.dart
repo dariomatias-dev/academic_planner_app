@@ -6,13 +6,12 @@ import 'package:academic_planner/src/features/auth/domain/entities/register_enti
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/auth/presentation/view_models/auth_view_model.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
-import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-class MockAuthRepository extends Mock implements AuthRepository {}
+import '../../../../../helpers/fakes.dart';
 
-class MockUserRepository extends Mock implements UserRepository {}
+class MockAuthRepository extends Mock implements AuthRepository {}
 
 LoginEntity _loginEntity() => LoginEntity(email: 'a@b.com', password: '123456');
 

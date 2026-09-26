@@ -2,23 +2,17 @@ import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_wid
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('PopupMenuWidget', () {
     testWidgets('renders the default icon', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            items: const [
-              PopupMenuItem(value: 'a', child: Text('Item A')),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          items: const [
+            PopupMenuItem(value: 'a', child: Text('Item A')),
+          ],
         ),
       );
 
@@ -26,14 +20,13 @@ void main() {
     });
 
     testWidgets('renders a custom icon when provided', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            icon: Icons.filter_list,
-            items: const [
-              PopupMenuItem(value: 'a', child: Text('Item A')),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          icon: Icons.filter_list,
+          items: const [
+            PopupMenuItem(value: 'a', child: Text('Item A')),
+          ],
         ),
       );
 
@@ -41,14 +34,13 @@ void main() {
     });
 
     testWidgets('tap → opens the menu listing the items', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            items: const [
-              PopupMenuItem(value: 'a', child: Text('Item A')),
-              PopupMenuItem(value: 'b', child: Text('Item B')),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          items: const [
+            PopupMenuItem(value: 'a', child: Text('Item A')),
+            PopupMenuItem(value: 'b', child: Text('Item B')),
+          ],
         ),
       );
 
@@ -66,17 +58,16 @@ void main() {
     ) async {
       var calls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            items: [
-              PopupMenuItem(
-                value: 'a',
-                onTap: () => calls++,
-                child: const Text('Item A'),
-              ),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          items: [
+            PopupMenuItem(
+              value: 'a',
+              onTap: () => calls++,
+              child: const Text('Item A'),
+            ),
+          ],
         ),
       );
 
@@ -93,13 +84,12 @@ void main() {
     testWidgets('tapping the icon again after closing reopens the menu', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            items: const [
-              PopupMenuItem(value: 'a', child: Text('Item A')),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          items: const [
+            PopupMenuItem(value: 'a', child: Text('Item A')),
+          ],
         ),
       );
 
@@ -120,14 +110,13 @@ void main() {
     testWidgets('forwards the style to the trigger IconButtonWidget', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          PopupMenuWidget<String>(
-            style: IconButtonStyle.outline,
-            items: const [
-              PopupMenuItem(value: 'a', child: Text('Item A')),
-            ],
-          ),
+      await pumpApp(
+        tester,
+        PopupMenuWidget<String>(
+          style: IconButtonStyle.outline,
+          items: const [
+            PopupMenuItem(value: 'a', child: Text('Item A')),
+          ],
         ),
       );
 

@@ -3,15 +3,13 @@ import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity_stats.dart';
-import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
 import 'package:academic_planner/src/features/activities/presentation/providers/activity_stats_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockActivityRepository extends Mock implements ActivityRepository {}
+import '../../../../../helpers/fakes.dart';
 
 class _FakeActivityStatsNotifier extends ActivityStatsNotifier {
   int refreshCalls = 0;

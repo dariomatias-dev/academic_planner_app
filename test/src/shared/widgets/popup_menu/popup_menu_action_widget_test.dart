@@ -1,22 +1,16 @@
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('PopupMenuActionWidget', () {
     testWidgets('renders the icon and label', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          const PopupMenuActionWidget(
-            icon: Icons.edit_outlined,
-            label: 'Editar',
-          ),
+      await pumpApp(
+        tester,
+        const PopupMenuActionWidget(
+          icon: Icons.edit_outlined,
+          label: 'Editar',
         ),
       );
 
@@ -27,12 +21,11 @@ void main() {
     testWidgets('color null → falls back to colorScheme.onSurface', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          const PopupMenuActionWidget(
-            icon: Icons.edit_outlined,
-            label: 'Editar',
-          ),
+      await pumpApp(
+        tester,
+        const PopupMenuActionWidget(
+          icon: Icons.edit_outlined,
+          label: 'Editar',
         ),
       );
 
@@ -49,13 +42,12 @@ void main() {
     testWidgets('color provided → uses it for both icon and label', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          const PopupMenuActionWidget(
-            icon: Icons.delete_outline_rounded,
-            label: 'Excluir',
-            color: Colors.red,
-          ),
+      await pumpApp(
+        tester,
+        const PopupMenuActionWidget(
+          icon: Icons.delete_outline_rounded,
+          label: 'Excluir',
+          color: Colors.red,
         ),
       );
 

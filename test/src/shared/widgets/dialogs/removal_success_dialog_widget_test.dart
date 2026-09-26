@@ -3,36 +3,23 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<void>(context: context, builder: dialogBuilder),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('RemovalSuccessDialogWidget', () {
     testWidgets('renders title, message and the icon', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const RemovalSuccessDialogWidget(
-            title: 'Excluído',
-            message: 'Nota removida com sucesso',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const RemovalSuccessDialogWidget(
+              title: 'Excluído',
+              message: 'Nota removida com sucesso',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -48,13 +35,18 @@ void main() {
     });
 
     testWidgets('tap "Entendido" closes the dialog', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const RemovalSuccessDialogWidget(
-            title: 'Excluído',
-            message: 'Nota removida com sucesso',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const RemovalSuccessDialogWidget(
+              title: 'Excluído',
+              message: 'Nota removida com sucesso',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));

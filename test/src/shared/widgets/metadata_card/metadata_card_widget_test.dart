@@ -1,24 +1,18 @@
 import 'package:academic_planner/src/shared/widgets/metadata_card/metadata_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('MetadataCardWidget', () {
     testWidgets('renders both labels, formatted dates and icons', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          MetadataCardWidget(
-            createdAt: DateTime(2024, 3, 5),
-            updatedAt: DateTime(2024, 6, 21),
-          ),
+      await pumpApp(
+        tester,
+        MetadataCardWidget(
+          createdAt: DateTime(2024, 3, 5),
+          updatedAt: DateTime(2024, 6, 21),
         ),
       );
 
@@ -36,10 +30,9 @@ void main() {
     ) async {
       final sameDate = DateTime(2024);
 
-      await tester.pumpWidget(
-        _harness(
-          MetadataCardWidget(createdAt: sameDate, updatedAt: sameDate),
-        ),
+      await pumpApp(
+        tester,
+        MetadataCardWidget(createdAt: sameDate, updatedAt: sameDate),
       );
 
       expect(find.text('01/01/2024'), findsNWidgets(2));

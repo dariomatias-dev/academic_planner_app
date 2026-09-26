@@ -1,12 +1,10 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockNoteRepository extends Mock implements NoteRepository {}
+import '../../../../../helpers/fakes.dart';
 
 Note _baseNote({String id = 'note-1'}) => Note(
   id: id,

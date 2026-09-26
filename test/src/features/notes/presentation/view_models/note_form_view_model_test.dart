@@ -5,13 +5,11 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
-import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_form_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockNoteRepository extends Mock implements NoteRepository {}
+import '../../../../../helpers/fakes.dart';
 
 String _encodeContent(String text) => jsonEncode([
   {'insert': '$text\n'},

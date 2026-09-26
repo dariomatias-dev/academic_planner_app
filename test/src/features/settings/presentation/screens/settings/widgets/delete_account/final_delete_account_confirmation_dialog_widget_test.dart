@@ -4,10 +4,11 @@ import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import '../../../../../../../../helpers/pump_app.dart';
 
 class _FakeAuthNotifier extends AuthNotifier {
   _FakeAuthNotifier({this.onDeleteAccount});
@@ -39,25 +40,14 @@ Future<ProviderContainer> _buildContainer({
   return container;
 }
 
-Widget _harness(ProviderContainer container) {
-  return UncontrolledProviderScope(
+Future<void> _pumpHarness(WidgetTester tester, ProviderContainer container) {
+  return pumpScopedApp(
+    tester,
+    (context) async {
+      await FinalDeleteAccountConfirmationDialogWidget.show(context);
+    },
     container: container,
-    child: MaterialApp(
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return ElevatedButton(
-              onPressed: () async {
-                await FinalDeleteAccountConfirmationDialogWidget.show(
-                  context,
-                );
-              },
-              child: const Text('open'),
-            );
-          },
-        ),
-      ),
-    ),
+    triggerLabel: 'open',
   );
 }
 
@@ -79,7 +69,7 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -101,7 +91,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -124,7 +114,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -144,7 +134,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 

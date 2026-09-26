@@ -2,14 +2,12 @@ import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/view_models/activity_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockActivityRepository extends Mock implements ActivityRepository {}
+import '../../../../../helpers/fakes.dart';
 
 Activity _baseActivity({String id = 'act-1'}) => Activity(
   id: id,

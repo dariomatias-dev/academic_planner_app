@@ -1,18 +1,14 @@
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('PeriodTabItemWidget', () {
     testWidgets('renders the period label', (tester) async {
-      await tester.pumpWidget(
-        _harness(const PeriodTabItemWidget(period: 3, isSelected: false)),
+      await pumpApp(
+        tester,
+        const PeriodTabItemWidget(period: 3, isSelected: false),
       );
 
       expect(find.text('3º Período'), findsOneWidget);
@@ -21,8 +17,9 @@ void main() {
     testWidgets('isSelected true → highlighted background, text and shadow', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(const PeriodTabItemWidget(period: 1, isSelected: true)),
+      await pumpApp(
+        tester,
+        const PeriodTabItemWidget(period: 1, isSelected: true),
       );
 
       final context = tester.element(find.text('1º Período'));
@@ -45,8 +42,9 @@ void main() {
     testWidgets(
       'isSelected false → surface background, dimmed text and no shadow',
       (tester) async {
-        await tester.pumpWidget(
-          _harness(const PeriodTabItemWidget(period: 1, isSelected: false)),
+        await pumpApp(
+          tester,
+          const PeriodTabItemWidget(period: 1, isSelected: false),
         );
 
         final context = tester.element(find.text('1º Período'));

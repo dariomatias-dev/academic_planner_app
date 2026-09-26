@@ -2,12 +2,7 @@ import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/password_input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('PasswordInputWidget', () {
@@ -17,9 +12,7 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(PasswordInputWidget(controller: controller)),
-      );
+      await pumpApp(tester, PasswordInputWidget(controller: controller));
 
       expect(find.text('••••••••'), findsOneWidget);
       expect(find.byIcon(Icons.lock_outline_rounded), findsOneWidget);
@@ -29,10 +22,9 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          PasswordInputWidget(controller: controller, hint: 'Sua senha'),
-        ),
+      await pumpApp(
+        tester,
+        PasswordInputWidget(controller: controller, hint: 'Sua senha'),
       );
 
       expect(find.text('Sua senha'), findsOneWidget);
@@ -44,9 +36,7 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(PasswordInputWidget(controller: controller)),
-      );
+      await pumpApp(tester, PasswordInputWidget(controller: controller));
 
       expect(
         tester.widget<EditableText>(find.byType(EditableText)).obscureText,
@@ -77,13 +67,12 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          PasswordInputWidget(
-            controller: controller,
-            validator: (value) =>
-                (value == null || value.isEmpty) ? 'Obrigatório' : null,
-          ),
+      await pumpApp(
+        tester,
+        PasswordInputWidget(
+          controller: controller,
+          validator: (value) =>
+              (value == null || value.isEmpty) ? 'Obrigatório' : null,
         ),
       );
 
@@ -100,12 +89,11 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          PasswordInputWidget(
-            controller: controller,
-            style: InputStyle.secondary,
-          ),
+      await pumpApp(
+        tester,
+        PasswordInputWidget(
+          controller: controller,
+          style: InputStyle.secondary,
         ),
       );
 

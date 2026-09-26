@@ -1,12 +1,10 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
-import 'package:academic_planner/src/features/tags/domain/repositories/tag_repository.dart';
 import 'package:academic_planner/src/features/tags/presentation/view_models/tag_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockTagRepository extends Mock implements TagRepository {}
+import '../../../../../helpers/fakes.dart';
 
 List<String> _names(List<Tag> tags) => tags.map((t) => t.name).toList();
 

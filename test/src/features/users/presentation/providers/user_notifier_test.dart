@@ -6,12 +6,10 @@ import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
-import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockUserRepository extends Mock implements UserRepository {}
+import '../../../../../helpers/fakes.dart';
 
 class _FakeAuthNotifier extends AuthNotifier {
   _FakeAuthNotifier(this._initialUser);

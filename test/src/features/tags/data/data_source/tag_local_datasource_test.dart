@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:academic_planner/src/features/tags/data/data_source/tag_local_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../helpers/shared_preferences_test_helper.dart';
 
 Future<TagLocalDataSource> _makeSut({
   Map<String, Object> initialValues = const {},
 }) async {
-  SharedPreferences.setMockInitialValues(initialValues);
-  final prefs = await SharedPreferences.getInstance();
+  final prefs = await fakeSharedPreferences(initialValues);
   return TagLocalDataSource(SharedPreferencesService(prefs));
 }
 

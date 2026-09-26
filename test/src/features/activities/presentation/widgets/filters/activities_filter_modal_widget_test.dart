@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../../../helpers/pump_app.dart';
+
 class _FakeCategoryNotifier extends CategoryNotifier {
   @override
   Future<List<Category>> build() async => [];
@@ -42,26 +44,20 @@ Future<ProviderContainer> _buildContainer({
   return container;
 }
 
-Widget _harness(ProviderContainer container) {
-  return UncontrolledProviderScope(
+Future<void> _pumpHarness(
+  WidgetTester tester,
+  ProviderContainer container,
+) {
+  return pumpScopedApp(
+    tester,
+    (context) async {
+      await showModalBottomSheet<void>(
+        context: context,
+        builder: (_) => const ActivitiesFilterModalWidget(),
+      );
+    },
     container: container,
-    child: MaterialApp(
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return ElevatedButton(
-              onPressed: () async {
-                await showModalBottomSheet<void>(
-                  context: context,
-                  builder: (_) => const ActivitiesFilterModalWidget(),
-                );
-              },
-              child: const Text('open'),
-            );
-          },
-        ),
-      ),
-    ),
+    triggerLabel: 'open',
   );
 }
 
@@ -73,7 +69,7 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -94,7 +90,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -118,7 +114,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -139,7 +135,7 @@ void main() {
         );
         addTearDown(container.dispose);
 
-        await tester.pumpWidget(_harness(container));
+        await _pumpHarness(tester, container);
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
 

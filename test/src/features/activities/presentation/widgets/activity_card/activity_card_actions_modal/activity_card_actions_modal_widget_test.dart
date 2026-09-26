@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../../../../helpers/pump_app.dart';
+
 class _FakeActivityNotifier extends ActivityNotifier {
   _FakeActivityNotifier({this.onEdit});
 
@@ -51,30 +53,6 @@ Future<ProviderContainer> _buildContainer({
   return container;
 }
 
-Widget _harness(ProviderContainer container, Activity activity) {
-  return UncontrolledProviderScope(
-    container: container,
-    child: MaterialApp(
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return ElevatedButton(
-              onPressed: () async {
-                await showModalBottomSheet<void>(
-                  context: context,
-                  builder: (_) =>
-                      ActivityCardActionsModalWidget(activity: activity),
-                );
-              },
-              child: const Text('open'),
-            );
-          },
-        ),
-      ),
-    ),
-  );
-}
-
 void main() {
   const fluttertoastChannel = MethodChannel('PonnamKarthik/fluttertoast');
 
@@ -95,7 +73,20 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container, _activity()));
+      final activity = _activity();
+      await pumpScopedApp(
+        tester,
+        (context) async {
+          await showModalBottomSheet<void>(
+            context: context,
+            builder: (_) => ActivityCardActionsModalWidget(
+              activity: activity,
+            ),
+          );
+        },
+        container: container,
+        triggerLabel: 'open',
+      );
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -111,8 +102,19 @@ void main() {
         final container = await _buildContainer();
         addTearDown(container.dispose);
 
-        await tester.pumpWidget(
-          _harness(container, _activity(status: ActivityStatus.completed)),
+        final activity = _activity(status: ActivityStatus.completed);
+        await pumpScopedApp(
+          tester,
+          (context) async {
+            await showModalBottomSheet<void>(
+              context: context,
+              builder: (_) => ActivityCardActionsModalWidget(
+                activity: activity,
+              ),
+            );
+          },
+          container: container,
+          triggerLabel: 'open',
         );
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
@@ -136,7 +138,20 @@ void main() {
         );
         addTearDown(container.dispose);
 
-        await tester.pumpWidget(_harness(container, _activity()));
+        final activity = _activity();
+        await pumpScopedApp(
+          tester,
+          (context) async {
+            await showModalBottomSheet<void>(
+              context: context,
+              builder: (_) => ActivityCardActionsModalWidget(
+                activity: activity,
+              ),
+            );
+          },
+          container: container,
+          triggerLabel: 'open',
+        );
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
 
@@ -153,7 +168,18 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container, _activity()));
+      final activity = _activity();
+      await pumpScopedApp(
+        tester,
+        (context) async {
+          await showModalBottomSheet<void>(
+            context: context,
+            builder: (_) => ActivityCardActionsModalWidget(activity: activity),
+          );
+        },
+        container: container,
+        triggerLabel: 'open',
+      );
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 

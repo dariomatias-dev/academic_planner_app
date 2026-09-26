@@ -3,33 +3,21 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/forms/rich_text_field/link_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<Map<String, String>>(
-                  context: context,
-                  builder: dialogBuilder,
-                ),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../../helpers/pump_app.dart';
 
 void main() {
   group('LinkDialogWidget', () {
     testWidgets('renders title, message and icon', (tester) async {
-      await tester.pumpWidget(_harness((_) => const LinkDialogWidget()));
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<Map<String, String>>(
+            context: context,
+            builder: (_) => const LinkDialogWidget(),
+          ),
+        ),
+        triggerLabel: 'open',
+      );
 
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
@@ -47,13 +35,18 @@ void main() {
     testWidgets('prefills text and url fields with initial values', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const LinkDialogWidget(
-            initialText: 'Documentação',
-            initialUrl: 'https://docs.flutter.dev',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<Map<String, String>>(
+            context: context,
+            builder: (_) => const LinkDialogWidget(
+              initialText: 'Documentação',
+              initialUrl: 'https://docs.flutter.dev',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -67,7 +60,16 @@ void main() {
       'tap "Adicionar" with empty fields → shows required errors and '
       'keeps the dialog open',
       (tester) async {
-        await tester.pumpWidget(_harness((_) => const LinkDialogWidget()));
+        await pumpScopedApp(
+          tester,
+          (context) => unawaited(
+            showDialog<Map<String, String>>(
+              context: context,
+              builder: (_) => const LinkDialogWidget(),
+            ),
+          ),
+          triggerLabel: 'open',
+        );
 
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
@@ -83,7 +85,16 @@ void main() {
     testWidgets(
       'tap "Adicionar" with an invalid url → shows the url error only',
       (tester) async {
-        await tester.pumpWidget(_harness((_) => const LinkDialogWidget()));
+        await pumpScopedApp(
+          tester,
+          (context) => unawaited(
+            showDialog<Map<String, String>>(
+              context: context,
+              builder: (_) => const LinkDialogWidget(),
+            ),
+          ),
+          triggerLabel: 'open',
+        );
 
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();

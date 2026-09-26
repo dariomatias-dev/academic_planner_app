@@ -1,12 +1,7 @@
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('InputWidget', () {
@@ -16,8 +11,9 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(InputWidget(controller: controller, hint: 'Digite aqui')),
+      await pumpApp(
+        tester,
+        InputWidget(controller: controller, hint: 'Digite aqui'),
       );
 
       expect(find.text('Digite aqui'), findsOneWidget);
@@ -27,8 +23,9 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(InputWidget(controller: controller, hint: 'Digite aqui')),
+      await pumpApp(
+        tester,
+        InputWidget(controller: controller, hint: 'Digite aqui'),
       );
 
       await tester.enterText(find.byType(TextFormField), 'Olá mundo');
@@ -42,14 +39,13 @@ void main() {
         final controller = TextEditingController();
         addTearDown(controller.dispose);
 
-        await tester.pumpWidget(
-          _harness(
-            InputWidget(
-              controller: controller,
-              hint: 'Digite aqui',
-              validator: (value) =>
-                  (value == null || value.isEmpty) ? 'Obrigatório' : null,
-            ),
+        await pumpApp(
+          tester,
+          InputWidget(
+            controller: controller,
+            hint: 'Digite aqui',
+            validator: (value) =>
+                (value == null || value.isEmpty) ? 'Obrigatório' : null,
           ),
         );
 
@@ -72,13 +68,12 @@ void main() {
         final controller = TextEditingController();
         addTearDown(controller.dispose);
 
-        await tester.pumpWidget(
-          _harness(
-            InputWidget(
-              controller: controller,
-              hint: 'Digite aqui',
-              prefixIcon: const Icon(Icons.email_outlined),
-            ),
+        await pumpApp(
+          tester,
+          InputWidget(
+            controller: controller,
+            hint: 'Digite aqui',
+            prefixIcon: const Icon(Icons.email_outlined),
           ),
         );
 
@@ -90,14 +85,13 @@ void main() {
         );
         expect(opacity.opacity, 1.0);
 
-        await tester.pumpWidget(
-          _harness(
-            InputWidget(
-              controller: controller,
-              hint: 'Digite aqui',
-              prefixIcon: const Icon(Icons.email_outlined),
-              readOnly: true,
-            ),
+        await pumpApp(
+          tester,
+          InputWidget(
+            controller: controller,
+            hint: 'Digite aqui',
+            prefixIcon: const Icon(Icons.email_outlined),
+            readOnly: true,
           ),
         );
 
@@ -118,8 +112,9 @@ void main() {
         final controller = TextEditingController();
         addTearDown(controller.dispose);
 
-        await tester.pumpWidget(
-          _harness(InputWidget(controller: controller, hint: 'Digite aqui')),
+        await pumpApp(
+          tester,
+          InputWidget(controller: controller, hint: 'Digite aqui'),
         );
 
         expect(find.byIcon(Icons.clear_rounded), findsNothing);
@@ -143,13 +138,12 @@ void main() {
       final controller = TextEditingController(text: 'abc');
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          InputWidget(
-            controller: controller,
-            hint: 'Digite aqui',
-            suffix: const Icon(Icons.search),
-          ),
+      await pumpApp(
+        tester,
+        InputWidget(
+          controller: controller,
+          hint: 'Digite aqui',
+          suffix: const Icon(Icons.search),
         ),
       );
 
@@ -163,14 +157,13 @@ void main() {
         final controller = TextEditingController(text: 'abc');
         addTearDown(controller.dispose);
 
-        await tester.pumpWidget(
-          _harness(
-            InputWidget(
-              controller: controller,
-              hint: 'Digite aqui',
-              readOnly: true,
-              suffix: const Icon(Icons.search),
-            ),
+        await pumpApp(
+          tester,
+          InputWidget(
+            controller: controller,
+            hint: 'Digite aqui',
+            readOnly: true,
+            suffix: const Icon(Icons.search),
           ),
         );
 
@@ -191,14 +184,13 @@ void main() {
       final controller = TextEditingController();
       addTearDown(controller.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          InputWidget(
-            controller: controller,
-            hint: 'Senha',
-            obscureText: true,
-            maxLines: 5,
-          ),
+      await pumpApp(
+        tester,
+        InputWidget(
+          controller: controller,
+          hint: 'Senha',
+          obscureText: true,
+          maxLines: 5,
         ),
       );
 
@@ -211,13 +203,12 @@ void main() {
       addTearDown(controller.dispose);
       String? submitted;
 
-      await tester.pumpWidget(
-        _harness(
-          InputWidget(
-            controller: controller,
-            hint: 'Digite aqui',
-            onSubmitted: (value) => submitted = value,
-          ),
+      await pumpApp(
+        tester,
+        InputWidget(
+          controller: controller,
+          hint: 'Digite aqui',
+          onSubmitted: (value) => submitted = value,
         ),
       );
 

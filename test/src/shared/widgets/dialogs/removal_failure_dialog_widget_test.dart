@@ -3,36 +3,23 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<void>(context: context, builder: dialogBuilder),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('RemovalFailureDialogWidget', () {
     testWidgets(
       'renders title and message, hides retry and error box by default',
       (tester) async {
-        await tester.pumpWidget(
-          _harness(
-            (_) =>
-                const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
+        await pumpScopedApp(
+          tester,
+          (context) => unawaited(
+            showDialog<void>(
+              context: context,
+              builder: (_) =>
+                  const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
+            ),
           ),
+          triggerLabel: 'open',
         );
 
         await tester.tap(find.text('open'));
@@ -48,13 +35,18 @@ void main() {
     testWidgets('errorMessage provided → renders the error box', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const RemovalFailureDialogWidget(
-            message: 'Falha ao excluir',
-            errorMessage: 'Erro 500',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const RemovalFailureDialogWidget(
+              message: 'Falha ao excluir',
+              errorMessage: 'Erro 500',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -68,13 +60,18 @@ void main() {
     ) async {
       var retryCalls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          (_) => RemovalFailureDialogWidget(
-            message: 'Falha ao excluir',
-            onRetry: () => retryCalls++,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => RemovalFailureDialogWidget(
+              message: 'Falha ao excluir',
+              onRetry: () => retryCalls++,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -88,10 +85,16 @@ void main() {
     });
 
     testWidgets('tap "Fechar" closes the dialog', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) =>
+                const RemovalFailureDialogWidget(message: 'Falha ao excluir'),
+          ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));

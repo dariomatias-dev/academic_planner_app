@@ -2,13 +2,11 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
-import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockActivityRepository extends Mock implements ActivityRepository {}
+import '../../../../../helpers/fakes.dart';
 
 void main() {
   late MockActivityRepository mockRepository;

@@ -1,33 +1,17 @@
 import 'package:academic_planner/src/shared/utils/modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Future<void> Function(BuildContext context) onPressed) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () => onPressed(context),
-            child: const Text('trigger'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../helpers/pump_app.dart';
 
 void main() {
   group('ModalBottomSheet.show', () {
     testWidgets('renders the given child', (tester) async {
-      await tester.pumpWidget(
-        _harness((context) async {
-          await ModalBottomSheet.show<void>(
-            context: context,
-            child: const Text('sheet content'),
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        await ModalBottomSheet.show<void>(
+          context: context,
+          child: const Text('sheet content'),
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -36,14 +20,12 @@ void main() {
     });
 
     testWidgets('wraps the content in a top-rounded surface', (tester) async {
-      await tester.pumpWidget(
-        _harness((context) async {
-          await ModalBottomSheet.show<void>(
-            context: context,
-            child: const Text('sheet content'),
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        await ModalBottomSheet.show<void>(
+          context: context,
+          child: const Text('sheet content'),
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -61,14 +43,12 @@ void main() {
     });
 
     testWidgets('caps the sheet height at 85% of the screen', (tester) async {
-      await tester.pumpWidget(
-        _harness((context) async {
-          await ModalBottomSheet.show<void>(
-            context: context,
-            child: const Text('sheet content'),
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        await ModalBottomSheet.show<void>(
+          context: context,
+          child: const Text('sheet content'),
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -91,14 +71,12 @@ void main() {
     testWidgets('does not extend the content under the bottom system UI', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness((context) async {
-          await ModalBottomSheet.show<void>(
-            context: context,
-            child: const Text('sheet content'),
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        await ModalBottomSheet.show<void>(
+          context: context,
+          child: const Text('sheet content'),
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();
@@ -119,21 +97,19 @@ void main() {
     ) async {
       String? result;
 
-      await tester.pumpWidget(
-        _harness((context) async {
-          result = await ModalBottomSheet.show<String>(
-            context: context,
-            child: Builder(
-              builder: (sheetContext) {
-                return ElevatedButton(
-                  onPressed: () => Navigator.pop(sheetContext, 'picked'),
-                  child: const Text('pick'),
-                );
-              },
-            ),
-          );
-        }),
-      );
+      await pumpScopedApp(tester, (context) async {
+        result = await ModalBottomSheet.show<String>(
+          context: context,
+          child: Builder(
+            builder: (sheetContext) {
+              return ElevatedButton(
+                onPressed: () => Navigator.pop(sheetContext, 'picked'),
+                child: const Text('pick'),
+              );
+            },
+          ),
+        );
+      });
 
       await tester.tap(find.text('trigger'));
       await tester.pumpAndSettle();

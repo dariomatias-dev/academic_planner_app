@@ -3,33 +3,22 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<void>(context: context, builder: dialogBuilder),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('ErrorDialogWidget', () {
     testWidgets('renders default title, message and button label', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness((_) => const ErrorDialogWidget(message: 'Falha ao salvar')),
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const ErrorDialogWidget(message: 'Falha ao salvar'),
+          ),
+        ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -43,14 +32,19 @@ void main() {
     testWidgets('renders custom title and button label when provided', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => const ErrorDialogWidget(
-            message: 'Falha ao salvar',
-            title: 'Erro',
-            buttonLabel: 'Fechar',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const ErrorDialogWidget(
+              message: 'Falha ao salvar',
+              title: 'Erro',
+              buttonLabel: 'Fechar',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -65,13 +59,18 @@ void main() {
     ) async {
       var closeCalls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          (_) => ErrorDialogWidget(
-            message: 'Falha ao salvar',
-            onClose: () => closeCalls++,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ErrorDialogWidget(
+              message: 'Falha ao salvar',
+              onClose: () => closeCalls++,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));

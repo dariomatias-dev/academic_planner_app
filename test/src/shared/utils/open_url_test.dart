@@ -1,28 +1,14 @@
 import 'package:academic_planner/src/shared/utils/open_url.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:url_launcher_platform_interface/url_launcher_platform_interface.dart';
 
+import '../../../helpers/pump_app.dart';
+
 class _MockUrlLauncherPlatform extends Mock
     with MockPlatformInterfaceMixin
     implements UrlLauncherPlatform {}
-
-Widget _harness(Future<void> Function(BuildContext context) onPressed) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () => onPressed(context),
-            child: const Text('trigger'),
-          );
-        },
-      ),
-    ),
-  );
-}
 
 void main() {
   late _MockUrlLauncherPlatform mockPlatform;
@@ -44,8 +30,9 @@ void main() {
         () => mockPlatform.launchUrl(any(), any()),
       ).thenAnswer((_) async => true);
 
-      await tester.pumpWidget(
-        _harness((context) => openUrl(context, 'https://example.com')),
+      await pumpScopedApp(
+        tester,
+        (context) => openUrl(context, 'https://example.com'),
       );
 
       await tester.tap(find.text('trigger'));
@@ -64,8 +51,9 @@ void main() {
         () => mockPlatform.launchUrl(any(), any()),
       ).thenAnswer((_) async => false);
 
-      await tester.pumpWidget(
-        _harness((context) => openUrl(context, 'https://example.com')),
+      await pumpScopedApp(
+        tester,
+        (context) => openUrl(context, 'https://example.com'),
       );
 
       await tester.tap(find.text('trigger'));
@@ -79,8 +67,9 @@ void main() {
         () => mockPlatform.launchUrl(any(), any()),
       ).thenThrow(Exception('boom'));
 
-      await tester.pumpWidget(
-        _harness((context) => openUrl(context, 'https://example.com')),
+      await pumpScopedApp(
+        tester,
+        (context) => openUrl(context, 'https://example.com'),
       );
 
       await tester.tap(find.text('trigger'));
@@ -94,8 +83,9 @@ void main() {
         () => mockPlatform.launchUrl(any(), any()),
       ).thenAnswer((_) async => false);
 
-      await tester.pumpWidget(
-        _harness((context) => openUrl(context, 'https://example.com')),
+      await pumpScopedApp(
+        tester,
+        (context) => openUrl(context, 'https://example.com'),
       );
 
       await tester.tap(find.text('trigger'));

@@ -3,37 +3,24 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_confirm_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<void>(context: context, builder: dialogBuilder),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('RemovalConfirmDialogWidget', () {
     testWidgets('renders title, message and action labels', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => RemovalConfirmDialogWidget(
-            title: 'Excluir nota',
-            message: 'Tem certeza?',
-            onConfirm: () async {},
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => RemovalConfirmDialogWidget(
+              title: 'Excluir nota',
+              message: 'Tem certeza?',
+              onConfirm: () async {},
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -50,14 +37,19 @@ void main() {
       (tester) async {
         var confirmCalls = 0;
 
-        await tester.pumpWidget(
-          _harness(
-            (_) => RemovalConfirmDialogWidget(
-              title: 'Excluir nota',
-              message: 'Tem certeza?',
-              onConfirm: () async => confirmCalls++,
+        await pumpScopedApp(
+          tester,
+          (context) => unawaited(
+            showDialog<void>(
+              context: context,
+              builder: (_) => RemovalConfirmDialogWidget(
+                title: 'Excluir nota',
+                message: 'Tem certeza?',
+                onConfirm: () async => confirmCalls++,
+              ),
             ),
           ),
+          triggerLabel: 'open',
         );
 
         await tester.tap(find.text('open'));
@@ -77,14 +69,19 @@ void main() {
       (tester) async {
         var confirmCalls = 0;
 
-        await tester.pumpWidget(
-          _harness(
-            (_) => RemovalConfirmDialogWidget(
-              title: 'Excluir nota',
-              message: 'Tem certeza?',
-              onConfirm: () async => confirmCalls++,
+        await pumpScopedApp(
+          tester,
+          (context) => unawaited(
+            showDialog<void>(
+              context: context,
+              builder: (_) => RemovalConfirmDialogWidget(
+                title: 'Excluir nota',
+                message: 'Tem certeza?',
+                onConfirm: () async => confirmCalls++,
+              ),
             ),
           ),
+          triggerLabel: 'open',
         );
 
         await tester.tap(find.text('open'));

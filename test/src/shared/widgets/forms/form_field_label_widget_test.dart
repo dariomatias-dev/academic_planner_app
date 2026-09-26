@@ -1,31 +1,23 @@
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('FormFieldLabelWidget', () {
     testWidgets('renders the label without an asterisk by default', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(const FormFieldLabelWidget(label: 'Nome')),
-      );
+      await pumpApp(tester, const FormFieldLabelWidget(label: 'Nome'));
 
       expect(find.text('Nome'), findsOneWidget);
       expect(find.text('Nome *'), findsNothing);
     });
 
     testWidgets('isRequired true → appends a red asterisk', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          const FormFieldLabelWidget(label: 'Nome', isRequired: true),
-        ),
+      await pumpApp(
+        tester,
+        const FormFieldLabelWidget(label: 'Nome', isRequired: true),
       );
 
       expect(find.text('Nome *'), findsOneWidget);
@@ -38,8 +30,9 @@ void main() {
     });
 
     testWidgets('forwards fontSize to the label style', (tester) async {
-      await tester.pumpWidget(
-        _harness(const FormFieldLabelWidget(label: 'Nome', fontSize: 20.0)),
+      await pumpApp(
+        tester,
+        const FormFieldLabelWidget(label: 'Nome', fontSize: 20.0),
       );
 
       final text = tester.widget<Text>(find.text('Nome'));

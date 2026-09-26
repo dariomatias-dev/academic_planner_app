@@ -2,12 +2,10 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
-import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockCategoryRepository extends Mock implements CategoryRepository {}
+import '../../../../../helpers/fakes.dart';
 
 void main() {
   late MockCategoryRepository mockRepository;

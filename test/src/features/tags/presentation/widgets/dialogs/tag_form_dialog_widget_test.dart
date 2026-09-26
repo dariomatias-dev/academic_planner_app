@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../../../helpers/pump_app.dart';
+
 class _FakeTagNotifier extends TagNotifier {
   _FakeTagNotifier({this.tags = const [], this.onAdd, this.onEdit});
 
@@ -49,27 +51,19 @@ Future<ProviderContainer> _buildContainer({
   return container;
 }
 
-Widget _harness(ProviderContainer container, {Tag? tag, int? index}) {
-  return UncontrolledProviderScope(
+Future<void> _pumpHarness(
+  WidgetTester tester,
+  ProviderContainer container, {
+  Tag? tag,
+  int? index,
+}) {
+  return pumpScopedApp(
+    tester,
+    (context) async {
+      await TagFormDialogWidget.show(context, tag: tag, index: index);
+    },
     container: container,
-    child: MaterialApp(
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return ElevatedButton(
-              onPressed: () async {
-                await TagFormDialogWidget.show(
-                  context,
-                  tag: tag,
-                  index: index,
-                );
-              },
-              child: const Text('open'),
-            );
-          },
-        ),
-      ),
-    ),
+    triggerLabel: 'open',
   );
 }
 
@@ -93,7 +87,7 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -110,7 +104,7 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -134,7 +128,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -152,7 +146,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -176,7 +170,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -196,7 +190,7 @@ void main() {
       final container = await _buildContainer(tags: const [tag]);
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container, tag: tag, index: 0));
+      await _pumpHarness(tester, container, tag: tag, index: 0);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -222,7 +216,7 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container, tag: tag, index: 0));
+      await _pumpHarness(tester, container, tag: tag, index: 0);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 

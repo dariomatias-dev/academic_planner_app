@@ -2,25 +2,16 @@ import 'package:academic_planner/src/features/auth/presentation/screens/forgot_p
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget _harness() {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () async {
-              await Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) => const ForgotPasswordScreen(),
-                ),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
+import '../../../../../../helpers/pump_app.dart';
+
+Future<void> _pumpHarness(WidgetTester tester) {
+  return pumpScopedApp(tester, (context) async {
+    await Navigator.of(
+      context,
+    ).push(
+      MaterialPageRoute<void>(builder: (_) => const ForgotPasswordScreen()),
+    );
+  }, triggerLabel: 'open');
 }
 
 void main() {
@@ -28,7 +19,7 @@ void main() {
     testWidgets('renders the title, description, email field and actions', (
       tester,
     ) async {
-      await tester.pumpWidget(_harness());
+      await _pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -48,7 +39,7 @@ void main() {
     testWidgets('empty submit → shows the required validation error', (
       tester,
     ) async {
-      await tester.pumpWidget(_harness());
+      await _pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -61,7 +52,7 @@ void main() {
     testWidgets('invalid email → shows the email validation error', (
       tester,
     ) async {
-      await tester.pumpWidget(_harness());
+      await _pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -75,7 +66,7 @@ void main() {
     testWidgets('valid email submit → shows no validation error', (
       tester,
     ) async {
-      await tester.pumpWidget(_harness());
+      await _pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -90,7 +81,7 @@ void main() {
     testWidgets('tapping "Voltar para o Login" pops the screen', (
       tester,
     ) async {
-      await tester.pumpWidget(_harness());
+      await _pumpHarness(tester);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 

@@ -3,37 +3,24 @@ import 'dart:async';
 import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget Function(BuildContext context) dialogBuilder) {
-  return MaterialApp(
-    home: Scaffold(
-      body: Builder(
-        builder: (context) {
-          return ElevatedButton(
-            onPressed: () {
-              unawaited(
-                showDialog<void>(context: context, builder: dialogBuilder),
-              );
-            },
-            child: const Text('open'),
-          );
-        },
-      ),
-    ),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('ConfirmationDialogWidget', () {
     testWidgets('renders title, message and default labels', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () {},
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () {},
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -46,16 +33,21 @@ void main() {
     });
 
     testWidgets('renders custom labels when provided', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () {},
-            confirmLabel: 'Excluir',
-            cancelLabel: 'Voltar',
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () {},
+              confirmLabel: 'Excluir',
+              cancelLabel: 'Voltar',
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -66,15 +58,20 @@ void main() {
     });
 
     testWidgets('renders the icon when provided', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () {},
-            icon: Icons.warning_rounded,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () {},
+              icon: Icons.warning_rounded,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -88,14 +85,19 @@ void main() {
     ) async {
       var confirmCalls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () => confirmCalls++,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () => confirmCalls++,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -113,14 +115,19 @@ void main() {
     ) async {
       var confirmCalls = 0;
 
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () => confirmCalls++,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () => confirmCalls++,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));
@@ -136,15 +143,20 @@ void main() {
     testWidgets('vertical → stacks the confirm button above the cancel one', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          (_) => ConfirmationDialogWidget(
-            title: 'Excluir item',
-            message: 'Tem certeza?',
-            onConfirm: () {},
-            vertical: true,
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => ConfirmationDialogWidget(
+              title: 'Excluir item',
+              message: 'Tem certeza?',
+              onConfirm: () {},
+              vertical: true,
+            ),
           ),
         ),
+        triggerLabel: 'open',
       );
 
       await tester.tap(find.text('open'));

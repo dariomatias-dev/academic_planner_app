@@ -1,12 +1,10 @@
 import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
-import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';
 import 'package:academic_planner/src/features/categories/presentation/view_models/category_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockCategoryRepository extends Mock implements CategoryRepository {}
+import '../../../../../helpers/fakes.dart';
 
 List<String> _names(List<Category> categories) =>
     categories.map((c) => c.name).toList();

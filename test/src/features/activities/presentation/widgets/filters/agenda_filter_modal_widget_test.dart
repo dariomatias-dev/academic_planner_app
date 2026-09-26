@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../../../../../helpers/pump_app.dart';
+
 class _FakeAgendaNotifier extends AgendaNotifier {
   _FakeAgendaNotifier({this.onFetchData});
 
@@ -57,27 +59,21 @@ Future<ProviderContainer> _buildContainer({
   return container;
 }
 
-Widget _harness(ProviderContainer container, {ActivityFilter? initialFilter}) {
-  return UncontrolledProviderScope(
+Future<void> _pumpHarness(
+  WidgetTester tester,
+  ProviderContainer container, {
+  ActivityFilter? initialFilter,
+}) {
+  return pumpScopedApp(
+    tester,
+    (context) async {
+      await showModalBottomSheet<void>(
+        context: context,
+        builder: (_) => AgendaFilterModalWidget(initialFilter: initialFilter),
+      );
+    },
     container: container,
-    child: MaterialApp(
-      home: Scaffold(
-        body: Builder(
-          builder: (context) {
-            return ElevatedButton(
-              onPressed: () async {
-                await showModalBottomSheet<void>(
-                  context: context,
-                  builder: (_) =>
-                      AgendaFilterModalWidget(initialFilter: initialFilter),
-                );
-              },
-              child: const Text('open'),
-            );
-          },
-        ),
-      ),
-    ),
+    triggerLabel: 'open',
   );
 }
 
@@ -89,7 +85,7 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(_harness(container));
+      await _pumpHarness(tester, container);
       await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
 
@@ -105,14 +101,13 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          container,
-          initialFilter: const ActivityFilter(
-            disciplineId: 14,
-            category: 'Prova',
-            tags: ['urgente'],
-          ),
+      await _pumpHarness(
+        tester,
+        container,
+        initialFilter: const ActivityFilter(
+          disciplineId: 14,
+          category: 'Prova',
+          tags: ['urgente'],
         ),
       );
       await tester.tap(find.text('open'));
@@ -130,13 +125,12 @@ void main() {
       final container = await _buildContainer();
       addTearDown(container.dispose);
 
-      await tester.pumpWidget(
-        _harness(
-          container,
-          initialFilter: const ActivityFilter(
-            disciplineId: 14,
-            category: 'Prova',
-          ),
+      await _pumpHarness(
+        tester,
+        container,
+        initialFilter: const ActivityFilter(
+          disciplineId: 14,
+          category: 'Prova',
         ),
       );
       await tester.tap(find.text('open'));
@@ -160,7 +154,7 @@ void main() {
         );
         addTearDown(container.dispose);
 
-        await tester.pumpWidget(_harness(container));
+        await _pumpHarness(tester, container);
         await tester.tap(find.text('open'));
         await tester.pumpAndSettle();
 

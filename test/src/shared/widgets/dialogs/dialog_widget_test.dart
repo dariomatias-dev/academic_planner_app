@@ -1,23 +1,17 @@
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-Widget _harness(Widget child) {
-  return MaterialApp(
-    home: Scaffold(body: Center(child: child)),
-  );
-}
+import '../../../../helpers/pump_app.dart';
 
 void main() {
   group('DialogWidget', () {
     testWidgets('renders title, message and actions', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          const DialogWidget(
-            title: 'Título',
-            message: 'Mensagem',
-            actions: Text('AÇÃO'),
-          ),
+      await pumpApp(
+        tester,
+        const DialogWidget(
+          title: 'Título',
+          message: 'Mensagem',
+          actions: Text('AÇÃO'),
         ),
       );
 
@@ -27,13 +21,12 @@ void main() {
     });
 
     testWidgets('icon null → no icon rendered', (tester) async {
-      await tester.pumpWidget(
-        _harness(
-          const DialogWidget(
-            title: 'Título',
-            message: 'Mensagem',
-            actions: SizedBox.shrink(),
-          ),
+      await pumpApp(
+        tester,
+        const DialogWidget(
+          title: 'Título',
+          message: 'Mensagem',
+          actions: SizedBox.shrink(),
         ),
       );
 
@@ -43,15 +36,14 @@ void main() {
     testWidgets('icon provided → renders it with the given iconColor', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          const DialogWidget(
-            title: 'Título',
-            message: 'Mensagem',
-            icon: Icons.warning_rounded,
-            iconColor: Colors.red,
-            actions: SizedBox.shrink(),
-          ),
+      await pumpApp(
+        tester,
+        const DialogWidget(
+          title: 'Título',
+          message: 'Mensagem',
+          icon: Icons.warning_rounded,
+          iconColor: Colors.red,
+          actions: SizedBox.shrink(),
         ),
       );
 
@@ -63,14 +55,13 @@ void main() {
     testWidgets('iconColor null → falls back to colorScheme.primary', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        _harness(
-          const DialogWidget(
-            title: 'Título',
-            message: 'Mensagem',
-            icon: Icons.warning_rounded,
-            actions: SizedBox.shrink(),
-          ),
+      await pumpApp(
+        tester,
+        const DialogWidget(
+          title: 'Título',
+          message: 'Mensagem',
+          icon: Icons.warning_rounded,
+          actions: SizedBox.shrink(),
         ),
       );
 

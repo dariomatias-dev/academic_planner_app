@@ -1,13 +1,13 @@
 import 'package:academic_planner/src/core/services/shared_preferences_service.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../helpers/shared_preferences_test_helper.dart';
 
 void main() {
   late SharedPreferencesService sut;
 
   Future<void> init([Map<String, Object> values = const {}]) async {
-    SharedPreferences.setMockInitialValues(values);
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await fakeSharedPreferences(values);
     sut = SharedPreferencesService(prefs);
   }
 

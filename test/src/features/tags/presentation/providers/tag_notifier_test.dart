@@ -2,12 +2,10 @@ import 'package:academic_planner/src/core/result/failure.dart';
 import 'package:academic_planner/src/core/result/result.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
-import 'package:academic_planner/src/features/tags/domain/repositories/tag_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-
-class MockTagRepository extends Mock implements TagRepository {}
+import '../../../../../helpers/fakes.dart';
 
 void main() {
   late MockTagRepository mockRepository;
