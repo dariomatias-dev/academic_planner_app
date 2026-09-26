@@ -206,6 +206,7 @@ Scripts utilitários ficam em `scripts/`.
 | ------------ | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `seed`       | `dart run scripts/seed.dart`        | Popula o banco com dados de exemplo para desenvolvimento local (ver [Seeds de Desenvolvimento](#seeds-de-desenvolvimento)).                                 |
 | `screenshot` | `scripts/screenshot.sh [device-id]` | Percorre as principais telas do app em um dispositivo ou emulador conectado e salva uma captura de cada uma em `screenshots/`, usadas no README. Rode `fvm flutter devices` para listar os ids de dispositivos disponíveis. |
+| `check_coverage` | `scripts/check_coverage.sh <lcov-file> <minimum-percent>` | Falha se a cobertura de linhas de um relatório lcov estiver abaixo do mínimo informado, excluindo arquivos gerados (`*.g.dart`). |
 
 ## Documentação
 
