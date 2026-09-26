@@ -53,3 +53,20 @@ changed.
 
 - Follows `very_good_analysis` lints — run `flutter analyze` before pushing.
 - Run `dart format .` before committing.
+
+## Local verification
+
+`scripts/verify.sh` mirrors what CI checks: formatting, analysis, tests and
+a coverage floor (currently 93%, see `scripts/check_coverage.sh`).
+
+```bash
+scripts/verify.sh              # pending changes only, fast feedback
+scripts/verify.sh --all        # entire repository, like CI
+scripts/verify.sh --skip-tests # skip the test run and coverage check
+```
+
+By default, formatting and analysis are scoped to files with pending
+changes (staged, unstaged and untracked); tests always run in full, since
+coverage can only be judged against the whole suite. `--all` is skipped
+automatically if the workspace hasn't changed since the last successful
+`--all` run (tracked via `.dart_tool/verify_stamp`).

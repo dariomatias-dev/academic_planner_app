@@ -207,6 +207,8 @@ Scripts utilitários ficam em `scripts/`.
 | `seed`       | `dart run scripts/seed.dart`        | Popula o banco com dados de exemplo para desenvolvimento local (ver [Seeds de Desenvolvimento](#seeds-de-desenvolvimento)).                                 |
 | `screenshot` | `scripts/screenshot.sh [device-id]` | Percorre as principais telas do app em um dispositivo ou emulador conectado e salva uma captura de cada uma em `screenshots/`, usadas no README. Rode `fvm flutter devices` para listar os ids de dispositivos disponíveis. |
 | `check_coverage` | `scripts/check_coverage.sh <lcov-file> <minimum-percent>` | Falha se a cobertura de linhas de um relatório lcov estiver abaixo do mínimo informado, excluindo arquivos gerados (`*.g.dart`). |
+| `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Gate de verificação local que espelha o CI: format, analyze, test e o piso de cobertura. Por padrão escopado às mudanças pendentes; `--all` verifica o repositório inteiro e é pulado se nada mudou desde a última execução bem-sucedida (ver [Local verification](CONTRIBUTING.md#local-verification)). |
+| `workspace_hash` | `scripts/workspace_hash.sh` | Imprime um hash que representa o estado atual do workspace (último commit mais mudanças pendentes), usado pelo `verify.sh` para detectar execuções redundantes. |
 
 ## Documentação
 
