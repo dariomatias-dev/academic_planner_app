@@ -2,10 +2,16 @@ include: package:very_good_analysis/analysis_options.yaml
 
 analyzer:
   exclude:
+    - "build/**"
     - "**/*.g.dart"
     - "**/*.freezed.dart"
 
 linter:
   rules:
+    # This is an app, not a published package: there is no public API for
+    # external consumers to document.
     public_member_api_docs: false
+    # Many UI values (icon sizes, offsets, opacity) are declared as double
+    # even when the literal is round, e.g. `double size = 14.0`, to match
+    # the widget parameter's type.
     prefer_int_literals: false
