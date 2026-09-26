@@ -97,13 +97,14 @@ If a change is visible to the user, changes the folder structure, the
 scripts, or CI, update in the same commit:
 - `README.md`, `README.es.md`, `README.pt-BR.md` (kept in sync — same
   section skeleton, badges, scripts table).
-- `CONTRIBUTING.md`.
+- `docs/contributing.md` (and its `.es.md`/`.pt-BR.md` versions).
 - This file, if the change makes a section above stale.
 
 ## Commits
 
 - Conventional Commits, enforced by `.githooks/commit-msg` (see
-  [CONTRIBUTING.md](CONTRIBUTING.md) for the type/scope/subject rules).
+  [docs/contributing.md](docs/contributing.md#commit-and-branch-conventions)
+  for the type/scope/subject rules).
 - `.githooks/pre-push` runs `scripts/verify.sh --all` before every push.
 - Every change is scoped to one thing: don't mix an unrelated refactor,
   formatting pass, or dependency bump into a commit about something else.
