@@ -9,7 +9,8 @@ git config core.hooksPath .githooks
 ```
 
 This activates a `commit-msg` hook that rejects commits not following the
-convention below.
+convention below, and a `pre-push` hook that runs `scripts/verify.sh --all`
+before every push.
 
 ## Commit convention
 
@@ -51,7 +52,7 @@ changed.
 
 ## Code style
 
-- Follows `very_good_analysis` lints — run `flutter analyze` before pushing.
+- Follows `very_good_analysis` lints.
 - Run `dart format .` before committing.
 
 ## Local verification
@@ -70,3 +71,6 @@ changes (staged, unstaged and untracked); tests always run in full, since
 coverage can only be judged against the whole suite. `--all` is skipped
 automatically if the workspace hasn't changed since the last successful
 `--all` run (tracked via `.dart_tool/verify_stamp`).
+
+The `pre-push` hook (see [Setup](#setup)) runs `scripts/verify.sh --all`
+automatically, so a push fails locally instead of in CI.

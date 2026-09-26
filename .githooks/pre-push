@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Runs the full local verification gate before allowing a push.
+# Enabled via: git config core.hooksPath .githooks
+
+exec scripts/verify.sh --all
