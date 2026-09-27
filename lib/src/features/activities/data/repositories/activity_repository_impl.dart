@@ -1,7 +1,7 @@
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/errors/exception_mapper.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
-import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
+import 'package:academic_planner/src/features/activities/data/datasources/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/data/models/activity_model.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';

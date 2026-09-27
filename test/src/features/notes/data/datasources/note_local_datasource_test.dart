@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/database/tables/note_table.dart';
-import 'package:academic_planner/src/features/notes/data/data_source/note_local_datasource.dart';
+import 'package:academic_planner/src/features/notes/data/datasources/note_local_datasource.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

@@ -102,7 +102,7 @@ La regla central: **las dependencias apuntan hacia adentro**. La capa exterior (
 ```
 domain/repositories/activity_repository.dart     → contrato (interfaz)
 data/repositories/activity_repository_impl.dart  → implementación
-data/data_source/activity_local_datasource.dart  → acceso a SQLite
+data/datasources/activity_local_datasource.dart  → acceso a SQLite
 ```
 
 Presentation solo conoce `ActivityRepository` (contrato). El sistema de DI decide qué implementación inyectar - la UI no sabe si los datos vienen de SQLite, una API o memoria.
@@ -191,7 +191,7 @@ Responsable de proveer y persistir los datos.
 | Carpeta          | Contenido                                            |
 | ------------------- | -------------------------------------------------------- |
 | `models/`       | DTOs con lógica de mapeo (`fromMap`, `toMap`)         |
-| `data_source/`  | Acceso directo a la fuente de datos (SQLite, Firebase) |
+| `datasources/`  | Acceso directo a la fuente de datos (SQLite, Firebase) |
 | `repositories/` | Implementaciones de los contratos definidos en Domain  |
 
 Los **Models** convierten entre el formato de base de datos/API y las **Entities** de Domain. La capa Presentation nunca usa Models - solo Entities.
@@ -298,7 +298,7 @@ lib/
     ├── features/                    # Módulos de negocio aislados
     │   └── <feature>/               # Ver Features Existentes
     │       ├── data/
-    │       │   ├── data_source/     # Acceso directo a base de datos/API
+    │       │   ├── datasources/     # Acceso directo a base de datos/API
     │       │   ├── models/          # DTOs con fromMap/toMap
     │       │   ├── repositories/    # Implementación de los contratos de Domain
     │       │   └── seeds/           # Seeds de dev específicas de la feature (opcional)

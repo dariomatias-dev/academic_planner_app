@@ -102,7 +102,7 @@ The core rule: **dependencies point inward**. The outer layer (Presentation, Dat
 ```
 domain/repositories/activity_repository.dart     -> contract (interface)
 data/repositories/activity_repository_impl.dart  -> implementation
-data/data_source/activity_local_datasource.dart  -> SQLite access
+data/datasources/activity_local_datasource.dart  -> SQLite access
 ```
 
 Presentation only knows `ActivityRepository` (contract). The DI system decides which implementation to inject - the UI does not know whether data comes from SQLite, an API, or memory.
@@ -191,7 +191,7 @@ Responsible for providing and persisting data.
 | Folder          | Content                                             |
 | ---------------- | ----------------------------------------------------- |
 | `models/`       | DTOs with mapping logic (`fromMap`, `toMap`)        |
-| `data_source/`  | Direct access to the data source (SQLite, Firebase) |
+| `datasources/`  | Direct access to the data source (SQLite, Firebase) |
 | `repositories/` | Implementations of the contracts defined in Domain  |
 
 **Models** convert between the database/API format and Domain **Entities**. The Presentation layer never uses Models - only Entities.
@@ -303,7 +303,7 @@ lib/
     ├── features/                    # Isolated business modules
     │   └── <feature>/               # See Existing Features
     │       ├── data/
-    │       │   ├── data_source/     # Direct database/API access
+    │       │   ├── datasources/     # Direct database/API access
     │       │   ├── models/          # DTOs with fromMap/toMap
     │       │   ├── repositories/    # Domain contract implementations
     │       │   └── seeds/           # Feature-specific dev seeds (optional)

@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/seeds/seed.dart';
-import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
+import 'package:academic_planner/src/features/activities/data/datasources/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 import 'package:academic_planner/src/features/activities/data/seeds/activity_seed_data.dart';
 import 'package:sqflite/sqflite.dart';

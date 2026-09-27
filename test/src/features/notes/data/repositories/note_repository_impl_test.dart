@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/errors/result.dart';
-import 'package:academic_planner/src/features/notes/data/data_source/note_local_datasource.dart';
+import 'package:academic_planner/src/features/notes/data/datasources/note_local_datasource.dart';
 import 'package:academic_planner/src/features/notes/data/repositories/note_repository_impl.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:flutter_test/flutter_test.dart';

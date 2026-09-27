@@ -35,7 +35,7 @@ is content for them:
 ```
 <feature>/
   data/           # data sources, repository implementations, DTOs/models
-    data_source/
+    datasources/
     models/
     repositories/
   di/             # riverpod providers wiring this feature's dependencies

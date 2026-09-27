@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/di/database_provider.dart';
-import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
+import 'package:academic_planner/src/features/activities/data/datasources/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/data/repositories/activity_repository_impl.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity_stats.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';

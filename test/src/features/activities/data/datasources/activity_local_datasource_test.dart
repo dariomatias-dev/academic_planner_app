@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:academic_planner/src/core/database/tables/activity_table.dart';
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/features/activities/data/data_source/activity_local_datasource.dart';
+import 'package:academic_planner/src/features/activities/data/datasources/activity_local_datasource.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_sort_field.dart';

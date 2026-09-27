@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
-import 'package:academic_planner/src/features/categories/data/data_source/category_local_datasource.dart';
+import 'package:academic_planner/src/features/categories/data/datasources/category_local_datasource.dart';
 import 'package:academic_planner/src/features/categories/data/repositories/category_repository_impl.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/domain/repositories/category_repository.dart';

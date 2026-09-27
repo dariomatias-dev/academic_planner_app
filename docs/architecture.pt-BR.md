@@ -102,7 +102,7 @@ A regra central: **dependências apontam para dentro**. A camada de fora (Presen
 ```
 domain/repositories/activity_repository.dart     → contrato (interface)
 data/repositories/activity_repository_impl.dart  → implementação
-data/data_source/activity_local_datasource.dart  → acesso ao SQLite
+data/datasources/activity_local_datasource.dart  → acesso ao SQLite
 ```
 
 A Presentation conhece apenas `ActivityRepository` (contrato). Quem fornece a implementação é o sistema de DI - a UI não sabe se os dados vêm de SQLite, API ou memória.
@@ -191,7 +191,7 @@ Responsável por prover e persistir os dados.
 | Pasta           | Conteúdo                                           |
 | ----------------- | -------------------------------------------------- |
 | `models/`       | DTOs com lógica de mapeamento (`fromMap`, `toMap`) |
-| `data_source/`  | Acesso direto à fonte de dados (SQLite, Firebase)  |
+| `datasources/`  | Acesso direto à fonte de dados (SQLite, Firebase)  |
 | `repositories/` | Implementações dos contratos definidos no Domain   |
 
 Os **Models** fazem a conversão entre o formato do banco/API e as **Entities** do Domain. A camada de Presentation nunca usa Models - só Entities.
@@ -298,7 +298,7 @@ lib/
     ├── features/                    # Módulos de negócio isolados
     │   └── <feature>/               # Ver Features Existentes
     │       ├── data/
-    │       │   ├── data_source/     # Acesso direto ao banco/API
+    │       │   ├── datasources/     # Acesso direto ao banco/API
     │       │   ├── models/          # DTOs com fromMap/toMap
     │       │   ├── repositories/    # Implementação dos contratos do Domain
     │       │   └── seeds/           # Seeds de dev específicas da feature (opcional)
