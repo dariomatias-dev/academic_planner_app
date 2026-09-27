@@ -3,6 +3,8 @@ import 'package:academic_planner/src/academic_planner_app.dart';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
+import 'package:academic_planner/src/core/errors/error_boundary.dart';
+import 'package:academic_planner/src/core/errors/logging_error_reporter.dart';
 import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/core/seeds/seed_initializer.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +18,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   configureLogging();
+  configureErrorBoundary(LoggingErrorReporter());
 
   await initializeDateFormatting('pt_BR');
 

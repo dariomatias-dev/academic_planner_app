@@ -350,7 +350,7 @@ core/
 │
 ├── domain/entities/             # Entities shared across features (Pagination, Discipline, ScheduleEntry)
 │
-├── errors/                      # Result<T>/Failure pattern for functional error handling
+├── errors/                      # Result<T>/Failure pattern + the global error boundary (see below)
 │
 ├── extensions/                  # Dart/Flutter type extensions
 │
@@ -382,6 +382,8 @@ switch (result) {
   case Failure(:final failure) => handleError(failure),
 }
 ```
+
+The same folder also wires the app's global error boundary, via `configureErrorBoundary` (called once from `main()`): `FlutterError.onError` and `PlatformDispatcher.instance.onError` both forward to an `ErrorReporter` — a contract with a single `LoggingErrorReporter` implementation today, so a real crash-reporting backend can be swapped in later without touching call sites. In release builds only, `ErrorWidget.builder` is also replaced with `ErrorStateWidget` instead of Flutter's default red error screen, which stays in debug where it's useful.
 
 **`core/database/`** - SQLite with a versioned migration system:
 
