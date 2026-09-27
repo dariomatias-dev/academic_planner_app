@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/providers/activity_notifier.dart';
 import 'package:flutter/foundation.dart';

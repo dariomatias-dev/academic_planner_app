@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/categories/domain/entities/category.dart';
 import 'package:academic_planner/src/features/categories/presentation/view_models/category_view_model.dart';

@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/result/failure.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/failure.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/features/tags/presentation/view_models/tag_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';

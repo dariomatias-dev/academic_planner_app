@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';

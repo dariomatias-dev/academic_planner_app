@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
 import 'package:logging/logging.dart';

@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';

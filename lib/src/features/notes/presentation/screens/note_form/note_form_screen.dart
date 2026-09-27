@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_form_view_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';

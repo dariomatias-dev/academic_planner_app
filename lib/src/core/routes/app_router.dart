@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/root_navigation.dart';
+import 'package:academic_planner/src/core/routes/root_navigation.dart';
 import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';

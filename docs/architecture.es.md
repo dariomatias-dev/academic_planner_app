@@ -291,7 +291,7 @@ lib/
 ├── main.dart                        # Punto de entrada de la aplicación
 ├── firebase_options.dart            # Configuración generada de Firebase
 └── src/
-    ├── app_widget.dart              # Widget raíz (MaterialApp + tema + router)
+    ├── academic_planner_app.dart    # Widget raíz (MaterialApp + tema + router)
     │
     ├── core/                        # Infraestructura global y transversal — ver Capa Core
     │
@@ -325,11 +325,6 @@ La carpeta `core/` concentra código **transversal** compartido por todas las fe
 
 ```text
 core/
-├── app_colors.dart              # Paleta de colores global
-├── root_navigation.dart         # Widget raíz de navegación con bottom nav
-├── shared_preferences_keys.dart # Claves de persistencia local
-├── validators.dart              # Validadores reutilizables
-│
 ├── constants/                   # Datos estáticos y catálogo del curso
 │   ├── disciplines/             # Datos de asignaturas por período
 │   ├── day_names.dart
@@ -350,24 +345,29 @@ core/
 │
 ├── domain/entities/             # Entidades compartidas entre features (Pagination, Discipline, ScheduleEntry)
 │
+├── errors/                      # Patrón Result<T>/Failure para manejo funcional de errores
+│
 ├── extensions/                  # Extensiones de tipos Dart/Flutter
 │
 ├── logging/logger.dart          # Logging centralizado (ver abajo)
 │
 ├── notifiers/app_version_notifier.dart
 │
-├── result/                      # Patrón Result<T>/Failure para manejo funcional de errores
-│
 ├── routes/                      # Sistema de navegación (GoRouter) — ver Sistema de Navegación
+│   └── root_navigation.dart     # Widget raíz de navegación con bottom nav
 │
 ├── seeds/                       # Infraestructura base de seeds (ver Seeds)
 │
 ├── services/                    # Servicios de infraestructura reutilizables
+│   └── shared_preferences_keys.dart # Claves de persistencia local
 │
-└── theme/                       # Configuración de tema claro/oscuro y persistencia
+├── theme/                       # Configuración de tema claro/oscuro y persistencia
+│   └── app_colors.dart          # Paleta de colores global
+│
+└── validators/validators.dart   # Validadores reutilizables de formulario
 ```
 
-**`core/result/`** - implementación del patrón `Result<T>`:
+**`core/errors/`** - implementación del patrón `Result<T>`:
 
 ```dart
 Result<List<Activity>> result = await repository.getAll();

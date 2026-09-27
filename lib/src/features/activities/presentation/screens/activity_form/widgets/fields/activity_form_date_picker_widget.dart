@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';

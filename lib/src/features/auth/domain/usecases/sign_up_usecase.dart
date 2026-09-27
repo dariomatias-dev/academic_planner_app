@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/result/failure.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/failure.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';

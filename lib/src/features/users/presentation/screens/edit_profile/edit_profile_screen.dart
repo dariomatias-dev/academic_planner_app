@@ -1,7 +1,7 @@
+import 'package:academic_planner/src/core/errors/failure.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
-import 'package:academic_planner/src/core/result/failure.dart';
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';

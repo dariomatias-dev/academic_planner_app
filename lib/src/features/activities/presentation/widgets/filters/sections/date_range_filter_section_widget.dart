@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';

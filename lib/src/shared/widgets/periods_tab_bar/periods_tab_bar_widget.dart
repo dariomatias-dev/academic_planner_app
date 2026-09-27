@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
 import 'package:flutter/material.dart';
 

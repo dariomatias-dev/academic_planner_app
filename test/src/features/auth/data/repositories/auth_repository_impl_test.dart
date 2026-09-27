@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:academic_planner/src/features/auth/data/services/auth_service.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/auth_user_entity.dart';

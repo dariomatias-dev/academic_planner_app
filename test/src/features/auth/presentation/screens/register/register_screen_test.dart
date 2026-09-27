@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:academic_planner/src/core/result/failure.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/failure.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';

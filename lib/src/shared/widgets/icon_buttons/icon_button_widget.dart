@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/app_colors.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 enum IconButtonStyle { primary, secondary, neutral, outline }

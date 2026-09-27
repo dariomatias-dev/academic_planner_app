@@ -6,8 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AppWidget extends ConsumerWidget {
-  const AppWidget({super.key});
+class AcademicPlannerApp extends ConsumerWidget {
+  const AcademicPlannerApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

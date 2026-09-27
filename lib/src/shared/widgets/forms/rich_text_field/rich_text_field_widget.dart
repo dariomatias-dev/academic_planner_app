@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/app_colors.dart';
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:flutter/material.dart';

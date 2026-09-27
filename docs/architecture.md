@@ -296,7 +296,7 @@ lib/
 ├── main.dart                        # Application entry point
 ├── firebase_options.dart            # Firebase-generated configuration
 └── src/
-    ├── app_widget.dart              # Root widget (MaterialApp + theme + router)
+    ├── academic_planner_app.dart    # Root widget (MaterialApp + theme + router)
     │
     ├── core/                        # Global and cross-cutting infrastructure — see Core Layer
     │
@@ -330,11 +330,6 @@ The `core/` folder concentrates **cross-cutting** infrastructure shared by all f
 
 ```text
 core/
-├── app_colors.dart              # Global color palette
-├── root_navigation.dart         # Root navigation widget with bottom nav
-├── shared_preferences_keys.dart # Local persistence keys
-├── validators.dart              # Reusable validators
-│
 ├── constants/                   # Static data and course catalog
 │   ├── disciplines/             # Discipline data by academic period
 │   ├── day_names.dart
@@ -355,24 +350,29 @@ core/
 │
 ├── domain/entities/             # Entities shared across features (Pagination, Discipline, ScheduleEntry)
 │
+├── errors/                      # Result<T>/Failure pattern for functional error handling
+│
 ├── extensions/                  # Dart/Flutter type extensions
 │
 ├── logging/logger.dart          # Centralized logging (see below)
 │
 ├── notifiers/app_version_notifier.dart
 │
-├── result/                      # Result<T>/Failure pattern for functional error handling
-│
 ├── routes/                      # Navigation system (GoRouter) — see Navigation System
+│   └── root_navigation.dart     # Root navigation widget with bottom nav
 │
 ├── seeds/                       # Base seed infrastructure (see Seeds)
 │
 ├── services/                    # Reusable infrastructure services
+│   └── shared_preferences_keys.dart # Local persistence keys
 │
-└── theme/                       # Light/dark theme configuration and persistence
+├── theme/                       # Light/dark theme configuration and persistence
+│   └── app_colors.dart          # Global color palette
+│
+└── validators/validators.dart   # Reusable form field validators
 ```
 
-**`core/result/`** - implementation of the `Result<T>` pattern:
+**`core/errors/`** - implementation of the `Result<T>` pattern:
 
 ```dart
 Result<List<Activity>> result = await repository.getAll();

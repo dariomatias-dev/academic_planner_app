@@ -1,11 +1,11 @@
 import 'package:academic_planner/firebase_options.dart';
-import 'package:academic_planner/src/app_widget.dart';
+import 'package:academic_planner/src/academic_planner_app.dart';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/seeds/seed_initializer.dart';
-import 'package:academic_planner/src/core/shared_preferences_keys.dart';
+import 'package:academic_planner/src/core/services/shared_preferences_keys.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/back_icon_button_widget.dart';
@@ -65,7 +65,7 @@ void main() {
           sharedPreferencesProvider.overrideWithValue(sharedPreferences),
           appDatabaseProvider.overrideWithValue(appDatabase),
         ],
-        child: const AppWidget(),
+        child: const AcademicPlannerApp(),
       ),
     );
 

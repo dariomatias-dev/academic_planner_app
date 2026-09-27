@@ -1,6 +1,6 @@
-import 'package:academic_planner/src/core/result/failure.dart';
+import 'package:academic_planner/src/core/errors/failure.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/validators.dart';
+import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';

@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/users/data/models/user_model.dart';
 import 'package:academic_planner/src/features/users/data/repositories/user_repository_impl.dart';
 import 'package:academic_planner/src/features/users/data/services/user_firestore_service.dart';

@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/extensions/user_role_extension.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/app_colors.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
+import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

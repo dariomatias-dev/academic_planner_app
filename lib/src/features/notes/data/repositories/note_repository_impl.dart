@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/result/exception_mapper.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/exception_mapper.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/notes/data/data_source/note_local_datasource.dart';
 import 'package:academic_planner/src/features/notes/data/models/note_model.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';

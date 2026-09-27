@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/tags/data/data_source/tag_local_datasource.dart';
 import 'package:academic_planner/src/features/tags/data/repositories/tag_repository_impl.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';

@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/result/failure.dart';
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/failure.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/providers/auth_notifier.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';

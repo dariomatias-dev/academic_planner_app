@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/result/result.dart';
+import 'package:academic_planner/src/core/errors/result.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_confirm_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
