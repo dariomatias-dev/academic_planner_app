@@ -40,6 +40,7 @@ Mirrors what CI checks: formatting, analysis, tests and the coverage floor. See 
 | Job                | What it does                                                                                                          | Gates merge? |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, then a 93% coverage floor check (`scripts/check_coverage.sh`) | Yes           |
+| `osv-scan`         | Scans `pubspec.lock` with [OSV-Scanner](https://github.com/google/osv-scanner) for dependencies with known vulnerabilities | No (`continue-on-error: true`) |
 
 It runs on every push and pull request to `main`, and can also be triggered manually (`workflow_dispatch`). The Flutter version is read from `.fvmrc`, so it always matches what's pinned locally. Superseded runs on the same branch are cancelled automatically.
 

@@ -40,6 +40,7 @@ Refleja lo que verifica el CI: formato, análisis, tests y el piso de cobertura.
 | Job                | Qué hace                                                                                                              | ¿Bloquea el merge? |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------- |
 | `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, y luego verifica el piso de cobertura del 93% (`scripts/check_coverage.sh`) | Sí                  |
+| `osv-scan`         | Escanea `pubspec.lock` con [OSV-Scanner](https://github.com/google/osv-scanner) en busca de dependencias con vulnerabilidades conocidas | No (`continue-on-error: true`) |
 
 Se ejecuta en cada push y pull request a `main`, y también puede dispararse manualmente (`workflow_dispatch`). La versión de Flutter se lee de `.fvmrc`, así que siempre coincide con lo fijado localmente. Las ejecuciones superadas en la misma branch se cancelan automáticamente.
 

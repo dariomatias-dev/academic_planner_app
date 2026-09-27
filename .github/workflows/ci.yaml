@@ -50,3 +50,16 @@ jobs:
           files: coverage/lcov.info
           flags: app
           fail_ci_if_error: false
+
+  osv-scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Scan pubspec.lock for known vulnerabilities
+        uses: google/osv-scanner-action@v2.0.0
+        with:
+          scan-args: |-
+            --lockfile=pubspec.lock
