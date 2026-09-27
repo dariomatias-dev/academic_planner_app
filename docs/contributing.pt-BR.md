@@ -57,6 +57,16 @@ Este repositório carrega configuração de agente para uso com Claude Code:
 
 Mudar o acordo de trabalho ou os hooks é uma mudança normal neste repositório, revisada como qualquer outra — abra um PR.
 
+## Fluxo de versão
+
+Releases são automatizadas pelo [release-please](https://github.com/googleapis/release-please), guiado inteiramente pelos Conventional Commits em `main`:
+
+1. Todo push pra `main` roda o workflow `release-please`, que mantém um "release PR" atualizado — título, bump de versão e entradas do `CHANGELOG.md` são derivados dos commits mergeados desde a última release (`feat` → minor, `fix` → patch, um rodapé `!`/`BREAKING CHANGE` → major).
+2. Fazer merge desse PR aumenta a versão em `pubspec.yaml`, atualiza o `CHANGELOG.md`, e cria uma GitHub Release com uma tag correspondente.
+3. Publicar a release dispara o workflow `release`, que builda o APK de release e o anexa nessa release como `academic_planner-<tag>.apk`.
+
+Nada da versão é editado à mão — o `pubspec.yaml` e o `CHANGELOG.md` são arquivos gerenciados pelo release-please.
+
 ## Assinatura de release
 
 Builds de release caem na chave de debug a menos que `android/key.properties` exista (ver `android/app/build.gradle.kts`). Pra assinar uma build de release localmente:

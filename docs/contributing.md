@@ -57,6 +57,16 @@ This repository carries agent configuration for use with Claude Code:
 
 Changing the working agreement or hooks is a normal change to this repository, reviewed like any other — open a PR.
 
+## Version flow
+
+Releases are automated by [release-please](https://github.com/googleapis/release-please), driven entirely by Conventional Commits on `main`:
+
+1. Every push to `main` runs the `release-please` workflow, which keeps a "release PR" up to date — its title, version bump and `CHANGELOG.md` entries are derived from the commits merged since the last release (`feat` → minor, `fix` → patch, a `!`/`BREAKING CHANGE` footer → major).
+2. Merging that PR bumps the version in `pubspec.yaml`, updates `CHANGELOG.md`, and creates a GitHub Release with a matching tag.
+3. Publishing the release triggers the `release` workflow, which builds the release APK and attaches it to that release as `academic_planner-<tag>.apk`.
+
+Nothing about the version is edited by hand — `pubspec.yaml`'s version and `CHANGELOG.md` are release-please-managed files.
+
 ## Release signing
 
 Release builds fall back to the debug key unless `android/key.properties` exists (see `android/app/build.gradle.kts`). To sign a release build locally:
