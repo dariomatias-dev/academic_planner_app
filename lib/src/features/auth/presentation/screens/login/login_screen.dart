@@ -1,4 +1,5 @@
 import 'package:academic_planner/src/core/errors/failure.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
@@ -13,7 +14,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:logging/logging.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -23,7 +23,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  static final _log = Logger('auth.LoginScreen');
+  static final _log = AppLogger('auth.LoginScreen');
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();

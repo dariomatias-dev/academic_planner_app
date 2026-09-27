@@ -1,15 +1,15 @@
 import 'package:academic_planner/src/core/errors/failure.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:logging/logging.dart';
 
 class SignUpUseCase {
   SignUpUseCase({required this.authRepository, required this.userRepository});
 
-  static final _log = Logger('auth.SignUpUseCase');
+  static final _log = AppLogger('auth.SignUpUseCase');
 
   final AuthRepository authRepository;
   final UserRepository userRepository;

@@ -1,11 +1,11 @@
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:logging/logging.dart';
 
 class UserViewModel {
   UserViewModel(this._repository);
 
-  static final _log = Logger('users.UserViewModel');
+  static final _log = AppLogger('users.UserViewModel');
 
   final UserRepository _repository;
 

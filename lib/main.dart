@@ -3,7 +3,7 @@ import 'package:academic_planner/src/academic_planner_app.dart';
 import 'package:academic_planner/src/core/database/app_database.dart';
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
-import 'package:academic_planner/src/core/logging/logger.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/core/seeds/seed_initializer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

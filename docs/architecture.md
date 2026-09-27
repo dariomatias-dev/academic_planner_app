@@ -354,7 +354,7 @@ core/
 │
 ├── extensions/                  # Dart/Flutter type extensions
 │
-├── logging/logger.dart          # Centralized logging (see below)
+├── logging/app_logger.dart          # Centralized logging (see below)
 │
 ├── notifiers/app_version_notifier.dart
 │
@@ -394,7 +394,7 @@ class MigrationV2 implements Migration {
 }
 ```
 
-**`core/logging/logger.dart`** - two packages intentionally: `package:logging` is the API surface every other file imports (`Logger`, hierarchy, level control); `package:logger` is an implementation detail used only inside this file, for pretty console output.
+**`core/logging/app_logger.dart`** - the single point of logging: every file that logs creates its own `AppLogger('feature.ClassName')` and calls it. `package:logger` is an implementation detail used only inside this file, for pretty console output — no other file imports it.
 
 ---
 
@@ -674,8 +674,7 @@ See [Navigation System](#navigation-system) above.
 | [image_gallery_saver_plus](https://pub.dev/packages/image_gallery_saver_plus) | 5.1.1   | Exporting images to the gallery                  |
 | [package_info_plus](https://pub.dev/packages/package_info_plus)               | 10.2.1  | Reading package info (app version)               |
 | [fluttertoast](https://pub.dev/packages/fluttertoast)                         | 10.0.0  | Native toast notifications                       |
-| [logger](https://pub.dev/packages/logger)                                     | 2.8.0   | Pretty console output, used only inside `core/logging/logger.dart` |
-| [logging](https://pub.dev/packages/logging)                                   | 1.3.0   | Logging API every other file imports (`Logger`, hierarchy, levels) |
+| [logger](https://pub.dev/packages/logger)                                     | 2.8.0   | Pretty console output, wrapped by `AppLogger` — no other file imports it directly |
 
 ### Dev and Tooling
 

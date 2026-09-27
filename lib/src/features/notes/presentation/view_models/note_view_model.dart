@@ -1,13 +1,13 @@
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/domain/repositories/note_repository.dart';
-import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 class NoteViewModel {
   NoteViewModel(this.repository);
 
-  static final _log = Logger('notes.NoteViewModel');
+  static final _log = AppLogger('notes.NoteViewModel');
 
   final NoteRepository repository;
 

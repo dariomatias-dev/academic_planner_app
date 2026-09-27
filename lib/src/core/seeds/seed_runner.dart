@@ -1,10 +1,10 @@
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/core/seeds/seed.dart';
-import 'package:logging/logging.dart';
 
 class SeedRunner {
   SeedRunner({required this.seeds});
 
-  static final _log = Logger('seeds.SeedRunner');
+  static final _log = AppLogger('seeds.SeedRunner');
 
   final List<Seed> seeds;
 

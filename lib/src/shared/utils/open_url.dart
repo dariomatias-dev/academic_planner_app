@@ -1,9 +1,9 @@
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/shared/widgets/link_opening_failure_dialog_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-final _log = Logger('shared.openUrl');
+final _log = AppLogger('shared.openUrl');
 
 Future<void> openUrl(
   BuildContext context,

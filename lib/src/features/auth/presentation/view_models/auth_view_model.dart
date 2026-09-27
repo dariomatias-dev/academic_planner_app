@@ -1,4 +1,5 @@
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/login_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
@@ -8,7 +9,6 @@ import 'package:academic_planner/src/features/auth/domain/usecases/sign_in_with_
 import 'package:academic_planner/src/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:logging/logging.dart';
 
 class AuthViewModel {
   AuthViewModel({required this.authRepository, required this.userRepository})
@@ -29,7 +29,7 @@ class AuthViewModel {
         userRepository: userRepository,
       );
 
-  static final _log = Logger('auth.AuthViewModel');
+  static final _log = AppLogger('auth.AuthViewModel');
 
   final AuthRepository authRepository;
   final UserRepository userRepository;

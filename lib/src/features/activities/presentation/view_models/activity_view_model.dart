@@ -1,16 +1,16 @@
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/repositories/activity_repository.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 class ActivityViewModel {
   ActivityViewModel(this.repository);
 
-  static final _log = Logger('activities.ActivityViewModel');
+  static final _log = AppLogger('activities.ActivityViewModel');
 
   final ActivityRepository repository;
 

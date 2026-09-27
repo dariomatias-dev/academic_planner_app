@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/providers/note_notifier.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:logging/logging.dart';
 
 class NoteFormViewModel {
   NoteFormViewModel(this._noteNotifier) {
@@ -16,7 +16,7 @@ class NoteFormViewModel {
     contentController.addListener(updateChangeTracker);
   }
 
-  static final _log = Logger('notes.NoteFormViewModel');
+  static final _log = AppLogger('notes.NoteFormViewModel');
 
   final NoteNotifier _noteNotifier;
 

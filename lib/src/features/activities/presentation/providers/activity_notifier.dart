@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:academic_planner/src/core/domain/entities/pagination.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/view_models/activity_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 
 class ActivityNotifier extends AsyncNotifier<void> {
-  static final _log = Logger('activities.ActivityNotifier');
+  static final _log = AppLogger('activities.ActivityNotifier');
 
   late final ActivityViewModel _viewModel;
 

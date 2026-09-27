@@ -1,10 +1,10 @@
 import 'package:academic_planner/src/core/errors/failure.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/auth/domain/usecases/auth_session_outcome.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/domain/repositories/user_repository.dart';
-import 'package:logging/logging.dart';
 
 class SignInWithGoogleUseCase {
   SignInWithGoogleUseCase({
@@ -12,7 +12,7 @@ class SignInWithGoogleUseCase {
     required this.userRepository,
   });
 
-  static final _log = Logger('auth.SignInWithGoogleUseCase');
+  static final _log = AppLogger('auth.SignInWithGoogleUseCase');
 
   final AuthRepository authRepository;
   final UserRepository userRepository;

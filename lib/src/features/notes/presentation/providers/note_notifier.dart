@@ -1,12 +1,12 @@
 import 'package:academic_planner/src/core/errors/result.dart';
+import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 
 class NoteNotifier extends AsyncNotifier<void> {
-  static final _log = Logger('notes.NoteNotifier');
+  static final _log = AppLogger('notes.NoteNotifier');
 
   late final NoteViewModel _viewModel;
 
