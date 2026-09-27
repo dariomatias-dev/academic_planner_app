@@ -16,7 +16,7 @@ Future<void> main() async {
 
   databaseFactory = databaseFactoryFfi;
 
-  final db = await AppDatabase.instance;
+  final db = await AppDatabase.open();
 
   final runner = SeedRunner(
     seeds: <Seed>[

@@ -43,7 +43,7 @@ Future<void> _bootstrap() async {
 
     final prefs = await SharedPreferences.getInstance();
 
-    final appDatabase = await AppDatabase.instance;
+    final appDatabase = await AppDatabase.open();
 
     await runDevSeeds(appDatabase);
 

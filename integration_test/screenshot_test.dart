@@ -46,7 +46,7 @@ void main() {
           .toList(),
     );
 
-    final appDatabase = await AppDatabase.instance;
+    final appDatabase = await AppDatabase.open();
     await runDevSeeds(appDatabase);
 
     await binding.convertFlutterSurfaceToImage();
