@@ -1,0 +1,24 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  status:
+    project:
+      app:
+        target: 93%
+        flags:
+          - app
+    patch:
+      app:
+        target: 93%
+        flags:
+          - app
+
+flags:
+  app:
+    paths:
+      - lib/
+    carryforward: false
+
+ignore:
+  - "**/*.g.dart"

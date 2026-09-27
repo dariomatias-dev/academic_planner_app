@@ -5,6 +5,7 @@
 <img src="https://img.shields.io/badge/Riverpod-3.4.3-08479E?style=for-the-badge" alt="Riverpod: 3.4.3">
 <img src="https://img.shields.io/badge/Arquitectura-MVVM%20%2B%20Clean%20%2B%20Feature--First-green?style=for-the-badge" alt="Arquitectura: MVVM + Clean + Feature-First">
 <img src="https://github.com/dariomatias-dev/academic-planner/actions/workflows/ci.yaml/badge.svg?branch=main&style=for-the-badge" alt="CI: status">
+<img src="https://codecov.io/gh/dariomatias-dev/academic-planner/branch/main/graph/badge.svg?flag=app" alt="Cobertura: codecov">
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge" alt="Licencia: MIT">
 </div>
 <br>
