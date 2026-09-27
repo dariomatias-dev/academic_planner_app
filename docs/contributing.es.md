@@ -57,6 +57,12 @@ Este repositorio incluye configuración de agente para usar con Claude Code:
 
 Cambiar el acuerdo de trabajo o los hooks es un cambio normal en este repositorio, revisado como cualquier otro — abre un PR.
 
+## Actualizaciones de dependencias
+
+[Renovate](https://docs.renovatebot.com/) abre PRs para dependencias desactualizadas, configurado en `renovate.json`. Las GitHub Actions y los paquetes de Firebase (`firebase_*`, `cloud_firestore`) se agrupan cada uno en un solo PR; el resto tiene su propio PR. `intl` está excluido — debe coincidir exactamente con la versión que `flutter_localizations` fija para el Flutter SDK actual, así que se actualiza [junto con Flutter](#configuración), nunca por su cuenta.
+
+Un PR de Renovate se triaje como cualquier otro: solo se mergea una vez que [el gate local](#el-gate-local) y el CI estén en verde.
+
 ## Flujo de versión
 
 Los releases son automatizados por [release-please](https://github.com/googleapis/release-please), guiado enteramente por los Conventional Commits en `main`:

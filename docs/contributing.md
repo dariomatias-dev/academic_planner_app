@@ -57,6 +57,12 @@ This repository carries agent configuration for use with Claude Code:
 
 Changing the working agreement or hooks is a normal change to this repository, reviewed like any other — open a PR.
 
+## Dependency updates
+
+[Renovate](https://docs.renovatebot.com/) opens PRs for outdated dependencies, configured in `renovate.json`. GitHub Actions and Firebase packages (`firebase_*`, `cloud_firestore`) are each grouped into a single PR; everything else gets its own. `intl` is excluded — it must match the exact version `flutter_localizations` pins for the current Flutter SDK, so it's bumped by [upgrading Flutter](#setup), never on its own.
+
+A Renovate PR is triaged like any other: it only merges once [the local gate](#the-local-gate) and CI are green.
+
 ## Version flow
 
 Releases are automated by [release-please](https://github.com/googleapis/release-please), driven entirely by Conventional Commits on `main`:

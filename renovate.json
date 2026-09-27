@@ -1,0 +1,21 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "commitMessagePrefix": "build(deps):",
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "commitMessageTopic": "GitHub Actions"
+    },
+    {
+      "matchPackageNames": ["/^firebase_/", "cloud_firestore"],
+      "groupName": "Firebase packages"
+    },
+    {
+      "matchPackageNames": ["intl"],
+      "enabled": false,
+      "description": "intl tracks the Flutter SDK version (see pubspec.yaml) — don't let Renovate bump it on its own."
+    }
+  ]
+}
