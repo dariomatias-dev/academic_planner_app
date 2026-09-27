@@ -56,6 +56,23 @@ Este repositorio incluye configuración de agente para usar con Claude Code:
 
 Cambiar el acuerdo de trabajo o los hooks es un cambio normal en este repositorio, revisado como cualquier otro — abre un PR.
 
+## Firma de release
+
+Las builds de release usan la clave de debug a menos que exista `android/key.properties` (ver `android/app/build.gradle.kts`). Para firmar una build de release localmente:
+
+1. Genera un keystore:
+   ```bash
+   keytool -genkey -v -keystore ~/academic-planner-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias academic-planner
+   ```
+2. Crea `android/key.properties` (ignorado por git — nunca lo commitees, ni el `.jks`):
+   ```properties
+   storePassword=<contraseña>
+   keyPassword=<contraseña>
+   keyAlias=academic-planner
+   storeFile=/ruta/absoluta/a/academic-planner-release.jks
+   ```
+3. `fvm flutter build apk --release` ahora firma con ese keystore.
+
 ## Convenciones de commit y branch
 
 Este proyecto sigue [Conventional Commits](https://www.conventionalcommits.org):

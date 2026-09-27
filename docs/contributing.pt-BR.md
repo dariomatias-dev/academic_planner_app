@@ -56,6 +56,23 @@ Este repositório carrega configuração de agente para uso com Claude Code:
 
 Mudar o acordo de trabalho ou os hooks é uma mudança normal neste repositório, revisada como qualquer outra — abra um PR.
 
+## Assinatura de release
+
+Builds de release caem na chave de debug a menos que `android/key.properties` exista (ver `android/app/build.gradle.kts`). Pra assinar uma build de release localmente:
+
+1. Gere uma keystore:
+   ```bash
+   keytool -genkey -v -keystore ~/academic-planner-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias academic-planner
+   ```
+2. Crie `android/key.properties` (gitignorado — nunca commite ele nem o `.jks`):
+   ```properties
+   storePassword=<senha>
+   keyPassword=<senha>
+   keyAlias=academic-planner
+   storeFile=/caminho/absoluto/para/academic-planner-release.jks
+   ```
+3. `fvm flutter build apk --release` agora assina com essa keystore.
+
 ## Convenções de commit e branch
 
 Este projeto segue [Conventional Commits](https://www.conventionalcommits.org):
