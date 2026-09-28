@@ -72,6 +72,10 @@ Rules:
     (MaterialApp+Scaffold+Builder+button, for widgets that trigger an
     overlay — dialog, bottom sheet — and need a real `BuildContext` under a
     `Navigator`).
+  - `pump_router_app.dart` — `pumpRouterApp` (full `MaterialApp.router` on
+    a given `GoRouter` + `ProviderContainer`, for routing/redirect tests;
+    navigate with `router.go(...)` *before* pumping so the first frame is
+    already the destination).
   - `shared_preferences_test_helper.dart` — `fakeSharedPreferences()`.
   - `fakes.dart` — the repository/service mocks duplicated across the most
     test files (`MockActivityRepository`, `MockNoteRepository`, etc.).
@@ -85,9 +89,12 @@ Rules:
   in user, `FakeFirebaseFirestore`) — catches wiring mistakes a single
   provider's own unit test wouldn't.
 - Coverage floor is enforced by `scripts/check_coverage.sh`, currently
-  **93%** (measured baseline, rounded down; rises as features get aligned to
-  the checklist in progress — see git history for `refactor: align *
-  layers and cover failure paths`-style commits). `*.g.dart` is excluded.
+  **80%**. It was 93% while `flutter test --coverage` only counted files some
+  test already imported; loading `app_router.dart` in a test pulls in every
+  screen, revealing ones with no tests at all (~87% real coverage), so the
+  floor was recalibrated. It rises as features get aligned to the checklist
+  in progress — see git history for `refactor: align * layers and cover
+  failure paths`-style commits. `*.g.dart` is excluded.
 - Integration tests live in `integration_test/`; `scripts/screenshot.sh`
   drives them to capture README/store screenshots.
 

@@ -535,7 +535,7 @@ static const disciplineDetails = 'discipline_details';
 static const disciplineDetails = '/discipline-details/:disciplineId';
 ```
 
-`app_router.dart` configura o `GoRouter` com a árvore de rotas e tratamento de erros. `home`, `myDisciplines`, `activities` e `settings` são abas de uma `StatefulShellRoute` (a bottom navigation bar), não acessadas via `AppRoutes`.
+`app_router.dart` expõe o `GoRouter` como um provider do Riverpod (`routerProvider`), com a árvore de rotas, tratamento de erros e um redirect de autenticação centralizado: usuários deslogados são enviados para `login` a partir de qualquer rota protegida, e usuários logados em `login`/`register`/`forgot-password` são enviados para `home`. A decisão em si vive na função pura `resolveAuthRedirect`, e o router reavalia quando o estado de auth muda (ex: depois do logout), não só na navegação. `home`, `myDisciplines`, `activities` e `settings` são abas de uma `StatefulShellRoute` (a bottom navigation bar), não acessadas via `AppRoutes`.
 
 `app_routes.dart` é a camada de abstração que encapsula toda navegação. **A UI só chama métodos daqui:**
 

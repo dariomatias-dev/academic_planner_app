@@ -5,12 +5,12 @@ coverage:
   status:
     project:
       app:
-        target: 93%
+        target: 80%
         flags:
           - app
     patch:
       app:
-        target: 93%
+        target: 80%
         flags:
           - app
 

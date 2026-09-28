@@ -188,7 +188,7 @@ fvm flutter test --coverage   # with an lcov coverage report
 scripts/verify.sh --all
 ```
 
-runs the same checks as CI — format, analyze, test — plus a 93% line coverage floor CI doesn't enforce yet.
+runs the same checks as CI — format, analyze, test — and an 80% line coverage floor.
 
 ## Documentation
 

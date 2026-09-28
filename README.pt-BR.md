@@ -188,7 +188,7 @@ fvm flutter test --coverage   # com relatório de cobertura lcov
 scripts/verify.sh --all
 ```
 
-roda as mesmas verificações do CI — format, analyze, test — mais um piso de cobertura de linhas de 93% que o CI ainda não aplica.
+roda as mesmas verificações do CI — format, analyze, test — e um piso de cobertura de linhas de 80%.
 
 ## Documentação
 

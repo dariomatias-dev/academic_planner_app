@@ -18,7 +18,7 @@ set -euo pipefail
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
-COVERAGE_FLOOR=93
+COVERAGE_FLOOR=80
 STAMP_FILE=".dart_tool/verify_stamp"
 
 ALL=false

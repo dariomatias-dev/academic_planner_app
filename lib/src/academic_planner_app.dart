@@ -12,6 +12,7 @@ class AcademicPlannerApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeNotifierProvider);
+    final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
@@ -25,7 +26,7 @@ class AcademicPlannerApp extends ConsumerWidget {
       themeMode: themeMode,
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
-      routerConfig: AppRouter.router,
+      routerConfig: router,
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/activities_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/activity_details_screen.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_form/activity_form_screen.dart';
+import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/forgot_password/forgot_password_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:academic_planner/src/features/auth/presentation/screens/register/register_screen.dart';
@@ -28,11 +29,71 @@ import 'package:academic_planner/src/shared/screens/about/about_screen.dart';
 import 'package:academic_planner/src/shared/screens/not_found/not_found_screen.dart';
 import 'package:academic_planner/src/shared/screens/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:academic_planner/src/shared/screens/splash/splash_screen.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class AppRouter {
-  static final router = GoRouter(
+/// Paths reachable without an authenticated session.
+const Set<String> _publicRoutePaths = {
+  RoutePaths.splash,
+  RoutePaths.login,
+  RoutePaths.register,
+  RoutePaths.forgotPassword,
+};
+
+/// The decision behind the centralized authentication redirect: signed-out
+/// users are sent to `login` from anywhere else, and signed-in users are
+/// sent to `home` if they land on an auth-only screen (login, register,
+/// forgot password). `splash` is left alone — it drives its own transition
+/// once the session has finished loading. While the session is still
+/// resolving (`isLoading`), no redirect decision is made, to avoid bouncing
+/// the user before there's an answer.
+///
+/// A pure function of primitives (not `Ref`/`GoRouterState`) so it can be
+/// unit-tested directly, without building the destination screen.
+@visibleForTesting
+String? resolveAuthRedirect({
+  required bool isLoggedIn,
+  required bool isLoading,
+  required String matchedLocation,
+}) {
+  if (matchedLocation == RoutePaths.splash) return null;
+  if (isLoading) return null;
+
+  final isPublicRoute = _publicRoutePaths.contains(matchedLocation);
+
+  if (!isLoggedIn && !isPublicRoute) return RoutePaths.login;
+  if (isLoggedIn && isPublicRoute) return RoutePaths.home;
+
+  return null;
+}
+
+String? _authRedirect(Ref ref, GoRouterState state) {
+  final authState = ref.read(authNotifierProvider);
+
+  return resolveAuthRedirect(
+    isLoggedIn: authState.hasValue && authState.value != null,
+    isLoading: authState.isLoading,
+    matchedLocation: state.matchedLocation,
+  );
+}
+
+/// Notifies [GoRouter] to re-run its redirect whenever auth state changes
+/// (sign in, sign out, session restore), not just on navigation.
+class _AuthRefreshNotifier extends ChangeNotifier {
+  _AuthRefreshNotifier(Ref ref) {
+    ref.listen(authNotifierProvider, (_, _) => notifyListeners());
+  }
+}
+
+final routerProvider = Provider<GoRouter>((ref) {
+  final refreshNotifier = _AuthRefreshNotifier(ref);
+  ref.onDispose(refreshNotifier.dispose);
+
+  return GoRouter(
     initialLocation: RoutePaths.splash,
+    refreshListenable: refreshNotifier,
+    redirect: (context, state) => _authRedirect(ref, state),
     errorBuilder: (context, state) {
       return const NotFoundScreen();
     },
@@ -270,4 +331,4 @@ class AppRouter {
       ),
     ],
   );
-}
+});

@@ -5,6 +5,7 @@ import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/firebase_providers.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/di/theme_provider.dart';
+import 'package:academic_planner/src/core/routes/app_router.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/calendar/di/calendar_providers.dart';
@@ -87,6 +88,9 @@ void main() {
 
     // Auth
     await container.read(authNotifierProvider.future);
+
+    // Navigation
+    expect(container.read(routerProvider), isNotNull);
 
     // Activities
     container
