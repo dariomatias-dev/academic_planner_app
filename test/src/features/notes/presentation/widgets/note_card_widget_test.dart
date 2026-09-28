@@ -1,4 +1,3 @@
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/widgets/note_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +57,7 @@ void main() {
             ),
           ),
           GoRoute(
-            path: '/note/:noteId',
-            name: RouteNames.noteDetails,
+            path: '/note-details/:noteId',
             builder: (_, state) {
               receivedId = state.pathParameters['noteId'];
 
@@ -106,9 +104,8 @@ void main() {
           ),
           GoRoute(
             path: '/note-form',
-            name: RouteNames.noteForm,
             builder: (_, state) {
-              receivedId = state.uri.queryParameters['noteId'];
+              receivedId = state.uri.queryParameters['note-id'];
 
               return const Text('NOTE_FORM_SCREEN');
             },

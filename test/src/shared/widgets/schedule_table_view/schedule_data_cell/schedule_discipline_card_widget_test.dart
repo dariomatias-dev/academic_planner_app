@@ -1,8 +1,6 @@
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/domain/entities/schedule_entry.dart';
-import 'package:academic_planner/src/core/routes/route_names.dart';
-import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_discipline_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -29,15 +27,14 @@ Widget _harness(Widget child) {
 
 GoRouter _router(Widget home) {
   return GoRouter(
-    initialLocation: RoutePaths.home,
+    initialLocation: '/home',
     routes: [
       GoRoute(
-        path: RoutePaths.home,
+        path: '/home',
         builder: (_, _) => Scaffold(body: Center(child: home)),
       ),
       GoRoute(
-        name: RouteNames.disciplineDetails,
-        path: RoutePaths.disciplineDetails,
+        path: '/discipline-details/:disciplineId',
         builder: (context, state) {
           final disciplineId = state.pathParameters['disciplineId'];
           final tab = state.uri.queryParameters['tab'];

@@ -3,7 +3,6 @@ import 'package:academic_planner/src/core/database/migrations/migration_v2.dart'
 import 'package:academic_planner/src/core/di/database_provider.dart';
 import 'package:academic_planner/src/core/di/shared_preferences_provider.dart';
 import 'package:academic_planner/src/core/routes/app_router.dart';
-import 'package:academic_planner/src/core/routes/route_paths.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/repositories/auth_repository.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
@@ -27,7 +26,7 @@ void main() {
           resolveAuthRedirect(
             isLoggedIn: isLoggedIn,
             isLoading: false,
-            matchedLocation: RoutePaths.splash,
+            matchedLocation: '/splash',
           ),
           isNull,
         );
@@ -39,7 +38,7 @@ void main() {
         resolveAuthRedirect(
           isLoggedIn: false,
           isLoading: true,
-          matchedLocation: RoutePaths.activities,
+          matchedLocation: '/activities',
         ),
         isNull,
       );
@@ -50,14 +49,14 @@ void main() {
         resolveAuthRedirect(
           isLoggedIn: false,
           isLoading: false,
-          matchedLocation: RoutePaths.activities,
+          matchedLocation: '/activities',
         ),
-        RoutePaths.login,
+        '/login',
       );
     });
 
     test('leaves a signed-out user on a public route alone', () {
-      for (final path in [RoutePaths.login, RoutePaths.register]) {
+      for (final path in ['/login', '/register']) {
         expect(
           resolveAuthRedirect(
             isLoggedIn: false,
@@ -74,9 +73,9 @@ void main() {
         resolveAuthRedirect(
           isLoggedIn: true,
           isLoading: false,
-          matchedLocation: RoutePaths.login,
+          matchedLocation: '/login',
         ),
-        RoutePaths.home,
+        '/home',
       );
     });
 
@@ -85,7 +84,7 @@ void main() {
         resolveAuthRedirect(
           isLoggedIn: true,
           isLoading: false,
-          matchedLocation: RoutePaths.activities,
+          matchedLocation: '/activities',
         ),
         isNull,
       );
@@ -141,8 +140,7 @@ void main() {
         when(() => authRepository.currentUser).thenReturn(null);
         await container.read(authNotifierProvider.future);
 
-        final router = container.read(routerProvider)
-          ..go(RoutePaths.activities);
+        final router = container.read(routerProvider)..go('/activities');
 
         await pumpRouterApp(tester, router, container);
         await tester.pump();
@@ -150,7 +148,7 @@ void main() {
 
         expect(
           router.routerDelegate.currentConfiguration.uri.toString(),
-          RoutePaths.login,
+          '/login',
         );
       },
     );
@@ -162,7 +160,7 @@ void main() {
         when(() => authRepository.currentUser).thenReturn(null);
         await container.read(authNotifierProvider.future);
 
-        final router = container.read(routerProvider)..go(RoutePaths.register);
+        final router = container.read(routerProvider)..go('/register');
 
         await pumpRouterApp(tester, router, container);
         await tester.pump();
@@ -170,7 +168,7 @@ void main() {
 
         expect(
           router.routerDelegate.currentConfiguration.uri.toString(),
-          RoutePaths.register,
+          '/register',
         );
       },
     );

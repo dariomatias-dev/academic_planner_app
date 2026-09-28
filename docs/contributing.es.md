@@ -39,7 +39,7 @@ Refleja lo que verifica el CI: formato, análisis, tests y el piso de cobertura.
 
 | Job                | Qué hace                                                                                                              | ¿Bloquea el merge? |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `analyze-and-test` | `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, y luego verifica el piso de cobertura del 80% (`scripts/check_coverage.sh`) | Sí                  |
+| `analyze-and-test` | `build_runner build` (falla si los archivos `*.g.dart` generados difieren de los versionados), `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, y luego verifica el piso de cobertura del 80% (`scripts/check_coverage.sh`) | Sí                  |
 | `osv-scan`         | Escanea `pubspec.lock` con [OSV-Scanner](https://github.com/google/osv-scanner) en busca de dependencias con vulnerabilidades conocidas | No (`continue-on-error: true`) |
 | `build_apk`        | Compila el APK de release (`flutter build apk --release`) y lo sube como artefacto del workflow, retenido 14 días. Corre después de que `analyze-and-test` pasa | No (depende de `analyze-and-test`, que sí bloquea) |
 

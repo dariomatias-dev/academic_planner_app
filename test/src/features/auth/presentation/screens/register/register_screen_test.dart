@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:academic_planner/src/core/errors/failure.dart';
 import 'package:academic_planner/src/core/errors/result.dart';
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/auth/domain/entities/register_entity.dart';
 import 'package:academic_planner/src/features/auth/presentation/providers/auth_notifier.dart';
@@ -62,12 +61,10 @@ Widget _harness(ProviderContainer container) {
     routes: [
       GoRoute(
         path: '/login',
-        name: RouteNames.login,
         builder: (_, _) => const LoginScreen(),
       ),
       GoRoute(
         path: '/register',
-        name: RouteNames.register,
         builder: (_, _) => const RegisterScreen(),
       ),
     ],

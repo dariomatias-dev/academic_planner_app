@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Local verification gate mirroring CI: format, analyze, test and a
-# coverage floor.
+# Local verification gate mirroring CI: code generation, format, analyze,
+# test and a coverage floor.
 #
 # By default, format and analyze are scoped to pending Dart changes
 # (staged, unstaged and untracked) for fast feedback; tests always run
@@ -10,7 +10,8 @@
 #   scripts/verify.sh [--all] [--skip-tests]
 #
 #   --all         Check the entire repository instead of just pending
-#                 changes. Skipped entirely if the workspace hasn't
+#                 changes, and fail if regenerating code changes any
+#                 *.g.dart file. Skipped entirely if the workspace hasn't
 #                 changed since the last successful --all run.
 #   --skip-tests  Skip running tests and the coverage check.
 
@@ -50,6 +51,21 @@ if ! $ALL; then
       git ls-files --others --exclude-standard -- '*.dart'
     } | sort -u | while read -r f; do [[ -f "$f" ]] && echo "$f"; done
   )
+fi
+
+generated_hash() {
+  find lib -name '*.g.dart' -print0 | sort -z | xargs -0 sha256sum | sha256sum
+}
+
+echo "==> Generating code"
+GENERATED_BEFORE="$(generated_hash)"
+fvm dart run build_runner build
+if [[ "$(generated_hash)" != "$GENERATED_BEFORE" ]]; then
+  if $ALL; then
+    echo "Generated code is out of date; commit the regenerated *.g.dart files." >&2
+    exit 1
+  fi
+  echo "Generated code was out of date and has been regenerated."
 fi
 
 echo "==> Formatting"

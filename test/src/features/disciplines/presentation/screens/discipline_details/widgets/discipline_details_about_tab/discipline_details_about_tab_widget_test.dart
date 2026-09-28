@@ -1,5 +1,4 @@
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_about_tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,8 +66,7 @@ void main() {
             ),
           ),
           GoRoute(
-            path: '/teacher/:teacherId',
-            name: RouteNames.teacherDetails,
+            path: '/teacher-details/:teacherId',
             builder: (_, state) {
               receivedId = int.parse(state.pathParameters['teacherId']!);
 

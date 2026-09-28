@@ -30,6 +30,17 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Generate code
+        run: dart run build_runner build
+
+      - name: Verify generated code is committed
+        run: |
+          if [[ -n "$(git status --porcelain -- '*.g.dart')" ]]; then
+            echo "Generated code is out of date; run build_runner and commit."
+            git status --porcelain -- '*.g.dart'
+            exit 1
+          fi
+
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed lib test integration_test
 

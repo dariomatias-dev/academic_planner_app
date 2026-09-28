@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:academic_planner/src/core/errors/result.dart';
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/providers/note_notifier.dart';
@@ -64,7 +63,6 @@ Widget _harness(ProviderContainer container, {String noteId = 'n1'}) {
       ),
       GoRoute(
         path: '/note-form',
-        name: RouteNames.noteForm,
         builder: (_, _) => const Text('NOTE_FORM_SCREEN'),
       ),
     ],

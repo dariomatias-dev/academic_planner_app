@@ -1,5 +1,4 @@
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -41,8 +40,7 @@ void main() {
             ),
           ),
           GoRoute(
-            path: '/discipline/:disciplineId',
-            name: RouteNames.disciplineDetails,
+            path: '/discipline-details/:disciplineId',
             builder: (_, state) {
               receivedId = int.parse(state.pathParameters['disciplineId']!);
 

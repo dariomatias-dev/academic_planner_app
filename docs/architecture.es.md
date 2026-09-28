@@ -511,7 +511,7 @@ Este flujo garantiza que un cambio de ruta (nombre, path, parámetros) impacte s
 - Navegación declarativa y centralizada (rutas definidas en un solo lugar)
 - Integración con Navigator 2.0 y soporte nativo de Deep Linking
 - Soporte de path parameters y query parameters
-- Navegación por nombre con `pushNamed`/`goNamed` - sin strings literales dispersos
+- Rutas tipadas generadas por `go_router_builder` - sin strings literales dispersos
 - Manejo de errores integrado (pantalla 404)
 - Escala bien para aplicaciones grandes
 
@@ -521,19 +521,11 @@ Este flujo garantiza que un cambio de ruta (nombre, path, parámetros) impacte s
 core/routes/
 ├── app_router.dart    # Configuración central de GoRouter y árbol de rutas
 ├── app_routes.dart    # Métodos semánticos de navegación (capa de abstracción)
-├── route_names.dart   # Identificadores únicos de las rutas
-└── route_paths.dart   # Paths (URLs) de las rutas
+├── typed_routes.dart  # Clases de rutas tipadas (path, parámetros, pantalla)
+└── typed_routes.g.dart # Generado por go_router_builder (versionado)
 ```
 
-`route_names.dart` y `route_paths.dart` centralizan identificadores y URLs, evitando strings literales dispersos por el código:
-
-```dart
-// route_names.dart
-static const disciplineDetails = 'discipline_details';
-
-// route_paths.dart
-static const disciplineDetails = '/discipline-details/:disciplineId';
-```
+Cada ruta es una clase que extiende `GoRouteData` en `typed_routes.dart`, anotada con su path. Los path y query parameters son campos tipados del constructor, y `go_router_builder` genera el árbol de rutas (`$appRoutes`, usado por `app_router.dart`) y el `location`/`go`/`push` de cada ruta en `typed_routes.g.dart`, que se versiona. Los nombres de los query parameters se derivan de los nombres de los campos en kebab-case (`disciplineId` pasa a ser `discipline-id`). Ejecuta `dart run build_runner build` tras cambiar `typed_routes.dart`; `scripts/verify.sh` y el CI regeneran el código y fallan si difiere de lo versionado.
 
 `app_router.dart` expone el `GoRouter` como un provider de Riverpod (`routerProvider`), con el árbol de rutas, el manejo de errores y una redirección de autenticación centralizada: los usuarios sin sesión son enviados a `login` desde cualquier ruta protegida, y los usuarios con sesión en `login`/`register`/`forgot-password` son enviados a `home`. La decisión en sí vive en la función pura `resolveAuthRedirect`, y el router la reevalúa cuando cambia el estado de auth (ej: tras cerrar sesión), no solo al navegar. `home`, `myDisciplines`, `activities` y `settings` son pestañas de un `StatefulShellRoute` (la bottom navigation bar), a las que no se accede vía `AppRoutes`.
 
@@ -545,11 +537,10 @@ static Future<void> goToDisciplineDetails(
   required int disciplineId,
   int? tab,
 }) async {
-  await context.pushNamed(
-    RouteNames.disciplineDetails,
-    pathParameters: <String, String>{'disciplineId': disciplineId.toString()},
-    queryParameters: <String, String>{if (tab != null) 'tab': tab.toString()},
-  );
+  await DisciplineDetailsRoute(
+    disciplineId: disciplineId,
+    tab: tab ?? 0,
+  ).push<void>(context);
 }
 ```
 
@@ -591,13 +582,13 @@ static Future<void> goToDisciplineDetails(
 
 | Método        | Comportamiento                                             | Cuándo usarlo                             |
 | --------------- | -------------------------------------------------------------- | -------------------------------------------- |
-| `pushNamed()` | Apila una nueva ruta sobre la actual (el botón atrás funciona) | Detalles, formularios, flujos secundarios |
-| `goNamed()`   | Reemplaza completamente la ruta actual                        | Login, splash, logout, reset de flujo     |
+| `push()` | Apila una nueva ruta sobre la actual (el botón atrás funciona) | Detalles, formularios, flujos secundarios |
+| `go()`   | Reemplaza completamente la ruta actual                        | Login, splash, logout, reset de flujo     |
 
 ### Cómo Agregar una Nueva Ruta
 
-1. Agrega el nombre en `route_names.dart` y el path en `route_paths.dart`.
-2. Registra el `GoRoute` en `app_router.dart`.
+1. Agrega una clase de ruta (con su path en `@TypedGoRoute`) en `typed_routes.dart`.
+2. Ejecuta `dart run build_runner build` para regenerar `typed_routes.g.dart`.
 3. Agrega un método `goTo...` en `app_routes.dart`.
 4. Úsalo en la UI: `AppRoutes.goToMyNewScreen(context);`.
 

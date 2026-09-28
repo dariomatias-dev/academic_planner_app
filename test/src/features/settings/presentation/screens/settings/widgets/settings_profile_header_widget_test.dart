@@ -1,4 +1,3 @@
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/settings_profile_header/settings_profile_header_widget.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
@@ -108,7 +107,6 @@ void main() {
           ),
           GoRoute(
             path: '/login',
-            name: RouteNames.login,
             builder: (_, _) => const Text('LOGIN_SCREEN'),
           ),
         ],

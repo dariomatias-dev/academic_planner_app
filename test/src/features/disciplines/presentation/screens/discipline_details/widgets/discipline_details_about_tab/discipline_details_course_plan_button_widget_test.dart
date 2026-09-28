@@ -1,4 +1,3 @@
-import 'package:academic_planner/src/core/routes/route_names.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_about_tab/discipline_details_course_plan_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -40,8 +39,7 @@ void main() {
             ),
           ),
           GoRoute(
-            path: '/pdf',
-            name: RouteNames.pdfViewer,
+            path: '/pdf-viewer',
             builder: (_, state) {
               receivedUrl = state.uri.queryParameters['url'];
               receivedTitle = state.uri.queryParameters['title'];
