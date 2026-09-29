@@ -73,15 +73,19 @@ Rules:
 ## Design system package
 
 `packages/app_ui` is a local Flutter package (own `pubspec.yaml`,
-`analysis_options.yaml`, lockfile) that will hold the design system: tokens,
-theme and shared components, exported through `lib/app_ui.dart`. It is
+`analysis_options.yaml`, lockfile) that holds the design system, exported
+through `lib/app_ui.dart`. Today that is the layout and motion tokens in
+`lib/src/tokens/` (`AppSpacing`, `AppRadius`, `AppSizes`, `AppDurations`,
+`AppCurves`: `abstract final class`es of constants); theme, colors,
+typography and components are added there as they move in. It is
 excluded from the app's analysis (`packages/**` in the root
 `analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
 own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`
 that runs when the package has pending changes or with `--all`. Its tests
 mirror `lib/` and use `test/helpers/pump_golden.dart` (`pumpGolden`: fixed
-surface size and pixel ratio). The coverage floor (80%) applies once the
-package has library code. The app does not depend on it yet.
+surface size and pixel ratio). The coverage floor (80%) is only checked when the
+lcov report has executable lines; the tokens are compile-time constants and
+add none. The app does not depend on it yet.
 
 ## Tests
 
