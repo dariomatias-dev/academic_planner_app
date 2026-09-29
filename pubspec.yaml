@@ -8,6 +8,8 @@ environment:
   sdk: ^3.12.2
 
 dependencies:
+  app_ui:
+    path: packages/app_ui
   cloud_firestore: ^6.3.0
   cupertino_icons: ^1.0.8
   firebase_auth: ^6.4.0

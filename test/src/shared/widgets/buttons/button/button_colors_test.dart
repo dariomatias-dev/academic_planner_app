@@ -1,6 +1,6 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_colors.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -43,7 +43,7 @@ void main() {
     test('outline → transparent background, primary text and border', () {
       final styles = AppButtonStyles.fromStyle(AppButtonStyle.outline, theme);
 
-      expect(styles.backgroundColor, AppColors.transparent);
+      expect(styles.backgroundColor, AppPalette.transparent);
       expect(styles.textColor, colorScheme.primary);
       expect(styles.borderColor, colorScheme.primary);
       expect(styles.iconBackgroundColor, isNull);

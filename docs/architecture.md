@@ -366,8 +366,8 @@ core/
 ├── services/                    # Reusable infrastructure services
 │   └── shared_preferences_keys.dart # Local persistence keys
 │
-├── theme/                       # Light/dark theme configuration and persistence
-│   └── app_colors.dart          # Global color palette
+├── theme/                       # Theme mode persistence (the light/dark themes and colors live in packages/app_ui)
+│   └── theme_notifier.dart      # Selected theme mode
 │
 └── validators/validators.dart   # Reusable form field validators
 ```

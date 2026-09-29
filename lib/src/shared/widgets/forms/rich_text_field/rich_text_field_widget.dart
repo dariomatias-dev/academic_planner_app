@@ -1,7 +1,7 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -128,7 +128,7 @@ class _RichTextFieldWidgetState extends State<RichTextFieldWidget> {
         } else if (isFocused) {
           borderColor = colorScheme.primary;
         } else {
-          borderColor = theme.dividerTheme.color ?? AppColors.transparent;
+          borderColor = theme.dividerTheme.color ?? AppPalette.transparent;
         }
 
         return Column(

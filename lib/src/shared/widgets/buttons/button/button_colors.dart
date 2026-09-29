@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class AppButtonStyles {
@@ -32,7 +32,7 @@ class AppButtonStyles {
         );
       case AppButtonStyle.outline:
         return AppButtonStyles(
-          backgroundColor: AppColors.transparent,
+          backgroundColor: AppPalette.transparent,
           textColor: colorScheme.primary,
           borderColor: colorScheme.primary,
         );

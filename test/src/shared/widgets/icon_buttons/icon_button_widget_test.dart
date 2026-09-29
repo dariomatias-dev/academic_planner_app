@@ -1,7 +1,8 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../../../../helpers/pump_app.dart';
 
 void main() {
@@ -204,7 +205,7 @@ void main() {
       final iconButton = tester.widget<IconButton>(find.byType(IconButton));
       expect(
         iconButton.style?.backgroundColor?.resolve({}),
-        AppColors.transparent,
+        AppPalette.transparent,
       );
 
       final shape =

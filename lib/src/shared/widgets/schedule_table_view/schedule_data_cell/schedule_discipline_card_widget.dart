@@ -2,8 +2,8 @@ import 'package:academic_planner/src/core/constants/teachers.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/domain/entities/schedule_entry.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/utils/get_teacher_by_id.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,7 +21,7 @@ class ScheduleDisciplineCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final dividerColor =
-        Theme.of(context).dividerTheme.color ?? AppColors.transparent;
+        Theme.of(context).dividerTheme.color ?? AppPalette.transparent;
 
     final discipline = disciplines.firstWhere(
       (discipline) => discipline.id == entry.disciplineId,

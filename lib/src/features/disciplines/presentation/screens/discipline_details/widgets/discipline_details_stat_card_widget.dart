@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +25,7 @@ class DisciplineDetailsStatCardWidget extends StatelessWidget {
         color: colorScheme.surface.withAlpha(150),
         borderRadius: BorderRadius.circular(24.0),
         border: Border.all(
-          color: Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+          color: Theme.of(context).dividerTheme.color ?? AppPalette.transparent,
         ),
       ),
       child: Column(

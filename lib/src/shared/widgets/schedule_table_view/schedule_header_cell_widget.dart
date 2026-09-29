@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,7 +10,7 @@ class ScheduleHeaderCellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+    final dividerColor = theme.dividerTheme.color ?? AppPalette.transparent;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),

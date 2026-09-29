@@ -1,9 +1,9 @@
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/domain/entities/schedule_entry.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_discipline_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_empty_status_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleDataCellWidget extends StatelessWidget {
@@ -23,7 +23,7 @@ class ScheduleDataCellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+    final dividerColor = theme.dividerTheme.color ?? AppPalette.transparent;
 
     final entry = entries.cast<ScheduleEntry?>().firstWhere(
       (e) => e?.day == dayId && e?.time == slot.label,

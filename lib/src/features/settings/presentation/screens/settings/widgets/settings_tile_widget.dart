@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -29,11 +29,11 @@ class SettingsTileWidget extends StatelessWidget {
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(24.0),
         border: Border.all(
-          color: theme.dividerTheme.color ?? AppColors.transparent,
+          color: theme.dividerTheme.color ?? AppPalette.transparent,
         ),
       ),
       child: Material(
-        color: AppColors.transparent,
+        color: AppPalette.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(24.0),

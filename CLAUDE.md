@@ -74,18 +74,25 @@ Rules:
 
 `packages/app_ui` is a local Flutter package (own `pubspec.yaml`,
 `analysis_options.yaml`, lockfile) that holds the design system, exported
-through `lib/app_ui.dart`. Today that is the layout and motion tokens in
-`lib/src/tokens/` (`AppSpacing`, `AppRadius`, `AppSizes`, `AppDurations`,
-`AppCurves`: `abstract final class`es of constants); theme, colors,
-typography and components are added there as they move in. It is
+through `lib/app_ui.dart`, and is a path dependency of the app. Today it has:
+- layout and motion tokens in `lib/src/tokens/` (`AppSpacing`, `AppRadius`,
+  `AppSizes`, `AppDurations`, `AppCurves`: `abstract final class`es of
+  constants);
+- colors in `lib/src/colors/`: `AppPalette` (raw palette constants) and
+  `AppColors`, a `ThemeExtension` with the semantic light/dark colors, read
+  with `context.appColors`;
+- `AppTheme.light()` / `AppTheme.dark()` in `lib/src/theme/`, which register
+  `AppColors` and take the `TextTheme` as a parameter (the app still passes
+  the `google_fonts` one; bundling typography is a later step).
+
+Typography and components are added there as they move in. The package is
 excluded from the app's analysis (`packages/**` in the root
 `analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
 own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`
 that runs when the package has pending changes or with `--all`. Its tests
 mirror `lib/` and use `test/helpers/pump_golden.dart` (`pumpGolden`: fixed
-surface size and pixel ratio). The coverage floor (80%) is only checked when the
-lcov report has executable lines; the tokens are compile-time constants and
-add none. The app does not depend on it yet.
+surface size and pixel ratio). The coverage floor (80%) is checked when the
+lcov report has executable lines.
 
 ## Tests
 

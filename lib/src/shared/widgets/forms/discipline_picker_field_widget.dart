@@ -2,12 +2,12 @@ import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/features/disciplines/di/discipline_providers.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_list_modal_widget.dart';
 import 'package:academic_planner/src/shared/widgets/form_error_message_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -92,7 +92,7 @@ class _DisciplinePickerFieldWidgetState
           borderColor = colorScheme.primary;
           borderWidth = 1.5;
         } else {
-          borderColor = theme.dividerTheme.color ?? AppColors.transparent;
+          borderColor = theme.dividerTheme.color ?? AppPalette.transparent;
           borderWidth = 1.0;
         }
 

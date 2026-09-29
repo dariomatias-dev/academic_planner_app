@@ -1,6 +1,6 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/disciplines/widgets/disciplines_period_chip_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DisciplineSelectionPeriodSelectorWidget extends StatelessWidget {
@@ -25,9 +25,9 @@ class DisciplineSelectionPeriodSelectorWidget extends StatelessWidget {
         controller: controller,
         isScrollable: true,
         tabAlignment: TabAlignment.start,
-        dividerColor: AppColors.transparent,
-        indicatorColor: AppColors.transparent,
-        overlayColor: WidgetStateProperty.all(AppColors.transparent),
+        dividerColor: AppPalette.transparent,
+        indicatorColor: AppPalette.transparent,
+        overlayColor: WidgetStateProperty.all(AppPalette.transparent),
         splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),

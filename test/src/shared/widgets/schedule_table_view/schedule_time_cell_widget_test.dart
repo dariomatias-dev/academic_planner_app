@@ -1,7 +1,8 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_time_cell_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
 import '../../../../helpers/pump_app.dart';
 
 void main() {
@@ -30,7 +31,7 @@ void main() {
       expect(find.text(''), findsOneWidget);
 
       final container = tester.widget<Container>(find.byType(Container));
-      expect(container.color, AppColors.transparent);
+      expect(container.color, AppPalette.transparent);
     });
   });
 }

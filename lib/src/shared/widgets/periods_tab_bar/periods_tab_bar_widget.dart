@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/period_tab_item_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class PeriodsTabBarWidget extends StatelessWidget {
@@ -23,9 +23,9 @@ class PeriodsTabBarWidget extends StatelessWidget {
         controller: controller,
         isScrollable: true,
         tabAlignment: TabAlignment.start,
-        dividerColor: AppColors.transparent,
-        indicatorColor: AppColors.transparent,
-        overlayColor: WidgetStateProperty.all(AppColors.transparent),
+        dividerColor: AppPalette.transparent,
+        indicatorColor: AppPalette.transparent,
+        overlayColor: WidgetStateProperty.all(AppPalette.transparent),
         splashFactory: NoSplash.splashFactory,
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         labelPadding: const EdgeInsets.symmetric(horizontal: 4.0),

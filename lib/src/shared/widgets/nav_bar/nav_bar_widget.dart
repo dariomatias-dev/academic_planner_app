@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_item_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class NavBarWidget extends StatelessWidget {
@@ -35,7 +35,7 @@ class NavBarWidget extends StatelessWidget {
             ),
           ],
           border: Border.all(
-            color: theme.dividerTheme.color ?? AppColors.transparent,
+            color: theme.dividerTheme.color ?? AppPalette.transparent,
             width: 1.5,
           ),
         ),

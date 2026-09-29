@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,8 +47,8 @@ class InputWidget extends StatelessWidget {
         : (isPrimary ? colors.surface : theme.scaffoldBackgroundColor);
 
     final effectiveBorderColor = readOnly
-        ? AppColors.transparent
-        : (theme.dividerTheme.color ?? AppColors.transparent);
+        ? AppPalette.transparent
+        : (theme.dividerTheme.color ?? AppPalette.transparent);
 
     return TextFormField(
       controller: controller,

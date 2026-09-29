@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class SettingsProfileHeaderAvatarWidget extends StatelessWidget {
@@ -35,7 +35,7 @@ class SettingsProfileHeaderAvatarWidget extends StatelessWidget {
           height: 30.0,
           width: 30.0,
           decoration: BoxDecoration(
-            color: AppColors.emerald700,
+            color: AppPalette.emerald700,
             shape: BoxShape.circle,
             border: Border.all(
               color: theme.scaffoldBackgroundColor,
@@ -43,7 +43,7 @@ class SettingsProfileHeaderAvatarWidget extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.emerald700.withAlpha(60),
+                color: AppPalette.emerald700.withAlpha(60),
                 blurRadius: 10.0,
                 offset: const Offset(0.0, 4.0),
               ),

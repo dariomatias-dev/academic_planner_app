@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/buttons/button/button_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -185,7 +185,7 @@ class _ButtonContent extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(6.0),
             decoration: BoxDecoration(
-              color: iconBackgroundColor ?? AppColors.transparent,
+              color: iconBackgroundColor ?? AppPalette.transparent,
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 18.0, color: textColor),

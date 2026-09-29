@@ -1,5 +1,5 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_header_cell_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -32,8 +32,8 @@ void main() {
       final decoration = container.decoration! as BoxDecoration;
       final border = decoration.border! as Border;
 
-      expect(border.right.color, AppColors.transparent);
-      expect(border.bottom.color, AppColors.transparent);
+      expect(border.right.color, AppPalette.transparent);
+      expect(border.bottom.color, AppPalette.transparent);
     });
 
     testWidgets('dividerTheme color is forwarded to the border', (

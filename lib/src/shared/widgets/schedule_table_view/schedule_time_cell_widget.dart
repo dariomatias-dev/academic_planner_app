@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +18,7 @@ class ScheduleTimeCellWidget extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 26.0),
-      color: isBreak ? AppColors.transparent : theme.scaffoldBackgroundColor,
+      color: isBreak ? AppPalette.transparent : theme.scaffoldBackgroundColor,
       child: Center(
         child: Text(
           isBreak ? '' : time,

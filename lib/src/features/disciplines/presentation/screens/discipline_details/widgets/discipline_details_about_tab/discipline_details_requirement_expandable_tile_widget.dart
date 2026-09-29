@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/widgets/discipline_card/discipline_card_item_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -68,11 +68,11 @@ class _DisciplineDetailsRequirementExpandableTileWidgetState
             color: colorScheme.surface.withAlpha(100),
             borderRadius: BorderRadius.circular(20.0),
             border: Border.all(
-              color: theme.dividerTheme.color ?? AppColors.transparent,
+              color: theme.dividerTheme.color ?? AppPalette.transparent,
             ),
           ),
           child: Material(
-            color: AppColors.transparent,
+            color: AppPalette.transparent,
             child: InkWell(
               onTap: hasDisciplines ? toggleExpansion : null,
               borderRadius: BorderRadius.circular(20.0),

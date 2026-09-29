@@ -3,10 +3,10 @@ import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
 import 'package:academic_planner/src/core/domain/entities/schedule_entry.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_data_cell/schedule_data_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_header_cell_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_time_cell_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,7 +28,7 @@ class ScheduleTableViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final dividerColor = theme.dividerTheme.color ?? AppColors.transparent;
+    final dividerColor = theme.dividerTheme.color ?? AppPalette.transparent;
 
     return InteractiveViewer(
       constrained: false,

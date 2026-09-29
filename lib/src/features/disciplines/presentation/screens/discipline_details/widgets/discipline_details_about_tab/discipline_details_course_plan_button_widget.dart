@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/routes/app_routes.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,7 +22,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
       height: 64.0,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.emerald700, AppColors.emerald800],
+          colors: [AppPalette.emerald700, AppPalette.emerald800],
         ),
         borderRadius: BorderRadius.circular(24.0),
         boxShadow: [
@@ -34,7 +34,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
         ],
       ),
       child: Material(
-        color: AppColors.transparent,
+        color: AppPalette.transparent,
         child: InkWell(
           onTap: () async {
             await AppRoutes.goToPdfViewer(
@@ -50,12 +50,12 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
-                  color: AppColors.white.withAlpha(45),
+                  color: AppPalette.white.withAlpha(45),
                   shape: BoxShape.circle,
                 ),
                 child: const Icon(
                   Icons.picture_as_pdf_rounded,
-                  color: AppColors.white,
+                  color: AppPalette.white,
                   size: 20.0,
                 ),
               ),
@@ -63,7 +63,7 @@ class DisciplineDetailsCoursePlanButtonWidget extends StatelessWidget {
               Text(
                 'Visualizar Plano de Ensino',
                 style: GoogleFonts.plusJakartaSans(
-                  color: AppColors.white,
+                  color: AppPalette.white,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w800,
                 ),

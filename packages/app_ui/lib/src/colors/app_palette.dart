@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class AppColors {
+/// Raw colour palette. Prefer the semantic AppColors theme extension in
+/// widgets; the palette is what the extension and the theme are built from.
+abstract final class AppPalette {
   static const emerald400 = Color(0xFF34D399);
   static const emerald500 = Color(0xFF10B981);
   static const emerald600 = Color(0xFF059669);

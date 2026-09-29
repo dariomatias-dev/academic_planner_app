@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -36,7 +36,7 @@ class FilterChipWidget extends StatelessWidget {
       side: BorderSide(
         color: isSelected
             ? colorScheme.primary
-            : (Theme.of(context).dividerTheme.color ?? AppColors.transparent),
+            : (Theme.of(context).dividerTheme.color ?? AppPalette.transparent),
       ),
     );
   }

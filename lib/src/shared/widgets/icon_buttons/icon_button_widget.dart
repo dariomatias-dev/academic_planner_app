@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 enum IconButtonStyle { primary, secondary, neutral, outline }
@@ -49,7 +49,7 @@ class IconButtonWidget extends StatelessWidget {
           backgroundColor = colorScheme.onSurface.withAlpha(12);
           iconColor = colorScheme.onSurface;
         case IconButtonStyle.outline:
-          backgroundColor = AppColors.transparent;
+          backgroundColor = AppPalette.transparent;
           iconColor = colorScheme.onSurface;
           borderColor = theme.dividerTheme.color;
       }

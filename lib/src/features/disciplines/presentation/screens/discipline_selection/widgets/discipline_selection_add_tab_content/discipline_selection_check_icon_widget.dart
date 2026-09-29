@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/core/theme/app_colors.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DisciplineSelectionCheckIconWidget extends StatelessWidget {
@@ -18,12 +18,12 @@ class DisciplineSelectionCheckIconWidget extends StatelessWidget {
       width: 28.0,
       height: 28.0,
       decoration: BoxDecoration(
-        color: isSelected ? colorScheme.primary : AppColors.transparent,
+        color: isSelected ? colorScheme.primary : AppPalette.transparent,
         shape: BoxShape.circle,
         border: Border.all(
           color: isSelected
               ? colorScheme.primary
-              : Theme.of(context).dividerTheme.color ?? AppColors.transparent,
+              : Theme.of(context).dividerTheme.color ?? AppPalette.transparent,
           width: 2.0,
         ),
       ),

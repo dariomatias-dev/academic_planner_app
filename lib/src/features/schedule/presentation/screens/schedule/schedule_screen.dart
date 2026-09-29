@@ -1,12 +1,12 @@
 import 'package:academic_planner/src/core/constants/disciplines/ads_disciplines.dart';
 import 'package:academic_planner/src/core/constants/schedules.dart';
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/shared/utils/image_export.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/periods_tab_bar/periods_tab_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/schedule_table_view/schedule_table_view_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -81,7 +81,7 @@ class _ScheduleScreenState extends State<ScheduleScreen>
               color: colorScheme.surface,
               border: Border(
                 bottom: BorderSide(
-                  color: theme.dividerTheme.color ?? AppColors.transparent,
+                  color: theme.dividerTheme.color ?? AppPalette.transparent,
                 ),
               ),
             ),

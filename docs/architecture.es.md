@@ -361,8 +361,8 @@ core/
 ├── services/                    # Servicios de infraestructura reutilizables
 │   └── shared_preferences_keys.dart # Claves de persistencia local
 │
-├── theme/                       # Configuración de tema claro/oscuro y persistencia
-│   └── app_colors.dart          # Paleta de colores global
+├── theme/                       # Persistencia del modo de tema (los temas claro/oscuro y los colores viven en packages/app_ui)
+│   └── theme_notifier.dart      # Modo de tema seleccionado
 │
 └── validators/validators.dart   # Validadores reutilizables de formulario
 ```

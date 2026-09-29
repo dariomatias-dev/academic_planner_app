@@ -1,8 +1,8 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
-import 'package:academic_planner/src/core/theme/app_colors.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,7 +61,7 @@ class CategoryFilterSectionWidget extends ConsumerWidget {
               color: colorScheme.surface,
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
-                color: theme.dividerTheme.color ?? AppColors.transparent,
+                color: theme.dividerTheme.color ?? AppPalette.transparent,
               ),
             ),
             child: Row(
