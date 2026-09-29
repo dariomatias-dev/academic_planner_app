@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AcademicPlannerApp extends ConsumerWidget {
   const AcademicPlannerApp({super.key});
@@ -25,12 +24,8 @@ class AcademicPlannerApp extends ConsumerWidget {
         FlutterQuillLocalizations.delegate,
       ],
       themeMode: themeMode,
-      theme: AppTheme.light(textTheme: GoogleFonts.plusJakartaSansTextTheme()),
-      darkTheme: AppTheme.dark(
-        textTheme: GoogleFonts.plusJakartaSansTextTheme(
-          ThemeData.dark().textTheme,
-        ),
-      ),
+      theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
       routerConfig: router,
     );
   }

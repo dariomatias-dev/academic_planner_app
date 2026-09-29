@@ -81,11 +81,16 @@ through `lib/app_ui.dart`, and is a path dependency of the app. Today it has:
 - colors in `lib/src/colors/`: `AppPalette` (raw palette constants) and
   `AppColors`, a `ThemeExtension` with the semantic light/dark colors, read
   with `context.appColors`;
+- typography in `lib/src/typography/`: `AppTypography` (Plus Jakarta Sans,
+  bundled in `assets/fonts/` with its OFL licence, weights 400-800; 900 uses
+  the 800 file) with `textTheme(base)` and `style(...)`;
 - `AppTheme.light()` / `AppTheme.dark()` in `lib/src/theme/`, which register
-  `AppColors` and take the `TextTheme` as a parameter (the app still passes
-  the `google_fonts` one; bundling typography is a later step).
+  `AppColors` and set the bundled typeface on every text style, so the theme
+  needs no network. Widgets that still call `GoogleFonts.plusJakartaSans`
+  directly (and the splash's `GoogleFonts.pendingFonts`) keep fetching at
+  runtime until the inline-styling steps replace them.
 
-Typography and components are added there as they move in. The package is
+Components are added there as they move in. The package is
 excluded from the app's analysis (`packages/**` in the root
 `analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
 own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`

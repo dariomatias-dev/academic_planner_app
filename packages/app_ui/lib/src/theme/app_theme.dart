@@ -1,20 +1,19 @@
 import 'package:app_ui/src/colors/app_colors.dart';
 import 'package:app_ui/src/colors/app_palette.dart';
 import 'package:app_ui/src/tokens/app_radius.dart';
+import 'package:app_ui/src/typography/app_typography.dart';
 import 'package:flutter/material.dart';
 
 /// The app's light and dark [ThemeData]. Each registers the matching
 /// [AppColors] extension and derives its surfaces from it.
 abstract final class AppTheme {
-  /// [textTheme] is applied as given; when omitted, the platform default is
-  /// used.
-  static ThemeData light({TextTheme? textTheme}) {
+  static ThemeData light() {
     const colors = AppColors.light;
 
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: colors.background,
-      textTheme: textTheme,
+      textTheme: AppTypography.textTheme(ThemeData.light().textTheme),
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppPalette.emerald700,
         primary: AppPalette.emerald700,
@@ -36,16 +35,13 @@ abstract final class AppTheme {
     );
   }
 
-  /// [textTheme] should be built from the dark base text theme
-  /// (`ThemeData.dark().textTheme`, the default); the dark text colours are
-  /// applied on top of it.
-  static ThemeData dark({TextTheme? textTheme}) {
+  static ThemeData dark() {
     const colors = AppColors.dark;
 
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: colors.background,
-      textTheme: (textTheme ?? ThemeData.dark().textTheme).apply(
+      textTheme: AppTypography.textTheme(ThemeData.dark().textTheme).apply(
         bodyColor: AppPalette.slate300,
         displayColor: AppPalette.white,
       ),

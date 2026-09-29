@@ -26,12 +26,14 @@ void main() {
       expect(theme.colorScheme.error, AppPalette.red600);
     });
 
-    test('applies the given text theme', () {
-      const custom = TextTheme(bodyMedium: TextStyle(fontFamily: 'Custom'));
-
+    test('sets every text style in the bundled typeface', () {
       expect(
-        AppTheme.light(textTheme: custom).textTheme.bodyMedium?.fontFamily,
-        'Custom',
+        theme.textTheme.bodyMedium?.fontFamily,
+        'packages/${AppTypography.package}/${AppTypography.fontFamily}',
+      );
+      expect(
+        theme.textTheme.displayLarge?.fontFamily,
+        theme.textTheme.bodyMedium?.fontFamily,
       );
     });
   });
@@ -58,9 +60,13 @@ void main() {
       expect(shape.side.color, AppColors.dark.border);
     });
 
-    test('applies the dark text colours on top of the given text theme', () {
+    test('sets the bundled typeface with the dark text colours on top', () {
       expect(theme.textTheme.bodyMedium?.color, AppPalette.slate300);
       expect(theme.textTheme.displayLarge?.color, AppPalette.white);
+      expect(
+        theme.textTheme.bodyMedium?.fontFamily,
+        'packages/${AppTypography.package}/${AppTypography.fontFamily}',
+      );
     });
   });
 }
