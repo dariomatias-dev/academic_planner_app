@@ -41,6 +41,7 @@ Mirrors what CI checks: formatting, analysis, tests and the coverage floor. See 
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `analyze-and-test` | `build_runner build` (fails if generated `*.g.dart` files differ from the committed ones), `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, then an 80% coverage floor check (`scripts/check_coverage.sh`) | Yes           |
 | `osv-scan`         | Scans `pubspec.lock` with [OSV-Scanner](https://github.com/google/osv-scanner) for dependencies with known vulnerabilities | No (`continue-on-error: true`) |
+| `integration`      | Runs every `integration_test/*_test.dart` suite on an Android API 35 emulator (KVM), one suite at a time with the app force-stopped in between (`scripts/integration.sh`). Runs after `analyze-and-test` succeeds | No (new; will gate once it is stable) |
 | `build_apk`        | Builds the release APK (`flutter build apk --release`) and uploads it as a workflow artifact, kept for 14 days. Runs after `analyze-and-test` succeeds | No (depends on `analyze-and-test`, which does) |
 
 It runs on every push and pull request to `main`, and can also be triggered manually (`workflow_dispatch`). The Flutter version is read from `.fvmrc`, so it always matches what's pinned locally. Superseded runs on the same branch are cancelled automatically.

@@ -21,6 +21,7 @@ scripts/verify.sh                  # local gate: codegen + format + analyze (pen
 scripts/verify.sh --all            # same, but scoped to the whole repo (mirrors CI, fails if codegen changes a *.g.dart); skipped if nothing changed since the last successful --all run
 scripts/verify.sh --skip-tests     # format + analyze only
 scripts/check_coverage.sh <lcov> <min>  # fail if lcov coverage is below <min>, excluding *.g.dart
+scripts/integration.sh [device-id] # run integration_test suites on a device/emulator (not run by verify.sh)
 scripts/screenshot.sh [device-id]  # capture README/store screenshots via integration_test
 dart run scripts/seed.dart         # populate the local db with sample data (standalone, no device)
 ```
@@ -104,8 +105,14 @@ Rules:
   floor was recalibrated. It rises as features get aligned to the checklist
   in progress — see git history for `refactor: align * layers and cover
   failure paths`-style commits. `*.g.dart` is excluded.
-- Integration tests live in `integration_test/`; `scripts/screenshot.sh`
-  drives them to capture README/store screenshots.
+- Integration tests live in `integration_test/`. `helpers/app_harness.dart`
+  boots the real app on a clean SQLite database and empty preferences, with
+  Firebase Auth/Firestore replaced by in-memory fakes
+  (`helpers/fake_auth_repository.dart`, `FakeFirebaseFirestore`); suites
+  create one `AppHarness` per test. They need a device or emulator and are
+  run by `scripts/integration.sh` and the `integration` CI job, not by
+  `verify.sh`. `scripts/screenshot.sh` drives `screenshot_test.dart` to
+  capture README/store screenshots.
 
 ## Side effects
 

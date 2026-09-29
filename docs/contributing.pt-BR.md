@@ -41,6 +41,7 @@ Espelha o que o CI verifica: formatação, análise, testes e o piso de cobertur
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | `analyze-and-test` | `build_runner build` (falha se os arquivos `*.g.dart` gerados diferirem dos versionados), `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, depois checa o piso de cobertura de 80% (`scripts/check_coverage.sh`) | Sim                |
 | `osv-scan`         | Varre o `pubspec.lock` com o [OSV-Scanner](https://github.com/google/osv-scanner) em busca de dependências com vulnerabilidades conhecidas | Não (`continue-on-error: true`) |
+| `integration`      | Roda cada suíte `integration_test/*_test.dart` em um emulador Android API 35 (KVM), uma por vez e com o app encerrado à força entre elas (`scripts/integration.sh`). Roda depois que `analyze-and-test` passa | Não (novo; passará a bloquear quando estiver estável) |
 | `build_apk`        | Gera o APK de release (`flutter build apk --release`) e sobe como artefato do workflow, mantido por 14 dias. Roda depois que `analyze-and-test` passa | Não (depende de `analyze-and-test`, que bloqueia) |
 
 Roda em todo push e pull request pra `main`, e também pode ser disparado manualmente (`workflow_dispatch`). A versão do Flutter é lida de `.fvmrc`, então sempre casa com o que está fixado localmente. Execuções superadas na mesma branch são canceladas automaticamente.
