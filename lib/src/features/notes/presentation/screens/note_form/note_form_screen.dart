@@ -3,7 +3,6 @@ import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/presentation/view_models/note_form_view_model.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -107,7 +106,11 @@ class _NoteFormScreenState extends ConsumerState<NoteFormScreen> {
       body: ValueListenableBuilder<bool>(
         valueListenable: _viewModel.isLoading,
         builder: (context, isLoading, child) {
-          if (isLoading) return const LoadingStateWidget();
+          if (isLoading) {
+            return const LoadingStateWidget(
+              message: 'Obtendo informações...',
+            );
+          }
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),

@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 /// Shown in place of the app when startup fails (Firebase or the local
@@ -16,6 +16,7 @@ class StartupFailureApp extends StatelessWidget {
       home: Scaffold(
         body: SafeArea(
           child: ErrorStateWidget(
+            actionLabel: 'Tentar novamente',
             title: 'Não foi possível iniciar o app',
             description:
                 'Ocorreu um erro ao carregar os dados do aplicativo. '

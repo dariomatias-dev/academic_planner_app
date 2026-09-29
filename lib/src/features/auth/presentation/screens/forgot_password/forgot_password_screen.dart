@@ -1,7 +1,6 @@
 import 'package:academic_planner/src/core/validators/validators.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/form_field_label_widget.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

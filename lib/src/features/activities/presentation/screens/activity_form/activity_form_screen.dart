@@ -7,7 +7,6 @@ import 'package:academic_planner/src/features/activities/presentation/view_model
 import 'package:academic_planner/src/features/categories/presentation/widgets/dialogs/category_form_dialog_widget.dart';
 import 'package:academic_planner/src/features/tags/presentation/widgets/dialogs/tag_form_dialog_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -149,7 +148,11 @@ class _ActivityFormScreenState extends ConsumerState<ActivityFormScreen> {
       body: ValueListenableBuilder<bool>(
         valueListenable: _viewModel.isLoading,
         builder: (context, isLoading, _) {
-          if (isLoading) return const LoadingStateWidget();
+          if (isLoading) {
+            return const LoadingStateWidget(
+              message: 'Obtendo informações...',
+            );
+          }
 
           return SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 120.0),

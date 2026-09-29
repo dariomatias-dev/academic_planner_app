@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class InputFieldWidget extends StatelessWidget {

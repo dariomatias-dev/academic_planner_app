@@ -3,8 +3,7 @@ import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/features/users/presentation/widgets/user_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -49,7 +48,11 @@ class _UserManagementScreenState extends ConsumerState<UserManagementScreen> {
                 );
               },
               error: (err, _) {
-                return ErrorStateWidget(description: err.toString());
+                return ErrorStateWidget(
+                  title: 'Ops! Algo deu errado',
+                  actionLabel: 'Tentar novamente',
+                  description: err.toString(),
+                );
               },
               data: (users) {
                 if (users.isEmpty) {

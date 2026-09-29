@@ -7,9 +7,7 @@ import 'package:academic_planner/src/features/activities/domain/entities/activit
 import 'package:academic_planner/src/features/activities/domain/value_objects/activity_filter.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_total_badge_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -159,10 +157,16 @@ class _ActivitiesTaskListTabWidgetState
       if (next is AsyncData && prev is! AsyncData) await _fetchInitial();
     });
 
-    if (_isLoading) return const LoadingStateWidget();
+    if (_isLoading) {
+      return const LoadingStateWidget(
+        message: 'Obtendo informações...',
+      );
+    }
 
     if (_hasError && _activities.isEmpty) {
       return ErrorStateWidget(
+        title: 'Ops! Algo deu errado',
+        actionLabel: 'Tentar novamente',
         description: 'Erro ao carregar atividades.',
         onActionPressed: _fetchInitial,
       );

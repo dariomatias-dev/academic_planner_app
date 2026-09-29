@@ -2,7 +2,6 @@ import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_card_widget.dart';
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_header_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 

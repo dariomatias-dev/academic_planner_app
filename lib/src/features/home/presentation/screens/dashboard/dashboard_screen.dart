@@ -10,7 +10,6 @@ import 'package:academic_planner/src/features/home/presentation/screens/dashboar
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,7 +118,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen>
                   const _HomeSectionHeader(),
                   const SizedBox(height: 20.0),
                   if (isLoading)
-                    const LoadingStateWidget()
+                    const LoadingStateWidget(
+                      message: 'Obtendo informações...',
+                    )
                   else if (data == null || data.recentActivities.isEmpty)
                     const EmptyStateWidget(
                       icon: Icons.done_all_rounded,

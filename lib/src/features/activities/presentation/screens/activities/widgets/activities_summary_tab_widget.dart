@@ -9,8 +9,7 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_stats_cards_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -152,7 +151,11 @@ class _ActivitiesSummaryTabWidgetState
 
     ref.listen(activityNotifierProvider, (_, _) => _fetchInitial());
 
-    if (_isLoading) return const LoadingStateWidget();
+    if (_isLoading) {
+      return const LoadingStateWidget(
+        message: 'Obtendo informações...',
+      );
+    }
 
     final listCount = _activities.length;
     final itemCount = 1 + (listCount == 0 ? 1 : listCount + (_hasMore ? 1 : 0));

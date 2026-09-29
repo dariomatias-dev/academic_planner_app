@@ -9,7 +9,6 @@ import 'package:academic_planner/src/features/calendar/di/calendar_providers.dar
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -73,10 +72,14 @@ class _AgendaScreenState extends ConsumerState<AgendaScreen> {
       ),
       body: asyncState.when(
         loading: () {
-          return const LoadingStateWidget();
+          return const LoadingStateWidget(
+            message: 'Obtendo informações...',
+          );
         },
         error: (error, stackTrace) {
           return ErrorStateWidget(
+            title: 'Ops! Algo deu errado',
+            actionLabel: 'Tentar novamente',
             description: 'Não foi possível carregar sua agenda.',
             onActionPressed: notifier.fetchData,
           );

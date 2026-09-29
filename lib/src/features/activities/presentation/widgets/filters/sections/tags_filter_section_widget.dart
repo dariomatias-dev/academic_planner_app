@@ -1,7 +1,6 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

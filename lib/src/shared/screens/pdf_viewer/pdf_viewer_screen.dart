@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,6 +117,7 @@ class _PdfViewerScreenState extends ConsumerState<PdfViewerScreen> {
                   const LoadingStateWidget(message: 'Carregando documento...'),
                 if (_hasError)
                   ErrorStateWidget(
+                    actionLabel: 'Tentar novamente',
                     title: 'Falha ao carregar',
                     description:
                         'Não foi possível abrir o documento. Verifique '

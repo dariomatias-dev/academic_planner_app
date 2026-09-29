@@ -10,8 +10,7 @@ import 'package:academic_planner/src/features/activities/presentation/providers/
 import 'package:academic_planner/src/features/activities/presentation/providers/activity_stats_notifier.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activities/widgets/activities_summary_tab_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -1,6 +1,6 @@
 import 'package:academic_planner/src/features/auth/presentation/screens/login/login_screen.dart';
 import 'package:academic_planner/src/shared/widgets/nav_bar/nav_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 

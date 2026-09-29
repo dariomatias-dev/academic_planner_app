@@ -13,7 +13,7 @@ import 'package:academic_planner/src/features/activities/presentation/screens/ac
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/widgets/activity_details_tags_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/metadata_card/metadata_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -117,7 +117,9 @@ class _ActivityDetailsScreenState extends ConsumerState<ActivityDetailsScreen> {
       body: Builder(
         builder: (context) {
           if (_isLoading) {
-            return const LoadingStateWidget();
+            return const LoadingStateWidget(
+              message: 'Obtendo informações...',
+            );
           }
 
           if (_activity == null) {

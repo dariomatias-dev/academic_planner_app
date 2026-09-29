@@ -6,18 +6,24 @@ import 'pump_golden.dart';
 
 /// Renders [widget] in the light and dark themes and compares each with
 /// `goldens/<name>_light.png` / `goldens/<name>_dark.png`, next to the test
-/// file. Regenerate with `flutter test --update-goldens`.
+/// file. Pass `settle: false` for widgets with endless animations (spinners).
+/// Regenerate with `flutter test --update-goldens`.
 Future<void> expectGolden(
   WidgetTester tester,
   Widget widget,
   String name, {
   Size size = const Size(400, 400),
+  bool settle = true,
 }) async {
   final themes = {'light': AppTheme.light(), 'dark': AppTheme.dark()};
 
   for (final entry in themes.entries) {
     await pumpGolden(tester, widget, size: size, theme: entry.value);
-    await tester.pumpAndSettle();
+    if (settle) {
+      await tester.pumpAndSettle();
+    } else {
+      await tester.pump();
+    }
 
     await expectLater(
       find.byType(MaterialApp),

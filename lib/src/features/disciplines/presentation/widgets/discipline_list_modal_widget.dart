@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/domain/entities/discipline.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

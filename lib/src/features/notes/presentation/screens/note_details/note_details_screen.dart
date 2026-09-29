@@ -10,7 +10,7 @@ import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/metadata_card/metadata_card_widget.dart';
 import 'package:academic_planner/src/shared/widgets/popup_menu/popup_menu.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,7 +88,9 @@ class NoteDetailsScreen extends ConsumerWidget {
       ),
       body: noteAsync.when(
         loading: () {
-          return const LoadingStateWidget();
+          return const LoadingStateWidget(
+            message: 'Obtendo informações...',
+          );
         },
         error: (_, _) {
           return EmptyStateWidget(

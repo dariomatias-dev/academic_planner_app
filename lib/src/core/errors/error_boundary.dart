@@ -1,5 +1,5 @@
 import 'package:academic_planner/src/core/errors/error_reporter.dart';
-import 'package:academic_planner/src/shared/widgets/states/error_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +31,8 @@ void configureErrorBoundary(ErrorReporter reporter) {
       return const Material(
         type: MaterialType.transparency,
         child: ErrorStateWidget(
+          title: 'Ops! Algo deu errado',
+          actionLabel: 'Tentar novamente',
           description: 'Algo deu errado. Tente reiniciar o aplicativo.',
         ),
       );

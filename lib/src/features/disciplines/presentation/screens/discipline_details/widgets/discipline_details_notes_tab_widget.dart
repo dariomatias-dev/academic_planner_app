@@ -2,7 +2,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/notes/di/note_providers.dart';
 import 'package:academic_planner/src/features/notes/domain/entities/note.dart';
 import 'package:academic_planner/src/features/notes/presentation/widgets/note_card_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,6 +44,8 @@ class DisciplineDetailsNotesTabWidget extends ConsumerWidget {
       },
       error: (_, _) {
         return const ErrorStateWidget(
+          title: 'Ops! Algo deu errado',
+          actionLabel: 'Tentar novamente',
           description: 'Erro ao obter as anotações',
         );
       },

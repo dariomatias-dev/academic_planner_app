@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/features/tags/domain/entities/tag.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

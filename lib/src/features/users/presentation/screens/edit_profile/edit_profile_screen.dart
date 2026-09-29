@@ -6,8 +6,6 @@ import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/features/users/domain/entities/user_entity.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
 import 'package:academic_planner/src/shared/widgets/forms/forms.dart';
-import 'package:academic_planner/src/shared/widgets/inputs/input_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -95,6 +93,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         return Scaffold(
           appBar: const AppBarWidget(title: 'Editar Perfil'),
           body: ErrorStateWidget(
+            title: 'Ops! Algo deu errado',
             description: err is AppFailure
                 ? err.message
                 : 'Erro ao carregar dados',

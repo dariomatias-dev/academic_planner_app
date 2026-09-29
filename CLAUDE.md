@@ -93,11 +93,15 @@ through `lib/app_ui.dart`, and is a path dependency of the app. Today it has:
 - components in `lib/src/components/`: buttons (`ButtonWidget`,
   `ActionButtonWidget`, `FloatingActionButtonWidget`, `TextButtonWidget`,
   `ViewAllButtonWidget`), icon buttons and dialogs (`DialogWidget`,
-  `ConfirmationDialogWidget`, `ErrorDialogWidget`, `Removal*DialogWidget`).
+  `ConfirmationDialogWidget`, `ErrorDialogWidget`, `Removal*DialogWidget`),
+  states (`EmptyStateWidget`, `ErrorStateWidget`, `LoadingStateWidget`),
+  chips (`FilterChipWidget`, `SelectableChipWidget`), `SwitchWidget`,
+  `TabBarWidget` and inputs (`InputWidget`, `PasswordInputWidget`).
   They have no dependency on the app and take every user-facing string as a
   parameter (no built-in Portuguese defaults); the app passes its own texts.
 
-More components are added there as they move in. The package is
+More components are added there as they move in (form fields, nav bar,
+  cards and the like still live in `lib/src/shared/widgets/`). The package is
 excluded from the app's analysis (`packages/**` in the root
 `analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
 own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`

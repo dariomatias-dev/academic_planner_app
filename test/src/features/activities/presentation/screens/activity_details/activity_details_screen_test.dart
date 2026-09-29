@@ -6,8 +6,7 @@ import 'package:academic_planner/src/features/activities/di/activity_providers.d
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/providers/activity_notifier.dart';
 import 'package:academic_planner/src/features/activities/presentation/screens/activity_details/activity_details_screen.dart';
-import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
-import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
