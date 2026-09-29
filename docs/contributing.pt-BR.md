@@ -33,13 +33,14 @@ O segundo comando ativa dois hooks do git:
 scripts/verify.sh --all
 ```
 
-Espelha o que o CI verifica: formatação, análise, testes e o piso de cobertura. Ver a [tabela de Scripts](../README.pt-BR.md#scripts) para os outros modos disponíveis.
+Espelha o que o CI verifica: geração de código, formatação, análise, testes e o piso de cobertura, para o app e (quando tem mudanças, ou com `--all`) para `packages/app_ui`. Ver a [tabela de Scripts](../README.pt-BR.md#scripts) para os outros modos disponíveis.
 
 ## O que o CI verifica
 
 | Job                | O que faz                                                                                                            | Bloqueia o merge? |
 | -------------------- | ---------------------------------------------------------------------------------------------------------------------- | -------------------- |
 | `analyze-and-test` | `build_runner build` (falha se os arquivos `*.g.dart` gerados diferirem dos versionados), `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, depois checa o piso de cobertura de 80% (`scripts/check_coverage.sh`) | Sim                |
+| `app-ui`           | Formatação, análise e testes (com piso de cobertura de 80% quando o pacote tiver código) do pacote do design system local em `packages/app_ui`, enviados ao Codecov com a flag `app_ui` | Sim |
 | `osv-scan`         | Varre o `pubspec.lock` com o [OSV-Scanner](https://github.com/google/osv-scanner) em busca de dependências com vulnerabilidades conhecidas | Não (`continue-on-error: true`) |
 | `integration`      | Roda cada suíte `integration_test/*_test.dart` em um emulador Android API 35 (KVM), uma por vez e com o app encerrado à força entre elas (`scripts/integration.sh`). Roda depois que `analyze-and-test` passa | Não (novo; passará a bloquear quando estiver estável) |
 | `build_apk`        | Gera o APK de release (`flutter build apk --release`) e sobe como artefato do workflow, mantido por 14 dias. Roda depois que `analyze-and-test` passa | Não (depende de `analyze-and-test`, que bloqueia) |

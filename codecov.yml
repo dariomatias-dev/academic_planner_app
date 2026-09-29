@@ -8,16 +8,28 @@ coverage:
         target: 80%
         flags:
           - app
+      app_ui:
+        target: 80%
+        flags:
+          - app_ui
     patch:
       app:
         target: 80%
         flags:
           - app
+      app_ui:
+        target: 80%
+        flags:
+          - app_ui
 
 flags:
   app:
     paths:
       - lib/
+    carryforward: false
+  app_ui:
+    paths:
+      - packages/app_ui/lib/
     carryforward: false
 
 ignore:

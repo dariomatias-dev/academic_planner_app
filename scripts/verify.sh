@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Local verification gate mirroring CI: code generation, format, analyze,
-# test and a coverage floor.
+# test and a coverage floor, for the app and for packages/app_ui.
 #
 # By default, format and analyze are scoped to pending Dart changes
-# (staged, unstaged and untracked) for fast feedback; tests always run
+# (staged, unstaged and untracked) for fast feedback (packages/app_ui is
+# checked only when it has pending changes, or with --all); tests always run
 # in full, since coverage can only be judged against the whole suite.
 #
 # Usage:
@@ -20,6 +21,8 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 COVERAGE_FLOOR=80
+APP_UI_DIR="packages/app_ui"
+APP_UI_COVERAGE_FLOOR=80
 STAMP_FILE=".dart_tool/verify_stamp"
 
 ALL=false
@@ -49,7 +52,9 @@ if ! $ALL; then
       git diff --name-only HEAD -- '*.dart'
       git diff --cached --name-only -- '*.dart'
       git ls-files --others --exclude-standard -- '*.dart'
-    } | sort -u | while read -r f; do [[ -f "$f" ]] && echo "$f"; done
+    } | sort -u | while read -r f; do
+      [[ -f "$f" && "$f" != "$APP_UI_DIR"/* ]] && echo "$f"
+    done
   )
 fi
 
@@ -94,6 +99,28 @@ else
 
   echo "==> Checking coverage floor ($COVERAGE_FLOOR%)"
   scripts/check_coverage.sh coverage/lcov.info "$COVERAGE_FLOOR"
+fi
+
+if $ALL || [[ -n "$(git status --porcelain -- "$APP_UI_DIR")" ]]; then
+  echo "==> app_ui: dependencies"
+  (cd "$APP_UI_DIR" && fvm flutter pub get)
+
+  echo "==> app_ui: formatting"
+  (cd "$APP_UI_DIR" && fvm dart format --output=none --set-exit-if-changed lib test)
+
+  echo "==> app_ui: analyzing"
+  (cd "$APP_UI_DIR" && fvm flutter analyze)
+
+  if ! $SKIP_TESTS; then
+    echo "==> app_ui: testing"
+    (cd "$APP_UI_DIR" && fvm flutter test --coverage)
+
+    # A package with no library code yet has no lines to measure.
+    if grep -q '^DA:' "$APP_UI_DIR/coverage/lcov.info"; then
+      echo "==> app_ui: checking coverage floor ($APP_UI_COVERAGE_FLOOR%)"
+      scripts/check_coverage.sh "$APP_UI_DIR/coverage/lcov.info" "$APP_UI_COVERAGE_FLOOR"
+    fi
+  fi
 fi
 
 if $ALL && ! $SKIP_TESTS; then

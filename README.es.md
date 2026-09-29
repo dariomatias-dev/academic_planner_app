@@ -173,7 +173,7 @@ Los scripts utilitarios están en `scripts/`.
 | `screenshot` | `scripts/screenshot.sh [device-id]` | Recorre las principales pantallas de la app en un dispositivo o emulador conectado y guarda una captura de cada una en `screenshots/`, usadas en el README. Ejecuta `fvm flutter devices` para listar los ids de dispositivos disponibles. |
 | `integration` | `scripts/integration.sh [device-id]` | Ejecuta cada suite `integration_test/*_test.dart` (excepto la de capturas) en un dispositivo o emulador conectado, una a la vez, deteniendo la app a la fuerza entre ellas. También lo ejecuta el job `integration` del CI. |
 | `check_coverage` | `scripts/check_coverage.sh <lcov-file> <minimum-percent>` | Falla si la cobertura de líneas de un reporte lcov está por debajo del mínimo indicado, excluyendo archivos generados (`*.g.dart`). |
-| `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Gate de verificación local que refleja el CI: generación de código, formato, análisis, tests y el piso de cobertura. Por defecto solo revisa los cambios pendientes; `--all` revisa todo el repositorio y se omite si nada cambió desde la última ejecución exitosa (ver [The local gate](docs/contributing.es.md#el-gate-local)). |
+| `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Gate de verificación local que refleja el CI: generación de código, formato, análisis, tests y el piso de cobertura, también para `packages/app_ui` cuando tiene cambios (o con `--all`). Por defecto solo revisa los cambios pendientes; `--all` revisa todo el repositorio y se omite si nada cambió desde la última ejecución exitosa (ver [The local gate](docs/contributing.es.md#el-gate-local)). |
 | `workspace_hash` | `scripts/workspace_hash.sh` | Imprime un hash que representa el estado actual del workspace (último commit más cambios pendientes), usado por `verify.sh` para detectar ejecuciones redundantes. |
 
 ## Tests
@@ -183,7 +183,7 @@ fvm flutter test              # tests unitarios y de widgets
 fvm flutter test --coverage   # con reporte de cobertura lcov
 ```
 
-`test/` refleja `lib/` ruta a ruta. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resuelve todos los providers de Riverpod de la app con overrides mínimos, para detectar errores de wiring que el test de un provider aislado no detectaría. `integration_test/` cubre flujos de extremo a extremo y genera las capturas de pantalla de arriba vía `scripts/screenshot.sh`.
+`test/` refleja `lib/` ruta a ruta. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resuelve todos los providers de Riverpod de la app con overrides mínimos, para detectar errores de wiring que el test de un provider aislado no detectaría. `integration_test/` cubre flujos de extremo a extremo y genera las capturas de pantalla de arriba vía `scripts/screenshot.sh`. El paquete del design system local vive en `packages/app_ui`, con sus propios tests.
 
 ```bash
 scripts/verify.sh --all

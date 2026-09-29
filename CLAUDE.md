@@ -17,7 +17,7 @@ fvm flutter analyze                # static analysis (very_good_analysis)
 fvm flutter test                   # run all tests
 fvm flutter test --coverage        # run tests with lcov coverage
 dart run build_runner build        # regenerate *.g.dart (typed routes); commit the result
-scripts/verify.sh                  # local gate: codegen + format + analyze (pending changes) + test + coverage floor
+scripts/verify.sh                  # local gate: codegen + format + analyze (pending changes) + test + coverage floor (+ packages/app_ui when it has changes)
 scripts/verify.sh --all            # same, but scoped to the whole repo (mirrors CI, fails if codegen changes a *.g.dart); skipped if nothing changed since the last successful --all run
 scripts/verify.sh --skip-tests     # format + analyze only
 scripts/check_coverage.sh <lcov> <min>  # fail if lcov coverage is below <min>, excluding *.g.dart
@@ -69,6 +69,19 @@ Rules:
   `AppRoutes.goTo*`. Regenerate after editing `typed_routes.dart`; `verify.sh
   --all` and CI fail if the generated file is stale.
 - Screens are thin: no `_buildX()` methods, one public widget per file.
+
+## Design system package
+
+`packages/app_ui` is a local Flutter package (own `pubspec.yaml`,
+`analysis_options.yaml`, lockfile) that will hold the design system: tokens,
+theme and shared components, exported through `lib/app_ui.dart`. It is
+excluded from the app's analysis (`packages/**` in the root
+`analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
+own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`
+that runs when the package has pending changes or with `--all`. Its tests
+mirror `lib/` and use `test/helpers/pump_golden.dart` (`pumpGolden`: fixed
+surface size and pixel ratio). The coverage floor (80%) applies once the
+package has library code. The app does not depend on it yet.
 
 ## Tests
 

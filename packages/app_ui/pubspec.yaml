@@ -1,0 +1,17 @@
+name: app_ui
+description: "Local design system for Academic Planner: tokens, theme and shared UI components."
+publish_to: "none"
+
+version: 0.0.1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^10.2.0

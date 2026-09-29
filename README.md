@@ -173,7 +173,7 @@ Utility scripts live under `scripts/`.
 | `screenshot` | `scripts/screenshot.sh [device-id]` | Drives the app through its main screens on a connected device or emulator and saves a screenshot of each one into `screenshots/`, used for the README. Run `fvm flutter devices` to list available device ids. |
 | `integration` | `scripts/integration.sh [device-id]` | Runs every `integration_test/*_test.dart` suite (except the screenshot one) on a connected device or emulator, one at a time, force-stopping the app between suites. Also run by the `integration` CI job. |
 | `check_coverage` | `scripts/check_coverage.sh <lcov-file> <minimum-percent>` | Fails if line coverage in an lcov report is below the given minimum, excluding generated (`*.g.dart`) files. |
-| `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Local verification gate mirroring CI: code generation, format, analyze, test and the coverage floor. Scoped to pending changes by default; `--all` checks the whole repository and is skipped if nothing changed since the last successful run (see [The local gate](docs/contributing.md#the-local-gate)). |
+| `verify` | `scripts/verify.sh [--all] [--skip-tests]` | Local verification gate mirroring CI: code generation, format, analyze, test and the coverage floor, also for `packages/app_ui` when it has changes (or with `--all`). Scoped to pending changes by default; `--all` checks the whole repository and is skipped if nothing changed since the last successful run (see [The local gate](docs/contributing.md#the-local-gate)). |
 | `workspace_hash` | `scripts/workspace_hash.sh` | Prints a hash fingerprinting the workspace's current state (last commit plus pending changes), used by `verify.sh` to detect no-op runs. |
 
 ## Testing
@@ -183,7 +183,7 @@ fvm flutter test              # unit and widget tests
 fvm flutter test --coverage   # with an lcov coverage report
 ```
 
-`test/` mirrors `lib/` path-for-path. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resolves every Riverpod provider in the app against minimal overrides, to catch wiring mistakes a single provider's own test wouldn't. `integration_test/` covers end-to-end flows and drives the screenshots above via `scripts/screenshot.sh`.
+`test/` mirrors `lib/` path-for-path. [test/provider_graph_smoke_test.dart](test/provider_graph_smoke_test.dart) resolves every Riverpod provider in the app against minimal overrides, to catch wiring mistakes a single provider's own test wouldn't. `integration_test/` covers end-to-end flows and drives the screenshots above via `scripts/screenshot.sh`. The local design system package lives in `packages/app_ui` with its own tests.
 
 ```bash
 scripts/verify.sh --all

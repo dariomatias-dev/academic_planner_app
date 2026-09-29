@@ -33,13 +33,14 @@ The second command activates two git hooks:
 scripts/verify.sh --all
 ```
 
-Mirrors what CI checks: formatting, analysis, tests and the coverage floor. See the [Scripts table](../README.md#scripts) for the other available modes.
+Mirrors what CI checks: code generation, formatting, analysis, tests and the coverage floor, for the app and (when it has changes, or with `--all`) for `packages/app_ui`. See the [Scripts table](../README.md#scripts) for the other available modes.
 
 ## What CI checks
 
 | Job                | What it does                                                                                                          | Gates merge? |
 | -------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------- |
 | `analyze-and-test` | `build_runner build` (fails if generated `*.g.dart` files differ from the committed ones), `dart format --set-exit-if-changed`, `flutter analyze`, `flutter test --coverage`, then an 80% coverage floor check (`scripts/check_coverage.sh`) | Yes           |
+| `app-ui`           | Formatting, analysis and tests (with an 80% coverage floor once the package has code) for the local design system package in `packages/app_ui`, uploaded to Codecov with the `app_ui` flag | Yes |
 | `osv-scan`         | Scans `pubspec.lock` with [OSV-Scanner](https://github.com/google/osv-scanner) for dependencies with known vulnerabilities | No (`continue-on-error: true`) |
 | `integration`      | Runs every `integration_test/*_test.dart` suite on an Android API 35 emulator (KVM), one suite at a time with the app force-stopped in between (`scripts/integration.sh`). Runs after `analyze-and-test` succeeds | No (new; will gate once it is stable) |
 | `build_apk`        | Builds the release APK (`flutter build apk --release`) and uploads it as a workflow artifact, kept for 14 days. Runs after `analyze-and-test` succeeds | No (depends on `analyze-and-test`, which does) |
