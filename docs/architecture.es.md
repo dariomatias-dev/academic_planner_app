@@ -391,7 +391,7 @@ class MigrationV2 implements Migration {
 }
 ```
 
-**`core/logging/app_logger.dart`** - único punto de logging: todo archivo que loguea crea su propio `AppLogger('feature.ClassName')` y lo usa. `package:logger` es un detalle de implementación usado solo dentro de este archivo, para la salida bonita en consola — ningún otro archivo lo importa.
+**`core/logging/app_logger.dart`** - único punto de logging: todo archivo que loguea crea su propio `AppLogger('feature.ClassName')` y lo usa. `package:logger` es un detalle de implementación usado solo dentro de este archivo, para la salida bonita en consola — ningún otro archivo lo importa. `silenceLogging()` apaga la salida; `test/flutter_test_config.dart` la llama para que las ejecuciones de tests sean silenciosas.
 
 ---
 

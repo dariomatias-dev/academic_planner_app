@@ -89,6 +89,9 @@ Rules:
   parameters, `ProviderScope` instead of `UncontrolledProviderScope`,
   non-standard layout) — those are left as local, file-scoped harnesses
   rather than forced into a shape that doesn't match.
+- `test/flutter_test_config.dart` silences `AppLogger` output for the whole
+  suite (`silenceLogging()`); tests that assert on logging inject a
+  `FakeAppLogger` instead.
 - `test/provider_graph_smoke_test.dart` resolves every top-level Riverpod
   provider in the app against minimal overrides (in-memory sqflite with real
   migrations, fake `SharedPreferences`, a `FirebaseAuth` mock with no signed

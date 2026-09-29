@@ -11,6 +11,7 @@ void main() {
   late MockErrorReporter reporter;
   late FlutterExceptionHandler? previousOnError;
   late ErrorWidgetBuilder previousErrorWidgetBuilder;
+  late FlutterExceptionHandler previousPresentError;
 
   setUpAll(() {
     registerFallbackValue(StackTrace.empty);
@@ -20,11 +21,14 @@ void main() {
     reporter = MockErrorReporter();
     previousOnError = FlutterError.onError;
     previousErrorWidgetBuilder = ErrorWidget.builder;
+    previousPresentError = FlutterError.presentError;
+    FlutterError.presentError = (_) {};
   });
 
   tearDown(() {
     FlutterError.onError = previousOnError;
     ErrorWidget.builder = previousErrorWidgetBuilder;
+    FlutterError.presentError = previousPresentError;
   });
 
   group('configureErrorBoundary', () {

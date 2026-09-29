@@ -9,6 +9,10 @@ void configureLogging() {
   pkg.Logger.level = kReleaseMode ? pkg.Level.warning : pkg.Level.all;
 }
 
+void silenceLogging() {
+  pkg.Logger.level = pkg.Level.off;
+}
+
 class AppLogger {
   AppLogger(this.name);
 
