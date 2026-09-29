@@ -1,5 +1,4 @@
-import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class ConflictAlertDialogWidget extends StatelessWidget {

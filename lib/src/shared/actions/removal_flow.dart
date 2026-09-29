@@ -1,7 +1,5 @@
 import 'package:academic_planner/src/core/errors/result.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/removal_confirm_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/removal_failure_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/removal_success_dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 Future<String?> resultToError<T>(Future<Result<T>> resultFuture) async {
@@ -49,6 +47,9 @@ Future<bool> removalFlow({
 
     await RemovalFailureDialogWidget.show(
       overlayContext,
+      title: 'Ops! Algo deu errado',
+      retryLabel: 'Tentar Novamente',
+      closeLabel: 'Fechar',
       message: failureMessage,
       errorMessage: errorMessage,
       onRetry: () => retry = true,
@@ -70,6 +71,7 @@ Future<bool> removalFlow({
           if (!overlayContext.mounted) return;
           await RemovalSuccessDialogWidget.show(
             overlayContext,
+            buttonLabel: 'Entendido',
             title: successTitle,
             message: successMessage,
           );
@@ -93,6 +95,8 @@ Future<bool> removalFlow({
 
   await RemovalConfirmDialogWidget.show(
     overlayContext,
+    cancelLabel: 'Cancelar',
+    confirmLabel: 'Excluir',
     title: confirmTitle,
     message: confirmMessage,
     onConfirm: onConfirm,

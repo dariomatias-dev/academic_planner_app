@@ -90,13 +90,27 @@ through `lib/app_ui.dart`, and is a path dependency of the app. Today it has:
   directly (and the splash's `GoogleFonts.pendingFonts`) keep fetching at
   runtime until the inline-styling steps replace them.
 
-Components are added there as they move in. The package is
+- components in `lib/src/components/`: buttons (`ButtonWidget`,
+  `ActionButtonWidget`, `FloatingActionButtonWidget`, `TextButtonWidget`,
+  `ViewAllButtonWidget`), icon buttons and dialogs (`DialogWidget`,
+  `ConfirmationDialogWidget`, `ErrorDialogWidget`, `Removal*DialogWidget`).
+  They have no dependency on the app and take every user-facing string as a
+  parameter (no built-in Portuguese defaults); the app passes its own texts.
+
+More components are added there as they move in. The package is
 excluded from the app's analysis (`packages/**` in the root
 `analysis_options.yaml`) and checked on its own: the `app-ui` CI job (with its
 own Codecov flag, `app_ui`) and a dedicated section in `scripts/verify.sh`
 that runs when the package has pending changes or with `--all`. Its tests
-mirror `lib/` and use `test/helpers/pump_golden.dart` (`pumpGolden`: fixed
-surface size and pixel ratio). The coverage floor (80%) is checked when the
+mirror `lib/`; helpers in `test/helpers/`: `pump_app.dart` (`pumpApp`,
+`pumpScopedApp`, using `AppTheme`), `pump_golden.dart` (`pumpGolden`: fixed
+surface size and pixel ratio) and `expect_golden.dart` (`expectGolden`:
+compares the light and dark render with `goldens/<name>_light|dark.png`
+next to the test file). Every component has a `*_golden_test.dart`;
+regenerate with `flutter test --update-goldens` inside `packages/app_ui`
+after an intended visual change. `test/flutter_test_config.dart` loads the
+bundled typeface and the SDK's Material icon font so goldens draw real
+glyphs (Linux is the reference platform). The coverage floor (80%) is checked when the
 lcov report has executable lines.
 
 ## Tests

@@ -1,6 +1,5 @@
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/buttons.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +19,7 @@ class LogoutConfirmationDialogWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ConfirmationDialogWidget(
+      cancelLabel: 'Cancelar',
       icon: Icons.logout_rounded,
       iconColor: Theme.of(context).colorScheme.error,
       title: 'Sair da Conta',

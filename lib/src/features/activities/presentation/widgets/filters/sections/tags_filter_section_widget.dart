@@ -1,6 +1,5 @@
 import 'package:academic_planner/src/core/extensions/list_extension.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/modal_bottom_sheet_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:app_ui/app_ui.dart';

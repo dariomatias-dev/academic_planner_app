@@ -1,7 +1,6 @@
 import 'package:academic_planner/src/core/logging/app_logger.dart';
 import 'package:academic_planner/src/core/services/image_export_service.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

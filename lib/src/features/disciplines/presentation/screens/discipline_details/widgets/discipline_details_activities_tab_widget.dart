@@ -6,8 +6,8 @@ import 'package:academic_planner/src/features/activities/domain/value_objects/ac
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_card/activity_card_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_section_header_widget.dart';
 import 'package:academic_planner/src/features/activities/presentation/widgets/activity_stats_cards_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -163,6 +163,7 @@ class DisciplineDetailsActivitiesTabWidget extends ConsumerWidget {
             ActivitySectionHeaderWidget(
               title: 'Todas as Atividades',
               action: ViewAllButtonWidget(
+                label: 'Ver Todas',
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.pop(context);

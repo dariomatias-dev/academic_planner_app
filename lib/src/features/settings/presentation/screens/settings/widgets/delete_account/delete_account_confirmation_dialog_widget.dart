@@ -1,6 +1,5 @@
 import 'package:academic_planner/src/features/settings/presentation/screens/settings/widgets/delete_account/final_delete_account_confirmation_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DeleteAccountConfirmationDialogWidget extends StatelessWidget {
@@ -18,6 +17,7 @@ class DeleteAccountConfirmationDialogWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ConfirmationDialogWidget(
+      cancelLabel: 'Cancelar',
       title: 'Excluir Conta',
       message:
           'Você tem certeza que deseja excluir sua conta? '

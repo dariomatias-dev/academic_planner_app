@@ -9,7 +9,7 @@ import 'package:academic_planner/src/features/course_details/presentation/screen
 import 'package:academic_planner/src/features/course_details/presentation/screens/course_details/widgets/course_details_skill_grid_widget.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

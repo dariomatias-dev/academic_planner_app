@@ -8,9 +8,9 @@ import 'package:academic_planner/src/features/teacher/presentation/screens/teach
 import 'package:academic_planner/src/features/teacher/presentation/screens/teacher_details/widgets/teacher_details_timeline_item_widget.dart';
 import 'package:academic_planner/src/shared/utils/open_url.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/empty_state_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/loading_state_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

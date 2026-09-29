@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

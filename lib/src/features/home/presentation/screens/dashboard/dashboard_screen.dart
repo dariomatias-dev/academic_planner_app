@@ -10,8 +10,8 @@ import 'package:academic_planner/src/features/home/presentation/screens/dashboar
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/view_all_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -217,6 +217,7 @@ class _HomeSectionHeader extends ConsumerWidget {
           ),
         ),
         ViewAllButtonWidget(
+          label: 'Ver Todas',
           onTap: () {
             AppRoutes.goToActivities(context);
 

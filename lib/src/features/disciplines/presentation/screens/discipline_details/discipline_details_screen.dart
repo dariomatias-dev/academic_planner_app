@@ -7,8 +7,8 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_notes_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_details/widgets/discipline_details_tab_bar_delegate.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/floating_action_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DisciplineDetailsScreen extends StatefulWidget {

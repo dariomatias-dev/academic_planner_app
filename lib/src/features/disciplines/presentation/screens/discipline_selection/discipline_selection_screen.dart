@@ -4,8 +4,8 @@ import 'package:academic_planner/src/features/disciplines/presentation/screens/d
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_my_grade_tab_widget.dart';
 import 'package:academic_planner/src/features/disciplines/presentation/screens/discipline_selection/widgets/discipline_selection_period_selector_widget.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_buttons.dart';
 import 'package:academic_planner/src/shared/widgets/tab_bar_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class DisciplineSelectionScreen extends StatefulWidget {

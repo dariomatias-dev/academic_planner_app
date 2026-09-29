@@ -1,0 +1,94 @@
+import 'dart:async';
+
+import 'package:app_ui/src/components/dialogs/removal_success_dialog_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import '../../../helpers/pump_app.dart';
+
+void main() {
+  group('RemovalSuccessDialogWidget', () {
+    testWidgets('renders title, message and the icon', (tester) async {
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const RemovalSuccessDialogWidget(
+              buttonLabel: 'Entendido',
+              title: 'Excluído',
+              message: 'Nota removida com sucesso',
+            ),
+          ),
+        ),
+        triggerLabel: 'open',
+      );
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Excluído'), findsOneWidget);
+      expect(find.text('Nota removida com sucesso'), findsOneWidget);
+      expect(
+        find.byIcon(Icons.check_circle_outline_rounded),
+        findsOneWidget,
+      );
+      expect(find.text('Entendido'), findsOneWidget);
+    });
+
+    testWidgets('tap "Entendido" closes the dialog', (tester) async {
+      await pumpScopedApp(
+        tester,
+        (context) => unawaited(
+          showDialog<void>(
+            context: context,
+            builder: (_) => const RemovalSuccessDialogWidget(
+              buttonLabel: 'Entendido',
+              title: 'Excluído',
+              message: 'Nota removida com sucesso',
+            ),
+          ),
+        ),
+        triggerLabel: 'open',
+      );
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Entendido'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Excluído'), findsNothing);
+    });
+
+    testWidgets('show() displays the dialog via showDialog', (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: Builder(
+              builder: (context) {
+                return ElevatedButton(
+                  onPressed: () {
+                    unawaited(
+                      RemovalSuccessDialogWidget.show(
+                        buttonLabel: 'Entendido',
+                        context,
+                        title: 'Excluído',
+                        message: 'Nota removida com sucesso',
+                      ),
+                    );
+                  },
+                  child: const Text('open'),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Excluído'), findsOneWidget);
+    });
+  });
+}

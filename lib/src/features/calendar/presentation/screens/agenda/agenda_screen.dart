@@ -9,7 +9,6 @@ import 'package:academic_planner/src/features/calendar/di/calendar_providers.dar
 import 'package:academic_planner/src/features/calendar/presentation/screens/agenda/widgets/draggable_agenda_sheet/draggable_agenda_sheet_widget.dart';
 import 'package:academic_planner/src/shared/utils/date_utils_helper.dart';
 import 'package:academic_planner/src/shared/widgets/app_bar_widget.dart';
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
 import 'package:academic_planner/src/shared/widgets/states/states.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';

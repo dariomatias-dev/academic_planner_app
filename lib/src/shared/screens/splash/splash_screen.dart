@@ -5,7 +5,7 @@ import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
 import 'package:academic_planner/src/features/categories/di/category_providers.dart';
 import 'package:academic_planner/src/features/tags/di/tag_providers.dart';
 import 'package:academic_planner/src/features/users/di/user_providers.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,6 +61,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       if (mounted) {
         await ErrorDialogWidget.show(
           context,
+          title: 'Ops! Algo deu errado',
+          buttonLabel: 'Entendido',
           message:
               'Não foi possível sincronizar seus dados. '
               'Verifique sua conexão e tente novamente.',

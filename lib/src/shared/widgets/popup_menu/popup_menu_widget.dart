@@ -1,4 +1,4 @@
-import 'package:academic_planner/src/shared/widgets/icon_buttons/icon_button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 
 class PopupMenuWidget<T> extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:academic_planner/src/core/routes/app_routes.dart';
 import 'package:academic_planner/src/features/activities/di/activity_providers.dart';
 import 'package:academic_planner/src/features/activities/domain/entities/activity.dart';
 import 'package:academic_planner/src/features/activities/presentation/actions/delete_activity_flow.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';

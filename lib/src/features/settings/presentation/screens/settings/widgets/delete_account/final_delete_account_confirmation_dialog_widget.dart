@@ -1,7 +1,5 @@
 import 'package:academic_planner/src/features/auth/di/auth_providers.dart';
-import 'package:academic_planner/src/shared/widgets/buttons/button/button_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/confirmation_dialog_widget.dart';
-import 'package:academic_planner/src/shared/widgets/dialogs/error_dialog_widget.dart';
+import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -21,6 +19,7 @@ class FinalDeleteAccountConfirmationDialogWidget extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return ConfirmationDialogWidget(
+      cancelLabel: 'Cancelar',
       title: 'Confirmação Final',
       message:
           'Esta é a última etapa. Ao confirmar, não haverá como recuperar suas '
@@ -49,6 +48,8 @@ class FinalDeleteAccountConfirmationDialogWidget extends ConsumerWidget {
             if (context.mounted) {
               await ErrorDialogWidget.show(
                 context,
+                title: 'Ops! Algo deu errado',
+                buttonLabel: 'Entendido',
                 message:
                     'Ocorreu um erro ao tentar excluir sua conta. Por favor, '
                     'tente novamente mais tarde.',
